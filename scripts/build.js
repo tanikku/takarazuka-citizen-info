@@ -17,8 +17,8 @@ const RANKING_FILE = path.join(ROOT, "data", "ranking.json");
 const PUBLIC_DIR = path.join(ROOT, "public");
 const ASSETS_DIR = path.join(ROOT, "assets");
 
-// 独自ドメイン取得時はこのURLを差し替える
-const SITE_URL = "https://takarazuka-citizen-info.pages.dev";
+// 独自ドメイン takarazuka-today.jp（2026-06-21取得・Cloudflare Pagesにカスタムドメイン設定済み）
+const SITE_URL = "https://takarazuka-today.jp";
 
 // 人気記事ランキングは、アクセスデータがこの件数以上蓄積されるまで「新着記事」で代替表示する
 const RANKING_READY_THRESHOLD = 5;
