@@ -1,0 +1,86 @@
+:root {
+  color-scheme: light;
+  --color-text: #1a1a1a;
+  --color-bg: #ffffff;
+  --color-accent: #0a5c36;
+  --color-border: #e0e0e0;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, "Hiragino Sans", "Yu Gothic", sans-serif;
+  color: var(--color-text);
+  background: var(--color-bg);
+  line-height: 1.7;
+}
+
+.site-header {
+  padding: 16px;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.site-title {
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: var(--color-accent);
+  text-decoration: none;
+}
+
+main {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 16px;
+}
+
+.article-list {
+  list-style: none;
+  padding: 0;
+}
+
+.article-list-item {
+  padding: 12px 0;
+  border-bottom: 1px solid var(--color-border);
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.article-list-item a {
+  color: var(--color-text);
+  text-decoration: none;
+}
+
+.article-list-date {
+  color: #666;
+  font-size: 0.85rem;
+  white-space: nowrap;
+}
+
+.article-meta {
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.article-source {
+  margin-top: 24px;
+  font-size: 0.9rem;
+}
+
+.site-footer {
+  max-width: 720px;
+  margin: 32px auto 0;
+  padding: 16px;
+  border-top: 1px solid var(--color-border);
+  color: #666;
+  font-size: 0.8rem;
+}
+
+@media (max-width: 480px) {
+  main, .site-footer {
+    padding: 12px;
+  }
+}
