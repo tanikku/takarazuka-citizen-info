@@ -80,6 +80,20 @@
 - ビーコンのトークンはサイトhttps://takarazuka-citizen-info.pages.dev に紐づく公開用トークン（クライアント側に埋め込む前提のものでシークレットではない）
 - 人気記事ランキングの実データ化（`data/ranking.json`の`weekly`/`monthly`生成）は**未実装**。アクセスデータが蓄積された後、Cloudflare GraphQL Analytics API等の集計方法を改めて相談する
 
+## Google Search Console（2026-06-21導入済み）
+
+- プロパティ：URLプレフィックス方式で`https://takarazuka-citizen-info.pages.dev`を登録（pages.devは自分のドメインではないためドメインプロパティ・DNS認証は使えない）
+- 所有権確認：HTMLタグ方式。`<meta name="google-site-verification">`を`scripts/templates.js`の`layout()`に埋め込み済み
+- サイトマップ送信済み：`sitemap.xml`（`lastmod`付き）
+- 独自ドメインに移行した場合は、Search Consoleのプロパティを再登録（ドメインプロパティへの切替）が必要
+
+## SEO基盤（2026-06-21強化）
+
+- OGP（`og:title`/`og:description`/`og:url`/`og:type`/`og:site_name`/`og:locale`）とTwitterカード（`summary`）を`layout()`に追加
+- トップページに`WebSite`構造化データ（JSON-LD）、記事ページは既存の`NewsArticle`構造化データを継続
+- ファビコンは外部画像ツールを使わず`assets/favicon.svg`（自作インラインSVG、建物アイコン＋ブランドカラー）を追加
+- og:image（SNSシェア用画像）は未設定。画像生成ツールがないため未対応。必要になったら方針を相談する
+
 ## 開発環境
 
 - OS: Windows 11 / シェル: PowerShell（グローバル設定と同様）
