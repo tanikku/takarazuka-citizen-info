@@ -63,6 +63,7 @@ export function layout({ title, description, bodyHtml, canonicalUrl }) {
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>${escapeHtml(title)}</title>
 <meta name="description" content="${escapeHtml(description)}">
+<meta name="google-site-verification" content="j8M7gv2ziexoZ_pW1ZVdNS8gzpJV4qRiq27tLKtyIpw">
 <link rel="canonical" href="${escapeHtml(canonicalUrl)}">
 <link rel="stylesheet" href="/css/style.css">
 <script>${themeInitScript()}</script>
