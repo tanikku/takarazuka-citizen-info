@@ -9,8 +9,8 @@ const ARTICLES_DIR = path.join(ROOT, "data", "articles");
 const PUBLIC_DIR = path.join(ROOT, "public");
 const ASSETS_DIR = path.join(ROOT, "assets");
 
-// TODO: 独自ドメイン取得後に正式なURLへ差し替える
-const SITE_URL = "https://example-takarazuka-info.pages.dev";
+// 独自ドメイン取得時はこのURLを差し替える
+const SITE_URL = "https://takarazuka-citizen-info.pages.dev";
 
 function loadArticles() {
   if (!fs.existsSync(ARTICLES_DIR)) return [];
