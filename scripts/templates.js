@@ -55,7 +55,11 @@ function dateBar(dateLabel) {
   return `<div class="date-bar">${icon("calendar")}<span>${escapeHtml(dateLabel)}</span></div>`;
 }
 
-export function layout({ title, description, bodyHtml, canonicalUrl }) {
+export function layout({ title, description, bodyHtml, canonicalUrl, ogType = "website", structuredData = null }) {
+  const jsonLdScript = structuredData
+    ? `<script type="application/ld+json">${JSON.stringify(structuredData)}</script>`
+    : "";
+
   return `<!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -65,6 +69,16 @@ export function layout({ title, description, bodyHtml, canonicalUrl }) {
 <meta name="description" content="${escapeHtml(description)}">
 <meta name="google-site-verification" content="j8M7gv2ziexoZ_pW1ZVdNS8gzpJV4qRiq27tLKtyIpw">
 <link rel="canonical" href="${escapeHtml(canonicalUrl)}">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<meta property="og:type" content="${escapeHtml(ogType)}">
+<meta property="og:site_name" content="宝塚タウン｜宝塚市民向け情報ポータル">
+<meta property="og:title" content="${escapeHtml(title)}">
+<meta property="og:description" content="${escapeHtml(description)}">
+<meta property="og:url" content="${escapeHtml(canonicalUrl)}">
+<meta property="og:locale" content="ja_JP">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="${escapeHtml(title)}">
+<meta name="twitter:description" content="${escapeHtml(description)}">
 <link rel="stylesheet" href="/css/style.css">
 <script>${themeInitScript()}</script>
 </head>
@@ -76,6 +90,7 @@ ${bodyHtml}
 <footer class="site-footer">
 <p>本サイトに掲載する記事は、公開情報の要約と出典リンクのみで構成しています。詳細・正式な内容は出典元をご確認ください。</p>
 </footer>
+${jsonLdScript}
 <script src="/js/theme.js" defer></script>
 <!-- Cloudflare Web Analytics --><script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "ba952a62129e40bc9a9b3423de1c98a3"}'></script><!-- End Cloudflare Web Analytics -->
 </body>
@@ -102,14 +117,15 @@ export function articlePage(article, siteUrl) {
 <p class="article-summary">${escapeHtml(article.summary)}</p>
 <p class="article-source">出典：<a href="${escapeHtml(article.sourceUrl)}" rel="noopener" target="_blank">${escapeHtml(article.sourceName)}</a></p>
 <p class="back-link"><a href="/">${icon("newspaper")}トップへ戻る</a></p>
-</article>
-<script type="application/ld+json">${JSON.stringify(jsonLd)}</script>`;
+</article>`;
 
   return layout({
     title: `${article.title}｜宝塚市民向け情報サイト`,
     description: article.summary,
     bodyHtml,
     canonicalUrl,
+    ogType: "article",
+    structuredData: jsonLd,
   });
 }
 
@@ -231,10 +247,19 @@ export function indexPage({ articles, todayArticles, categorySections, ranking, 
   </div>
 </div>`;
 
+  const structuredData = {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    name: "宝塚タウン｜宝塚市民向け情報ポータル",
+    url: `${siteUrl}/`,
+    description: "宝塚市の行政・暮らし情報をまとめた市民向け情報サイト",
+  };
+
   return layout({
     title: "宝塚市民向け情報サイト｜宝塚タウン",
     description: "宝塚市の行政・暮らし情報をまとめた市民向け情報サイト",
     bodyHtml,
     canonicalUrl: `${siteUrl}/`,
+    structuredData,
   });
 }

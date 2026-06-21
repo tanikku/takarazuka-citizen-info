@@ -122,6 +122,7 @@ function main() {
 
   writeFile("css/style.css", fs.readFileSync(path.join(ASSETS_DIR, "style.css"), "utf-8"));
   writeFile("js/theme.js", fs.readFileSync(path.join(ASSETS_DIR, "theme.js"), "utf-8"));
+  writeFile("favicon.svg", fs.readFileSync(path.join(ASSETS_DIR, "favicon.svg"), "utf-8"));
 
   console.log(`記事${articles.length}件をビルドしました → ${PUBLIC_DIR}`);
   console.log(`ランキング表示: ${ranking ? "有効" : "未蓄積のため新着記事で代替"}`);
