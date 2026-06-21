@@ -72,12 +72,18 @@ function writeFile(relativePath, content) {
 }
 
 function buildSitemap(articles) {
-  const urls = [
-    `${SITE_URL}/`,
-    ...articles.map((article) => `${SITE_URL}/articles/${article.slug}.html`),
+  const today = todayDateKey();
+  const entries = [
+    { loc: `${SITE_URL}/`, lastmod: today },
+    ...articles.map((article) => ({
+      loc: `${SITE_URL}/articles/${article.slug}.html`,
+      lastmod: article.publishedAt,
+    })),
   ];
 
-  const body = urls.map((url) => `<url><loc>${url}</loc></url>`).join("\n");
+  const body = entries
+    .map((e) => `<url><loc>${e.loc}</loc><lastmod>${e.lastmod}</lastmod></url>`)
+    .join("\n");
 
   return `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
