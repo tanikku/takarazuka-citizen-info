@@ -74,10 +74,11 @@
 - ローカルでの見た目確認は`npm run preview`（Node標準機能のみの簡易HTTPサーバー、`scripts/preview-server.js`）を使う。`file://`で直接HTMLを開くと絶対パス（`/css/style.css`等）が解決できずCSSが効かないため注意
 - デザイン案の比較検討時に作成したモック（`mockups/`配下）は確認用。本番のテンプレートとは別管理
 
-## Cloudflare Web Analytics（人気記事ランキング用・未導入）
+## Cloudflare Web Analytics（2026-06-21導入済み）
 
-- 人気記事ランキングの実データ取得には、Cloudflare Pagesダッシュボードの「Web Analytics」を有効化する想定（Cloudflare上で自動ビーコン注入されるため追加コード不要）
-- 有効化後、アクセスデータから`data/ranking.json`（`{ "weekly": [...], "monthly": [...] }`）を生成する仕組みは**未実装**。着手時に集計方法（Cloudflare GraphQL Analytics APIの利用など）を改めて相談する
+- pages.devドメインはCloudflare DNS管理外のため自動ビーコン注入は使えず、**JSスニペットを手動で`scripts/templates.js`の`layout()`に埋め込む方式**を採用
+- ビーコンのトークンはサイトhttps://takarazuka-citizen-info.pages.dev に紐づく公開用トークン（クライアント側に埋め込む前提のものでシークレットではない）
+- 人気記事ランキングの実データ化（`data/ranking.json`の`weekly`/`monthly`生成）は**未実装**。アクセスデータが蓄積された後、Cloudflare GraphQL Analytics API等の集計方法を改めて相談する
 
 ## 開発環境
 
