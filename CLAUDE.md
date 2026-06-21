@@ -67,6 +67,10 @@
 
 - OS: Windows 11 / シェル: PowerShell（グローバル設定と同様）
 - デプロイ先: Cloudflare Pages
+- 公開URL: https://takarazuka-citizen-info.pages.dev （独自ドメイン取得時は要更新）
+- GitHubリポジトリ: https://github.com/tanikku/takarazuka-citizen-info
+- Cloudflare Pages設定: Production branch=`main` / Build command=`npm run build` / Build output directory=`public`
+- デプロイフロー: `main`ブランチへのpushでCloudflare Pagesが自動ビルド・デプロイ
 
 ## 記事生成ルール
 
