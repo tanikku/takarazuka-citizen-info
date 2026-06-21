@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>案1: SmartNews風（モック）｜宝塚市民向け情報サイト</title>
+<style>
+  :root {
+    --bg: #f5f6f8;
+    --surface: #ffffff;
+    --text: #1a1a1a;
+    --text-sub: #6b6b6b;
+    --border: #e5e7eb;
+    --accent: #ff5a36;
+    --accent-soft: #fff1ec;
+  }
+  [data-theme="dark"] {
+    --bg: #14161a;
+    --surface: #1f2227;
+    --text: #f2f2f2;
+    --text-sub: #a3a3a3;
+    --border: #33363b;
+    --accent: #ff7a52;
+    --accent-soft: #2a201c;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: -apple-system, "Hiragino Sans", "Yu Gothic", sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    font-size: 16px;
+  }
+  .mock-banner {
+    background: #fde9d9;
+    color: #6b3d00;
+    text-align: center;
+    font-size: 0.8rem;
+    padding: 6px;
+  }
+  header {
+    position: sticky;
+    top: 0;
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    z-index: 10;
+  }
+  .header-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 16px;
+  }
+  .logo {
+    font-size: 1.2rem;
+    font-weight: 800;
+    color: var(--accent);
+  }
+  .theme-toggle {
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--text);
+    border-radius: 999px;
+    padding: 6px 14px;
+    font-size: 0.85rem;
+    cursor: pointer;
+  }
+  .category-nav {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    padding: 0 16px 12px;
+    scrollbar-width: none;
+  }
+  .category-nav::-webkit-scrollbar { display: none; }
+  .category-chip {
+    flex: none;
+    padding: 8px 16px;
+    border-radius: 999px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    font-size: 0.85rem;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+  .category-chip.active {
+    background: var(--accent);
+    color: white;
+    border-color: var(--accent);
+  }
+  main {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 16px;
+  }
+  section { margin-bottom: 28px; }
+  .section-title {
+    font-size: 1.05rem;
+    font-weight: 800;
+    margin: 0 0 12px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .hero-scroll {
+    display: flex;
+    gap: 12px;
+    overflow-x: auto;
+    padding-bottom: 4px;
+    scroll-snap-type: x mandatory;
+  }
+  .hero-card {
+    flex: 0 0 86%;
+    scroll-snap-align: start;
+    background: var(--surface);
+    border-radius: 16px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+  }
+  .hero-thumb {
+    height: 160px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.5rem;
+    background: linear-gradient(135deg, var(--accent), #ffb199);
+    color: white;
+  }
+  .hero-body { padding: 14px; }
+  .hero-cat {
+    color: var(--accent);
+    font-weight: 700;
+    font-size: 0.75rem;
+  }
+  .hero-title {
+    font-size: 1.05rem;
+    font-weight: 800;
+    margin: 6px 0;
+  }
+  .hero-time { color: var(--text-sub); font-size: 0.8rem; }
+
+  .card-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+  .news-card {
+    display: flex;
+    gap: 12px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 10px;
+  }
+  .news-thumb {
+    flex: none;
+    width: 64px;
+    height: 64px;
+    border-radius: 10px;
+    background: var(--accent-soft);
+    color: var(--accent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;
+  }
+  .news-card-body { flex: 1; min-width: 0; }
+  .news-card-title { font-weight: 700; font-size: 0.95rem; margin: 0 0 4px; }
+  .news-meta { color: var(--text-sub); font-size: 0.78rem; }
+
+  .topic-banner {
+    background: var(--accent-soft);
+    border: 1px solid var(--accent);
+    border-radius: 14px;
+    padding: 16px;
+  }
+  .topic-banner h3 {
+    margin: 0 0 8px;
+    color: var(--accent);
+    font-size: 1rem;
+  }
+  .topic-list { margin: 0; padding-left: 18px; font-size: 0.9rem; }
+  .topic-list li { margin-bottom: 6px; }
+
+  .ranking-list { list-style: none; margin: 0; padding: 0; }
+  .ranking-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .rank-num {
+    flex: none;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: var(--accent);
+    color: white;
+    font-weight: 800;
+    font-size: 0.85rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .rank-title { font-size: 0.92rem; font-weight: 600; }
+
+  footer {
+    text-align: center;
+    color: var(--text-sub);
+    font-size: 0.78rem;
+    padding: 24px 16px 40px;
+  }
+
+  @media (min-width: 768px) {
+    main { max-width: 960px; }
+    .card-grid { grid-template-columns: 1fr 1fr; }
+    .hero-card { flex: 0 0 46%; }
+  }
+</style>
+</head>
+<body data-theme="light">
+
+<div class="mock-banner">※デザイン確認用のモックです。記事内容はすべて架空のサンプルです</div>
+
+<header>
+  <div class="header-row">
+    <div class="logo">宝塚いまここ</div>
+    <button class="theme-toggle" onclick="toggleTheme()">🌙 ダークモード</button>
+  </div>
+  <nav class="category-nav">
+    <span class="category-chip active">すべて</span>
+    <span class="category-chip">行政・くらし</span>
+    <span class="category-chip">防犯・安全</span>
+    <span class="category-chip">イベント</span>
+    <span class="category-chip">子育て</span>
+    <span class="category-chip">文化・観光</span>
+  </nav>
+</header>
+
+<main>
+  <section>
+    <p class="section-title">📌 トップニュース</p>
+    <div class="hero-scroll">
+      <article class="hero-card">
+        <div class="hero-thumb">🏛️</div>
+        <div class="hero-body">
+          <p class="hero-cat">行政・くらし</p>
+          <p class="hero-title">（サンプル）宝塚市が窓口受付時間を一部延長へ</p>
+          <p class="hero-time">3時間前・宝塚市公式サイト</p>
+        </div>
+      </article>
+      <article class="hero-card">
+        <div class="hero-thumb">🌸</div>
+        <div class="hero-body">
+          <p class="hero-cat">イベント</p>
+          <p class="hero-title">（サンプル）武庫川河川敷で桜まつりの準備が進行中</p>
+          <p class="hero-time">5時間前・広報たからづか</p>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <section>
+    <p class="section-title">☀️ 今日の宝塚トピック</p>
+    <div class="topic-banner">
+      <h3>2026年6月21日の3トピック</h3>
+      <ul class="topic-list">
+        <li>（サンプル）市内の保育所で夏祭りイベントの参加申込が開始</li>
+        <li>（サンプル）宝塚警察署が特殊詐欺の注意喚起を発表</li>
+        <li>（サンプル）市立図書館で夏の読書フェアが開催中</li>
+      </ul>
+    </div>
+  </section>
+
+  <section>
+    <p class="section-title">🗂️ カテゴリー別ニュース</p>
+    <div class="card-grid">
+      <div class="news-card">
+        <div class="news-thumb">🚸</div>
+        <div class="news-card-body">
+          <p class="news-card-title">（サンプル）子育て支援センターで一時保育の予約方法が変更</p>
+          <p class="news-meta">子育て・1日前</p>
+        </div>
+      </div>
+      <div class="news-card">
+        <div class="news-thumb">🚓</div>
+        <div class="news-card-body">
+          <p class="news-card-title">（サンプル）市内での還付金詐欺の電話に注意</p>
+          <p class="news-meta">防犯・安全・1日前</p>
+        </div>
+      </div>
+      <div class="news-card">
+        <div class="news-thumb">🎭</div>
+        <div class="news-card-body">
+          <p class="news-card-title">（サンプル）宝塚大劇場周辺で交通規制のお知らせ</p>
+          <p class="news-meta">文化・観光・2日前</p>
+        </div>
+      </div>
+      <div class="news-card">
+        <div class="news-thumb">♻️</div>
+        <div class="news-card-body">
+          <p class="news-card-title">（サンプル）ごみ収集日のカレンダーが更新されました</p>
+          <p class="news-meta">行政・くらし・2日前</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <p class="section-title">🔥 人気記事ランキング</p>
+    <ol class="ranking-list">
+      <li class="ranking-item">
+        <span class="rank-num">1</span>
+        <span class="rank-title">（サンプル）手塚治虫生誕100年ドラマ化の署名活動が話題</span>
+      </li>
+      <li class="ranking-item">
+        <span class="rank-num">2</span>
+        <span class="rank-title">（サンプル）市内の還付金詐欺の電話に注意</span>
+      </li>
+      <li class="ranking-item">
+        <span class="rank-num">3</span>
+        <span class="rank-title">（サンプル）窓口受付時間の一部延長について</span>
+      </li>
+    </ol>
+  </section>
+
+  <section>
+    <p class="section-title">🆕 新着記事一覧</p>
+    <div class="card-grid">
+      <div class="news-card">
+        <div class="news-thumb">📰</div>
+        <div class="news-card-body">
+          <p class="news-card-title">（サンプル）夏の読書フェアが市立図書館で開催中</p>
+          <p class="news-meta">文化・観光・たった今</p>
+        </div>
+      </div>
+      <div class="news-card">
+        <div class="news-thumb">📰</div>
+        <div class="news-card-body">
+          <p class="news-card-title">（サンプル）夏祭りイベントの参加申込が開始</p>
+          <p class="news-meta">イベント・30分前</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>本サイトに掲載する記事は公開情報の要約と出典リンクのみで構成しています（このページはデザイン確認用モックです）</footer>
+
+<script>
+  function toggleTheme() {
+    const body = document.body;
+    body.dataset.theme = body.dataset.theme === "dark" ? "light" : "dark";
+  }
+</script>
+</body>
+</html>

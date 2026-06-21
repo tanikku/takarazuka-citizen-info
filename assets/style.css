@@ -1,9 +1,23 @@
 :root {
-  color-scheme: light;
-  --color-text: #1a1a1a;
-  --color-bg: #ffffff;
-  --color-accent: #0a5c36;
-  --color-border: #e0e0e0;
+  --bg: #f3f4f6;
+  --surface: #ffffff;
+  --text: #222222;
+  --text-sub: #595959;
+  --border: #dcdfe3;
+  --accent: #c8102e;
+  --accent-soft: #fdecef;
+  --link: #0057a3;
+}
+
+html[data-theme="dark"] {
+  --bg: #121212;
+  --surface: #1d1d1d;
+  --text: #e8e8e8;
+  --text-sub: #aaaaaa;
+  --border: #3a3a3a;
+  --accent: #ff5d6c;
+  --accent-soft: #2a1a1c;
+  --link: #6cb4ff;
 }
 
 * {
@@ -13,56 +27,265 @@
 body {
   margin: 0;
   font-family: -apple-system, "Hiragino Sans", "Yu Gothic", sans-serif;
-  color: var(--color-text);
-  background: var(--color-bg);
+  background: var(--bg);
+  color: var(--text);
   line-height: 1.7;
+  font-size: 16px;
 }
 
-.site-header {
-  padding: 16px;
-  border-bottom: 1px solid var(--color-border);
-}
-
-.site-title {
-  font-size: 1.1rem;
-  font-weight: bold;
-  color: var(--color-accent);
+a {
+  color: inherit;
   text-decoration: none;
+}
+
+.icon {
+  width: 1.2em;
+  height: 1.2em;
+  flex: none;
+  vertical-align: -0.2em;
+}
+
+/* ヘッダー */
+.site-header {
+  background: var(--surface);
+  border-bottom: 3px solid var(--accent);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.header-row {
+  max-width: 1080px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 16px;
+}
+
+.logo {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: var(--accent);
+}
+
+.logo small {
+  display: block;
+  font-size: 0.65rem;
+  color: var(--text-sub);
+  font-weight: 500;
+}
+
+.theme-toggle {
+  border: 1px solid var(--border);
+  background: var(--bg);
+  color: var(--text);
+  border-radius: 6px;
+  padding: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+.theme-icon-moon { display: none; }
+html[data-theme="dark"] .theme-icon-sun { display: none; }
+html[data-theme="dark"] .theme-icon-moon { display: block; }
+
+.date-bar {
+  max-width: 1080px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.88rem;
+  color: var(--text-sub);
+  padding: 12px 16px 0;
 }
 
 main {
-  max-width: 720px;
-  margin: 0 auto;
-  padding: 16px;
+  display: block;
 }
 
-.article-list {
+.grid-2 {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 12px 16px 40px;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+}
+
+.col-main, .col-side {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.panel {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 14px;
+}
+
+.panel-title {
+  font-size: 1rem;
+  font-weight: 800;
+  margin: 0 0 12px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid var(--accent);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--text);
+}
+
+.panel-note {
+  font-size: 0.78rem;
+  color: var(--text-sub);
+  margin: 8px 0 0;
+}
+
+.empty-state {
+  color: var(--text-sub);
+  font-size: 0.9rem;
+  padding: 8px 0;
+}
+
+/* 見出し行（リンク） */
+.headline-row {
+  display: flex;
+  gap: 10px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.headline-row:last-child {
+  border-bottom: none;
+}
+
+.headline-thumb {
+  flex: none;
+  width: 48px;
+  height: 48px;
+  border-radius: 8px;
+  background: var(--accent-soft);
+  color: var(--accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.headline-thumb .icon {
+  width: 1.4em;
+  height: 1.4em;
+}
+
+.headline-title {
+  font-size: 0.95rem;
+  color: var(--link);
+  font-weight: 600;
+  margin: 0 0 4px;
+}
+
+.headline-meta {
+  font-size: 0.78rem;
+  color: var(--text-sub);
+  margin: 0;
+}
+
+.topic-tag {
+  display: inline-block;
+  background: var(--accent);
+  color: white;
+  font-size: 0.68rem;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 3px;
+  margin-right: 6px;
+}
+
+/* カテゴリーチップ */
+.category-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.category-pill {
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 8px 14px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  background: var(--bg);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.category-pill.is-empty {
+  opacity: 0.45;
+}
+
+/* ランキング・新着 */
+.ranking-list {
   list-style: none;
+  margin: 0;
   padding: 0;
 }
 
-.article-list-item {
-  padding: 12px 0;
-  border-bottom: 1px solid var(--color-border);
+.ranking-item {
   display: flex;
-  justify-content: space-between;
-  gap: 12px;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--border);
 }
 
-.article-list-item a {
-  color: var(--color-text);
-  text-decoration: none;
+.ranking-item:last-child {
+  border-bottom: none;
 }
 
-.article-list-date {
-  color: #666;
-  font-size: 0.85rem;
-  white-space: nowrap;
+.rank-num {
+  flex: none;
+  font-weight: 800;
+  color: var(--accent);
+  font-size: 1rem;
+  width: 22px;
+}
+
+.rank-title {
+  font-size: 0.88rem;
+  color: var(--link);
+  font-weight: 600;
+}
+
+@media (min-width: 768px) {
+  .grid-2 {
+    grid-template-columns: 2fr 1fr;
+  }
+}
+
+/* 記事詳細ページ */
+.article-detail {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 24px 16px 40px;
+}
+
+.article-detail h1 {
+  font-size: 1.5rem;
+  margin: 12px 0;
 }
 
 .article-meta {
-  color: #666;
+  color: var(--text-sub);
   font-size: 0.9rem;
+}
+
+.article-summary {
+  font-size: 1.02rem;
 }
 
 .article-source {
@@ -70,17 +293,27 @@ main {
   font-size: 0.9rem;
 }
 
-.site-footer {
-  max-width: 720px;
-  margin: 32px auto 0;
-  padding: 16px;
-  border-top: 1px solid var(--color-border);
-  color: #666;
-  font-size: 0.8rem;
+.back-link {
+  margin-top: 32px;
 }
 
-@media (max-width: 480px) {
-  main, .site-footer {
-    padding: 12px;
-  }
+.back-link a {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--link);
+  font-weight: 600;
+}
+
+.site-footer {
+  text-align: center;
+  color: var(--text-sub);
+  font-size: 0.78rem;
+  padding: 24px 16px 40px;
+}
+
+/* フォーカス可視化（アクセシビリティ） */
+a:focus-visible, button:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 2px;
 }

@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>案3: Yahooニュース＋地域メディア風（モック）｜宝塚市民向け情報サイト</title>
+<style>
+  :root {
+    --bg: #f3f4f6;
+    --surface: #ffffff;
+    --text: #222222;
+    --text-sub: #595959;
+    --border: #dcdfe3;
+    --accent: #c8102e;
+    --accent-soft: #fdecef;
+    --link: #0057a3;
+  }
+  [data-theme="dark"] {
+    --bg: #121212;
+    --surface: #1d1d1d;
+    --text: #e8e8e8;
+    --text-sub: #aaaaaa;
+    --border: #3a3a3a;
+    --accent: #ff5d6c;
+    --accent-soft: #2a1a1c;
+    --link: #6cb4ff;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: -apple-system, "Hiragino Sans", "Yu Gothic", sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    font-size: 16px;
+  }
+  .mock-banner {
+    background: #fff3cd;
+    color: #5c4400;
+    text-align: center;
+    font-size: 0.8rem;
+    padding: 6px;
+  }
+  header {
+    background: var(--surface);
+    border-bottom: 3px solid var(--accent);
+  }
+  .header-row {
+    max-width: 1080px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 16px;
+  }
+  .logo {
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: var(--accent);
+  }
+  .logo small { display: block; font-size: 0.65rem; color: var(--text-sub); font-weight: 500; }
+  .theme-toggle {
+    border: 1px solid var(--border);
+    background: var(--bg);
+    color: var(--text);
+    border-radius: 6px;
+    padding: 6px 12px;
+    font-size: 0.8rem;
+    cursor: pointer;
+  }
+  .weather-strip {
+    background: var(--accent-soft);
+    font-size: 0.82rem;
+    text-align: center;
+    padding: 6px;
+    color: var(--text);
+  }
+
+  main {
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 16px;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  .panel {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 14px;
+  }
+  .panel-title {
+    font-size: 1rem;
+    font-weight: 800;
+    margin: 0 0 12px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--accent);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .headline-row {
+    display: flex;
+    gap: 10px;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .headline-row:last-child { border-bottom: none; }
+  .headline-thumb {
+    flex: none;
+    width: 56px;
+    height: 56px;
+    border-radius: 4px;
+    background: var(--accent-soft);
+    color: var(--accent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.3rem;
+  }
+  .headline-title { font-size: 0.92rem; color: var(--link); font-weight: 500; margin: 0 0 4px; }
+  .headline-meta { font-size: 0.75rem; color: var(--text-sub); }
+
+  .topic-tag {
+    display: inline-block;
+    background: var(--accent);
+    color: white;
+    font-size: 0.68rem;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 3px;
+    margin-right: 6px;
+  }
+
+  .ranking-list { list-style: none; margin: 0; padding: 0; counter-reset: rank; }
+  .ranking-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .ranking-item:last-child { border-bottom: none; }
+  .rank-num {
+    flex: none;
+    font-weight: 800;
+    color: var(--accent);
+    font-size: 1rem;
+    width: 22px;
+  }
+  .rank-title { font-size: 0.88rem; color: var(--link); }
+
+  .category-list { display: flex; flex-wrap: wrap; gap: 8px; }
+  .category-pill {
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 8px 12px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    background: var(--bg);
+  }
+
+  .grid-2 { display: grid; grid-template-columns: 1fr; gap: 16px; }
+
+  footer {
+    text-align: center;
+    color: var(--text-sub);
+    font-size: 0.78rem;
+    padding: 24px 16px 40px;
+  }
+
+  @media (min-width: 768px) {
+    .grid-2 { grid-template-columns: 2fr 1fr; }
+  }
+</style>
+</head>
+<body data-theme="light">
+
+<div class="mock-banner">※デザイン確認用のモックです。記事内容はすべて架空のサンプルです</div>
+
+<header>
+  <div class="header-row">
+    <div class="logo">宝塚タウン<small>市民向け情報ポータル</small></div>
+    <button class="theme-toggle" onclick="toggleTheme()">ダークモード</button>
+  </div>
+</header>
+<div class="weather-strip">📍宝塚市 本日：晴れ 28℃／25℃　明日：くもり 26℃／22℃（サンプル）</div>
+
+<main>
+  <div class="grid-2">
+    <div>
+      <div class="panel">
+        <p class="panel-title">📰 トップニュース</p>
+        <div class="headline-row">
+          <div class="headline-thumb">🏛️</div>
+          <div>
+            <p class="headline-title"><span class="topic-tag">行政</span>（サンプル）宝塚市が窓口受付時間を一部延長へ</p>
+            <p class="headline-meta">3時間前・宝塚市公式サイト</p>
+          </div>
+        </div>
+        <div class="headline-row">
+          <div class="headline-thumb">🌸</div>
+          <div>
+            <p class="headline-title"><span class="topic-tag">イベント</span>（サンプル）武庫川河川敷で桜まつりの準備が進行中</p>
+            <p class="headline-meta">5時間前・広報たからづか</p>
+          </div>
+        </div>
+        <div class="headline-row">
+          <div class="headline-thumb">🚓</div>
+          <div>
+            <p class="headline-title"><span class="topic-tag">防犯</span>（サンプル）市内の還付金詐欺の電話に注意</p>
+            <p class="headline-meta">1日前・宝塚警察署</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel" style="margin-top:16px;">
+        <p class="panel-title">☀️ 今日の宝塚トピック</p>
+        <div class="headline-row">
+          <div class="headline-thumb">🚸</div>
+          <div>
+            <p class="headline-title">（サンプル）子育て支援センターで夏祭りイベントの参加申込が開始</p>
+            <p class="headline-meta">本日</p>
+          </div>
+        </div>
+        <div class="headline-row">
+          <div class="headline-thumb">📚</div>
+          <div>
+            <p class="headline-title">（サンプル）市立図書館で夏の読書フェアが開催中</p>
+            <p class="headline-meta">本日</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel" style="margin-top:16px;">
+        <p class="panel-title">🗂️ カテゴリーから探す</p>
+        <div class="category-list">
+          <span class="category-pill">行政・くらし</span>
+          <span class="category-pill">防犯・安全</span>
+          <span class="category-pill">イベント</span>
+          <span class="category-pill">子育て</span>
+          <span class="category-pill">文化・観光</span>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <div class="panel">
+        <p class="panel-title">🔥 人気記事ランキング</p>
+        <ol class="ranking-list">
+          <li class="ranking-item"><span class="rank-num">1</span><span class="rank-title">（サンプル）手塚治虫生誕100年ドラマ化の署名活動が話題</span></li>
+          <li class="ranking-item"><span class="rank-num">2</span><span class="rank-title">（サンプル）市内の還付金詐欺の電話に注意</span></li>
+          <li class="ranking-item"><span class="rank-num">3</span><span class="rank-title">（サンプル）窓口受付時間の一部延長について</span></li>
+          <li class="ranking-item"><span class="rank-num">4</span><span class="rank-title">（サンプル）ごみ収集カレンダーの更新</span></li>
+          <li class="ranking-item"><span class="rank-num">5</span><span class="rank-title">（サンプル）夏の読書フェアのお知らせ</span></li>
+        </ol>
+      </div>
+
+      <div class="panel" style="margin-top:16px;">
+        <p class="panel-title">🆕 新着記事一覧</p>
+        <div class="headline-row">
+          <div class="headline-thumb">📰</div>
+          <div>
+            <p class="headline-title">（サンプル）夏の読書フェアが市立図書館で開催中</p>
+            <p class="headline-meta">たった今</p>
+          </div>
+        </div>
+        <div class="headline-row">
+          <div class="headline-thumb">📰</div>
+          <div>
+            <p class="headline-title">（サンプル）夏祭りイベントの参加申込が開始</p>
+            <p class="headline-meta">30分前</p>
+          </div>
+        </div>
+        <div class="headline-row">
+          <div class="headline-thumb">📰</div>
+          <div>
+            <p class="headline-title">（サンプル）ごみ収集日のカレンダーが更新されました</p>
+            <p class="headline-meta">2時間前</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<footer>本サイトに掲載する記事は公開情報の要約と出典リンクのみで構成しています（このページはデザイン確認用モックです）</footer>
+
+<script>
+  function toggleTheme() {
+    const body = document.body;
+    body.dataset.theme = body.dataset.theme === "dark" ? "light" : "dark";
+  }
+</script>
+</body>
+</html>
