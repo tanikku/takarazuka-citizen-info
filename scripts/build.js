@@ -1,7 +1,14 @@
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { articlePage, indexPage, CATEGORIES } from "./templates.js";
+import {
+  articlePage,
+  indexPage,
+  categoryPage,
+  comingSoonCategoryPage,
+  CATEGORIES,
+  SHIGIKAI_CATEGORY,
+} from "./templates.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.join(__dirname, "..");
@@ -15,6 +22,10 @@ const SITE_URL = "https://takarazuka-citizen-info.pages.dev";
 
 // 人気記事ランキングは、アクセスデータがこの件数以上蓄積されるまで「新着記事」で代替表示する
 const RANKING_READY_THRESHOLD = 5;
+
+// 記事価値スコアによる公開範囲: S/A=通常公開, B=一覧のみ, C=非公開（収集のみ）
+const PUBLISHABLE_SCORES = new Set(["S", "A", "B"]);
+const HOMEPAGE_FEATURE_SCORES = new Set(["S", "A"]);
 
 function loadArticles() {
   if (!fs.existsSync(ARTICLES_DIR)) return [];
@@ -58,24 +69,19 @@ function todayDateKey() {
   return now.toLocaleDateString("en-CA", { timeZone: "Asia/Tokyo" }); // YYYY-MM-DD
 }
 
-function buildCategorySections(articles) {
-  return CATEGORIES.map((cat) => ({
-    ...cat,
-    articles: articles.filter((a) => a.category === cat.label),
-  })).filter((section) => section.articles.length > 0);
-}
-
 function writeFile(relativePath, content) {
   const filePath = path.join(PUBLIC_DIR, relativePath);
   fs.mkdirSync(path.dirname(filePath), { recursive: true });
   fs.writeFileSync(filePath, content);
 }
 
-function buildSitemap(articles) {
+function buildSitemap(publishedArticles, categoryPageKeys) {
   const today = todayDateKey();
   const entries = [
     { loc: `${SITE_URL}/`, lastmod: today },
-    ...articles.map((article) => ({
+    ...[...categoryPageKeys].map((key) => ({ loc: `${SITE_URL}/category/${key}.html`, lastmod: today })),
+    { loc: `${SITE_URL}/category/${SHIGIKAI_CATEGORY.key}.html`, lastmod: today },
+    ...publishedArticles.map((article) => ({
       loc: `${SITE_URL}/articles/${article.slug}.html`,
       lastmod: article.publishedAt,
     })),
@@ -95,36 +101,61 @@ ${body}
 function main() {
   fs.rmSync(PUBLIC_DIR, { recursive: true, force: true });
 
-  const articles = loadArticles();
+  const allArticles = loadArticles();
+  const skippedCount = allArticles.length - allArticles.filter((a) => PUBLISHABLE_SCORES.has(a.valueScore)).length;
+
+  // C評価（非公開）は完全に除外。記事詳細ページもサイトマップにも含めない
+  const publishedArticles = allArticles.filter((a) => PUBLISHABLE_SCORES.has(a.valueScore));
+  // S/Aのみがトップニュース・今日のトピック・カテゴリープレビューなど目立つ場所に表示される
+  const featuredArticles = publishedArticles.filter((a) => HOMEPAGE_FEATURE_SCORES.has(a.valueScore));
+
   const todayKey = todayDateKey();
-  const todayArticles = articles.filter((a) => a.publishedAt === todayKey);
-  const categorySections = buildCategorySections(articles);
+  const todayArticles = featuredArticles.filter((a) => a.publishedAt === todayKey);
   const ranking = loadRanking();
+
+  // カテゴリーごとに、公開対象（S/A/B）の記事をまとめる。1件以上ある場合のみカテゴリーページを生成する
+  const categorySections = CATEGORIES.map((cat) => ({
+    ...cat,
+    allArticles: publishedArticles.filter((a) => a.category === cat.label),
+    featuredArticles: featuredArticles.filter((a) => a.category === cat.label),
+  })).filter((section) => section.allArticles.length > 0);
+
+  const categoryPageKeys = new Set(categorySections.map((s) => s.key));
 
   writeFile(
     "index.html",
     indexPage({
-      articles,
+      topArticles: featuredArticles,
       todayArticles,
-      categorySections,
+      categoryPreviewSections: categorySections
+        .filter((s) => s.featuredArticles.length > 0)
+        .map((s) => ({ ...s, articles: s.featuredArticles })),
+      categoryPageKeys,
+      publishedArticles,
       ranking,
       dateLabel: todayDateLabel(),
       siteUrl: SITE_URL,
     }),
   );
 
-  for (const article of articles) {
+  for (const article of publishedArticles) {
     writeFile(`articles/${article.slug}.html`, articlePage(article, SITE_URL));
   }
 
-  writeFile("sitemap.xml", buildSitemap(articles));
+  for (const section of categorySections) {
+    writeFile(`category/${section.key}.html`, categoryPage(section, section.allArticles, SITE_URL));
+  }
+  writeFile(`category/${SHIGIKAI_CATEGORY.key}.html`, comingSoonCategoryPage(SITE_URL));
+
+  writeFile("sitemap.xml", buildSitemap(publishedArticles, categoryPageKeys));
   writeFile("robots.txt", `User-agent: *\nAllow: /\nSitemap: ${SITE_URL}/sitemap.xml\n`);
 
   writeFile("css/style.css", fs.readFileSync(path.join(ASSETS_DIR, "style.css"), "utf-8"));
   writeFile("js/theme.js", fs.readFileSync(path.join(ASSETS_DIR, "theme.js"), "utf-8"));
   writeFile("favicon.svg", fs.readFileSync(path.join(ASSETS_DIR, "favicon.svg"), "utf-8"));
 
-  console.log(`記事${articles.length}件をビルドしました → ${PUBLIC_DIR}`);
+  console.log(`公開記事: ${publishedArticles.length}件（S/A=${featuredArticles.length}件・B=${publishedArticles.length - featuredArticles.length}件） / 非公開(C): ${skippedCount}件`);
+  console.log(`カテゴリーページ: ${categorySections.length}件 + 市議会（準備中）`);
   console.log(`ランキング表示: ${ranking ? "有効" : "未蓄積のため新着記事で代替"}`);
 }
 

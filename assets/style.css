@@ -228,6 +228,41 @@ main {
   opacity: 0.45;
 }
 
+.category-pill.is-comingsoon {
+  opacity: 0.7;
+}
+
+.badge-comingsoon {
+  background: var(--text-sub);
+  color: white;
+  font-size: 0.65rem;
+  font-weight: 700;
+  padding: 1px 6px;
+  border-radius: 999px;
+}
+
+.breadcrumb {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 12px 16px 0;
+  font-size: 0.82rem;
+  color: var(--text-sub);
+}
+
+.breadcrumb a {
+  color: var(--link);
+}
+
+.breadcrumb-article {
+  max-width: 720px;
+}
+
+.page-content {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 12px 16px 40px;
+}
+
 /* ランキング・新着 */
 .ranking-list {
   list-style: none;

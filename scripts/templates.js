@@ -11,8 +11,10 @@ export function escapeHtml(text) {
 const ICON_PATHS = {
   building: '<rect x="4" y="3" width="16" height="18" rx="1.5"/><rect x="8" y="6.5" width="3" height="3" rx="0.5"/><rect x="13" y="6.5" width="3" height="3" rx="0.5"/><rect x="8" y="11.5" width="3" height="3" rx="0.5"/><rect x="13" y="11.5" width="3" height="3" rx="0.5"/><line x1="9" y1="21" x2="15" y2="21"/>',
   shield: '<path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6l7-3z"/><path d="M9 12l2 2 4-4"/>',
+  alert: '<path d="M12 4l9 16H3z"/><line x1="12" y1="10" x2="12" y2="13.5"/><rect x="11.4" y="15.5" width="1.2" height="1.2" rx="0.3" fill="currentColor" stroke="none"/>',
   calendar: '<rect x="3" y="5" width="18" height="16" rx="2"/><line x1="3" y1="10" x2="21" y2="10"/><line x1="8" y1="3" x2="8" y2="7"/><line x1="16" y1="3" x2="16" y2="7"/>',
   child: '<circle cx="12" cy="7" r="3"/><path d="M5 21v-2a7 7 0 0 1 14 0v2"/>',
+  book: '<path d="M12 6.5c-2.2-1.3-5-1.7-8-1v13c3-0.7 5.8-0.3 8 1c2.2-1.3 5-1.7 8-1v-13c-3-0.7-5.8-0.3-8 1z"/><line x1="12" y1="6.5" x2="12" y2="19.5"/>',
   camera: '<rect x="3" y="6" width="18" height="14" rx="2"/><circle cx="12" cy="13" r="4"/><path d="M9 6l1-2h4l1 2"/>',
   bell: '<path d="M6 8a6 6 0 1 1 12 0c0 4 1.5 5 1.5 6.5H4.5C4.5 13 6 12 6 8z"/><path d="M10 18a2 2 0 0 0 4 0"/>',
   flame: '<path d="M12 3c1 3-3 4-3 7a3 3 0 0 0 6 0c0-1-.5-2-.5-2 2 1 3 3 3 5a5.5 5.5 0 0 1-11 0c0-4 3-6 3-7 0-1.5 1-2.5 2-3z"/>',
@@ -27,13 +29,23 @@ export function icon(name) {
   return `<svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${path}</svg>`;
 }
 
+// 記事を生成・公開する対象カテゴリ
 export const CATEGORIES = [
-  { label: "行政・くらし", icon: "building" },
-  { label: "防犯・安全", icon: "shield" },
-  { label: "イベント", icon: "calendar" },
-  { label: "子育て", icon: "child" },
-  { label: "文化・観光", icon: "camera" },
+  { key: "kurashi", label: "行政・くらし", icon: "building" },
+  { key: "bohan", label: "防犯", icon: "shield" },
+  { key: "bosai", label: "防災", icon: "alert" },
+  { key: "event", label: "イベント", icon: "calendar" },
+  { key: "kosodate", label: "子育て", icon: "child" },
+  { key: "kyoiku", label: "教育", icon: "book" },
+  { key: "kanko", label: "文化・観光", icon: "camera" },
 ];
+
+// 市議会会議録サイトの利用規約調査が完了するまでは記事生成対象外。UIのみ先行公開する
+export const SHIGIKAI_CATEGORY = { key: "shigikai", label: "市議会", icon: "building" };
+
+export function categoryPath(key) {
+  return `/category/${key}.html`;
+}
 
 function themeInitScript() {
   return `(function(){try{var s=localStorage.getItem('theme');var t=s||((window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches)?'dark':'light');document.documentElement.setAttribute('data-theme',t);}catch(e){}})();`;
@@ -56,9 +68,10 @@ function dateBar(dateLabel) {
 }
 
 export function layout({ title, description, bodyHtml, canonicalUrl, ogType = "website", structuredData = null }) {
-  const jsonLdScript = structuredData
-    ? `<script type="application/ld+json">${JSON.stringify(structuredData)}</script>`
-    : "";
+  const dataList = Array.isArray(structuredData) ? structuredData : structuredData ? [structuredData] : [];
+  const jsonLdScript = dataList
+    .map((data) => `<script type="application/ld+json">${JSON.stringify(data)}</script>`)
+    .join("\n");
 
   return `<!DOCTYPE html>
 <html lang="ja">
@@ -98,6 +111,10 @@ ${jsonLdScript}
 `;
 }
 
+function findCategory(label) {
+  return CATEGORIES.find((c) => c.label === label);
+}
+
 export function articlePage(article, siteUrl) {
   const canonicalUrl = `${siteUrl}/articles/${article.slug}.html`;
   const jsonLd = {
@@ -105,12 +122,29 @@ export function articlePage(article, siteUrl) {
     "@type": "NewsArticle",
     headline: article.title,
     datePublished: article.publishedAt,
+    dateModified: article.publishedAt,
     description: article.summary,
     url: canonicalUrl,
+    author: { "@type": "Organization", name: "宝塚タウン編集部" },
+    publisher: { "@type": "Organization", name: "宝塚タウン｜宝塚市民向け情報ポータル" },
+    isAccessibleForFree: true,
   };
-  const categoryMeta = CATEGORIES.find((c) => c.label === article.category);
+  const categoryMeta = findCategory(article.category);
 
-  const bodyHtml = `<article class="article-detail">
+  const breadcrumbLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "トップ", item: `${siteUrl}/` },
+      ...(categoryMeta
+        ? [{ "@type": "ListItem", position: 2, name: categoryMeta.label, item: `${siteUrl}${categoryPath(categoryMeta.key)}` }]
+        : []),
+      { "@type": "ListItem", position: categoryMeta ? 3 : 2, name: article.title, item: canonicalUrl },
+    ],
+  };
+
+  const bodyHtml = `<nav class="breadcrumb breadcrumb-article"><a href="/">トップ</a> &gt; ${categoryMeta ? `<a href="${categoryPath(categoryMeta.key)}">${escapeHtml(categoryMeta.label)}</a>` : escapeHtml(article.category)}</nav>
+<article class="article-detail">
 <p class="category-tag">${categoryMeta ? icon(categoryMeta.icon) : icon("newspaper")}${escapeHtml(article.category)}</p>
 <h1>${escapeHtml(article.title)}</h1>
 <p class="article-meta">${escapeHtml(article.publishedAt)}</p>
@@ -125,12 +159,12 @@ export function articlePage(article, siteUrl) {
     bodyHtml,
     canonicalUrl,
     ogType: "article",
-    structuredData: jsonLd,
+    structuredData: [jsonLd, breadcrumbLd],
   });
 }
 
 function headlineRow(article) {
-  const categoryMeta = CATEGORIES.find((c) => c.label === article.category);
+  const categoryMeta = findCategory(article.category);
   return `<a class="headline-row" href="/articles/${article.slug}.html">
 <div class="headline-thumb">${categoryMeta ? icon(categoryMeta.icon) : icon("newspaper")}</div>
 <div>
@@ -140,8 +174,8 @@ function headlineRow(article) {
 </a>`;
 }
 
-function topNewsPanel(articles) {
-  const items = articles.slice(0, 3).map(headlineRow).join("\n");
+function topNewsPanel(topArticles) {
+  const items = topArticles.slice(0, 3).map(headlineRow).join("\n");
   return `<div class="panel">
 <p class="panel-title">${icon("newspaper")}トップニュース</p>
 ${items || '<p class="empty-state">まだ記事がありません</p>'}
@@ -162,32 +196,29 @@ ${items}
 </div>`;
 }
 
-function categoryPanel(categorySections) {
-  const chips = CATEGORIES.map((cat) => {
-    const section = categorySections.find((s) => s.label === cat.label);
-    const count = section ? section.articles.length : 0;
-    const className = count > 0 ? "category-pill" : "category-pill is-empty";
+function categoryPanel(categoryPageKeys) {
+  const realChips = CATEGORIES.map((cat) => {
+    const hasPage = categoryPageKeys.has(cat.key);
     const inner = `${icon(cat.icon)}<span>${escapeHtml(cat.label)}</span>`;
-    return count > 0
-      ? `<a class="${className}" href="#cat-${categorySlug(cat.label)}">${inner}</a>`
-      : `<span class="${className}">${inner}</span>`;
-  }).join("\n");
+    return hasPage
+      ? `<a class="category-pill" href="${categoryPath(cat.key)}">${inner}</a>`
+      : `<span class="category-pill is-empty">${inner}</span>`;
+  });
+
+  const shigikaiChip = `<a class="category-pill is-comingsoon" href="${categoryPath(SHIGIKAI_CATEGORY.key)}">${icon(SHIGIKAI_CATEGORY.icon)}<span>${escapeHtml(SHIGIKAI_CATEGORY.label)}</span><span class="badge-comingsoon">準備中</span></a>`;
 
   return `<div class="panel">
 <p class="panel-title">${icon("building")}カテゴリーから探す</p>
-<div class="category-list">${chips}</div>
+<div class="category-list">${realChips.join("\n")}\n${shigikaiChip}</div>
 </div>`;
 }
 
-function categorySlug(label) {
-  return Buffer.from(label).toString("base64url").slice(0, 12);
-}
-
-function categorySection(section) {
-  const items = section.articles.slice(0, 5).map(headlineRow).join("\n");
-  return `<div class="panel" id="cat-${categorySlug(section.label)}">
+function categoryPreviewSection(section) {
+  const items = section.articles.slice(0, 3).map(headlineRow).join("\n");
+  return `<div class="panel">
 <p class="panel-title">${icon(section.icon)}${escapeHtml(section.label)}</p>
 ${items}
+<p class="panel-note"><a href="${categoryPath(section.key)}">${escapeHtml(section.label)}の記事をもっと見る →</a></p>
 </div>`;
 }
 
@@ -224,26 +255,26 @@ function rankingOrRecentPanel(ranking, recentArticles) {
 </div>`;
 }
 
-function recentListPanel(articles) {
-  const items = articles.slice(0, 30).map(headlineRow).join("\n");
+function recentListPanel(publishedArticles) {
+  const items = publishedArticles.slice(0, 30).map(headlineRow).join("\n");
   return `<div class="panel">
 <p class="panel-title">${icon("bell")}新着記事一覧</p>
 ${items || '<p class="empty-state">まだ記事がありません</p>'}
 </div>`;
 }
 
-export function indexPage({ articles, todayArticles, categorySections, ranking, dateLabel, siteUrl }) {
+export function indexPage({ topArticles, todayArticles, categoryPreviewSections, categoryPageKeys, publishedArticles, ranking, dateLabel, siteUrl }) {
   const bodyHtml = `${dateBar(dateLabel)}
 <div class="grid-2">
   <div class="col-main">
-    ${topNewsPanel(articles)}
+    ${topNewsPanel(topArticles)}
     ${todayTopicPanel(todayArticles)}
-    ${categoryPanel(categorySections)}
-    ${categorySections.map(categorySection).join("\n")}
+    ${categoryPanel(categoryPageKeys)}
+    ${categoryPreviewSections.map(categoryPreviewSection).join("\n")}
   </div>
   <div class="col-side">
-    ${rankingOrRecentPanel(ranking, articles)}
-    ${recentListPanel(articles)}
+    ${rankingOrRecentPanel(ranking, publishedArticles)}
+    ${recentListPanel(publishedArticles)}
   </div>
 </div>`;
 
@@ -261,5 +292,61 @@ export function indexPage({ articles, todayArticles, categorySections, ranking, 
     bodyHtml,
     canonicalUrl: `${siteUrl}/`,
     structuredData,
+  });
+}
+
+export function categoryPage(category, articles, siteUrl) {
+  const canonicalUrl = `${siteUrl}${categoryPath(category.key)}`;
+  const items = articles.map(headlineRow).join("\n");
+
+  const bodyHtml = `<nav class="breadcrumb"><a href="/">トップ</a> &gt; ${escapeHtml(category.label)}</nav>
+<div class="page-content">
+<div class="panel">
+<p class="panel-title">${icon(category.icon)}${escapeHtml(category.label)}の記事一覧</p>
+${items || '<p class="empty-state">まだ記事がありません</p>'}
+</div>
+</div>`;
+
+  const collectionLd = {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    name: `${category.label}の記事一覧｜宝塚タウン`,
+    url: canonicalUrl,
+  };
+  const breadcrumbLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "トップ", item: `${siteUrl}/` },
+      { "@type": "ListItem", position: 2, name: category.label, item: canonicalUrl },
+    ],
+  };
+
+  return layout({
+    title: `${category.label}の記事一覧｜宝塚市民向け情報サイト`,
+    description: `宝塚市の「${category.label}」に関する記事一覧です。`,
+    bodyHtml,
+    canonicalUrl,
+    structuredData: [collectionLd, breadcrumbLd],
+  });
+}
+
+export function comingSoonCategoryPage(siteUrl) {
+  const canonicalUrl = `${siteUrl}${categoryPath(SHIGIKAI_CATEGORY.key)}`;
+
+  const bodyHtml = `<nav class="breadcrumb"><a href="/">トップ</a> &gt; 市議会</nav>
+<div class="page-content">
+<div class="panel">
+<p class="panel-title">${icon(SHIGIKAI_CATEGORY.icon)}市議会ウォッチ（準備中）</p>
+<p>現在、公開情報の利用条件を確認中です。</p>
+<p>確認完了後に市議会情報の要約配信を開始予定です。</p>
+</div>
+</div>`;
+
+  return layout({
+    title: "市議会ウォッチ（準備中）｜宝塚市民向け情報サイト",
+    description: "宝塚市議会に関する情報配信は、公開情報の利用条件確認後に開始予定です。",
+    bodyHtml,
+    canonicalUrl,
   });
 }
