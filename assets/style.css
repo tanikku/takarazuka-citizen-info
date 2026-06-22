@@ -535,6 +535,31 @@ html[data-theme="dark"] .disclosure-box {
   padding: 12px 16px 40px;
 }
 
+/* イベントカレンダーのタブ切り替え（JS最小限・URL遷移なし） */
+.event-tabs {
+  display: flex;
+  gap: 4px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 14px;
+}
+
+.event-tab {
+  appearance: none;
+  background: none;
+  border: none;
+  border-bottom: 3px solid transparent;
+  padding: 10px 14px;
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: var(--text-sub);
+  cursor: pointer;
+}
+
+.event-tab.is-active {
+  color: var(--accent);
+  border-bottom-color: var(--accent);
+}
+
 /* ランキング・新着 */
 .ranking-list {
   list-style: none;

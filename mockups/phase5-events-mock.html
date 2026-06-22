@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>フェーズ5 モック（イベントカレンダー強化）｜Takarazuka Today</title>
+<style>
+  :root {
+    --bg: #f3f4f6; --surface: #ffffff; --text: #222222; --text-sub: #595959;
+    --border: #dcdfe3; --accent: #c8102e; --accent-soft: #fdecef; --link: #0057a3;
+  }
+  * { box-sizing: border-box; }
+  body { margin:0; font-family:-apple-system,"Hiragino Sans","Yu Gothic",sans-serif; background:var(--bg); color:var(--text); line-height:1.6; }
+  .mock-banner { background:#fff3cd; color:#5c4400; text-align:center; font-size:.8rem; padding:6px; }
+  main { max-width:1080px; margin:0 auto; padding:16px; }
+  .breadcrumb { font-size:.82rem; color:var(--text-sub); margin-bottom:8px; }
+  .breadcrumb a { color:var(--link); }
+  .tabs { display:flex; gap:6px; margin-bottom:14px; border-bottom:1px solid var(--border); }
+  .tab { padding:10px 14px; font-size:.85rem; font-weight:700; color:var(--text-sub); border-bottom:3px solid transparent; cursor:pointer; }
+  .tab.active { color:var(--accent); border-bottom-color:var(--accent); }
+  .panel { background:var(--surface); border:1px solid var(--border); border-radius:6px; padding:14px; margin-bottom:16px; }
+  .panel-title { font-size:1rem; font-weight:800; margin:0 0 12px; padding-bottom:8px; border-bottom:2px solid var(--accent); }
+  .row { display:flex; gap:10px; padding:10px 0; border-bottom:1px solid var(--border); }
+  .row:last-child { border-bottom:none; }
+  .date-chip { flex:none; width:54px; height:54px; border-radius:8px; background:var(--accent-soft); color:var(--accent); display:flex; flex-direction:column; align-items:center; justify-content:center; font-weight:800; }
+  .date-chip .day { font-size:1.2rem; line-height:1; }
+  .date-chip .dow { font-size:.62rem; }
+  .row a { color:var(--link); font-weight:600; font-size:.9rem; text-decoration:none; }
+  .meta { font-size:.75rem; color:var(--text-sub); }
+  .empty-state { color:var(--text-sub); font-size:.9rem; padding:8px 0; }
+  .today-badge { display:inline-block; background:var(--accent); color:#fff; font-size:.62rem; font-weight:700; padding:1px 6px; border-radius:4px; margin-left:6px; }
+</style>
+</head>
+<body>
+<div class="mock-banner">※デザイン確認用のモックです。記事はすべて架空のサンプルです</div>
+<main>
+<nav class="breadcrumb"><a href="/">トップ</a> &gt; イベントカレンダー</nav>
+
+<div class="tabs">
+  <div class="tab active">今日</div>
+  <div class="tab">今週末</div>
+  <div class="tab">今月</div>
+</div>
+
+<div class="panel">
+<p class="panel-title">📅 今日のイベント（6月22日・月）</p>
+<div class="row">
+  <div class="date-chip"><span class="day">22</span><span class="dow">月</span></div>
+  <div><a href="#">（サンプル）ユース食堂、本日開催</a><p class="meta">シングルマザーハウスWith</p></div>
+</div>
+<p class="empty-state" style="display:none;">本日開催のイベントはありません</p>
+</div>
+
+<div class="panel">
+<p class="panel-title">📅 今週末のイベント（6月27日・土〜28日・日）</p>
+<div class="row">
+  <div class="date-chip"><span class="day">27</span><span class="dow">土</span></div>
+  <div><a href="#">（サンプル）まちかど健康フェア</a><p class="meta">宝塚阪急2階 正面入り口前特設会場</p></div>
+</div>
+</div>
+
+<div class="panel">
+<p class="panel-title">📅 今月のイベント（6月）</p>
+<div class="row">
+  <div class="date-chip"><span class="day">22</span><span class="dow">月</span></div>
+  <div><a href="#">（サンプル）ユース食堂<span class="today-badge">今日</span></a><p class="meta">シングルマザーハウスWith</p></div>
+</div>
+<div class="row">
+  <div class="date-chip"><span class="day">27</span><span class="dow">土</span></div>
+  <div><a href="#">（サンプル）まちかど健康フェア</a><p class="meta">宝塚阪急2階 正面入り口前特設会場</p></div>
+</div>
+<div class="row">
+  <div class="date-chip"><span class="day">11</span><span class="dow">水</span></div>
+  <div><a href="#">（サンプル）武庫川いきもの観察会</a><p class="meta">宝塚市中央公民館</p></div>
+</div>
+</div>
+
+<p class="meta">※タブ切り替えはJavaScript不要（同一ページ内の3パネルを縦に並べて表示、または簡易なタブUIで切替の2案を検討中）</p>
+</main>
+</body>
+</html>

@@ -526,7 +526,7 @@ function eventRow(occurrence) {
   const { article, date } = occurrence;
   const categoryMeta = findCategory(article.category);
   const photo = findPhotoForText(`${article.title} ${article.summary ?? ""}`);
-  const dateLabel = new Date(`${date}T00:00:00+09:00`).toLocaleDateString("ja-JP", { month: "long", day: "numeric", weekday: "short" });
+  const dateLabel = new Date(`${date}T00:00:00+09:00`).toLocaleDateString("ja-JP", { timeZone: "Asia/Tokyo", month: "long", day: "numeric", weekday: "short" });
   return `<a class="headline-row" href="/articles/${article.slug}.html">
 <div class="headline-thumb">${thumbHtml(photo, categoryMeta ? categoryMeta.icon : "calendar")}</div>
 <div>
@@ -536,24 +536,47 @@ function eventRow(occurrence) {
 </a>`;
 }
 
-export function eventsPage({ thisWeek, thisMonth, siteUrl }) {
+export function eventsPage({ todayEvents, thisWeekend, thisMonth, siteUrl }) {
   const canonicalUrl = `${siteUrl}/events/`;
 
-  const weekItems = thisWeek.map(eventRow).join("\n") || '<p class="empty-state">今週開催予定のイベントはまだ登録されていません</p>';
+  const todayItems = todayEvents.map(eventRow).join("\n") || '<p class="empty-state">本日開催のイベントはありません</p>';
+  const weekendItems = thisWeekend.map(eventRow).join("\n") || '<p class="empty-state">今週末開催予定のイベントはまだ登録されていません</p>';
   const monthItems = thisMonth.map(eventRow).join("\n") || '<p class="empty-state">今月開催予定のイベントはまだ登録されていません</p>';
 
   const bodyHtml = `<nav class="breadcrumb"><a href="/">トップ</a> &gt; イベントカレンダー</nav>
 <div class="page-content">
-<div class="panel">
-<p class="panel-title">${icon("calendar")}今週のイベント</p>
-${weekItems}
+<div class="event-tabs" role="tablist">
+<button class="event-tab is-active" type="button" data-tab="today" role="tab" aria-selected="true">今日</button>
+<button class="event-tab" type="button" data-tab="weekend" role="tab" aria-selected="false">今週末</button>
+<button class="event-tab" type="button" data-tab="month" role="tab" aria-selected="false">今月</button>
 </div>
-<div class="panel" style="margin-top:16px;">
+<div class="panel event-tabpanel" id="event-panel-today" data-tabpanel="today">
+<p class="panel-title">${icon("calendar")}今日のイベント</p>
+${todayItems}
+</div>
+<div class="panel event-tabpanel" id="event-panel-weekend" data-tabpanel="weekend" hidden>
+<p class="panel-title">${icon("calendar")}今週末のイベント</p>
+${weekendItems}
+</div>
+<div class="panel event-tabpanel" id="event-panel-month" data-tabpanel="month" hidden>
 <p class="panel-title">${icon("calendar")}今月のイベント</p>
 ${monthItems}
 </div>
 <p class="panel-note">掲載しているイベントは、宝塚市・兵庫県・兵庫県警が公開した情報のうち、開催日が明記されているものです。最新情報は出典元をご確認ください。</p>
-</div>`;
+</div>
+<script>
+(function(){
+  var tabs = document.querySelectorAll(".event-tab");
+  tabs.forEach(function(tab){
+    tab.addEventListener("click", function(){
+      tabs.forEach(function(t){ t.classList.remove("is-active"); t.setAttribute("aria-selected","false"); });
+      tab.classList.add("is-active");
+      tab.setAttribute("aria-selected","true");
+      document.querySelectorAll(".event-tabpanel").forEach(function(p){ p.hidden = p.dataset.tabpanel !== tab.dataset.tab; });
+    });
+  });
+})();
+</script>`;
 
   const collectionLd = {
     "@context": "https://schema.org",
@@ -572,7 +595,7 @@ ${monthItems}
 
   return layout({
     title: "イベントカレンダー｜Takarazuka Today",
-    description: "宝塚市・兵庫県・兵庫県警が公開した、宝塚市内で開催されるイベントの今週・今月の予定一覧です。",
+    description: "宝塚市・兵庫県・兵庫県警が公開した、宝塚市内で開催されるイベントの今日・今週末・今月の予定一覧です。",
     bodyHtml,
     canonicalUrl,
     structuredData: [collectionLd, breadcrumbLd],

@@ -113,15 +113,37 @@ function buildEventOccurrences(publishedArticles) {
   return occurrences;
 }
 
+// "YYYY-MM-DD"の文字列から曜日（0=日〜6=土）をタイムゾーンに依存せず求める
+function dayOfWeek(dateKey) {
+  const [y, m, d] = dateKey.split("-").map(Number);
+  return new Date(Date.UTC(y, m - 1, d)).getUTCDay();
+}
+
+function addDaysToKey(dateKey, days) {
+  const [y, m, d] = dateKey.split("-").map(Number);
+  const dt = new Date(Date.UTC(y, m - 1, d + days));
+  return dt.toISOString().slice(0, 10);
+}
+
+function lastDayOfMonthKey(dateKey) {
+  const [y, m] = dateKey.split("-").map(Number);
+  const dt = new Date(Date.UTC(y, m, 0)); // 翌月の0日 = 当月末日
+  return dt.toISOString().slice(0, 10);
+}
+
 function splitEventsByRange(occurrences) {
   const todayKey = todayDateKey();
-  const today = new Date(`${todayKey}T00:00:00+09:00`);
-  const weekEnd = new Date(today.getTime() + 7 * 24 * 60 * 60 * 1000);
-  const monthEnd = new Date(today.getFullYear(), today.getMonth() + 1, 0);
+  const weekEndKey = addDaysToKey(todayKey, 7);
+  const monthEndKey = lastDayOfMonthKey(todayKey);
 
-  const thisWeek = occurrences.filter((o) => new Date(`${o.date}T00:00:00+09:00`) <= weekEnd);
-  const thisMonth = occurrences.filter((o) => new Date(`${o.date}T00:00:00+09:00`) <= monthEnd);
-  return { thisWeek, thisMonth };
+  const today = occurrences.filter((o) => o.date === todayKey);
+  const thisWeekend = occurrences.filter((o) => {
+    if (o.date > weekEndKey) return false;
+    const dow = dayOfWeek(o.date);
+    return dow === 0 || dow === 6;
+  });
+  const thisMonth = occurrences.filter((o) => o.date <= monthEndKey);
+  return { today, thisWeekend, thisMonth };
 }
 
 function loadRanking() {
@@ -253,8 +275,8 @@ function main() {
   }
 
   const eventOccurrences = buildEventOccurrences(publishedArticles);
-  const { thisWeek, thisMonth } = splitEventsByRange(eventOccurrences);
-  writeFile("events/index.html", eventsPage({ thisWeek, thisMonth, siteUrl: SITE_URL }));
+  const { today: todayEvents, thisWeekend, thisMonth } = splitEventsByRange(eventOccurrences);
+  writeFile("events/index.html", eventsPage({ todayEvents, thisWeekend, thisMonth, siteUrl: SITE_URL }));
 
   writeFile("sitemap.xml", buildSitemap(publishedArticles, categoryPageKeys, giinWithArticles));
   writeFile("robots.txt", `User-agent: *\nAllow: /\nSitemap: ${SITE_URL}/sitemap.xml\n`);
