@@ -13,7 +13,8 @@
     "review:serve": "node scripts/preview-server.js review 8788",
     "promote": "node scripts/promote-drafts.js",
     "fetch:photos": "node scripts/fetch-photos.js",
-    "fetch:weather": "node scripts/fetch-weather.js"
+    "fetch:weather": "node scripts/fetch-weather.js",
+    "fetch:ranking": "node scripts/fetch-ranking.js"
   },
   "dependencies": {
     "cheerio": "^1.2.0",

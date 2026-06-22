@@ -7,6 +7,7 @@ import {
   categoryPage,
   livecamPage,
   eventsPage,
+  rankingPage,
   mukogawaBosaiPage,
   giinPage,
   giinIndexPage,
@@ -150,7 +151,7 @@ function loadRanking() {
   if (!fs.existsSync(RANKING_FILE)) return null;
   try {
     const data = JSON.parse(fs.readFileSync(RANKING_FILE, "utf-8"));
-    if (Array.isArray(data.weekly) && data.weekly.length >= RANKING_READY_THRESHOLD) {
+    if (Array.isArray(data.top) && data.top.length >= RANKING_READY_THRESHOLD) {
       return data;
     }
   } catch {
@@ -189,6 +190,7 @@ function buildSitemap(publishedArticles, categoryPageKeys, giinWithArticles) {
     { loc: `${SITE_URL}/livecam.html`, lastmod: today },
     { loc: `${SITE_URL}/mukogawa/`, lastmod: today },
     { loc: `${SITE_URL}/events/`, lastmod: today },
+    { loc: `${SITE_URL}/ranking/`, lastmod: today },
     ...(giinWithArticles.length > 0 ? [{ loc: `${SITE_URL}/giin/`, lastmod: today }] : []),
     ...giinWithArticles.map((giin) => ({ loc: `${SITE_URL}/giin/${giin.slug}.html`, lastmod: today })),
     ...publishedArticles.map((article) => ({
@@ -277,6 +279,7 @@ function main() {
   const eventOccurrences = buildEventOccurrences(publishedArticles);
   const { today: todayEvents, thisWeekend, thisMonth } = splitEventsByRange(eventOccurrences);
   writeFile("events/index.html", eventsPage({ todayEvents, thisWeekend, thisMonth, siteUrl: SITE_URL }));
+  writeFile("ranking/index.html", rankingPage(ranking, publishedArticles, SITE_URL));
 
   writeFile("sitemap.xml", buildSitemap(publishedArticles, categoryPageKeys, giinWithArticles));
   writeFile("robots.txt", `User-agent: *\nAllow: /\nSitemap: ${SITE_URL}/sitemap.xml\n`);

@@ -323,10 +323,10 @@ ${items}
 </div>`;
 }
 
-function rankingOrRecentPanel(ranking, recentArticles) {
+function rankingOrRecentPanel(ranking, recentArticles, limit = 5, showMoreLink = true) {
   if (ranking) {
-    const items = ranking.weekly
-      .slice(0, 5)
+    const items = ranking.top
+      .slice(0, limit)
       .map(
         (entry, i) => `<li class="ranking-item">
 <span class="rank-num">${i + 1}</span>
@@ -335,13 +335,14 @@ function rankingOrRecentPanel(ranking, recentArticles) {
       )
       .join("\n");
     return `<div class="panel">
-<p class="panel-title">${icon("flame")}人気記事ランキング（7日間）</p>
+<p class="panel-title">${icon("flame")}人気記事ランキング（30日間）</p>
 <ol class="ranking-list">${items}</ol>
+${showMoreLink ? '<p class="panel-note"><a href="/ranking/">ランキングをもっと見る →</a></p>' : ""}
 </div>`;
   }
 
   const items = recentArticles
-    .slice(0, 5)
+    .slice(0, limit)
     .map(
       (a, i) => `<li class="ranking-item">
 <span class="rank-num">${i + 1}</span>
@@ -599,6 +600,31 @@ ${monthItems}
     bodyHtml,
     canonicalUrl,
     structuredData: [collectionLd, breadcrumbLd],
+  });
+}
+
+export function rankingPage(ranking, recentArticles, siteUrl) {
+  const canonicalUrl = `${siteUrl}/ranking/`;
+  const bodyHtml = `<nav class="breadcrumb"><a href="/">トップ</a> &gt; 人気記事ランキング</nav>
+<div class="page-content">
+${rankingOrRecentPanel(ranking, recentArticles, 10, false)}
+</div>`;
+
+  const breadcrumbLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "トップ", item: `${siteUrl}/` },
+      { "@type": "ListItem", position: 2, name: "人気記事ランキング", item: canonicalUrl },
+    ],
+  };
+
+  return layout({
+    title: "人気記事ランキング｜Takarazuka Today",
+    description: "Takarazuka Todayでよく読まれている記事のランキングです（過去30日間）。",
+    bodyHtml,
+    canonicalUrl,
+    structuredData: breadcrumbLd,
   });
 }
 
