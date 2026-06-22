@@ -4,8 +4,9 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const PUBLIC_DIR = path.join(__dirname, "..", "public");
-const PORT = 8787;
+const targetDirName = process.argv[2] || "public";
+const PUBLIC_DIR = path.join(__dirname, "..", targetDirName);
+const PORT = Number(process.argv[3]) || 8787;
 
 const MIME_TYPES = {
   ".html": "text/html; charset=utf-8",

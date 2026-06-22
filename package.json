@@ -4,10 +4,17 @@
   "type": "module",
   "scripts": {
     "fetch:news": "node scripts/fetch-news.js",
+    "fetch:pref": "node scripts/fetch-hyogo-pref.js",
+    "fetch:police": "node scripts/fetch-hyogo-police.js",
+    "fetch:all": "npm run fetch:news && npm run fetch:pref && npm run fetch:police",
     "build": "node scripts/build.js",
-    "preview": "node scripts/preview-server.js"
+    "preview": "node scripts/preview-server.js",
+    "review": "node scripts/build-review.js",
+    "review:serve": "node scripts/preview-server.js review 8788",
+    "promote": "node scripts/promote-drafts.js"
   },
   "dependencies": {
+    "cheerio": "^1.2.0",
     "rss-parser": "^3.13.0"
   }
 }

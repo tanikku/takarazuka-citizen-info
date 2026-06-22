@@ -1,4 +1,5 @@
 import Parser from "rss-parser";
+import crypto from "node:crypto";
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -23,7 +24,7 @@ function isExcluded(title) {
 }
 
 function slugify(link) {
-  return Buffer.from(link).toString("base64url").slice(0, 24);
+  return crypto.createHash("sha1").update(link).digest("base64url").slice(0, 16);
 }
 
 async function main() {
@@ -57,6 +58,7 @@ async function main() {
           link,
           pubDate: item.pubDate ?? "",
           rawDescription: item.contentSnippet ?? item.content ?? "",
+          sourceName: "宝塚市公式サイト",
         },
         null,
         2,
