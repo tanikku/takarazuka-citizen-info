@@ -108,6 +108,14 @@ npm run build              # data/articles/ から公開用HTMLを生成
 - ローカルでの見た目確認は`npm run preview`（Node標準機能のみの簡易HTTPサーバー、`scripts/preview-server.js`）を使う。`file://`で直接HTMLを開くと絶対パス（`/css/style.css`等）が解決できずCSSが効かないため注意
 - デザイン案の比較検討時に作成したモック（`mockups/`配下）は確認用。本番のテンプレートとは別管理
 
+## ブランド名・ヘッダーデザイン（2026-06-22更新）
+
+- サイト名を「宝塚タウン」から**「Takarazuka Today」**（サブタイトル「今日の宝塚を、3分で。」）に変更。`scripts/templates.js`内のog:site_name・WebSite構造化データ・記事ページtitle・author/publisher名などすべて統一済み
+- ヘッダーは宝塚大劇場周辺の街並み風イラスト（`assets/header-banner.png`、ChatGPT生成画像）を背景にしたヒーローバナー形式。`build.js`が`public/img/header-banner.png`にコピーする
+- 画像生成プロンプトの方針：文字は入れずに生成し、サイト側のHTML/CSSでロゴ・タグラインを重ねる（AI生成画像内の文字は崩れやすいため）
+- 背景画像の上に乗せる文字は、半透明パネルではなく**クリーム色の縁取り（複数方向のtext-shadow）＋太字**で視認性を確保する方式を採用（パネルだと背景画像の魅力が損なわれるとのフィードバックにより、この方式に確定）
+- `scripts/preview-server.js`のMIME_TYPESに`.svg`・`.png`を追加済み（追加していないとローカルプレビューで画像が表示されない）
+
 ## Cloudflare Web Analytics（2026-06-21導入済み）
 
 - pages.devドメインはCloudflare DNS管理外のため自動ビーコン注入は使えず、**JSスニペットを手動で`scripts/templates.js`の`layout()`に埋め込む方式**を採用
