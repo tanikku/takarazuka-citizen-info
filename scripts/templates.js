@@ -24,6 +24,7 @@ const ICON_PATHS = {
   newspaper: '<rect x="3" y="5" width="14" height="16" rx="1.5"/><line x1="6" y1="9" x2="14" y2="9"/><line x1="6" y1="12.5" x2="14" y2="12.5"/><line x1="6" y1="16" x2="11" y2="16"/><path d="M17 8h3a1 1 0 0 1 1 1v10a2 2 0 0 1-2 2H7"/>',
   videoCamera: '<rect x="2" y="6" width="13" height="12" rx="1.5"/><path d="M15 10l6-3v10l-6-3z"/><circle cx="6" cy="9" r="0.6" fill="currentColor" stroke="none"/>',
   ticket: '<path d="M3 8a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v2a2 2 0 0 0 0 4v2a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-2a2 2 0 0 0 0-4z"/><line x1="13" y1="6" x2="13" y2="18" stroke-dasharray="2 2"/>',
+  user: '<circle cx="12" cy="7" r="4"/><path d="M5 21v-2a7 7 0 0 1 14 0v2"/>',
 };
 
 export function icon(name) {
@@ -40,10 +41,13 @@ export const CATEGORIES = [
   { key: "kosodate", label: "子育て", icon: "child" },
   { key: "kyoiku", label: "教育", icon: "book" },
   { key: "kanko", label: "文化・観光", icon: "camera" },
+  { key: "shigikai", label: "市議会", icon: "building" },
 ];
 
-// 市議会会議録サイトの利用規約調査が完了するまでは記事生成対象外。UIのみ先行公開する
-export const SHIGIKAI_CATEGORY = { key: "shigikai", label: "市議会", icon: "building" };
+export const SHIGIKAI_CATEGORY = CATEGORIES.find((c) => c.key === "shigikai");
+
+// 市議会カテゴリーは会議録を手動確認のうえAI要約・人間レビューを行う運用のため、ページ上部に明記する
+const SHIGIKAI_DISCLOSURE = `<div class="disclosure-box">本ページの会議要約は、宝塚市議会会議録検索システムの公開情報を基に、人間が内容を確認しながらAIが要約を作成しています。事実のみを記載し、議員の評価・政治的意見・優劣判断は一切行いません。</div>`;
 
 export function categoryPath(key) {
   return `/category/${key}.html`;
@@ -92,6 +96,7 @@ const QUICK_ACCESS_ITEMS = [
   { href: "/category/shigikai.html", icon: "building", label: "市議会" },
   { href: "/category/bohan.html", icon: "shield", label: "防犯" },
   { href: "/events/", icon: "calendar", label: "イベント" },
+  { href: "/#photo", icon: "camera", label: "フォト" },
   { href: "/mukogawa/", icon: "videoCamera", label: "武庫川防災" },
 ];
 
@@ -203,6 +208,7 @@ const SOURCE_BADGES = {
   "宝塚市公式サイト": { label: "宝塚市", className: "source-city" },
   "兵庫県公式サイト": { label: "兵庫県", className: "source-pref" },
   "兵庫県警察": { label: "兵庫県警", className: "source-police" },
+  "宝塚市議会会議録検索システム": { label: "市議会", className: "source-gikai" },
 };
 
 function sourceBadge(sourceName) {
@@ -266,6 +272,33 @@ ${items}
 </div>`;
 }
 
+function photoOfDayPanel(photoOfDay) {
+  if (!photoOfDay) {
+    return `<div class="panel" id="photo">
+<p class="panel-title">${icon("camera")}今日の宝塚フォト</p>
+<p class="empty-state">写真がまだ登録されていません</p>
+</div>`;
+  }
+  const { photo, seasonLabel } = photoOfDay;
+  return `<div class="panel" id="photo" style="padding:0; overflow:hidden;">
+<a class="photo-hero" href="${escapeHtml(photo.sourcePage)}" target="_blank" rel="noopener">
+<img src="/photos/${escapeHtml(photo.localFile)}" alt="${escapeHtml(photo.title)}">
+<span class="photo-hero-caption">
+  <span class="season-tag">${escapeHtml(seasonLabel)}</span>
+  <span class="photo-hero-title">${escapeHtml(photo.title)}</span>
+  <span class="photo-hero-credit">写真提供：宝塚市オープンデータ（CC BY 4.0）</span>
+</span>
+</a>
+</div>`;
+}
+
+function todayRow(todayArticles, photoOfDay) {
+  return `<div class="today-row">
+${todayTopicPanel(todayArticles)}
+${photoOfDayPanel(photoOfDay)}
+</div>`;
+}
+
 function categoryPanel(categoryPageKeys) {
   const realChips = CATEGORIES.map((cat) => {
     const hasPage = categoryPageKeys.has(cat.key);
@@ -275,11 +308,9 @@ function categoryPanel(categoryPageKeys) {
       : `<span class="category-pill is-empty">${inner}</span>`;
   });
 
-  const shigikaiChip = `<a class="category-pill is-comingsoon" href="${categoryPath(SHIGIKAI_CATEGORY.key)}">${icon(SHIGIKAI_CATEGORY.icon)}<span>${escapeHtml(SHIGIKAI_CATEGORY.label)}</span><span class="badge-comingsoon">準備中</span></a>`;
-
   return `<div class="panel">
 <p class="panel-title">${icon("building")}カテゴリーから探す</p>
-<div class="category-list">${realChips.join("\n")}\n${shigikaiChip}</div>
+<div class="category-list">${realChips.join("\n")}</div>
 </div>`;
 }
 
@@ -333,14 +364,14 @@ ${items || '<p class="empty-state">まだ記事がありません</p>'}
 </div>`;
 }
 
-export function indexPage({ topArticles, todayArticles, categoryPreviewSections, categoryPageKeys, publishedArticles, ranking, weather, todayCounts, dateLabel, siteUrl }) {
+export function indexPage({ topArticles, todayArticles, categoryPreviewSections, categoryPageKeys, publishedArticles, ranking, weather, todayCounts, photoOfDay, dateLabel, siteUrl }) {
   const bodyHtml = `${dateBar(dateLabel)}
 ${todayPanel({ weather, counts: todayCounts })}
 ${quickAccessPanel()}
+${todayRow(todayArticles, photoOfDay)}
 <div class="grid-2">
   <div class="col-main">
     ${topNewsPanel(topArticles)}
-    ${todayTopicPanel(todayArticles)}
     ${categoryPanel(categoryPageKeys)}
     ${categoryPreviewSections.map(categoryPreviewSection).join("\n")}
   </div>
@@ -369,15 +400,30 @@ ${quickAccessPanel()}
   });
 }
 
+function gikaiRow(article) {
+  const photo = findPhotoForText(`${article.title} ${article.summary ?? ""}`);
+  return `<a class="headline-row" href="/articles/${article.slug}.html">
+<div class="headline-thumb">${thumbHtml(photo, "building")}</div>
+<div>
+  <p class="headline-title"><span class="badge-ai">AI要約</span><span class="badge-review">人間レビュー済み</span>${escapeHtml(article.title)}</p>
+  <p class="headline-meta">${escapeHtml(article.meetingType ?? "")}・${escapeHtml(article.meetingDate ?? article.publishedAt)}・出典：宝塚市議会会議録検索システム</p>
+</div>
+</a>`;
+}
+
 export function categoryPage(category, articles, siteUrl) {
   const canonicalUrl = `${siteUrl}${categoryPath(category.key)}`;
-  const items = articles.map(headlineRow).join("\n");
+  const isShigikai = category.key === "shigikai";
+  const items = articles.map(isShigikai ? gikaiRow : headlineRow).join("\n");
+  const giinLink = isShigikai ? `<p class="panel-note"><a href="/giin/">議員活動サマリー一覧を見る →</a></p>` : "";
 
   const bodyHtml = `<nav class="breadcrumb"><a href="/">トップ</a> &gt; ${escapeHtml(category.label)}</nav>
 <div class="page-content">
 <div class="panel">
-<p class="panel-title">${icon(category.icon)}${escapeHtml(category.label)}の記事一覧</p>
+<p class="panel-title">${icon(category.icon)}${escapeHtml(category.label)}${isShigikai ? "ウォッチ" : "の記事一覧"}</p>
+${isShigikai ? SHIGIKAI_DISCLOSURE : ""}
 ${items || '<p class="empty-state">まだ記事がありません</p>'}
+${giinLink}
 </div>
 </div>`;
 
@@ -533,23 +579,94 @@ ${monthItems}
   });
 }
 
-export function comingSoonCategoryPage(siteUrl) {
-  const canonicalUrl = `${siteUrl}${categoryPath(SHIGIKAI_CATEGORY.key)}`;
+// 議員活動サマリー：本人の公開発言（市議会会議録）を時系列で並べるのみ。スコア化・ランキング・評価は行わない
+export function giinPage(giin, relatedArticles, siteUrl) {
+  const canonicalUrl = `${siteUrl}/giin/${giin.slug}.html`;
+  const items = relatedArticles
+    .map(
+      (article) => `<div class="row">
+<div>
+  <a href="/articles/${article.slug}.html">${escapeHtml(article.title)}</a>
+  <p class="headline-meta">${escapeHtml(article.meetingType ?? "")}・${escapeHtml(article.meetingDate ?? article.publishedAt)}</p>
+</div>
+</div>`,
+    )
+    .join("\n");
 
-  const bodyHtml = `<nav class="breadcrumb"><a href="/">トップ</a> &gt; 市議会</nav>
+  const bodyHtml = `<nav class="breadcrumb"><a href="/">トップ</a> &gt; <a href="${categoryPath("shigikai")}">市議会</a> &gt; ${escapeHtml(giin.name)}議員</nav>
 <div class="page-content">
 <div class="panel">
-<p class="panel-title">${icon(SHIGIKAI_CATEGORY.icon)}市議会ウォッチ（準備中）</p>
-<p>現在、公開情報の利用条件を確認中です。</p>
-<p>確認完了後に市議会情報の要約配信を開始予定です。</p>
+${SHIGIKAI_DISCLOSURE.replace("本ページの会議要約は、", "このページは議員本人の公開発言（市議会会議録）を時系列で整理したものです。活動量のスコア化・ランキング・優劣評価は行いません。<br><br>本ページの会議要約は、")}
+<div class="giin-card">
+<div class="giin-avatar">${icon("user")}</div>
+<div>
+  <p class="giin-name">${escapeHtml(giin.name)}　議員</p>
+  <p class="giin-kaiha">会派：${escapeHtml(giin.kaiha ?? "未掲載")}</p>
+</div>
+</div>
+<p class="panel-title">発言テーマ一覧（時系列）</p>
+${items || '<p class="empty-state">まだ発言記録がありません</p>'}
 </div>
 </div>`;
 
+  const breadcrumbLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "トップ", item: `${siteUrl}/` },
+      { "@type": "ListItem", position: 2, name: "市議会", item: `${siteUrl}${categoryPath("shigikai")}` },
+      { "@type": "ListItem", position: 3, name: `${giin.name}議員`, item: canonicalUrl },
+    ],
+  };
+
   return layout({
-    title: "市議会ウォッチ（準備中）｜Takarazuka Today",
-    description: "宝塚市議会に関する情報配信は、公開情報の利用条件確認後に開始予定です。",
+    title: `${giin.name}議員の発言記録｜Takarazuka Today`,
+    description: `${giin.name}議員の市議会会議録に基づく公開発言を時系列で整理したページです。事実ベースの要約のみで、評価・ランキングは行いません。`,
     bodyHtml,
     canonicalUrl,
+    structuredData: breadcrumbLd,
+  });
+}
+
+export function giinIndexPage(giinList, siteUrl) {
+  const canonicalUrl = `${siteUrl}/giin/`;
+  const items = giinList
+    .map(
+      (giin) => `<a class="headline-row" href="/giin/${giin.slug}.html">
+<div class="headline-thumb">${icon("user")}</div>
+<div>
+  <p class="headline-title">${escapeHtml(giin.name)}　議員</p>
+  <p class="headline-meta">会派：${escapeHtml(giin.kaiha ?? "未掲載")}</p>
+</div>
+</a>`,
+    )
+    .join("\n");
+
+  const bodyHtml = `<nav class="breadcrumb"><a href="/">トップ</a> &gt; <a href="${categoryPath("shigikai")}">市議会</a> &gt; 議員活動サマリー</nav>
+<div class="page-content">
+<div class="panel">
+<p class="panel-title">${icon("user")}議員活動サマリー一覧</p>
+${SHIGIKAI_DISCLOSURE.replace("本ページの会議要約は、", "このページは議員本人の公開発言（市議会会議録）を時系列で整理したものです。活動量のスコア化・ランキング・優劣評価は行いません。<br><br>本ページの会議要約は、")}
+${items || '<p class="empty-state">まだ掲載がありません</p>'}
+</div>
+</div>`;
+
+  const breadcrumbLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "トップ", item: `${siteUrl}/` },
+      { "@type": "ListItem", position: 2, name: "市議会", item: `${siteUrl}${categoryPath("shigikai")}` },
+      { "@type": "ListItem", position: 3, name: "議員活動サマリー", item: canonicalUrl },
+    ],
+  };
+
+  return layout({
+    title: "議員活動サマリー一覧｜Takarazuka Today",
+    description: "宝塚市議会議員の公開発言を時系列で整理した一覧です。評価・ランキングは行いません。",
+    bodyHtml,
+    canonicalUrl,
+    structuredData: breadcrumbLd,
   });
 }
 

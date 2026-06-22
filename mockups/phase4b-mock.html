@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>優先度B モック（フォト強化・市議会ウォッチ・議員サマリー）｜Takarazuka Today</title>
+<style>
+  :root {
+    --bg: #f3f4f6; --surface: #ffffff; --text: #222222; --text-sub: #595959;
+    --border: #dcdfe3; --accent: #c8102e; --accent-soft: #fdecef; --link: #0057a3;
+  }
+  * { box-sizing: border-box; }
+  body { margin:0; font-family:-apple-system,"Hiragino Sans","Yu Gothic",sans-serif; background:var(--bg); color:var(--text); line-height:1.6; }
+  .mock-banner { background:#fff3cd; color:#5c4400; text-align:center; font-size:.8rem; padding:6px; }
+  .mock-section-label { background:#333; color:#fff; font-size:.78rem; font-weight:700; padding:8px 16px; margin-top:36px; }
+
+  /* 実ヘッダー再現 */
+  .site-header { border-bottom:3px solid #6e1224; background-image:url("../assets/header-banner.png"); background-size:cover; background-position:center; background-color:#6e1224; }
+  .header-overlay { max-width:760px; margin:0 auto; min-height:180px; display:flex; flex-direction:column; justify-content:center; padding:16px 0; }
+  .header-row { display:flex; align-items:center; justify-content:space-between; padding:14px 18px; margin:0 16px; }
+  .logo { font-size:2.1rem; font-weight:800; color:#6e1224; text-shadow:-1.5px -1.5px 0 #fff8ec,1.5px -1.5px 0 #fff8ec,-1.5px 1.5px 0 #fff8ec,1.5px 1.5px 0 #fff8ec; }
+  .logo small { display:block; font-size:.95rem; color:#9c1c33; font-weight:700; }
+  .site-tagline { margin:8px 16px 0; padding:0 18px; font-size:1rem; font-weight:800; color:#6e1224; }
+  .theme-toggle { border:1px solid rgba(110,18,36,.4); background:rgba(255,248,236,.7); color:#6e1224; border-radius:6px; padding:8px; }
+
+  main { max-width:1080px; margin:0 auto; padding:16px; }
+  .panel { background:var(--surface); border:1px solid var(--border); border-radius:6px; padding:14px; margin-bottom:16px; }
+  .panel-title { font-size:1rem; font-weight:800; margin:0 0 12px; padding-bottom:8px; border-bottom:2px solid var(--accent); }
+  .row { display:flex; gap:10px; padding:8px 0; border-bottom:1px solid var(--border); }
+  .row:last-child { border-bottom:none; }
+  .thumb { flex:none; width:52px; height:52px; border-radius:6px; object-fit:cover; background:var(--accent-soft); }
+  .row a { color:var(--link); font-weight:600; font-size:.9rem; text-decoration:none; }
+  .meta { font-size:.75rem; color:var(--text-sub); }
+  .badge-review { display:inline-block; background:#2a8c4a; color:#fff; font-size:.65rem; font-weight:700; padding:2px 8px; border-radius:4px; margin-right:6px; }
+  .badge-ai { display:inline-block; background:#555; color:#fff; font-size:.65rem; font-weight:700; padding:2px 8px; border-radius:4px; margin-right:6px; }
+
+  /* 今日の宝塚フォト：コンパクト版、トピックと並べる */
+  .today-row { display:grid; grid-template-columns:1fr; gap:16px; }
+  .photo-hero { position:relative; border-radius:10px; overflow:hidden; height:100%; }
+  .photo-hero img { width:100%; height:150px; object-fit:cover; display:block; }
+  .photo-hero-caption { position:absolute; left:0; right:0; bottom:0; background:linear-gradient(transparent, rgba(0,0,0,.65)); color:#fff; padding:20px 12px 8px; }
+  .photo-hero-caption .season-tag { display:inline-block; background:var(--accent); font-size:.65rem; font-weight:700; padding:2px 8px; border-radius:999px; margin-bottom:4px; }
+  .photo-hero-caption .title { font-size:.92rem; font-weight:800; margin:0; }
+  .photo-hero-caption .credit { font-size:.62rem; opacity:.9; margin-top:2px; }
+  .photo-hero-note { font-size:.72rem; color:var(--text-sub); margin:6px 0 0; }
+  @media (min-width:600px) { .today-row { grid-template-columns:1fr 1fr; } }
+
+  .disclosure-box { background:#eef6ff; border:1px solid #b9d8f5; border-radius:8px; padding:12px 14px; font-size:.82rem; color:#1a3a5c; margin-bottom:14px; }
+  .giin-card { display:flex; gap:14px; align-items:flex-start; }
+  .giin-avatar { flex:none; width:64px; height:64px; border-radius:50%; background:var(--accent-soft); display:flex; align-items:center; justify-content:center; font-size:1.6rem; color:var(--accent); }
+  .giin-name { font-size:1.1rem; font-weight:800; margin:0; }
+  .giin-kaiha { color:var(--text-sub); font-size:.85rem; }
+</style>
+</head>
+<body>
+<div class="mock-banner">※デザイン確認用のモックです。記事・写真説明はすべて架空のサンプルです</div>
+
+<header class="site-header">
+<div class="header-overlay">
+  <div class="header-row">
+    <a href="/" class="logo">Takarazuka Today<small>今日の宝塚を、3分で。</small></a>
+    <button class="theme-toggle" type="button">🌙</button>
+  </div>
+  <p class="site-tagline">宝塚市・兵庫県・兵庫県警の情報を毎日わかりやすくお届け</p>
+</div>
+</header>
+
+<div class="mock-section-label">① トップページ：今日の宝塚トピック＋今日の宝塚フォト（コンパクト・並列表示）</div>
+<main>
+  <p class="meta" style="margin:0 0 8px;">※「今日の宝塚パネル」「クイックアクセス」（既存・変更なし）の直後にこの行が入ります</p>
+  <div class="today-row">
+    <div class="panel" style="margin-bottom:0;">
+      <p class="panel-title">📅 今日の宝塚トピック</p>
+      <div class="row"><div><a href="#">（サンプル）本日の新着記事タイトル</a><p class="meta">行政・くらし</p></div></div>
+    </div>
+    <div class="panel" style="margin-bottom:0; padding:0; overflow:hidden;">
+      <div class="photo-hero">
+        <img src="../assets/photos/001015578_hananomichi_1.jpg" alt="花のみち（サンプル）">
+        <div class="photo-hero-caption">
+          <span class="season-tag">夏の宝塚</span>
+          <p class="title">花のみち（サンプル）</p>
+          <p class="credit">写真提供：宝塚市オープンデータ（CC BY 4.0）</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <p class="photo-hero-note">※日付（季節）に応じて表示する写真が自動で変わります。今日は6月のため「夏」カテゴリーの写真から選ばれています。</p>
+</main>
+
+<div class="mock-section-label">② 市議会ウォッチページ（/category/shigikai.html・手動要約運用）</div>
+<main>
+  <div class="panel">
+    <p class="panel-title">🏛️ 市議会ウォッチ</p>
+    <div class="disclosure-box">
+      本ページの会議要約は、宝塚市議会会議録検索システムの公開情報を基に、人間が内容を確認しながらAIが要約を作成しています。事実のみを記載し、議員の評価・政治的意見・優劣判断は一切行いません。
+    </div>
+    <div class="row">
+      <img class="thumb" src="../assets/header-banner.png" alt="">
+      <div>
+        <p style="margin:0 0 4px;"><span class="badge-ai">AI要約</span><span class="badge-review">人間レビュー済み</span></p>
+        <a href="#">（サンプル）6月定例会 本会議（第1日）の主な内容</a>
+        <p class="meta">本会議・2026年6月10日・出典：宝塚市議会会議録検索システム</p>
+      </div>
+    </div>
+    <div class="row">
+      <img class="thumb" src="../assets/header-banner.png" alt="">
+      <div>
+        <p style="margin:0 0 4px;"><span class="badge-ai">AI要約</span><span class="badge-review">人間レビュー済み</span></p>
+        <a href="#">（サンプル）建設水道常任委員会の審議内容</a>
+        <p class="meta">常任委員会・2026年6月12日・出典：宝塚市議会会議録検索システム</p>
+      </div>
+    </div>
+    <p class="meta" style="margin-top:10px;"><a href="#">議員活動サマリー一覧を見る →</a></p>
+  </div>
+</main>
+
+<div class="mock-section-label">③ 議員活動サマリーページ（/giin/&lt;議員slug&gt;.html）</div>
+<main>
+  <div class="panel">
+    <div class="disclosure-box">
+      このページは議員本人の公開発言を時系列で整理したものです。活動量のスコア化・ランキング・優劣評価は行いません。
+    </div>
+    <div class="giin-card">
+      <div class="giin-avatar">👤</div>
+      <div>
+        <p class="giin-name">（サンプル）宝塚　太郎　議員</p>
+        <p class="giin-kaiha">会派：（サンプル会派名）</p>
+      </div>
+    </div>
+    <p class="panel-title" style="margin-top:16px;">発言テーマ一覧（時系列）</p>
+    <div class="row">
+      <div>
+        <a href="#">（サンプル）通学路の安全対策について質問</a>
+        <p class="meta">本会議・2026年6月10日・<a href="#">会議要約を見る</a></p>
+      </div>
+    </div>
+    <div class="row">
+      <div>
+        <a href="#">（サンプル）公共施設の予約システムについて質問</a>
+        <p class="meta">建設水道常任委員会・2026年6月12日・<a href="#">会議要約を見る</a></p>
+      </div>
+    </div>
+  </div>
+</main>
+
+</body>
+</html>

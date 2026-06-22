@@ -5,12 +5,12 @@ import {
   articlePage,
   indexPage,
   categoryPage,
-  comingSoonCategoryPage,
   livecamPage,
   eventsPage,
   mukogawaBosaiPage,
+  giinPage,
+  giinIndexPage,
   CATEGORIES,
-  SHIGIKAI_CATEGORY,
 } from "./templates.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -20,6 +20,7 @@ const RANKING_FILE = path.join(ROOT, "data", "ranking.json");
 const PHOTOS_JSON = path.join(ROOT, "data", "photos.json");
 const PHOTOS_DIR = path.join(ROOT, "assets", "photos");
 const WEATHER_JSON = path.join(ROOT, "data", "weather.json");
+const GIIN_JSON = path.join(ROOT, "data", "giin.json");
 const PUBLIC_DIR = path.join(ROOT, "public");
 const ASSETS_DIR = path.join(ROOT, "assets");
 
@@ -46,6 +47,11 @@ function loadArticles() {
     .sort((a, b) => (a.publishedAt < b.publishedAt ? 1 : -1));
 }
 
+function loadGiin() {
+  if (!fs.existsSync(GIIN_JSON)) return [];
+  return JSON.parse(fs.readFileSync(GIIN_JSON, "utf-8"));
+}
+
 function loadPhotos() {
   if (!fs.existsSync(PHOTOS_JSON)) return [];
   return JSON.parse(fs.readFileSync(PHOTOS_JSON, "utf-8"));
@@ -58,6 +64,27 @@ function loadWeather() {
   } catch {
     return null;
   }
+}
+
+// 月から季節カテゴリーを判定（3-5月=春, 6-8月=夏, 9-11月=秋, 12-2月=冬）
+function seasonFromMonth(month) {
+  if (month >= 3 && month <= 5) return { category: "春", label: "春の宝塚" };
+  if (month >= 6 && month <= 8) return { category: "夏", label: "夏の宝塚" };
+  if (month >= 9 && month <= 11) return { category: "秋", label: "秋の宝塚" };
+  return { category: "冬", label: "冬の宝塚" };
+}
+
+function pickPhotoOfDay(allPhotos) {
+  const now = new Date();
+  const todayKobe = new Date(now.toLocaleString("en-US", { timeZone: "Asia/Tokyo" }));
+  const { category, label } = seasonFromMonth(todayKobe.getMonth() + 1);
+
+  const seasonPhotos = allPhotos.filter((p) => p.category === category);
+  if (seasonPhotos.length === 0) return null;
+
+  const dayOfYear = Math.floor((todayKobe - new Date(todayKobe.getFullYear(), 0, 0)) / 86400000);
+  const photo = seasonPhotos[dayOfYear % seasonPhotos.length];
+  return { photo, seasonLabel: label };
 }
 
 function computeTodayCounts(publishedArticles) {
@@ -132,15 +159,16 @@ function writeFile(relativePath, content) {
   fs.writeFileSync(filePath, content);
 }
 
-function buildSitemap(publishedArticles, categoryPageKeys) {
+function buildSitemap(publishedArticles, categoryPageKeys, giinWithArticles) {
   const today = todayDateKey();
   const entries = [
     { loc: `${SITE_URL}/`, lastmod: today },
     ...[...categoryPageKeys].map((key) => ({ loc: `${SITE_URL}/category/${key}.html`, lastmod: today })),
-    { loc: `${SITE_URL}/category/${SHIGIKAI_CATEGORY.key}.html`, lastmod: today },
     { loc: `${SITE_URL}/livecam.html`, lastmod: today },
     { loc: `${SITE_URL}/mukogawa/`, lastmod: today },
     { loc: `${SITE_URL}/events/`, lastmod: today },
+    ...(giinWithArticles.length > 0 ? [{ loc: `${SITE_URL}/giin/`, lastmod: today }] : []),
+    ...giinWithArticles.map((giin) => ({ loc: `${SITE_URL}/giin/${giin.slug}.html`, lastmod: today })),
     ...publishedArticles.map((article) => ({
       loc: `${SITE_URL}/articles/${article.slug}.html`,
       lastmod: article.publishedAt,
@@ -196,6 +224,7 @@ function main() {
       ranking,
       weather: loadWeather(),
       todayCounts: computeTodayCounts(publishedArticles),
+      photoOfDay: pickPhotoOfDay(allPhotos),
       dateLabel: todayDateLabel(),
       siteUrl: SITE_URL,
     }),
@@ -208,15 +237,26 @@ function main() {
   for (const section of categorySections) {
     writeFile(`category/${section.key}.html`, categoryPage(section, section.allArticles, SITE_URL));
   }
-  writeFile(`category/${SHIGIKAI_CATEGORY.key}.html`, comingSoonCategoryPage(SITE_URL));
   writeFile("livecam.html", livecamPage(SITE_URL));
   writeFile("mukogawa/index.html", mukogawaBosaiPage(SITE_URL));
+
+  const giinList = loadGiin();
+  const giinWithArticles = giinList.filter(
+    (giin) => publishedArticles.filter((a) => (a.giin ?? []).includes(giin.slug)).length > 0,
+  );
+  for (const giin of giinWithArticles) {
+    const relatedArticles = publishedArticles.filter((a) => (a.giin ?? []).includes(giin.slug));
+    writeFile(`giin/${giin.slug}.html`, giinPage(giin, relatedArticles, SITE_URL));
+  }
+  if (giinWithArticles.length > 0) {
+    writeFile("giin/index.html", giinIndexPage(giinWithArticles, SITE_URL));
+  }
 
   const eventOccurrences = buildEventOccurrences(publishedArticles);
   const { thisWeek, thisMonth } = splitEventsByRange(eventOccurrences);
   writeFile("events/index.html", eventsPage({ thisWeek, thisMonth, siteUrl: SITE_URL }));
 
-  writeFile("sitemap.xml", buildSitemap(publishedArticles, categoryPageKeys));
+  writeFile("sitemap.xml", buildSitemap(publishedArticles, categoryPageKeys, giinWithArticles));
   writeFile("robots.txt", `User-agent: *\nAllow: /\nSitemap: ${SITE_URL}/sitemap.xml\n`);
 
   writeFile("css/style.css", fs.readFileSync(path.join(ASSETS_DIR, "style.css"), "utf-8"));
@@ -233,7 +273,8 @@ function main() {
 
   console.log(`公開記事: ${publishedArticles.length}件（S/A=${featuredArticles.length}件・B=${publishedArticles.length - featuredArticles.length}件） / 非公開(C): ${skippedCount}件`);
   console.log(`写真: ${allPhotos.length}枚をpublic/photos/にコピー（記事・パネルのサムネイル用）`);
-  console.log(`カテゴリーページ: ${categorySections.length}件 + 市議会（準備中）`);
+  console.log(`カテゴリーページ: ${categorySections.length}件`);
+  console.log(`議員活動サマリー: ${giinWithArticles.length}名`);
   console.log(`ランキング表示: ${ranking ? "有効" : "未蓄積のため新着記事で代替"}`);
 }
 
