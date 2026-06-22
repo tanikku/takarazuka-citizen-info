@@ -67,7 +67,7 @@ function header() {
       <span class="theme-icon theme-icon-moon">${icon("moon")}</span>
     </button>
   </div>
-  <p class="site-tagline">宝塚市・兵庫県・兵庫県警の情報を毎日わかりやすくお届け</p>
+  <p class="site-tagline">宝塚の暮らしに役立つ情報を毎日わかりやすくお届け</p>
 </div>
 </header>`;
 }
@@ -676,9 +676,8 @@ export function mukogawaBosaiPage(siteUrl) {
   const bodyHtml = `<nav class="breadcrumb"><a href="/">トップ</a> &gt; 武庫川防災情報</nav>
 <div class="page-content">
 <div class="panel">
-<p class="panel-title">${icon("videoCamera")}武庫川防災情報（準備中）</p>
-<p>武庫川の水位・雨量の数値表示については、信頼できる取得方法を調査中のため、現時点では実装していません。</p>
-<p>ライブカメラ映像は、下記の公式ページからご確認いただけます。</p>
+<p class="panel-title">${icon("videoCamera")}武庫川防災情報</p>
+<p>武庫川のライブカメラ・水位・雨量の最新情報は、下記の公式ページでご確認いただけます。</p>
 <p class="panel-note"><a href="/livecam.html">宝塚市内のライブカメラ一覧を見る →</a></p>
 <p class="panel-note"><a href="https://www.river.go.jp/kawabou/" target="_blank" rel="noopener">国土交通省「川の防災情報」で水位・雨量を見る →</a></p>
 </div>
@@ -694,8 +693,8 @@ export function mukogawaBosaiPage(siteUrl) {
   };
 
   return layout({
-    title: "武庫川防災情報（準備中）｜Takarazuka Today",
-    description: "武庫川の水位・雨量情報は現在準備中です。ライブカメラ・公式防災ページへの導線をご案内します。",
+    title: "武庫川防災情報｜Takarazuka Today",
+    description: "武庫川のライブカメラ・水位・雨量情報を確認できる公式ページへの案内です。",
     bodyHtml,
     canonicalUrl,
     structuredData: breadcrumbLd,
