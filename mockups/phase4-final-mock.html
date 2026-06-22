@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>フェーズ4 最終モック（ヘッダーは実デザイン維持）｜Takarazuka Today</title>
+<style>
+  :root {
+    --bg: #f3f4f6; --surface: #ffffff; --text: #222222; --text-sub: #595959;
+    --border: #dcdfe3; --accent: #c8102e; --accent-soft: #fdecef; --link: #0057a3;
+  }
+  * { box-sizing: border-box; }
+  body { margin:0; font-family:-apple-system,"Hiragino Sans","Yu Gothic",sans-serif; background:var(--bg); color:var(--text); line-height:1.6; }
+  .mock-banner { background:#fff3cd; color:#5c4400; text-align:center; font-size:.8rem; padding:6px; }
+
+  /* ===== 実際のヘッダーデザインを再現（assets/style.cssの該当部分） ===== */
+  .site-header {
+    border-bottom: 3px solid #6e1224;
+    background-image: url("../assets/header-banner.png");
+    background-size: cover;
+    background-position: center;
+    background-color: #6e1224;
+  }
+  .header-overlay { max-width:760px; margin:0 auto; min-height:180px; display:flex; flex-direction:column; justify-content:center; padding:16px 0; }
+  .header-row { display:flex; align-items:center; justify-content:space-between; padding:14px 18px; margin:0 16px; }
+  .logo { font-size:2.1rem; font-weight:800; color:#6e1224;
+    text-shadow:-1.5px -1.5px 0 #fff8ec,1.5px -1.5px 0 #fff8ec,-1.5px 1.5px 0 #fff8ec,1.5px 1.5px 0 #fff8ec,0 2px 6px rgba(0,0,0,.2); }
+  .logo small { display:block; font-size:.95rem; color:#9c1c33; font-weight:700;
+    text-shadow:-1px -1px 0 #fff8ec,1px -1px 0 #fff8ec,-1px 1px 0 #fff8ec,1px 1px 0 #fff8ec; }
+  .site-tagline { margin:8px 16px 0; padding:0 18px; font-size:1rem; font-weight:800; color:#6e1224;
+    text-shadow:-1px -1px 0 #fff8ec,1px -1px 0 #fff8ec,-1px 1px 0 #fff8ec,1px 1px 0 #fff8ec; }
+  .theme-toggle { border:1px solid rgba(110,18,36,.4); background:rgba(255,248,236,.7); color:#6e1224; border-radius:6px; padding:8px; font-size:1.1rem; }
+  /* ===== ここまで実ヘッダー再現 ===== */
+
+  /* 今日の宝塚パネル */
+  .today-panel { max-width:1080px; margin:14px auto 0; padding:0 16px; display:grid; grid-template-columns:repeat(5,1fr); gap:8px; }
+  .stat-card { background:var(--surface); border:1px solid var(--border); border-radius:8px; padding:10px 6px; text-align:center; }
+  .stat-card .val { font-size:1.05rem; font-weight:800; color:var(--accent); }
+  .stat-card .lbl { font-size:.66rem; color:var(--text-sub); }
+  .today-source { max-width:1080px; margin:4px auto 0; padding:0 16px; font-size:.7rem; color:var(--text-sub); }
+
+  /* クイックアクセス */
+  .quick-access { max-width:1080px; margin:12px auto 0; padding:0 16px; display:grid; grid-template-columns:repeat(6,1fr); gap:8px; }
+  .qa-tile { background:var(--surface); border:1px solid var(--border); border-radius:10px; padding:10px 4px; text-align:center; font-size:.68rem; font-weight:700; text-decoration:none; color:var(--text); }
+  .qa-tile .ic { font-size:1.3rem; display:block; }
+
+  main { max-width:1080px; margin:0 auto; padding:16px; display:grid; grid-template-columns:1fr; gap:16px; }
+  .grid-2 { display:grid; grid-template-columns:1fr; gap:16px; }
+  .panel { background:var(--surface); border:1px solid var(--border); border-radius:6px; padding:14px; }
+  .panel-title { font-size:1rem; font-weight:800; margin:0 0 12px; padding-bottom:8px; border-bottom:2px solid var(--accent); }
+  .row { display:flex; gap:10px; padding:8px 0; border-bottom:1px solid var(--border); }
+  .row:last-child { border-bottom:none; }
+  .thumb { flex:none; width:52px; height:52px; border-radius:6px; background:var(--accent-soft); }
+  .row a { color:var(--link); font-weight:600; font-size:.9rem; text-decoration:none; }
+  .meta { font-size:.75rem; color:var(--text-sub); }
+  .badge-review { display:inline-block; background:#2a8c4a; color:#fff; font-size:.65rem; font-weight:700; padding:2px 8px; border-radius:4px; margin-right:6px; }
+  .tabs { display:flex; gap:8px; margin-bottom:10px; }
+  .tab { padding:4px 12px; border-radius:14px; font-size:.78rem; font-weight:700; border:1px solid var(--border); background:var(--surface); }
+  .tab.active { background:var(--accent); color:#fff; border-color:var(--accent); }
+  .photo-big { width:100%; height:200px; border-radius:10px; background:linear-gradient(135deg,#cbd5e1,#94a3b8); }
+  footer { text-align:center; color:var(--text-sub); font-size:.78rem; padding:24px 16px 40px; }
+  @media (min-width:768px) { .grid-2 { grid-template-columns:2fr 1fr; } }
+
+  /* 既存：カテゴリーから探す */
+  .category-list { display:flex; flex-wrap:wrap; gap:8px; }
+  .category-pill { border:1px solid var(--border); border-radius:999px; padding:8px 14px; font-size:.85rem; font-weight:600; background:var(--bg); display:inline-flex; align-items:center; gap:6px; text-decoration:none; color:var(--text); }
+  .category-pill.is-comingsoon { opacity:.7; }
+  .badge-comingsoon { background:var(--text-sub); color:#fff; font-size:.65rem; font-weight:700; padding:1px 6px; border-radius:999px; }
+  .ranking-list { list-style:none; margin:0; padding:0; }
+  .ranking-item { display:flex; align-items:center; gap:10px; padding:8px 0; border-bottom:1px solid var(--border); }
+  .ranking-item:last-child { border-bottom:none; }
+  .rank-num { flex:none; font-weight:800; color:var(--accent); width:22px; }
+  .section-note { color:var(--text-sub); font-size:.78rem; margin:14px auto 0; max-width:1080px; padding:0 16px; }
+</style>
+</head>
+<body>
+<div class="mock-banner">※デザイン確認用のモックです。記事・数値はすべて架空のサンプルです（ヘッダーは本番と同じデザインを再現）</div>
+
+<header class="site-header">
+<div class="header-overlay">
+  <div class="header-row">
+    <a href="/" class="logo">Takarazuka Today<small>今日の宝塚を、3分で。</small></a>
+    <button class="theme-toggle" type="button">🌙</button>
+  </div>
+  <p class="site-tagline">宝塚市・兵庫県・兵庫県警の情報を毎日わかりやすくお届け</p>
+</div>
+</header>
+
+<div class="today-panel">
+  <div class="stat-card"><div class="val">☀️28℃</div><div class="lbl">神戸（阪神代表）</div></div>
+  <div class="stat-card"><div class="val">5件</div><div class="lbl">今週のイベント</div></div>
+  <div class="stat-card"><div class="val">3件</div><div class="lbl">宝塚市お知らせ</div></div>
+  <div class="stat-card"><div class="val">2件</div><div class="lbl">兵庫県お知らせ</div></div>
+  <div class="stat-card"><div class="val">1件</div><div class="lbl">県警お知らせ</div></div>
+</div>
+<p class="today-source">天気出典：気象庁（宝塚市は阪神地域のため、代表地点「神戸」のデータを表示）</p>
+
+<div class="quick-access">
+  <a class="qa-tile" href="#"><span class="ic">📅</span>今日の宝塚</a>
+  <a class="qa-tile" href="#"><span class="ic">🏛️</span>市議会</a>
+  <a class="qa-tile" href="#"><span class="ic">🛡️</span>防犯</a>
+  <a class="qa-tile" href="#"><span class="ic">🎉</span>イベント</a>
+  <a class="qa-tile" href="#"><span class="ic">📷</span>フォト</a>
+  <a class="qa-tile" href="#"><span class="ic">🌊</span>ライブ情報</a>
+</div>
+
+<main>
+  <div class="grid-2">
+    <div>
+      <div class="panel">
+        <p class="panel-title">📰 トップニュース</p>
+        <div class="row"><div class="thumb"></div><div><a href="#">（サンプル）新病院整備計画のパブコメ開始</a><p class="meta">行政・くらし・3時間前</p></div></div>
+        <div class="row"><div class="thumb"></div><div><a href="#">（サンプル）クマ目撃情報、注意呼びかけ</a><p class="meta">防犯・5時間前</p></div></div>
+      </div>
+
+      <div class="panel" style="margin-top:16px;">
+        <p class="panel-title">🏛️ 市議会ウォッチ</p>
+        <div class="row">
+          <div class="thumb"></div>
+          <div>
+            <p style="margin:0 0 4px;"><span class="badge-review">AI要約・人間レビュー済み</span></p>
+            <a href="#">（サンプル）6月定例会 本会議（第1日）の主な内容</a>
+            <p class="meta">本会議・2026-06-10・事実ベースの要約のみ。評価・優劣判断は行いません</p>
+          </div>
+        </div>
+        <p class="meta"><a href="#">市議会ウォッチをもっと見る／議員活動サマリー →</a></p>
+      </div>
+
+      <div class="panel" style="margin-top:16px;">
+        <p class="panel-title">🎉 イベントカレンダー</p>
+        <div class="tabs"><span class="tab active">今週</span><span class="tab">今月</span></div>
+        <div class="row"><div><a href="#">（サンプル）宝塚里山マルシェ</a><p class="meta">7/11(土) おおやね広場</p></div></div>
+        <div class="row"><div><a href="#">（サンプル）健康フェスティバル</a><p class="meta">7/2〜4 宝塚阪急</p></div></div>
+      </div>
+
+      <!-- 既存：カテゴリーから探す（変更なし） -->
+      <div class="panel" style="margin-top:16px;">
+        <p class="panel-title">🗂️ カテゴリーから探す（既存・維持）</p>
+        <div class="category-list">
+          <a class="category-pill" href="#">🏛️ 行政・くらし</a>
+          <a class="category-pill" href="#">🛡️ 防犯</a>
+          <a class="category-pill" href="#">⚠️ 防災</a>
+          <a class="category-pill" href="#">🎉 イベント</a>
+          <a class="category-pill" href="#">🚸 子育て</a>
+          <a class="category-pill" href="#">📚 教育</a>
+          <a class="category-pill" href="#">📷 文化・観光</a>
+          <a class="category-pill is-comingsoon" href="#">🏛️ 市議会 <span class="badge-comingsoon">準備中→稼働</span></a>
+        </div>
+      </div>
+
+      <!-- 既存：カテゴリー別記事プレビュー（変更なし、例として1件のみ表示） -->
+      <div class="panel" style="margin-top:16px;">
+        <p class="panel-title">🛡️ 防犯（既存・維持）</p>
+        <div class="row"><div class="thumb"></div><div><a href="#">（サンプル）屋根の点検商法のトラブル急増</a><p class="meta">2026-06-19</p></div></div>
+        <p class="meta"><a href="#">防犯の記事をもっと見る →</a></p>
+      </div>
+    </div>
+
+    <div>
+      <div class="panel">
+        <p class="panel-title">📷 今日の宝塚フォト</p>
+        <div class="photo-big"></div>
+        <p class="meta" style="margin-top:6px;">武庫川（サンプル）<br>写真提供：宝塚市オープンデータ（CC BY 4.0）</p>
+      </div>
+
+      <div class="panel" style="margin-top:16px;">
+        <p class="panel-title">🌊 武庫川ライブ情報</p>
+        <p class="meta">水位・雨量の数値表示は行わず、公式情報への導線のみを設置します。</p>
+        <div class="row"><div class="thumb"></div><div><a href="#">武庫川武田尾 ライブカメラ（国土交通省）</a><p class="meta">公式ページへ移動します</p></div></div>
+        <div class="row"><div class="thumb"></div><div><a href="#">川の防災情報（国土交通省）で水位・雨量を見る</a><p class="meta">公式ページへ移動します</p></div></div>
+      </div>
+
+      <!-- 既存：宝塚エンタメ情報（変更なし） -->
+      <div class="panel" style="margin-top:16px;">
+        <p class="panel-title">🎫 宝塚エンタメ情報（既存・維持）</p>
+        <div class="row"><div class="thumb"></div><div><a href="#">宝塚歌劇 公演・チケット情報</a><p class="meta">宝塚大劇場の最新公演スケジュールは公式サイトでご確認ください</p></div></div>
+        <p class="meta"><a href="#">宝塚歌劇公式サイトで公演スケジュールを見る →</a></p>
+      </div>
+
+      <!-- 既存：新着記事一覧（変更なし） -->
+      <div class="panel" style="margin-top:16px;">
+        <p class="panel-title">🔔 新着記事（既存・維持）</p>
+        <ol class="ranking-list">
+          <li class="ranking-item"><span class="rank-num">1</span><a href="#" style="color:var(--link);font-weight:600;font-size:.88rem;">（サンプル）新病院整備計画のパブコメ開始</a></li>
+          <li class="ranking-item"><span class="rank-num">2</span><a href="#" style="color:var(--link);font-weight:600;font-size:.88rem;">（サンプル）クマ目撃情報、注意呼びかけ</a></li>
+          <li class="ranking-item"><span class="rank-num">3</span><a href="#" style="color:var(--link);font-weight:600;font-size:.88rem;">（サンプル）宝塚里山マルシェ開催</a></li>
+        </ol>
+      </div>
+    </div>
+  </div>
+</main>
+<p class="section-note">※既存の「新着記事一覧」「カテゴリー別記事一覧」は全カテゴリー（行政・くらし／防犯／防災／イベント／子育て／教育／文化・観光）が表示されます。このモックでは画面を短くするため一部のみ抜粋しています。</p>
+<footer>写真提供：宝塚市オープンデータ（CC BY 4.0）／本サイトはデザイン確認用モックです</footer>
+</body>
+</html>

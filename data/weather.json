@@ -1,0 +1,11 @@
+{
+  "reportDatetime": "2026-06-22T17:00:00+09:00",
+  "areaLabel": "神戸（阪神地域代表地点）",
+  "weatherLabel": "くもり",
+  "weatherEmoji": "☁️",
+  "forecastDate": "2026-06-23",
+  "tempMin": "21",
+  "tempMax": "28",
+  "sourceUrl": "https://www.jma.go.jp/bosai/forecast/#area_type=class20s&area_code=2821100",
+  "sourceName": "気象庁"
+}

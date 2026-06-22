@@ -7,6 +7,8 @@ import {
   categoryPage,
   comingSoonCategoryPage,
   livecamPage,
+  eventsPage,
+  mukogawaBosaiPage,
   CATEGORIES,
   SHIGIKAI_CATEGORY,
 } from "./templates.js";
@@ -17,6 +19,7 @@ const ARTICLES_DIR = path.join(ROOT, "data", "articles");
 const RANKING_FILE = path.join(ROOT, "data", "ranking.json");
 const PHOTOS_JSON = path.join(ROOT, "data", "photos.json");
 const PHOTOS_DIR = path.join(ROOT, "assets", "photos");
+const WEATHER_JSON = path.join(ROOT, "data", "weather.json");
 const PUBLIC_DIR = path.join(ROOT, "public");
 const ASSETS_DIR = path.join(ROOT, "assets");
 
@@ -46,6 +49,52 @@ function loadArticles() {
 function loadPhotos() {
   if (!fs.existsSync(PHOTOS_JSON)) return [];
   return JSON.parse(fs.readFileSync(PHOTOS_JSON, "utf-8"));
+}
+
+function loadWeather() {
+  if (!fs.existsSync(WEATHER_JSON)) return null;
+  try {
+    return JSON.parse(fs.readFileSync(WEATHER_JSON, "utf-8"));
+  } catch {
+    return null;
+  }
+}
+
+function computeTodayCounts(publishedArticles) {
+  const now = Date.now();
+  const sevenDaysAgo = now - 7 * 24 * 60 * 60 * 1000;
+  const isWithin7Days = (a) => new Date(a.publishedAt).getTime() >= sevenDaysAgo;
+
+  return {
+    event: publishedArticles.filter((a) => a.category === "イベント").length,
+    city: publishedArticles.filter((a) => a.sourceName === "宝塚市公式サイト" && isWithin7Days(a)).length,
+    pref: publishedArticles.filter((a) => a.sourceName === "兵庫県公式サイト" && isWithin7Days(a)).length,
+    police: publishedArticles.filter((a) => a.sourceName === "兵庫県警察" && isWithin7Days(a)).length,
+  };
+}
+
+function buildEventOccurrences(publishedArticles) {
+  const todayKey = todayDateKey();
+  const occurrences = [];
+  for (const article of publishedArticles) {
+    if (!Array.isArray(article.eventDates)) continue;
+    for (const date of article.eventDates) {
+      if (date >= todayKey) occurrences.push({ article, date });
+    }
+  }
+  occurrences.sort((a, b) => (a.date < b.date ? -1 : 1));
+  return occurrences;
+}
+
+function splitEventsByRange(occurrences) {
+  const todayKey = todayDateKey();
+  const today = new Date(`${todayKey}T00:00:00+09:00`);
+  const weekEnd = new Date(today.getTime() + 7 * 24 * 60 * 60 * 1000);
+  const monthEnd = new Date(today.getFullYear(), today.getMonth() + 1, 0);
+
+  const thisWeek = occurrences.filter((o) => new Date(`${o.date}T00:00:00+09:00`) <= weekEnd);
+  const thisMonth = occurrences.filter((o) => new Date(`${o.date}T00:00:00+09:00`) <= monthEnd);
+  return { thisWeek, thisMonth };
 }
 
 function loadRanking() {
@@ -90,6 +139,8 @@ function buildSitemap(publishedArticles, categoryPageKeys) {
     ...[...categoryPageKeys].map((key) => ({ loc: `${SITE_URL}/category/${key}.html`, lastmod: today })),
     { loc: `${SITE_URL}/category/${SHIGIKAI_CATEGORY.key}.html`, lastmod: today },
     { loc: `${SITE_URL}/livecam.html`, lastmod: today },
+    { loc: `${SITE_URL}/mukogawa/`, lastmod: today },
+    { loc: `${SITE_URL}/events/`, lastmod: today },
     ...publishedArticles.map((article) => ({
       loc: `${SITE_URL}/articles/${article.slug}.html`,
       lastmod: article.publishedAt,
@@ -143,6 +194,8 @@ function main() {
       categoryPageKeys,
       publishedArticles,
       ranking,
+      weather: loadWeather(),
+      todayCounts: computeTodayCounts(publishedArticles),
       dateLabel: todayDateLabel(),
       siteUrl: SITE_URL,
     }),
@@ -157,6 +210,11 @@ function main() {
   }
   writeFile(`category/${SHIGIKAI_CATEGORY.key}.html`, comingSoonCategoryPage(SITE_URL));
   writeFile("livecam.html", livecamPage(SITE_URL));
+  writeFile("mukogawa/index.html", mukogawaBosaiPage(SITE_URL));
+
+  const eventOccurrences = buildEventOccurrences(publishedArticles);
+  const { thisWeek, thisMonth } = splitEventsByRange(eventOccurrences);
+  writeFile("events/index.html", eventsPage({ thisWeek, thisMonth, siteUrl: SITE_URL }));
 
   writeFile("sitemap.xml", buildSitemap(publishedArticles, categoryPageKeys));
   writeFile("robots.txt", `User-agent: *\nAllow: /\nSitemap: ${SITE_URL}/sitemap.xml\n`);

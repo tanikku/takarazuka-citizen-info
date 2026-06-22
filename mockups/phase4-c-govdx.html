@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>案C: 自治体DXサイト風（モック）｜Takarazuka Today</title>
+<style>
+  :root { --bg:#ffffff; --surface:#f5f7f8; --text:#162a2e; --text-sub:#5a6b6e; --border:#d7e0e1; --accent:#0a5c4a; --accent-soft:#e6f2ee; }
+  * { box-sizing:border-box; }
+  body { margin:0; font-family:-apple-system,"Hiragino Sans","Yu Gothic",sans-serif; background:var(--bg); color:var(--text); line-height:1.75; font-size:17px; }
+  .mock-banner { background:#fff3cd; color:#5c4400; text-align:center; font-size:.8rem; padding:6px; }
+  header { background:var(--surface); border-bottom:1px solid var(--border); }
+  .header-row { max-width:1000px; margin:0 auto; display:flex; align-items:center; justify-content:space-between; padding:18px 20px; }
+  .logo { font-size:1.3rem; font-weight:700; color:var(--accent); }
+
+  .today-panel { max-width:1000px; margin:24px auto 0; padding:0 20px; }
+  .today-panel h2 { font-size:1rem; color:var(--text-sub); margin:0 0 10px; }
+  .stat-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:12px; }
+  .stat-card { background:var(--accent-soft); border-radius:10px; padding:18px; }
+  .stat-card .val { font-size:1.5rem; font-weight:800; color:var(--accent); }
+  .stat-card .lbl { font-size:.85rem; color:var(--text-sub); }
+
+  .service-grid { max-width:1000px; margin:24px auto 0; padding:0 20px; display:grid; grid-template-columns:repeat(3,1fr); gap:14px; }
+  .service-tile { background:var(--surface); border:1px solid var(--border); border-radius:14px; padding:22px 10px; text-align:center; }
+  .service-tile .ic { font-size:1.8rem; display:block; margin-bottom:8px; }
+  .service-tile .lbl { font-weight:700; font-size:.9rem; }
+
+  main { max-width:1000px; margin:0 auto; padding:32px 20px 16px; }
+  section { margin-bottom:40px; }
+  h2.sec { font-size:1.3rem; font-weight:700; margin:0 0 16px; }
+  .item { display:flex; justify-content:space-between; align-items:baseline; padding:14px 0; border-bottom:1px solid var(--border); }
+  .item a { color:var(--text); text-decoration:none; font-weight:500; }
+  .item .date { color:var(--text-sub); font-size:.85rem; white-space:nowrap; }
+  .notice-card { background:var(--accent-soft); border-radius:12px; padding:20px; }
+  .badge { display:inline-block; background:var(--accent); color:#fff; font-size:.72rem; font-weight:700; padding:3px 10px; border-radius:4px; margin-bottom:8px; }
+  footer { text-align:center; color:var(--text-sub); font-size:.82rem; padding:32px 20px 48px; }
+  @media (min-width:768px) { .stat-grid { grid-template-columns:repeat(5,1fr); } }
+</style>
+</head>
+<body>
+<div class="mock-banner">※デザイン確認用のモックです。記事・数値はすべて架空のサンプルです</div>
+<header><div class="header-row"><div class="logo">Takarazuka Today</div></div></header>
+
+<div class="today-panel">
+  <h2>今日の宝塚（2026年6月22日）</h2>
+  <div class="stat-grid">
+    <div class="stat-card"><div class="val">28℃</div><div class="lbl">天気・晴れ</div></div>
+    <div class="stat-card"><div class="val">5件</div><div class="lbl">今週のイベント</div></div>
+    <div class="stat-card"><div class="val">3件</div><div class="lbl">宝塚市お知らせ</div></div>
+    <div class="stat-card"><div class="val">2件</div><div class="lbl">兵庫県お知らせ</div></div>
+    <div class="stat-card"><div class="val">1件</div><div class="lbl">県警お知らせ</div></div>
+  </div>
+</div>
+
+<div class="service-grid">
+  <div class="service-tile"><span class="ic">📅</span><span class="lbl">今日の宝塚</span></div>
+  <div class="service-tile"><span class="ic">🏛️</span><span class="lbl">市議会ウォッチ</span></div>
+  <div class="service-tile"><span class="ic">🛡️</span><span class="lbl">防犯情報</span></div>
+  <div class="service-tile"><span class="ic">🎉</span><span class="lbl">イベントカレンダー</span></div>
+  <div class="service-tile"><span class="ic">📷</span><span class="lbl">フォトギャラリー</span></div>
+  <div class="service-tile"><span class="ic">🌊</span><span class="lbl">武庫川ライブ情報</span></div>
+</div>
+
+<main>
+  <section>
+    <h2 class="sec">新着情報</h2>
+    <div class="item"><a href="#">（サンプル）新病院整備計画のパブコメ開始</a><span class="date">2026-06-19</span></div>
+    <div class="item"><a href="#">（サンプル）クマ目撃情報、注意呼びかけ</a><span class="date">2026-06-18</span></div>
+    <div class="item"><a href="#">（サンプル）宝塚里山マルシェ開催</a><span class="date">2026-06-16</span></div>
+  </section>
+
+  <section>
+    <h2 class="sec">市議会ウォッチ</h2>
+    <div class="notice-card">
+      <span class="badge">AI要約・人間レビュー済み</span>
+      <p style="margin:0 0 6px; font-weight:700;">（サンプル）6月定例会 本会議（第1日）の主な内容</p>
+      <p class="lbl" style="margin:0;">事実ベースの要約のみを掲載。評価・優劣判断は行いません。出典：宝塚市議会会議録検索システム</p>
+    </div>
+  </section>
+
+  <section>
+    <h2 class="sec">武庫川ライブ情報（防災）</h2>
+    <div class="stat-grid" style="grid-template-columns:repeat(2,1fr);">
+      <div class="stat-card"><div class="val">1.2m</div><div class="lbl">水位（武田尾地点・サンプル）</div></div>
+      <div class="stat-card"><div class="val">2mm</div><div class="lbl">雨量（直近1時間・サンプル）</div></div>
+    </div>
+  </section>
+</main>
+<footer>本サイトはデザイン確認用モックです。実際のデータは表示されていません。</footer>
+</body>
+</html>

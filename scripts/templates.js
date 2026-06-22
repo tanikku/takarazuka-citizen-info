@@ -72,6 +72,36 @@ function dateBar(dateLabel) {
   return `<div class="date-bar">${icon("calendar")}<span>${escapeHtml(dateLabel)}</span></div>`;
 }
 
+function todayPanel({ weather, counts }) {
+  const weatherStat = weather
+    ? `<div class="stat-card"><div class="stat-val">${escapeHtml(weather.weatherEmoji)}${escapeHtml(weather.tempMax ?? "?")}℃</div><div class="stat-lbl">${escapeHtml(weather.areaLabel)}</div></div>`
+    : `<div class="stat-card"><div class="stat-val">－</div><div class="stat-lbl">天気（未取得）</div></div>`;
+
+  return `<div class="today-panel">
+${weatherStat}
+<div class="stat-card"><div class="stat-val">${counts.event}件</div><div class="stat-lbl">イベント情報</div></div>
+<div class="stat-card"><div class="stat-val">${counts.city}件</div><div class="stat-lbl">宝塚市（7日間）</div></div>
+<div class="stat-card"><div class="stat-val">${counts.pref}件</div><div class="stat-lbl">兵庫県（7日間）</div></div>
+<div class="stat-card"><div class="stat-val">${counts.police}件</div><div class="stat-lbl">県警（7日間）</div></div>
+</div>
+${weather ? `<p class="today-source">天気出典：<a href="${escapeHtml(weather.sourceUrl)}" target="_blank" rel="noopener">気象庁</a>（${escapeHtml(weather.forecastDate)}発表予報・宝塚市は阪神地域のため代表地点「神戸」のデータを表示）</p>` : ""}`;
+}
+
+const QUICK_ACCESS_ITEMS = [
+  { href: "/#today-topic", icon: "calendar", label: "今日の宝塚" },
+  { href: "/category/shigikai.html", icon: "building", label: "市議会" },
+  { href: "/category/bohan.html", icon: "shield", label: "防犯" },
+  { href: "/events/", icon: "calendar", label: "イベント" },
+  { href: "/mukogawa/", icon: "videoCamera", label: "武庫川防災" },
+];
+
+function quickAccessPanel() {
+  const items = QUICK_ACCESS_ITEMS.map(
+    (item) => `<a class="qa-tile" href="${escapeHtml(item.href)}">${icon(item.icon)}<span class="qa-lbl">${escapeHtml(item.label)}</span></a>`,
+  ).join("\n");
+  return `<div class="quick-access">${items}</div>`;
+}
+
 export function layout({ title, description, bodyHtml, canonicalUrl, ogType = "website", structuredData = null }) {
   const dataList = Array.isArray(structuredData) ? structuredData : structuredData ? [structuredData] : [];
   const jsonLdScript = dataList
@@ -224,13 +254,13 @@ ${items || '<p class="empty-state">まだ記事がありません</p>'}
 
 function todayTopicPanel(todayArticles) {
   if (todayArticles.length === 0) {
-    return `<div class="panel">
+    return `<div class="panel" id="today-topic">
 <p class="panel-title">${icon("calendar")}今日の宝塚トピック</p>
 <p class="empty-state">本日の新しい記事はまだありません</p>
 </div>`;
   }
   const items = todayArticles.map(headlineRow).join("\n");
-  return `<div class="panel">
+  return `<div class="panel" id="today-topic">
 <p class="panel-title">${icon("calendar")}今日の宝塚トピック</p>
 ${items}
 </div>`;
@@ -303,8 +333,10 @@ ${items || '<p class="empty-state">まだ記事がありません</p>'}
 </div>`;
 }
 
-export function indexPage({ topArticles, todayArticles, categoryPreviewSections, categoryPageKeys, publishedArticles, ranking, dateLabel, siteUrl }) {
+export function indexPage({ topArticles, todayArticles, categoryPreviewSections, categoryPageKeys, publishedArticles, ranking, weather, todayCounts, dateLabel, siteUrl }) {
   const bodyHtml = `${dateBar(dateLabel)}
+${todayPanel({ weather, counts: todayCounts })}
+${quickAccessPanel()}
 <div class="grid-2">
   <div class="col-main">
     ${topNewsPanel(topArticles)}
@@ -444,6 +476,63 @@ ${items}
   });
 }
 
+function eventRow(occurrence) {
+  const { article, date } = occurrence;
+  const categoryMeta = findCategory(article.category);
+  const photo = findPhotoForText(`${article.title} ${article.summary ?? ""}`);
+  const dateLabel = new Date(`${date}T00:00:00+09:00`).toLocaleDateString("ja-JP", { month: "long", day: "numeric", weekday: "short" });
+  return `<a class="headline-row" href="/articles/${article.slug}.html">
+<div class="headline-thumb">${thumbHtml(photo, categoryMeta ? categoryMeta.icon : "calendar")}</div>
+<div>
+  <p class="headline-title">${escapeHtml(dateLabel)}　${escapeHtml(article.title)}</p>
+  <p class="headline-meta">${escapeHtml(article.eventLocation ?? "")}</p>
+</div>
+</a>`;
+}
+
+export function eventsPage({ thisWeek, thisMonth, siteUrl }) {
+  const canonicalUrl = `${siteUrl}/events/`;
+
+  const weekItems = thisWeek.map(eventRow).join("\n") || '<p class="empty-state">今週開催予定のイベントはまだ登録されていません</p>';
+  const monthItems = thisMonth.map(eventRow).join("\n") || '<p class="empty-state">今月開催予定のイベントはまだ登録されていません</p>';
+
+  const bodyHtml = `<nav class="breadcrumb"><a href="/">トップ</a> &gt; イベントカレンダー</nav>
+<div class="page-content">
+<div class="panel">
+<p class="panel-title">${icon("calendar")}今週のイベント</p>
+${weekItems}
+</div>
+<div class="panel" style="margin-top:16px;">
+<p class="panel-title">${icon("calendar")}今月のイベント</p>
+${monthItems}
+</div>
+<p class="panel-note">掲載しているイベントは、宝塚市・兵庫県・兵庫県警が公開した情報のうち、開催日が明記されているものです。最新情報は出典元をご確認ください。</p>
+</div>`;
+
+  const collectionLd = {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    name: "イベントカレンダー｜Takarazuka Today",
+    url: canonicalUrl,
+  };
+  const breadcrumbLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "トップ", item: `${siteUrl}/` },
+      { "@type": "ListItem", position: 2, name: "イベントカレンダー", item: canonicalUrl },
+    ],
+  };
+
+  return layout({
+    title: "イベントカレンダー｜Takarazuka Today",
+    description: "宝塚市・兵庫県・兵庫県警が公開した、宝塚市内で開催されるイベントの今週・今月の予定一覧です。",
+    bodyHtml,
+    canonicalUrl,
+    structuredData: [collectionLd, breadcrumbLd],
+  });
+}
+
 export function comingSoonCategoryPage(siteUrl) {
   const canonicalUrl = `${siteUrl}${categoryPath(SHIGIKAI_CATEGORY.key)}`;
 
@@ -461,5 +550,37 @@ export function comingSoonCategoryPage(siteUrl) {
     description: "宝塚市議会に関する情報配信は、公開情報の利用条件確認後に開始予定です。",
     bodyHtml,
     canonicalUrl,
+  });
+}
+
+export function mukogawaBosaiPage(siteUrl) {
+  const canonicalUrl = `${siteUrl}/mukogawa/`;
+
+  const bodyHtml = `<nav class="breadcrumb"><a href="/">トップ</a> &gt; 武庫川防災情報</nav>
+<div class="page-content">
+<div class="panel">
+<p class="panel-title">${icon("videoCamera")}武庫川防災情報（準備中）</p>
+<p>武庫川の水位・雨量の数値表示については、信頼できる取得方法を調査中のため、現時点では実装していません。</p>
+<p>ライブカメラ映像は、下記の公式ページからご確認いただけます。</p>
+<p class="panel-note"><a href="/livecam.html">宝塚市内のライブカメラ一覧を見る →</a></p>
+<p class="panel-note"><a href="https://www.river.go.jp/kawabou/" target="_blank" rel="noopener">国土交通省「川の防災情報」で水位・雨量を見る →</a></p>
+</div>
+</div>`;
+
+  const breadcrumbLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "トップ", item: `${siteUrl}/` },
+      { "@type": "ListItem", position: 2, name: "武庫川防災情報", item: canonicalUrl },
+    ],
+  };
+
+  return layout({
+    title: "武庫川防災情報（準備中）｜Takarazuka Today",
+    description: "武庫川の水位・雨量情報は現在準備中です。ライブカメラ・公式防災ページへの導線をご案内します。",
+    bodyHtml,
+    canonicalUrl,
+    structuredData: breadcrumbLd,
   });
 }
