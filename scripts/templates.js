@@ -145,7 +145,7 @@ export function articlePage(article, siteUrl) {
 
   const bodyHtml = `<nav class="breadcrumb breadcrumb-article"><a href="/">トップ</a> &gt; ${categoryMeta ? `<a href="${categoryPath(categoryMeta.key)}">${escapeHtml(categoryMeta.label)}</a>` : escapeHtml(article.category)}</nav>
 <article class="article-detail">
-<p class="category-tag">${categoryMeta ? icon(categoryMeta.icon) : icon("newspaper")}${escapeHtml(article.category)}</p>
+<p class="category-tag">${sourceBadge(article.sourceName)}${categoryMeta ? icon(categoryMeta.icon) : icon("newspaper")}${escapeHtml(article.category)}</p>
 <h1>${escapeHtml(article.title)}</h1>
 <p class="article-meta">${escapeHtml(article.publishedAt)}</p>
 <p class="article-summary">${escapeHtml(article.summary)}</p>
@@ -163,12 +163,23 @@ export function articlePage(article, siteUrl) {
   });
 }
 
+const SOURCE_BADGES = {
+  "宝塚市公式サイト": { label: "宝塚市", className: "source-city" },
+  "兵庫県公式サイト": { label: "兵庫県", className: "source-pref" },
+  "兵庫県警察": { label: "兵庫県警", className: "source-police" },
+};
+
+function sourceBadge(sourceName) {
+  const badge = SOURCE_BADGES[sourceName] ?? { label: sourceName, className: "source-other" };
+  return `<span class="source-tag ${badge.className}">${escapeHtml(badge.label)}</span>`;
+}
+
 function headlineRow(article) {
   const categoryMeta = findCategory(article.category);
   return `<a class="headline-row" href="/articles/${article.slug}.html">
 <div class="headline-thumb">${categoryMeta ? icon(categoryMeta.icon) : icon("newspaper")}</div>
 <div>
-  <p class="headline-title"><span class="topic-tag">${escapeHtml(article.category)}</span>${escapeHtml(article.title)}</p>
+  <p class="headline-title">${sourceBadge(article.sourceName)}<span class="topic-tag">${escapeHtml(article.category)}</span>${escapeHtml(article.title)}</p>
   <p class="headline-meta">${escapeHtml(article.publishedAt)}・${escapeHtml(article.sourceName)}</p>
 </div>
 </a>`;

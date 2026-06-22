@@ -205,6 +205,33 @@ main {
   margin-right: 6px;
 }
 
+/* 発信元バッジ（宝塚市／兵庫県／兵庫県警を色分けして見分けやすくする） */
+.source-tag {
+  display: inline-block;
+  font-size: 0.68rem;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 3px;
+  margin-right: 6px;
+  color: white;
+}
+
+.source-tag.source-city {
+  background: #0057a3;
+}
+
+.source-tag.source-pref {
+  background: #2a8c4a;
+}
+
+.source-tag.source-police {
+  background: #555555;
+}
+
+.source-tag.source-other {
+  background: #888888;
+}
+
 /* カテゴリーチップ */
 .category-list {
   display: flex;
