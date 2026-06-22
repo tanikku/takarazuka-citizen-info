@@ -156,7 +156,8 @@ function findCategory(label) {
   return CATEGORIES.find((c) => c.label === label);
 }
 
-export function articlePage(article, siteUrl) {
+export function articlePage(article, siteUrl, giinList = []) {
+  const findGiinName = (slug) => giinList.find((g) => g.slug === slug)?.name;
   const canonicalUrl = `${siteUrl}/articles/${article.slug}.html`;
   const jsonLd = {
     "@context": "https://schema.org",
@@ -184,12 +185,34 @@ export function articlePage(article, siteUrl) {
     ],
   };
 
+  const isShigikai = article.category === "市議会";
+  const keyPointsBox =
+    isShigikai && Array.isArray(article.keyPoints) && article.keyPoints.length > 0
+      ? `<div class="point-box">
+<p class="point-box-title">${icon("alert")}今回のポイント（市民生活への影響）</p>
+<ul>${article.keyPoints.map((p) => `<li>${escapeHtml(p)}</li>`).join("\n")}</ul>
+</div>`
+      : "";
+  const aiEditorialBadge = isShigikai ? `<p class="badge-line"><span class="badge-ai-editorial">AI要約・編集確認済</span></p>` : "";
+  const shigikaiDisclosure = isShigikai ? SHIGIKAI_DISCLOSURE : "";
+  const giinLinkBox =
+    isShigikai && Array.isArray(article.giin) && article.giin.length > 0
+      ? `<div class="giin-link-box">
+${icon("user")}
+<div>この記事で発言した議員：${article.giin.map((slug) => `<a href="/giin/${escapeHtml(slug)}.html">${escapeHtml(findGiinName(slug) ?? slug)}議員の発言記録を見る →</a>`).join("、")}</div>
+</div>`
+      : "";
+
   const bodyHtml = `<nav class="breadcrumb breadcrumb-article"><a href="/">トップ</a> &gt; ${categoryMeta ? `<a href="${categoryPath(categoryMeta.key)}">${escapeHtml(categoryMeta.label)}</a>` : escapeHtml(article.category)}</nav>
 <article class="article-detail">
 <p class="category-tag">${sourceBadge(article.sourceName)}${categoryMeta ? icon(categoryMeta.icon) : icon("newspaper")}${escapeHtml(article.category)}</p>
 <h1>${escapeHtml(article.title)}</h1>
 <p class="article-meta">${escapeHtml(article.publishedAt)}</p>
+${aiEditorialBadge}
+${keyPointsBox}
 <p class="article-summary">${escapeHtml(article.summary)}</p>
+${giinLinkBox}
+${shigikaiDisclosure}
 <p class="article-source">出典：<a href="${escapeHtml(article.sourceUrl)}" rel="noopener" target="_blank">${escapeHtml(article.sourceName)}</a></p>
 <p class="back-link"><a href="/">${icon("newspaper")}トップへ戻る</a></p>
 </article>`;
@@ -209,6 +232,7 @@ const SOURCE_BADGES = {
   "兵庫県公式サイト": { label: "兵庫県", className: "source-pref" },
   "兵庫県警察": { label: "兵庫県警", className: "source-police" },
   "宝塚市議会会議録検索システム": { label: "市議会", className: "source-gikai" },
+  "宝塚市議会インターネット中継": { label: "市議会", className: "source-gikai" },
 };
 
 function sourceBadge(sourceName) {
@@ -406,7 +430,7 @@ function gikaiRow(article) {
   return `<a class="headline-row" href="/articles/${article.slug}.html">
 <div class="headline-thumb">${thumbHtml(photo, "building")}</div>
 <div>
-  <p class="headline-title"><span class="badge-ai">AI要約</span><span class="badge-review">人間レビュー済み</span>${escapeHtml(article.title)}</p>
+  <p class="headline-title"><span class="badge-ai-editorial">AI要約・編集確認済</span>${escapeHtml(article.title)}</p>
   <p class="headline-meta">${escapeHtml(article.meetingType ?? "")}・${escapeHtml(article.meetingDate ?? article.publishedAt)}・出典：宝塚市議会会議録検索システム</p>
 </div>
 </a>`;
@@ -416,7 +440,9 @@ export function categoryPage(category, articles, siteUrl) {
   const canonicalUrl = `${siteUrl}${categoryPath(category.key)}`;
   const isShigikai = category.key === "shigikai";
   const items = articles.map(isShigikai ? gikaiRow : headlineRow).join("\n");
-  const giinLink = isShigikai ? `<p class="panel-note"><a href="/giin/">議員活動サマリー一覧を見る →</a></p>` : "";
+  const giinLink = isShigikai
+    ? `<p class="panel-note"><a href="/giin/">議員活動サマリー一覧を見る →</a>　<a href="/category/shigikai/guide.html">市議会のしくみ・このページの見方 →</a></p>`
+    : "";
 
   const bodyHtml = `<nav class="breadcrumb"><a href="/">トップ</a> &gt; ${escapeHtml(category.label)}</nav>
 <div class="page-content">
@@ -713,6 +739,48 @@ ${items || '<p class="empty-state">まだ掲載がありません</p>'}
   return layout({
     title: "議員活動サマリー一覧｜Takarazuka Today",
     description: "宝塚市議会議員の公開発言を時系列で整理した一覧です。評価・ランキングは行いません。",
+    bodyHtml,
+    canonicalUrl,
+    structuredData: breadcrumbLd,
+  });
+}
+
+export function gikaiGuidePage(siteUrl) {
+  const canonicalUrl = `${siteUrl}/category/shigikai/guide.html`;
+
+  const bodyHtml = `<nav class="breadcrumb"><a href="/">トップ</a> &gt; <a href="${categoryPath("shigikai")}">市議会</a> &gt; 市議会のしくみ</nav>
+<div class="page-content">
+<div class="panel">
+<p class="panel-title">${icon("building")}宝塚市議会のしくみ</p>
+<p class="guide-q">Q. 市議会は何をするところ？</p>
+<p>市の予算・条例・重要な計画などを審議し、可決・否決を決める機関です。市民が選んだ議員（定数26）によって構成されます。</p>
+<p class="guide-q">Q.「本会議」と「委員会」はどう違う？</p>
+<p><strong>本会議</strong>は議員全員が出席し、議案の提案・採決を行う公式な会議です。<strong>委員会</strong>（総務常任委員会・文教生活常任委員会など）は、本会議で各分野ごとに詳しく審査するための小グループの会議です。委員会での審査結果は、後日本会議で報告・採決されます。</p>
+<p class="guide-q">Q. 定例会・臨時会とは？</p>
+<p><strong>定例会</strong>は年4回（おおむね2月・5月・9月・11月）開かれる通常の議会です。<strong>臨時会</strong>は緊急の議案がある場合に開かれます。</p>
+</div>
+<div class="panel">
+<p class="panel-title">${icon("newspaper")}「市議会ウォッチ」の見方</p>
+<p>各記事の冒頭にある「今回のポイント」欄では、その日の会議のうち<strong>市民生活に関係する内容</strong>だけを整理して紹介しています。詳しい審議の経過を知りたい場合は、記事末尾の出典リンクから会議録本文（公式）をご確認ください。</p>
+<p>本サイトの要約は<strong>事実の整理のみ</strong>を目的とし、議員や議案への評価・賛否の表明は行いません。</p>
+<p class="panel-note"><a href="${categoryPath("shigikai")}">→ 市議会ウォッチ一覧へ</a></p>
+<p class="panel-note"><a href="/giin/">→ 議員活動サマリー一覧へ</a></p>
+</div>
+</div>`;
+
+  const breadcrumbLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "トップ", item: `${siteUrl}/` },
+      { "@type": "ListItem", position: 2, name: "市議会", item: `${siteUrl}${categoryPath("shigikai")}` },
+      { "@type": "ListItem", position: 3, name: "市議会のしくみ", item: canonicalUrl },
+    ],
+  };
+
+  return layout({
+    title: "宝塚市議会のしくみ・市議会ウォッチの見方｜Takarazuka Today",
+    description: "宝塚市議会のしくみ、本会議と委員会の違い、本サイト「市議会ウォッチ」の見方を解説します。",
     bodyHtml,
     canonicalUrl,
     structuredData: breadcrumbLd,

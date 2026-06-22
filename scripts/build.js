@@ -8,6 +8,7 @@ import {
   livecamPage,
   eventsPage,
   rankingPage,
+  gikaiGuidePage,
   mukogawaBosaiPage,
   giinPage,
   giinIndexPage,
@@ -191,6 +192,7 @@ function buildSitemap(publishedArticles, categoryPageKeys, giinWithArticles) {
     { loc: `${SITE_URL}/mukogawa/`, lastmod: today },
     { loc: `${SITE_URL}/events/`, lastmod: today },
     { loc: `${SITE_URL}/ranking/`, lastmod: today },
+    { loc: `${SITE_URL}/category/shigikai/guide.html`, lastmod: today },
     ...(giinWithArticles.length > 0 ? [{ loc: `${SITE_URL}/giin/`, lastmod: today }] : []),
     ...giinWithArticles.map((giin) => ({ loc: `${SITE_URL}/giin/${giin.slug}.html`, lastmod: today })),
     ...publishedArticles.map((article) => ({
@@ -224,6 +226,7 @@ function main() {
   const todayKey = todayDateKey();
   const todayArticles = featuredArticles.filter((a) => a.publishedAt === todayKey);
   const ranking = loadRanking();
+  const giinList = loadGiin();
 
   // カテゴリーごとに、公開対象（S/A/B）の記事をまとめる。1件以上ある場合のみカテゴリーページを生成する
   const categorySections = CATEGORIES.map((cat) => ({
@@ -255,7 +258,7 @@ function main() {
   );
 
   for (const article of publishedArticles) {
-    writeFile(`articles/${article.slug}.html`, articlePage(article, SITE_URL));
+    writeFile(`articles/${article.slug}.html`, articlePage(article, SITE_URL, giinList));
   }
 
   for (const section of categorySections) {
@@ -263,8 +266,8 @@ function main() {
   }
   writeFile("livecam.html", livecamPage(SITE_URL));
   writeFile("mukogawa/index.html", mukogawaBosaiPage(SITE_URL));
+  writeFile("category/shigikai/guide.html", gikaiGuidePage(SITE_URL));
 
-  const giinList = loadGiin();
   const giinWithArticles = giinList.filter(
     (giin) => publishedArticles.filter((a) => (a.giin ?? []).includes(giin.slug)).length > 0,
   );

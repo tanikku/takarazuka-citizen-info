@@ -428,7 +428,7 @@ html[data-theme="dark"] .disclosure-box {
   color: #cfe2f5;
 }
 
-.badge-ai, .badge-review {
+.badge-ai-editorial {
   display: inline-block;
   font-size: 0.65rem;
   font-weight: 700;
@@ -436,14 +436,69 @@ html[data-theme="dark"] .disclosure-box {
   border-radius: 4px;
   margin-right: 6px;
   color: #fff;
-}
-
-.badge-ai {
   background: #555555;
 }
 
-.badge-review {
-  background: #2a8c4a;
+.badge-line {
+  margin: 0 0 10px;
+}
+
+.point-box {
+  background: #fff8e1;
+  border: 1px solid #f0d98c;
+  border-radius: 8px;
+  padding: 14px 16px;
+  margin-bottom: 18px;
+}
+
+html[data-theme="dark"] .point-box {
+  background: #2a2410;
+  border-color: #5c4d1a;
+}
+
+.point-box-title {
+  font-size: 0.92rem;
+  font-weight: 800;
+  color: #7a5c00;
+  margin: 0 0 8px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+html[data-theme="dark"] .point-box-title {
+  color: #e0c264;
+}
+
+.point-box ul {
+  margin: 0;
+  padding-left: 20px;
+  font-size: 0.88rem;
+}
+
+.point-box li {
+  margin-bottom: 4px;
+}
+
+.giin-link-box {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--accent-soft);
+  border-radius: 8px;
+  padding: 12px 14px;
+  margin-bottom: 18px;
+  font-size: 0.88rem;
+}
+
+.giin-link-box a {
+  color: var(--accent);
+  font-weight: 700;
+}
+
+.guide-q {
+  font-weight: 700;
+  margin: 14px 0 4px;
 }
 
 .giin-card {
