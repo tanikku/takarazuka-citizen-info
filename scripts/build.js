@@ -256,9 +256,6 @@ function main() {
     indexPage({
       topArticles: featuredArticles,
       todayArticles,
-      categoryPreviewSections: categorySections
-        .filter((s) => s.featuredArticles.length > 0)
-        .map((s) => ({ ...s, articles: s.featuredArticles })),
       categoryPageKeys,
       publishedArticles,
       ranking,

@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>フェーズ6 モック（トップページ簡素化・B案）｜Takarazuka Today</title>
+<style>
+  :root {
+    --bg: #f3f4f6; --surface: #ffffff; --text: #222222; --text-sub: #595959;
+    --border: #dcdfe3; --accent: #c8102e; --accent-soft: #fdecef; --link: #0057a3;
+  }
+  * { box-sizing: border-box; }
+  body { margin:0; font-family:-apple-system,"Hiragino Sans","Yu Gothic",sans-serif; background:var(--bg); color:var(--text); line-height:1.6; max-width:480px; margin:0 auto; border-left:1px solid #ddd; border-right:1px solid #ddd; }
+  .mock-banner { background:#fff3cd; color:#5c4400; text-align:center; font-size:.76rem; padding:6px; }
+  .before-after { display:flex; }
+  .col { flex:1; padding:10px; }
+  .col h3 { font-size:.82rem; text-align:center; background:#333; color:#fff; padding:6px; margin:0 0 8px; }
+  .before .block { background:#f5dada; border:1px dashed #c66; }
+  .after .block { background:#d8efe0; border:1px solid #6bb98a; }
+  .block { padding:8px; margin-bottom:4px; font-size:.7rem; text-align:center; border-radius:4px; }
+  .block.removed { background:#eee; border:1px dashed #aaa; color:#999; text-decoration:line-through; }
+  .block.new { background:#fff3cd; border:1px solid #e0b84a; font-weight:700; }
+
+  main { padding:14px; }
+  .panel { background:var(--surface); border:1px solid var(--border); border-radius:8px; padding:14px; margin-bottom:14px; }
+  .panel-title { font-size:1rem; font-weight:800; margin:0 0 10px; padding-bottom:8px; border-bottom:2px solid var(--accent); }
+  .row { display:flex; gap:10px; padding:8px 0; border-bottom:1px solid var(--border); font-size:.85rem; }
+  .row:last-child { border-bottom:none; }
+  .badge { display:inline-block; background:#0057a3; color:#fff; font-size:.62rem; padding:1px 6px; border-radius:3px; margin-right:4px; }
+  .guide-nav { display:grid; grid-template-columns:repeat(2,1fr); gap:8px; }
+  .guide-nav a { background:var(--accent-soft); border:1px solid #f0c2cb; border-radius:8px; padding:10px; text-align:center; font-size:.78rem; font-weight:700; color:var(--accent); }
+  .category-chips { display:flex; flex-wrap:wrap; gap:6px; }
+  .chip { border:1px solid var(--border); border-radius:999px; padding:6px 12px; font-size:.78rem; }
+</style>
+</head>
+<body>
+<div class="mock-banner">※デザイン確認用モックです</div>
+
+<main>
+<h2 style="font-size:1rem;">Before / After（構成比較）</h2>
+<div class="before-after">
+  <div class="col before">
+    <h3>現状（Before）</h3>
+    <div class="block">日付バー</div>
+    <div class="block">今日の宝塚パネル</div>
+    <div class="block">クイックアクセス</div>
+    <div class="block">今日のトピック＋フォト</div>
+    <div class="block">トップニュース</div>
+    <div class="block">カテゴリーチップ</div>
+    <div class="block removed">行政・くらしパネル(3記事)</div>
+    <div class="block removed">防犯パネル(3記事)</div>
+    <div class="block removed">防災パネル(3記事)</div>
+    <div class="block removed">イベントパネル(3記事)</div>
+    <div class="block removed">子育てパネル(3記事)</div>
+    <div class="block removed">教育パネル(3記事)</div>
+    <div class="block removed">文化・観光パネル(3記事)</div>
+    <div class="block">人気/新着ランキング</div>
+    <div class="block">ライブカメラ</div>
+    <div class="block">エンタメ</div>
+    <div class="block">新着記事一覧(30件)</div>
+  </div>
+  <div class="col after">
+    <h3>簡素化後（After）</h3>
+    <div class="block">日付バー</div>
+    <div class="block">今日の宝塚パネル</div>
+    <div class="block">クイックアクセス</div>
+    <div class="block">今日のトピック＋フォト</div>
+    <div class="block new">くらしガイド導線（NEW）</div>
+    <div class="block">トップニュース</div>
+    <div class="block new">新着記事フィード（統合・10件）</div>
+    <div class="block">カテゴリーチップ（一覧へのリンクのみ）</div>
+    <div class="block">人気/新着ランキング</div>
+    <div class="block">ライブカメラ</div>
+    <div class="block">エンタメ</div>
+  </div>
+</div>
+<p style="font-size:.78rem; color:var(--text-sub);">7つのカテゴリー別パネル（計21記事分の表示）を1つの統合フィードに置き換え、新着記事一覧(30件)は廃止（統合フィードと重複するため）。スクロール量を約40%削減できる見込みです。</p>
+</main>
+
+<div style="background:#333; color:#fff; font-size:.76rem; font-weight:700; padding:8px 16px;">簡素化後のトップページ詳細モック</div>
+<main>
+  <div class="panel" style="background:var(--accent-soft); border-color:#f0c2cb;">
+    <p class="panel-title" style="border-color:#f0c2cb;">📖 くらしガイド</p>
+    <div class="guide-nav">
+      <a href="#">🗑️ ゴミ出し</a>
+      <a href="#">🍼 子育て支援</a>
+      <a href="#">🛡️ 防災</a>
+      <a href="#">🏫 学校情報</a>
+    </div>
+  </div>
+
+  <div class="panel">
+    <p class="panel-title">📰 トップニュース</p>
+    <div class="row">（既存のS/A記事3件、変更なし）</div>
+  </div>
+
+  <div class="panel">
+    <p class="panel-title">🔔 新着記事</p>
+    <div class="row"><span class="badge">行政・くらし</span>空き地の適正管理…</div>
+    <div class="row"><span class="badge">防犯</span>クマらしき動物の目撃情報…</div>
+    <div class="row"><span class="badge">イベント</span>まちかど健康フェア…</div>
+    <div class="row"><span class="badge">子育て</span>RSウイルスワクチン…</div>
+    <div class="row" style="color:var(--text-sub);">（最大10件、カテゴリー問わず最新順）</div>
+    <p style="font-size:.8rem;"><a href="#">→ もっと見る（カテゴリー別に探す）</a></p>
+  </div>
+
+  <div class="panel">
+    <p class="panel-title">🗂️ カテゴリーから探す</p>
+    <div class="category-chips">
+      <span class="chip">行政・くらし</span><span class="chip">防犯</span><span class="chip">防災</span>
+      <span class="chip">イベント</span><span class="chip">子育て</span><span class="chip">教育</span>
+      <span class="chip">文化・観光</span><span class="chip">市議会</span>
+    </div>
+  </div>
+
+  <div class="panel">
+    <p class="panel-title">🔥 新着記事（人気記事ランキング待ち）</p>
+    <div class="row">（既存のまま、変更なし）</div>
+  </div>
+</main>
+
+</body>
+</html>
