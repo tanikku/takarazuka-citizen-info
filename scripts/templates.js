@@ -53,12 +53,15 @@ function themeInitScript() {
 
 function header() {
   return `<header class="site-header">
-<div class="header-row">
-  <a href="/" class="logo">宝塚タウン<small>市民向け情報ポータル</small></a>
-  <button class="theme-toggle" data-theme-toggle type="button" aria-label="ダークモード切り替え">
-    <span class="theme-icon theme-icon-sun">${icon("sun")}</span>
-    <span class="theme-icon theme-icon-moon">${icon("moon")}</span>
-  </button>
+<div class="header-overlay">
+  <div class="header-row">
+    <a href="/" class="logo">Takarazuka Today<small>今日の宝塚を、3分で。</small></a>
+    <button class="theme-toggle" data-theme-toggle type="button" aria-label="ダークモード切り替え">
+      <span class="theme-icon theme-icon-sun">${icon("sun")}</span>
+      <span class="theme-icon theme-icon-moon">${icon("moon")}</span>
+    </button>
+  </div>
+  <p class="site-tagline">宝塚市・兵庫県・兵庫県警の情報を毎日わかりやすくお届け</p>
 </div>
 </header>`;
 }
@@ -84,7 +87,7 @@ export function layout({ title, description, bodyHtml, canonicalUrl, ogType = "w
 <link rel="canonical" href="${escapeHtml(canonicalUrl)}">
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 <meta property="og:type" content="${escapeHtml(ogType)}">
-<meta property="og:site_name" content="宝塚タウン｜宝塚市民向け情報ポータル">
+<meta property="og:site_name" content="Takarazuka Today｜今日の宝塚を、3分で。">
 <meta property="og:title" content="${escapeHtml(title)}">
 <meta property="og:description" content="${escapeHtml(description)}">
 <meta property="og:url" content="${escapeHtml(canonicalUrl)}">
@@ -125,8 +128,8 @@ export function articlePage(article, siteUrl) {
     dateModified: article.publishedAt,
     description: article.summary,
     url: canonicalUrl,
-    author: { "@type": "Organization", name: "宝塚タウン編集部" },
-    publisher: { "@type": "Organization", name: "宝塚タウン｜宝塚市民向け情報ポータル" },
+    author: { "@type": "Organization", name: "Takarazuka Today編集部" },
+    publisher: { "@type": "Organization", name: "Takarazuka Today｜今日の宝塚を、3分で。" },
     isAccessibleForFree: true,
   };
   const categoryMeta = findCategory(article.category);
@@ -154,7 +157,7 @@ export function articlePage(article, siteUrl) {
 </article>`;
 
   return layout({
-    title: `${article.title}｜宝塚市民向け情報サイト`,
+    title: `${article.title}｜Takarazuka Today`,
     description: article.summary,
     bodyHtml,
     canonicalUrl,
@@ -292,13 +295,13 @@ export function indexPage({ topArticles, todayArticles, categoryPreviewSections,
   const structuredData = {
     "@context": "https://schema.org",
     "@type": "WebSite",
-    name: "宝塚タウン｜宝塚市民向け情報ポータル",
+    name: "Takarazuka Today｜今日の宝塚を、3分で。",
     url: `${siteUrl}/`,
     description: "宝塚市の行政・暮らし情報をまとめた市民向け情報サイト",
   };
 
   return layout({
-    title: "宝塚市民向け情報サイト｜宝塚タウン",
+    title: "Takarazuka Today｜今日の宝塚を、3分で。",
     description: "宝塚市の行政・暮らし情報をまとめた市民向け情報サイト",
     bodyHtml,
     canonicalUrl: `${siteUrl}/`,
@@ -321,7 +324,7 @@ ${items || '<p class="empty-state">まだ記事がありません</p>'}
   const collectionLd = {
     "@context": "https://schema.org",
     "@type": "CollectionPage",
-    name: `${category.label}の記事一覧｜宝塚タウン`,
+    name: `${category.label}の記事一覧｜Takarazuka Today`,
     url: canonicalUrl,
   };
   const breadcrumbLd = {
@@ -334,7 +337,7 @@ ${items || '<p class="empty-state">まだ記事がありません</p>'}
   };
 
   return layout({
-    title: `${category.label}の記事一覧｜宝塚市民向け情報サイト`,
+    title: `${category.label}の記事一覧｜Takarazuka Today`,
     description: `宝塚市の「${category.label}」に関する記事一覧です。`,
     bodyHtml,
     canonicalUrl,
@@ -355,7 +358,7 @@ export function comingSoonCategoryPage(siteUrl) {
 </div>`;
 
   return layout({
-    title: "市議会ウォッチ（準備中）｜宝塚市民向け情報サイト",
+    title: "市議会ウォッチ（準備中）｜Takarazuka Today",
     description: "宝塚市議会に関する情報配信は、公開情報の利用条件確認後に開始予定です。",
     bodyHtml,
     canonicalUrl,

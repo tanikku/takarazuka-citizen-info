@@ -45,41 +45,74 @@ a {
   vertical-align: -0.2em;
 }
 
-/* ヘッダー */
+/* ヘッダー（宝塚歌劇風ヒーローバナー） */
 .site-header {
-  background: var(--surface);
-  border-bottom: 3px solid var(--accent);
-  position: sticky;
-  top: 0;
-  z-index: 10;
+  border-bottom: 3px solid #6e1224;
+  background-image: url("/img/header-banner.png");
+  background-size: cover;
+  background-position: center;
+  background-color: #6e1224;
+}
+
+.header-overlay {
+  max-width: 760px;
+  margin: 0 auto;
+  min-height: 180px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 16px 0;
 }
 
 .header-row {
-  max-width: 1080px;
-  margin: 0 auto;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 10px 16px;
+  padding: 14px 18px;
+  margin: 0 16px;
 }
 
 .logo {
-  font-size: 1.25rem;
+  font-size: 2.1rem;
   font-weight: 800;
-  color: var(--accent);
+  color: #6e1224;
+  text-shadow:
+    -1.5px -1.5px 0 #fff8ec,
+    1.5px -1.5px 0 #fff8ec,
+    -1.5px 1.5px 0 #fff8ec,
+    1.5px 1.5px 0 #fff8ec,
+    0 2px 6px rgba(0, 0, 0, 0.2);
 }
 
 .logo small {
   display: block;
-  font-size: 0.65rem;
-  color: var(--text-sub);
-  font-weight: 500;
+  font-size: 0.95rem;
+  color: #9c1c33;
+  font-weight: 700;
+  text-shadow:
+    -1px -1px 0 #fff8ec,
+    1px -1px 0 #fff8ec,
+    -1px 1px 0 #fff8ec,
+    1px 1px 0 #fff8ec;
+}
+
+.site-tagline {
+  margin: 8px 16px 0;
+  padding: 0 18px;
+  font-size: 1rem;
+  font-weight: 800;
+  color: #6e1224;
+  text-shadow:
+    -1px -1px 0 #fff8ec,
+    1px -1px 0 #fff8ec,
+    -1px 1px 0 #fff8ec,
+    1px 1px 0 #fff8ec;
 }
 
 .theme-toggle {
-  border: 1px solid var(--border);
-  background: var(--bg);
-  color: var(--text);
+  border: 1px solid rgba(110, 18, 36, 0.4);
+  background: rgba(255, 248, 236, 0.7);
+  color: #6e1224;
   border-radius: 6px;
   padding: 8px;
   cursor: pointer;
