@@ -1,0 +1,33 @@
+name: 候補記事の自動取得
+
+# 各ソース（宝塚市公式サイト・兵庫県公式サイト・兵庫県警察）から候補記事をdata/pending/に取得するだけのワークフロー。
+# 要約作成・承認・公開は引き続き人間（とClaude）がセッション中に手動で行う（完全自動公開はしない方針）。
+on:
+  schedule:
+    - cron: "0 21 * * *" # UTC 21:00 = JST 6:00
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - run: npm install
+
+      - run: npm run fetch:all
+
+      - name: 取得した候補をコミット
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/pending/
+          git diff --staged --quiet || git commit -m "候補記事の自動取得（$(date -u +%Y-%m-%d)）"
+          git push
