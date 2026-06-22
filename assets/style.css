@@ -207,11 +207,18 @@ main {
   display: flex;
   align-items: center;
   justify-content: center;
+  overflow: hidden;
 }
 
 .headline-thumb .icon {
   width: 1.4em;
   height: 1.4em;
+}
+
+.headline-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .headline-title {

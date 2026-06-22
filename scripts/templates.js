@@ -22,6 +22,8 @@ const ICON_PATHS = {
   sun: '<circle cx="12" cy="12" r="4"/><line x1="12" y1="2" x2="12" y2="4"/><line x1="12" y1="20" x2="12" y2="22"/><line x1="4" y1="12" x2="2" y2="12"/><line x1="22" y1="12" x2="20" y2="12"/><line x1="5" y1="5" x2="6.5" y2="6.5"/><line x1="17.5" y1="17.5" x2="19" y2="19"/><line x1="5" y1="19" x2="6.5" y2="17.5"/><line x1="17.5" y1="6.5" x2="19" y2="5"/>',
   moon: '<path d="M21 12.5A9 9 0 1 1 11.5 3a7 7 0 0 0 9.5 9.5z"/>',
   newspaper: '<rect x="3" y="5" width="14" height="16" rx="1.5"/><line x1="6" y1="9" x2="14" y2="9"/><line x1="6" y1="12.5" x2="14" y2="12.5"/><line x1="6" y1="16" x2="11" y2="16"/><path d="M17 8h3a1 1 0 0 1 1 1v10a2 2 0 0 1-2 2H7"/>',
+  videoCamera: '<rect x="2" y="6" width="13" height="12" rx="1.5"/><path d="M15 10l6-3v10l-6-3z"/><circle cx="6" cy="9" r="0.6" fill="currentColor" stroke="none"/>',
+  ticket: '<path d="M3 8a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v2a2 2 0 0 0 0 4v2a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-2a2 2 0 0 0 0-4z"/><line x1="13" y1="6" x2="13" y2="18" stroke-dasharray="2 2"/>',
 };
 
 export function icon(name) {
@@ -105,6 +107,7 @@ ${bodyHtml}
 </main>
 <footer class="site-footer">
 <p>本サイトに掲載する記事は、公開情報の要約と出典リンクのみで構成しています。詳細・正式な内容は出典元をご確認ください。</p>
+<p>写真提供：<a href="https://www.city.takarazuka.hyogo.jp/1014984/1015575/" target="_blank" rel="noopener">宝塚市オープンデータ</a>（<a href="https://creativecommons.org/licenses/by/4.0/deed.ja" target="_blank" rel="noopener">CC BY 4.0</a>）</p>
 </footer>
 ${jsonLdScript}
 <script src="/js/theme.js" defer></script>
@@ -177,10 +180,33 @@ function sourceBadge(sourceName) {
   return `<span class="source-tag ${badge.className}">${escapeHtml(badge.label)}</span>`;
 }
 
+// 宝塚市オープンデータ写真（CC BY 4.0）を、関連するキーワードを含む記事のサムネイルに使う
+// 出典は各写真ページにリンクし、必ず「写真提供：宝塚市オープンデータ」を表示する
+const PHOTO_KEYWORDS = [
+  { keyword: "手塚治虫", file: "001015682_tezukakinenkan2015.jpg", title: "手塚治虫記念館" },
+  { keyword: "歌劇", file: "001015682_daigekizyo.jpg", title: "宝塚大劇場" },
+  { keyword: "あいあいパーク", file: "001015682_aiaipark2011.jpg", title: "あいあいパーク" },
+  { keyword: "武庫川", file: "001015682_mukogawa.jpg", title: "武庫川" },
+  { keyword: "ハーフマラソン", file: "001015681_takarazukamarason2015.jpg", title: "宝塚ハーフマラソン" },
+  { keyword: "花火", file: "001015579_kankouhanabi1-1.jpg", title: "宝塚観光花火大会" },
+  { keyword: "文化創造館", file: "001015682_takarazukabunkasouzoukan2009.jpg", title: "宝塚文化創造館" },
+];
+
+function findPhotoForText(text) {
+  return PHOTO_KEYWORDS.find((p) => text.includes(p.keyword));
+}
+
+function thumbHtml(photo, fallbackIconName) {
+  return photo
+    ? `<img src="/photos/${escapeHtml(photo.file)}" alt="${escapeHtml(photo.title)}" loading="lazy">`
+    : icon(fallbackIconName);
+}
+
 function headlineRow(article) {
   const categoryMeta = findCategory(article.category);
+  const photo = findPhotoForText(`${article.title} ${article.summary ?? ""}`);
   return `<a class="headline-row" href="/articles/${article.slug}.html">
-<div class="headline-thumb">${categoryMeta ? icon(categoryMeta.icon) : icon("newspaper")}</div>
+<div class="headline-thumb">${thumbHtml(photo, categoryMeta ? categoryMeta.icon : "newspaper")}</div>
 <div>
   <p class="headline-title">${sourceBadge(article.sourceName)}<span class="topic-tag">${escapeHtml(article.category)}</span>${escapeHtml(article.title)}</p>
   <p class="headline-meta">${escapeHtml(article.publishedAt)}・${escapeHtml(article.sourceName)}</p>
@@ -288,6 +314,8 @@ export function indexPage({ topArticles, todayArticles, categoryPreviewSections,
   </div>
   <div class="col-side">
     ${rankingOrRecentPanel(ranking, publishedArticles)}
+    ${livecamPanel()}
+    ${entertainmentPanel()}
     ${recentListPanel(publishedArticles)}
   </div>
 </div>`;
@@ -342,6 +370,77 @@ ${items || '<p class="empty-state">まだ記事がありません</p>'}
     bodyHtml,
     canonicalUrl,
     structuredData: [collectionLd, breadcrumbLd],
+  });
+}
+
+// 実在する公式ソースのみを掲載。武庫川武田尾は宝塚市内（玉瀬）に設置された国土交通省の観測点であることを確認済み
+const LIVE_CAMERAS = [
+  {
+    name: "武庫川武田尾（国土交通省 川の防災情報）",
+    description: "宝塚市玉瀬・武庫川武田尾地点の河川監視カメラ",
+    url: "https://www.river.go.jp/kawabou/pc/tm?zm=14&clat=34.803796253690784&clon=135.30083656311038&fld=0&mapType=0&viewGrpStg=0&viewRd=1&viewRW=1&viewRiver=1&viewPoint=1&ext=0&itmkndCd=100&scamId=222057042&ownCd=22057&sysCamId=22057042",
+  },
+];
+
+function livecamPanel() {
+  const items = LIVE_CAMERAS.map(
+    (cam) => `<a class="headline-row" href="${escapeHtml(cam.url)}" target="_blank" rel="noopener">
+<div class="headline-thumb">${thumbHtml({ file: "001015680_takedaomomizi2013.jpg", title: "武田尾（武庫川）" }, "videoCamera")}</div>
+<div>
+  <p class="headline-title">${escapeHtml(cam.name)}</p>
+  <p class="headline-meta">${escapeHtml(cam.description)}</p>
+</div>
+</a>`,
+  ).join("\n");
+
+  return `<div class="panel">
+<p class="panel-title">${icon("videoCamera")}宝塚市内のライブカメラ</p>
+${items}
+<p class="panel-note"><a href="/livecam.html">国土交通省「川の防災情報」で他の地点も見る →</a></p>
+</div>`;
+}
+
+function entertainmentPanel() {
+  return `<div class="panel">
+<p class="panel-title">${icon("ticket")}宝塚エンタメ情報</p>
+<a class="headline-row" href="https://kageki.hankyu.co.jp/schedule/index.html" target="_blank" rel="noopener">
+<div class="headline-thumb">${thumbHtml({ file: "001015682_daigekizyo.jpg", title: "宝塚大劇場" }, "ticket")}</div>
+<div>
+  <p class="headline-title">宝塚歌劇 公演・チケット情報</p>
+  <p class="headline-meta">宝塚大劇場の最新公演スケジュールは公式サイトでご確認ください</p>
+</div>
+</a>
+<p class="panel-note"><a href="https://kageki.hankyu.co.jp/schedule/index.html" target="_blank" rel="noopener">宝塚歌劇公式サイトで公演スケジュールを見る →</a></p>
+</div>`;
+}
+
+export function livecamPage(siteUrl) {
+  const canonicalUrl = `${siteUrl}/livecam.html`;
+  const items = LIVE_CAMERAS.map(
+    (cam) => `<a class="headline-row" href="${escapeHtml(cam.url)}" target="_blank" rel="noopener">
+<div class="headline-thumb">${icon("videoCamera")}</div>
+<div>
+  <p class="headline-title">${escapeHtml(cam.name)}</p>
+  <p class="headline-meta">${escapeHtml(cam.description)}</p>
+</div>
+</a>`,
+  ).join("\n");
+
+  const bodyHtml = `<nav class="breadcrumb"><a href="/">トップ</a> &gt; ライブカメラ</nav>
+<div class="page-content">
+<div class="panel">
+<p class="panel-title">${icon("videoCamera")}宝塚市内のライブカメラ</p>
+<p class="empty-state">本サイトでは、信頼できる公式の河川監視カメラのみをリンク掲載しています（画像の埋め込みは行わず、各機関の公式ページへ直接ご案内します）。</p>
+${items}
+<p class="panel-note">出典：国土交通省「川の防災情報」（<a href="https://www.river.go.jp/kawabou/" target="_blank" rel="noopener">https://www.river.go.jp/kawabou/</a>）<br>地図上で武庫川流域の他の観測点・カメラも確認できます。</p>
+</div>
+</div>`;
+
+  return layout({
+    title: "宝塚市内のライブカメラ｜Takarazuka Today",
+    description: "宝塚市内（武庫川流域）の河川監視ライブカメラを、国土交通省「川の防災情報」など公式ソースへのリンクでご案内します。",
+    bodyHtml,
+    canonicalUrl,
   });
 }
 

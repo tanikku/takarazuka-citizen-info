@@ -6,6 +6,7 @@ import {
   indexPage,
   categoryPage,
   comingSoonCategoryPage,
+  livecamPage,
   CATEGORIES,
   SHIGIKAI_CATEGORY,
 } from "./templates.js";
@@ -14,6 +15,8 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.join(__dirname, "..");
 const ARTICLES_DIR = path.join(ROOT, "data", "articles");
 const RANKING_FILE = path.join(ROOT, "data", "ranking.json");
+const PHOTOS_JSON = path.join(ROOT, "data", "photos.json");
+const PHOTOS_DIR = path.join(ROOT, "assets", "photos");
 const PUBLIC_DIR = path.join(ROOT, "public");
 const ASSETS_DIR = path.join(ROOT, "assets");
 
@@ -38,6 +41,11 @@ function loadArticles() {
       return JSON.parse(raw);
     })
     .sort((a, b) => (a.publishedAt < b.publishedAt ? 1 : -1));
+}
+
+function loadPhotos() {
+  if (!fs.existsSync(PHOTOS_JSON)) return [];
+  return JSON.parse(fs.readFileSync(PHOTOS_JSON, "utf-8"));
 }
 
 function loadRanking() {
@@ -81,6 +89,7 @@ function buildSitemap(publishedArticles, categoryPageKeys) {
     { loc: `${SITE_URL}/`, lastmod: today },
     ...[...categoryPageKeys].map((key) => ({ loc: `${SITE_URL}/category/${key}.html`, lastmod: today })),
     { loc: `${SITE_URL}/category/${SHIGIKAI_CATEGORY.key}.html`, lastmod: today },
+    { loc: `${SITE_URL}/livecam.html`, lastmod: today },
     ...publishedArticles.map((article) => ({
       loc: `${SITE_URL}/articles/${article.slug}.html`,
       lastmod: article.publishedAt,
@@ -121,6 +130,7 @@ function main() {
   })).filter((section) => section.allArticles.length > 0);
 
   const categoryPageKeys = new Set(categorySections.map((s) => s.key));
+  const allPhotos = loadPhotos();
 
   writeFile(
     "index.html",
@@ -146,6 +156,7 @@ function main() {
     writeFile(`category/${section.key}.html`, categoryPage(section, section.allArticles, SITE_URL));
   }
   writeFile(`category/${SHIGIKAI_CATEGORY.key}.html`, comingSoonCategoryPage(SITE_URL));
+  writeFile("livecam.html", livecamPage(SITE_URL));
 
   writeFile("sitemap.xml", buildSitemap(publishedArticles, categoryPageKeys));
   writeFile("robots.txt", `User-agent: *\nAllow: /\nSitemap: ${SITE_URL}/sitemap.xml\n`);
@@ -155,7 +166,15 @@ function main() {
   writeFile("favicon.svg", fs.readFileSync(path.join(ASSETS_DIR, "favicon.svg"), "utf-8"));
   writeFile("img/header-banner.png", fs.readFileSync(path.join(ASSETS_DIR, "header-banner.png")));
 
+  for (const photo of allPhotos) {
+    const srcPath = path.join(PHOTOS_DIR, photo.localFile);
+    if (fs.existsSync(srcPath)) {
+      writeFile(`photos/${photo.localFile}`, fs.readFileSync(srcPath));
+    }
+  }
+
   console.log(`公開記事: ${publishedArticles.length}件（S/A=${featuredArticles.length}件・B=${publishedArticles.length - featuredArticles.length}件） / 非公開(C): ${skippedCount}件`);
+  console.log(`写真: ${allPhotos.length}枚をpublic/photos/にコピー（記事・パネルのサムネイル用）`);
   console.log(`カテゴリーページ: ${categorySections.length}件 + 市議会（準備中）`);
   console.log(`ランキング表示: ${ranking ? "有効" : "未蓄積のため新着記事で代替"}`);
 }
