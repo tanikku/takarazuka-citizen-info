@@ -436,16 +436,28 @@ function gikaiRow(article) {
 </a>`;
 }
 
-export function categoryPage(category, articles, siteUrl) {
+function guideCard(guide) {
+  return `<a class="guide-card" href="${categoryPath(guide.category.key)}/${escapeHtml(guide.slug)}.html">
+<div class="icon-box">${icon(guide.category.icon)}</div>
+<div>
+  <div class="label">${escapeHtml(guide.title)}</div>
+  <div class="sub">${escapeHtml(guide.cardSummary)}</div>
+</div>
+</a>`;
+}
+
+export function categoryPage(category, articles, siteUrl, guidesForCategory = []) {
   const canonicalUrl = `${siteUrl}${categoryPath(category.key)}`;
   const isShigikai = category.key === "shigikai";
   const items = articles.map(isShigikai ? gikaiRow : headlineRow).join("\n");
   const giinLink = isShigikai
     ? `<p class="panel-note"><a href="/giin/">議員活動サマリー一覧を見る →</a>　<a href="/category/shigikai/guide.html">市議会のしくみ・このページの見方 →</a></p>`
     : "";
+  const guideCards = guidesForCategory.map(guideCard).join("\n");
 
   const bodyHtml = `<nav class="breadcrumb"><a href="/">トップ</a> &gt; ${escapeHtml(category.label)}</nav>
 <div class="page-content">
+${guideCards}
 <div class="panel">
 <p class="panel-title">${icon(category.icon)}${escapeHtml(category.label)}${isShigikai ? "ウォッチ" : "の記事一覧"}</p>
 ${isShigikai ? SHIGIKAI_DISCLOSURE : ""}
@@ -784,6 +796,86 @@ export function gikaiGuidePage(siteUrl) {
     bodyHtml,
     canonicalUrl,
     structuredData: breadcrumbLd,
+  });
+}
+
+// 検索流入向けの常設ガイドページ（ごみ出し・子育て支援・防災・学校情報など）
+// ニュース記事ではなく評価性のない常設リファレンス情報のため、記事スキーマとは別に専用ページとして実装する
+export function guidePage(guide, siteUrl) {
+  const canonicalUrl = `${siteUrl}${categoryPath(guide.category.key)}/${guide.slug}.html`;
+
+  const tocHtml = `<div class="toc">
+<p class="toc-title">${icon("newspaper")}目次</p>
+<ol>${guide.toc.map((t) => `<li><a href="#${escapeHtml(t.id)}">${escapeHtml(t.label)}</a></li>`).join("\n")}</ol>
+</div>`;
+
+  const sectionsHtml = guide.sections
+    .map(
+      (s) => `<section class="guide-section" id="${escapeHtml(s.id)}">
+<h2>${icon(s.icon ?? guide.category.icon)}${escapeHtml(s.heading)}</h2>
+${s.items.map((item) => `<div class="rule-card">${item}</div>`).join("\n")}
+${(s.notes ?? []).map((note) => `<div class="note-box">${escapeHtml(note)}</div>`).join("\n")}
+</section>`,
+    )
+    .join("\n");
+
+  const faqHtml = `<section class="guide-section" id="faq">
+<h2>${icon("bell")}よくある質問</h2>
+${guide.faq
+  .map(
+    (f) => `<div class="faq-item">
+<div class="faq-q">${escapeHtml(f.q)}</div>
+<div class="faq-a">${escapeHtml(f.a)}</div>
+</div>`,
+  )
+  .join("\n")}
+</section>`;
+
+  const relatedHtml = `<section class="guide-section">
+<h2>${icon("newspaper")}関連リンク</h2>
+<div class="related-links">
+${guide.relatedLinks.map((l) => `<a href="${escapeHtml(l.href)}">${escapeHtml(l.label)} →</a>`).join("\n")}
+</div>
+</section>`;
+
+  const bodyHtml = `<nav class="breadcrumb"><a href="/">トップ</a> &gt; <a href="${categoryPath(guide.category.key)}">${escapeHtml(guide.category.label)}</a> &gt; ${escapeHtml(guide.title)}</nav>
+<div class="page-content">
+<h1>${escapeHtml(guide.title)}</h1>
+<p class="lead">${escapeHtml(guide.lead)}</p>
+<p class="updated-at">最終更新：${escapeHtml(guide.updatedAt)}</p>
+${tocHtml}
+${sectionsHtml}
+${faqHtml}
+${relatedHtml}
+<p class="source-note">出典：<a href="${escapeHtml(guide.sourceUrl)}" target="_blank" rel="noopener">${escapeHtml(guide.sourceLabel)}</a>（情報は要約です。最新情報は出典元をご確認ください）</p>
+</div>`;
+
+  const breadcrumbLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "トップ", item: `${siteUrl}/` },
+      { "@type": "ListItem", position: 2, name: guide.category.label, item: `${siteUrl}${categoryPath(guide.category.key)}` },
+      { "@type": "ListItem", position: 3, name: guide.title, item: canonicalUrl },
+    ],
+  };
+
+  const faqLd = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: guide.faq.map((f) => ({
+      "@type": "Question",
+      name: f.q,
+      acceptedAnswer: { "@type": "Answer", text: f.a },
+    })),
+  };
+
+  return layout({
+    title: `${guide.title}｜Takarazuka Today`,
+    description: guide.lead,
+    bodyHtml,
+    canonicalUrl,
+    structuredData: [breadcrumbLd, faqLd],
   });
 }
 

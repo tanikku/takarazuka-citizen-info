@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>フェーズ5優先度C モック（検索流入向け特集ページ）｜Takarazuka Today</title>
+<style>
+  :root {
+    --bg: #f3f4f6; --surface: #ffffff; --text: #222222; --text-sub: #595959;
+    --border: #dcdfe3; --accent: #c8102e; --accent-soft: #fdecef; --link: #0057a3;
+  }
+  * { box-sizing: border-box; }
+  body { margin:0; font-family:-apple-system,"Hiragino Sans","Yu Gothic",sans-serif; background:var(--bg); color:var(--text); line-height:1.7; max-width:480px; margin:0 auto; border-left:1px solid #ddd; border-right:1px solid #ddd; }
+  .mock-banner { background:#fff3cd; color:#5c4400; text-align:center; font-size:.78rem; padding:6px; }
+  .mock-section-label { background:#333; color:#fff; font-size:.76rem; font-weight:700; padding:8px 16px; margin-top:28px; }
+  main { padding:14px; }
+  .breadcrumb { font-size:.78rem; color:var(--text-sub); margin-bottom:10px; }
+  .breadcrumb a { color:var(--link); }
+
+  /* ① ホームページ導線：クイックアクセス */
+  .qa-row { display:grid; grid-template-columns:repeat(3,1fr); gap:8px; }
+  .qa-tile { background:var(--surface); border:1px solid var(--border); border-radius:10px; padding:10px 4px; text-align:center; font-size:.68rem; font-weight:700; display:flex; flex-direction:column; align-items:center; gap:4px; }
+
+  /* ② カテゴリーページ導線：ガイドリンクカード */
+  .guide-card { display:flex; align-items:center; gap:12px; background:linear-gradient(135deg, var(--accent-soft), #fff); border:1px solid #f0c2cb; border-radius:10px; padding:14px; margin-bottom:14px; }
+  .guide-card .icon-box { font-size:1.6rem; flex:none; }
+  .guide-card .label { font-weight:800; font-size:.92rem; color:var(--accent); }
+  .guide-card .sub { font-size:.74rem; color:var(--text-sub); }
+
+  /* ③ ガイドページ本体 */
+  h1 { font-size:1.35rem; margin:8px 0 4px; }
+  .lead { font-size:.88rem; color:var(--text-sub); margin-bottom:16px; }
+  .toc { background:var(--surface); border:1px solid var(--border); border-radius:8px; padding:14px; margin-bottom:18px; }
+  .toc-title { font-weight:800; font-size:.88rem; margin:0 0 8px; }
+  .toc ol { margin:0; padding-left:20px; font-size:.85rem; }
+  .toc li { margin-bottom:4px; }
+  .toc a { color:var(--link); }
+
+  section.guide-section { margin-bottom:20px; }
+  section.guide-section h2 { font-size:1.05rem; border-bottom:2px solid var(--accent); padding-bottom:6px; margin:0 0 10px; display:flex; align-items:center; gap:6px; }
+  .rule-card { background:var(--surface); border:1px solid var(--border); border-radius:8px; padding:12px 14px; margin-bottom:8px; font-size:.88rem; }
+  .rule-card strong { color:var(--accent); }
+  .note-box { background:#eef6ff; border:1px solid #b9d8f5; border-radius:8px; padding:10px 12px; font-size:.82rem; color:#1a3a5c; margin:10px 0; }
+
+  /* FAQ */
+  .faq-item { border:1px solid var(--border); border-radius:8px; margin-bottom:8px; overflow:hidden; }
+  .faq-q { padding:12px 14px; font-weight:700; font-size:.88rem; background:var(--surface); display:flex; justify-content:space-between; cursor:pointer; }
+  .faq-a { padding:0 14px 12px; font-size:.85rem; color:var(--text-sub); }
+
+  /* 関連リンク */
+  .related-links { display:flex; flex-direction:column; gap:8px; }
+  .related-links a { background:var(--surface); border:1px solid var(--border); border-radius:8px; padding:10px 14px; color:var(--link); font-weight:700; font-size:.85rem; }
+
+  .source-note { font-size:.78rem; color:var(--text-sub); margin-top:20px; padding-top:14px; border-top:1px solid var(--border); }
+  .source-note a { color:var(--link); }
+
+  /* ④ 他3ガイドの一覧（同テンプレート） */
+  .guide-list { display:flex; flex-direction:column; gap:8px; }
+  .guide-list a { background:var(--surface); border:1px solid var(--border); border-radius:8px; padding:12px 14px; color:var(--link); font-weight:700; font-size:.85rem; display:flex; align-items:center; gap:8px; }
+</style>
+</head>
+<body>
+<div class="mock-banner">※デザイン確認用モックです。ごみ出し情報は宝塚市公式サイトの実際の内容を要約していますが、最新情報は必ず公式サイトでご確認ください</div>
+
+<div class="mock-section-label">① トップページ：クイックアクセスに「くらしガイド」を追加</div>
+<main>
+  <div class="qa-row">
+    <div class="qa-tile">📅<span>今日の宝塚</span></div>
+    <div class="qa-tile">🏛️<span>市議会</span></div>
+    <div class="qa-tile" style="border-color:var(--accent); color:var(--accent);">📖<span>くらしガイド</span></div>
+  </div>
+</main>
+
+<div class="mock-section-label">② カテゴリーページ（行政・くらし）：ガイドへの導線カード</div>
+<main>
+  <nav class="breadcrumb"><a href="#">トップ</a> &gt; 行政・くらし</nav>
+  <div class="guide-card">
+    <div class="icon-box">🗑️</div>
+    <div>
+      <div class="label">宝塚市ゴミ出し完全ガイド</div>
+      <div class="sub">分別ルール・収集日・よくある質問をまとめました</div>
+    </div>
+  </div>
+  <p style="font-size:.82rem; color:var(--text-sub);">（この下に通常の記事一覧が続きます）</p>
+</main>
+
+<div class="mock-section-label">③ ガイドページ本体（/category/kurashi/gomi-guide.html）</div>
+<main>
+  <nav class="breadcrumb"><a href="#">トップ</a> &gt; <a href="#">行政・くらし</a> &gt; ゴミ出し完全ガイド</nav>
+  <h1>宝塚市ゴミ出し完全ガイド</h1>
+  <p class="lead">宝塚市公式サイトの情報をもとに、分別ルール・収集日・よくある質問をまとめました。最新情報は出典元の公式サイトでご確認ください。</p>
+
+  <div class="toc">
+    <p class="toc-title">📋 目次</p>
+    <ol>
+      <li><a href="#kind">ごみの種類と収集頻度</a></li>
+      <li><a href="#rule">分別ルール</a></li>
+      <li><a href="#caution">出し方の注意点</a></li>
+      <li><a href="#calendar">収集日の確認方法</a></li>
+      <li><a href="#ng">収集できないごみ</a></li>
+      <li><a href="#faq">よくある質問</a></li>
+    </ol>
+  </div>
+
+  <section class="guide-section" id="kind">
+    <h2>🗑️ ごみの種類と収集頻度</h2>
+    <div class="rule-card"><strong>燃やすごみ</strong>：週2回収集</div>
+    <div class="rule-card"><strong>プラスチック類</strong>：週1回収集</div>
+    <div class="rule-card"><strong>かん・びん／紙・布／ペットボトル／小型不燃ごみ</strong>：月2回収集</div>
+  </section>
+
+  <section class="guide-section" id="rule">
+    <h2>♻️ 分別ルール</h2>
+    <div class="rule-card"><strong>燃やすごみ</strong>：台所ごみ・紙くず・布くず・木くず等。木くずは50cm以内に切ってひもで束ねる</div>
+    <div class="rule-card"><strong>プラスチック類</strong>：食品容器・ボトル等。汚れたものは洗ってから出す</div>
+    <div class="rule-card"><strong>ペットボトル</strong>：キャップ・ラベルを外し、中を洗ってつぶしてから出す</div>
+    <div class="note-box">ペットシート・マスク・紙おむつは「紙・布」ではなく「燃やすごみ」に出します</div>
+  </section>
+
+  <section class="guide-section" id="caution">
+    <h2>⚠️ 出し方の注意点</h2>
+    <div class="rule-card">収集日の<strong>午前8時まで</strong>に、決められたごみステーションへ出す</div>
+    <div class="rule-card"><strong>黒いごみ袋は収集できません</strong>（透明・半透明の袋を使用）</div>
+  </section>
+
+  <section class="guide-section" id="calendar">
+    <h2>📅 収集日の確認方法</h2>
+    <div class="rule-card">ごみ分別アプリ「さんあ～る」（収集日通知・分別検索）</div>
+    <div class="rule-card">LINE公式アカウント「宝塚市」（収集日通知）</div>
+    <div class="rule-card">ごみ収集カレンダー（公式サイト掲載）</div>
+  </section>
+
+  <section class="guide-section" id="ng">
+    <h2>🚫 収集できないごみ</h2>
+    <div class="rule-card">消火器・プロパンボンベ・タイヤ・バイク・建築廃材など</div>
+    <div class="note-box">エアコン・テレビ等の家電リサイクル対象品は購入店等への引き取り依頼が必要です</div>
+  </section>
+
+  <section class="guide-section" id="faq">
+    <h2>❓ よくある質問</h2>
+    <div class="faq-item">
+      <div class="faq-q">Q. 粗大ごみはどう出せばいい？ <span>▼</span></div>
+      <div class="faq-a">A. 宝塚市粗大ごみインターネット受付での申込、またはクリーンセンターへの持ち込みが必要です。詳細は公式サイトをご確認ください。</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">Q. 収集日を忘れてしまった場合は？ <span>▼</span></div>
+      <div class="faq-a">A. アプリ「さんあ～る」やLINE公式アカウントに登録すると、収集日の通知を受け取れます。</div>
+    </div>
+  </section>
+
+  <section class="guide-section">
+    <h2>🔗 関連リンク</h2>
+    <div class="related-links">
+      <a href="#">→ 防犯・防災カテゴリーを見る</a>
+      <a href="#">→ 行政・くらしの記事一覧を見る</a>
+    </div>
+  </section>
+
+  <p class="source-note">出典：<a href="#" target="_blank">宝塚市公式サイト「ごみの出し方」</a>（情報は要約です。最新情報は出典元をご確認ください）</p>
+</main>
+
+<div class="mock-section-label">④ 同テンプレートで作成する残り3ガイド（イメージ）</div>
+<main>
+  <div class="guide-list">
+    <a href="#">🍼 宝塚市子育て支援まとめ（/category/kosodate/guide.html）</a>
+    <a href="#">🛡️ 宝塚市防災ガイド（/category/bosai/guide.html）</a>
+    <a href="#">🏫 宝塚市学校情報ガイド（/category/kyoiku/guide.html）</a>
+  </div>
+</main>
+
+</body>
+</html>

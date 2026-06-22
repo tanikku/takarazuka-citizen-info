@@ -9,6 +9,7 @@ import {
   eventsPage,
   rankingPage,
   gikaiGuidePage,
+  guidePage,
   mukogawaBosaiPage,
   giinPage,
   giinIndexPage,
@@ -23,6 +24,7 @@ const PHOTOS_JSON = path.join(ROOT, "data", "photos.json");
 const PHOTOS_DIR = path.join(ROOT, "assets", "photos");
 const WEATHER_JSON = path.join(ROOT, "data", "weather.json");
 const GIIN_JSON = path.join(ROOT, "data", "giin.json");
+const GUIDES_DIR = path.join(ROOT, "data", "guides");
 const PUBLIC_DIR = path.join(ROOT, "public");
 const ASSETS_DIR = path.join(ROOT, "assets");
 
@@ -47,6 +49,14 @@ function loadArticles() {
       return JSON.parse(raw);
     })
     .sort((a, b) => (a.publishedAt < b.publishedAt ? 1 : -1));
+}
+
+function loadGuides() {
+  if (!fs.existsSync(GUIDES_DIR)) return [];
+  return fs.readdirSync(GUIDES_DIR)
+    .filter((f) => f.endsWith(".json"))
+    .map((f) => JSON.parse(fs.readFileSync(path.join(GUIDES_DIR, f), "utf-8")))
+    .map((g) => ({ ...g, category: CATEGORIES.find((c) => c.key === g.categoryKey) }));
 }
 
 function loadGiin() {
@@ -183,7 +193,7 @@ function writeFile(relativePath, content) {
   fs.writeFileSync(filePath, content);
 }
 
-function buildSitemap(publishedArticles, categoryPageKeys, giinWithArticles) {
+function buildSitemap(publishedArticles, categoryPageKeys, giinWithArticles, guides) {
   const today = todayDateKey();
   const entries = [
     { loc: `${SITE_URL}/`, lastmod: today },
@@ -193,6 +203,7 @@ function buildSitemap(publishedArticles, categoryPageKeys, giinWithArticles) {
     { loc: `${SITE_URL}/events/`, lastmod: today },
     { loc: `${SITE_URL}/ranking/`, lastmod: today },
     { loc: `${SITE_URL}/category/shigikai/guide.html`, lastmod: today },
+    ...guides.map((g) => ({ loc: `${SITE_URL}/category/${g.categoryKey}/${g.slug}.html`, lastmod: g.updatedAt })),
     ...(giinWithArticles.length > 0 ? [{ loc: `${SITE_URL}/giin/`, lastmod: today }] : []),
     ...giinWithArticles.map((giin) => ({ loc: `${SITE_URL}/giin/${giin.slug}.html`, lastmod: today })),
     ...publishedArticles.map((article) => ({
@@ -227,13 +238,15 @@ function main() {
   const todayArticles = featuredArticles.filter((a) => a.publishedAt === todayKey);
   const ranking = loadRanking();
   const giinList = loadGiin();
+  const guides = loadGuides();
 
-  // カテゴリーごとに、公開対象（S/A/B）の記事をまとめる。1件以上ある場合のみカテゴリーページを生成する
+  // カテゴリーごとに、公開対象（S/A/B）の記事をまとめる。記事が1件以上、またはガイドページがある場合のみカテゴリーページを生成する
   const categorySections = CATEGORIES.map((cat) => ({
     ...cat,
     allArticles: publishedArticles.filter((a) => a.category === cat.label),
     featuredArticles: featuredArticles.filter((a) => a.category === cat.label),
-  })).filter((section) => section.allArticles.length > 0);
+    guides: guides.filter((g) => g.categoryKey === cat.key),
+  })).filter((section) => section.allArticles.length > 0 || section.guides.length > 0);
 
   const categoryPageKeys = new Set(categorySections.map((s) => s.key));
   const allPhotos = loadPhotos();
@@ -262,7 +275,10 @@ function main() {
   }
 
   for (const section of categorySections) {
-    writeFile(`category/${section.key}.html`, categoryPage(section, section.allArticles, SITE_URL));
+    writeFile(`category/${section.key}.html`, categoryPage(section, section.allArticles, SITE_URL, section.guides));
+  }
+  for (const guide of guides) {
+    writeFile(`category/${guide.categoryKey}/${guide.slug}.html`, guidePage(guide, SITE_URL));
   }
   writeFile("livecam.html", livecamPage(SITE_URL));
   writeFile("mukogawa/index.html", mukogawaBosaiPage(SITE_URL));
@@ -284,7 +300,7 @@ function main() {
   writeFile("events/index.html", eventsPage({ todayEvents, thisWeekend, thisMonth, siteUrl: SITE_URL }));
   writeFile("ranking/index.html", rankingPage(ranking, publishedArticles, SITE_URL));
 
-  writeFile("sitemap.xml", buildSitemap(publishedArticles, categoryPageKeys, giinWithArticles));
+  writeFile("sitemap.xml", buildSitemap(publishedArticles, categoryPageKeys, giinWithArticles, guides));
   writeFile("robots.txt", `User-agent: *\nAllow: /\nSitemap: ${SITE_URL}/sitemap.xml\n`);
 
   writeFile("css/style.css", fs.readFileSync(path.join(ASSETS_DIR, "style.css"), "utf-8"));

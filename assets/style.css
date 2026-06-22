@@ -501,6 +501,161 @@ html[data-theme="dark"] .point-box-title {
   margin: 14px 0 4px;
 }
 
+/* 検索流入向け特集ページ（ごみ出し・子育て支援・防災・学校情報ガイド） */
+.guide-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: linear-gradient(135deg, var(--accent-soft), var(--surface));
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 14px;
+  margin-bottom: 14px;
+}
+
+.guide-card .icon-box {
+  flex: none;
+  color: var(--accent);
+}
+
+.guide-card .label {
+  font-weight: 800;
+  font-size: 0.92rem;
+  color: var(--accent);
+}
+
+.guide-card .sub {
+  font-size: 0.78rem;
+  color: var(--text-sub);
+}
+
+.lead {
+  font-size: 0.9rem;
+  color: var(--text-sub);
+  margin-bottom: 8px;
+}
+
+.updated-at {
+  font-size: 0.78rem;
+  color: var(--text-sub);
+  margin-bottom: 16px;
+}
+
+.toc {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 14px;
+  margin-bottom: 18px;
+}
+
+.toc-title {
+  font-weight: 800;
+  font-size: 0.88rem;
+  margin: 0 0 8px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.toc ol {
+  margin: 0;
+  padding-left: 20px;
+  font-size: 0.85rem;
+}
+
+.toc li {
+  margin-bottom: 4px;
+}
+
+.guide-section {
+  margin-bottom: 20px;
+}
+
+.guide-section h2 {
+  font-size: 1.05rem;
+  border-bottom: 2px solid var(--accent);
+  padding-bottom: 6px;
+  margin: 0 0 10px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.rule-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 12px 14px;
+  margin-bottom: 8px;
+  font-size: 0.88rem;
+}
+
+.rule-card strong {
+  color: var(--accent);
+}
+
+.note-box {
+  background: #eef6ff;
+  border: 1px solid #b9d8f5;
+  border-radius: 8px;
+  padding: 10px 12px;
+  font-size: 0.82rem;
+  color: #1a3a5c;
+  margin: 10px 0;
+}
+
+html[data-theme="dark"] .note-box {
+  background: #16202c;
+  border-color: #2c4361;
+  color: #cfe2f5;
+}
+
+.faq-item {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  margin-bottom: 8px;
+  overflow: hidden;
+}
+
+.faq-q {
+  padding: 12px 14px;
+  font-weight: 700;
+  font-size: 0.88rem;
+  background: var(--surface);
+}
+
+.faq-a {
+  padding: 0 14px 12px;
+  font-size: 0.85rem;
+  color: var(--text-sub);
+}
+
+.related-links {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.related-links a {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 10px 14px;
+  color: var(--link);
+  font-weight: 700;
+  font-size: 0.85rem;
+  display: block;
+}
+
+.source-note {
+  font-size: 0.78rem;
+  color: var(--text-sub);
+  margin-top: 20px;
+  padding-top: 14px;
+  border-top: 1px solid var(--border);
+}
+
 .giin-card {
   display: flex;
   gap: 14px;
