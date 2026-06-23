@@ -250,6 +250,7 @@ const PHOTO_KEYWORDS = [
   { keyword: "ハーフマラソン", file: "001015681_takarazukamarason2015.jpg", title: "宝塚ハーフマラソン" },
   { keyword: "花火", file: "001015579_kankouhanabi1-1.jpg", title: "宝塚観光花火大会" },
   { keyword: "文化創造館", file: "001015682_takarazukabunkasouzoukan2009.jpg", title: "宝塚文化創造館" },
+  { keyword: "ダリア", file: "001015680_daria2015.jpg", title: "宝塚ダリア園" },
 ];
 
 function findPhotoForText(text) {
