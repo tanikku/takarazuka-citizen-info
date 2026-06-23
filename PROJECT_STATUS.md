@@ -36,7 +36,8 @@
 - Cloudflare Web Analytics：ビーコン導入済み（Automatic setup）
 
 ### 自動化
-- `.github/workflows/fetch-daily.yml`：毎日朝6時（JST）に`npm run fetch:all`を自動実行し`data/pending/`へbotコミット。**要約作成・承認・公開は人間が手動で行う**（完全自動公開ではない）
+- `.github/workflows/fetch-daily.yml`：毎日朝6時（JST）に`npm run fetch:all`→`npm run clean:pending`を自動実行し`data/pending/`へbotコミット。**要約作成・承認・公開は人間が手動で行う**（完全自動公開ではない）
+- `scripts/clean-pending.js`：`data/pending/`の自動整理（公開済み記事と同一URL／同一URLの重複（新しい方を残す）／60日超を削除。候補JSONに`keep:true`を付けると削除対象から保護できる。終了イベントの自動判定は誤削除リスクが高いため未実装で、60日ルールで代替）
 
 ## 保留・未実装事項
 
