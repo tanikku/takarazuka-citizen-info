@@ -56,3 +56,11 @@ Cloudflare Analytics（過去30日PV50件・すべてトップページ）の実
 
 ## SNS文面のリンク不備（2026-06-22発見）
 記事ごとに生成していたSNS下書き（`sns.x`等）に、これまで記事URLが含まれていないことが判明（ハッシュタグのみで誘導リンクなし）。X等はリンクを含めると自動でカード型プレビューが表示されサイト誘導に有効なため、**今後の新規記事の下書きには記事URLを必須で含める**ことに決定。既存32記事分への遡及対応は優先度低として見送り。
+
+## サイト品質監査（2026-06-24実施）
+新機能追加を行わず、既存サイトの品質確認のみを目的に全62ページを監査（内部リンク切れ・孤立ページ・サイトマップ整合性・robots.txt・canonical・OGP・Breadcrumb・FAQ構造化データ・重複title・description未設定）。発見した問題と対応：
+- **ガイドページ4本のcanonical不一致**：`guidePage()`の`canonicalUrl`が`categoryPath()`の戻り値（`/category/bosai.html`）に直接ガイドslugを連結していたため、`/category/bosai.html/guide.html`という誤ったURLになっていた（過去に`guideCard()`のリンクで発生した不具合と同根の原因）。`/category/<categoryKey>/<slug>.html`の直接組み立てに修正
+- **`/ranking/`が孤立ページ**：人気記事ランキングが未蓄積（フォールバック表示）の間は、トップページの代替パネルに「もっと見る」リンクが無く、サイトマップ以外から到達不可だった。フォールバック側にもリンクを追加
+- **`/livecam.html`にBreadcrumb構造化データが欠落**：他ページと統一されていなかったため追加
+- **市議会のしくみページ（`/category/shigikai/guide.html`）にFAQ構造化データが欠落**：既存のQ&A形式本文をFAQPage JSON-LDに変換して追加
+- 内部リンク切れ・サイトマップ不整合・重複title・description未設定・OGP不足は0件で、これらは問題なし
