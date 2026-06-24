@@ -866,6 +866,19 @@ html[data-theme="dark"] .note-box {
   font-size: 0.9rem;
 }
 
+.x-follow-note {
+  margin-top: 16px;
+  padding: 12px 14px;
+  background: var(--accent-soft);
+  border-radius: 8px;
+  font-size: 0.85rem;
+}
+
+.x-follow-note a {
+  color: var(--accent);
+  font-weight: 700;
+}
+
 .back-link {
   margin-top: 32px;
 }

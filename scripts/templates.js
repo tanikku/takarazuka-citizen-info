@@ -143,6 +143,7 @@ ${bodyHtml}
 <footer class="site-footer">
 <p>本サイトに掲載する記事は、公開情報の要約と出典リンクのみで構成しています。詳細・正式な内容は出典元をご確認ください。</p>
 <p>写真提供：<a href="https://www.city.takarazuka.hyogo.jp/1014984/1015575/" target="_blank" rel="noopener">宝塚市オープンデータ</a>（<a href="https://creativecommons.org/licenses/by/4.0/deed.ja" target="_blank" rel="noopener">CC BY 4.0</a>）</p>
+<p>公式X：<a href="https://x.com/TakaTodayJP" target="_blank" rel="noopener">@TakaTodayJP</a></p>
 </footer>
 ${jsonLdScript}
 <script src="/js/theme.js" defer></script>
@@ -214,6 +215,7 @@ ${keyPointsBox}
 ${giinLinkBox}
 ${shigikaiDisclosure}
 <p class="article-source">出典：<a href="${escapeHtml(article.sourceUrl)}" rel="noopener" target="_blank">${escapeHtml(article.sourceName)}</a></p>
+<p class="x-follow-note">公式X：<a href="https://x.com/TakaTodayJP" target="_blank" rel="noopener">@TakaTodayJP</a><br>最新の更新情報や防災情報をお届けしています。</p>
 <p class="back-link"><a href="/">${icon("newspaper")}トップへ戻る</a></p>
 </article>`;
 
@@ -448,7 +450,7 @@ function gikaiRow(article) {
 }
 
 function guideCard(guide) {
-  return `<a class="guide-card" href="${categoryPath(guide.category.key)}/${escapeHtml(guide.slug)}.html">
+  return `<a class="guide-card" href="/category/${guide.categoryKey}/${escapeHtml(guide.slug)}.html">
 <div class="icon-box">${icon(guide.category.icon)}</div>
 <div>
   <div class="label">${escapeHtml(guide.title)}</div>
