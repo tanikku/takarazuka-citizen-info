@@ -13,6 +13,10 @@ import {
   mukogawaBosaiPage,
   giinPage,
   giinIndexPage,
+  privacyPage,
+  aboutPage,
+  adPolicyPage,
+  contactPage,
   CATEGORIES,
 } from "./templates.js";
 
@@ -203,6 +207,10 @@ function buildSitemap(publishedArticles, categoryPageKeys, giinWithArticles, gui
     { loc: `${SITE_URL}/events/`, lastmod: today },
     { loc: `${SITE_URL}/ranking/`, lastmod: today },
     { loc: `${SITE_URL}/category/shigikai/guide.html`, lastmod: today },
+    { loc: `${SITE_URL}/privacy.html`, lastmod: today },
+    { loc: `${SITE_URL}/about.html`, lastmod: today },
+    { loc: `${SITE_URL}/ad-policy.html`, lastmod: today },
+    { loc: `${SITE_URL}/contact.html`, lastmod: today },
     ...guides.map((g) => ({ loc: `${SITE_URL}/category/${g.categoryKey}/${g.slug}.html`, lastmod: g.updatedAt })),
     ...(giinWithArticles.length > 0 ? [{ loc: `${SITE_URL}/giin/`, lastmod: today }] : []),
     ...giinWithArticles.map((giin) => ({ loc: `${SITE_URL}/giin/${giin.slug}.html`, lastmod: today })),
@@ -280,6 +288,10 @@ function main() {
   writeFile("livecam.html", livecamPage(SITE_URL));
   writeFile("mukogawa/index.html", mukogawaBosaiPage(SITE_URL));
   writeFile("category/shigikai/guide.html", gikaiGuidePage(SITE_URL));
+  writeFile("privacy.html", privacyPage(SITE_URL));
+  writeFile("about.html", aboutPage(SITE_URL));
+  writeFile("ad-policy.html", adPolicyPage(SITE_URL));
+  writeFile("contact.html", contactPage(SITE_URL));
 
   const giinWithArticles = giinList.filter(
     (giin) => publishedArticles.filter((a) => (a.giin ?? []).includes(giin.slug)).length > 0,

@@ -144,6 +144,7 @@ ${bodyHtml}
 <p>本サイトに掲載する記事は、公開情報の要約と出典リンクのみで構成しています。詳細・正式な内容は出典元をご確認ください。</p>
 <p>写真提供：<a href="https://www.city.takarazuka.hyogo.jp/1014984/1015575/" target="_blank" rel="noopener">宝塚市オープンデータ</a>（<a href="https://creativecommons.org/licenses/by/4.0/deed.ja" target="_blank" rel="noopener">CC BY 4.0</a>）</p>
 <p>公式X：<a href="https://x.com/TakaTodayJP" target="_blank" rel="noopener">@TakaTodayJP</a></p>
+<p class="footer-links"><a href="/privacy.html">プライバシーポリシー</a>　<a href="/about.html">運営者情報</a>　<a href="/ad-policy.html">PR・広告掲載ポリシー</a>　<a href="/contact.html">お問い合わせ</a></p>
 </footer>
 ${jsonLdScript}
 <script src="/js/theme.js" defer></script>
@@ -953,5 +954,166 @@ export function mukogawaBosaiPage(siteUrl) {
     bodyHtml,
     canonicalUrl,
     structuredData: breadcrumbLd,
+  });
+}
+
+// フェーズ7：収益化の土台整備として追加した運営系の固定ページ共通レイアウト
+function staticInfoPage({ slug, breadcrumbLabel, title, description, panelTitle, panelIcon, contentHtml, siteUrl }) {
+  const canonicalUrl = `${siteUrl}/${slug}.html`;
+
+  const bodyHtml = `<nav class="breadcrumb"><a href="/">トップ</a> &gt; ${escapeHtml(breadcrumbLabel)}</nav>
+<div class="page-content">
+<div class="panel">
+<p class="panel-title">${icon(panelIcon)}${escapeHtml(panelTitle)}</p>
+${contentHtml}
+</div>
+</div>`;
+
+  const breadcrumbLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "トップ", item: `${siteUrl}/` },
+      { "@type": "ListItem", position: 2, name: breadcrumbLabel, item: canonicalUrl },
+    ],
+  };
+
+  return layout({
+    title: `${title}｜Takarazuka Today`,
+    description,
+    bodyHtml,
+    canonicalUrl,
+    structuredData: breadcrumbLd,
+  });
+}
+
+export function privacyPage(siteUrl) {
+  const contentHtml = `
+<p class="updated-at">最終更新日：2026年6月25日</p>
+<p>「Takarazuka Today（宝塚Today）」（以下「本サイト」）における、個人情報および利用者情報の取り扱いについて説明します。</p>
+
+<p class="guide-q">アクセス解析について</p>
+<p>本サイトでは、Cloudflare Web Analyticsを利用してアクセス状況を解析しています。Cloudflare Web Analyticsは、Cookieを使用せず、個人を特定する情報を収集しない方式のアクセス解析サービスです。</p>
+
+<p class="guide-q">Cookie・localStorageについて</p>
+<p>本サイトでは、ダークモード表示設定を保存するために、お使いの端末のlocalStorageを利用しています。この情報は、利用者を識別または追跡する目的では使用していません。現時点で、本サイトは第三者配信広告を表示していません。</p>
+
+<p class="guide-q">将来の広告配信について</p>
+<p>本サイトは将来、Google AdSenseなどの第三者配信事業者による広告を導入する可能性があります。広告を導入した場合、第三者配信事業者が利用者の興味に応じた広告を表示するためにCookieを使用することがあります。広告を導入する際は、本ページを更新し、必要な情報を追加します。</p>
+
+<p class="guide-q">外部サイトへのリンクについて</p>
+<p>本サイトの記事には、宝塚市、兵庫県、兵庫県警察などの出典元サイトへの外部リンクが含まれます。リンク先サイトにおける個人情報の取り扱いについては、本サイトは関与せず、各リンク先サイトのプライバシーポリシーが適用されます。</p>
+
+<p class="guide-q">お問い合わせ情報の取り扱いについて</p>
+<p>お問い合わせフォームなどを通じて提供された情報は、お問い合わせへの対応および必要な確認のために利用します。取得した情報を、本人の同意なく第三者へ提供することはありません。ただし、法令に基づく場合を除きます。</p>
+
+<p class="guide-q">本ポリシーの変更について</p>
+<p>本ポリシーは、必要に応じて予告なく変更することがあります。変更後の内容は、本ページに掲載した時点から適用されます。</p>
+`;
+
+  return staticInfoPage({
+    slug: "privacy",
+    breadcrumbLabel: "プライバシーポリシー",
+    title: "プライバシーポリシー",
+    description: "Takarazuka Todayにおけるアクセス解析・Cookie・将来の広告配信・外部リンク・お問い合わせ情報の取り扱いについて説明します。",
+    panelTitle: "プライバシーポリシー",
+    panelIcon: "newspaper",
+    contentHtml,
+    siteUrl,
+  });
+}
+
+export function aboutPage(siteUrl) {
+  const contentHtml = `
+<p class="guide-q">サイト名</p>
+<p>Takarazuka Today（宝塚Today）</p>
+
+<p class="guide-q">目的</p>
+<p>宝塚市、兵庫県、兵庫県警察などが公開する情報を、宝塚市にお住まいの方や宝塚市に関わりのある方に向けて、分かりやすく整理してお届けすることを目的としています。</p>
+
+<p class="guide-q">編集方針</p>
+<p>行政・くらしの情報、防犯・防災情報、市議会の動き、イベント情報などを扱います。記事は公開情報の要約と出典リンクを中心に構成し、原文の転載は行いません。事実に基づく内容を扱い、推測や誇張した表現は避けます。市議会に関する記事では、議員、会派、議案などへの政治的な評価や優劣判断は行わず、公開情報をもとにした事実ベースの要約を行います。PR記事や広告掲載枠については、通常記事と区別できるよう「PR」「広告」などの表記を行います。</p>
+
+<p class="guide-q">運営体制</p>
+<p>本サイトは個人により運営しています。運営者個人の氏名、所在地、電話番号については、プライバシー保護の観点から公開していません。</p>
+
+<p class="guide-q">内容の誤りについて</p>
+<p>記事内容に誤りや古い情報が含まれている場合は、<a href="/contact.html">お問い合わせページ</a>からご連絡ください。確認のうえ、必要に応じて訂正、追記、または掲載内容の見直しを行います。</p>
+`;
+
+  return staticInfoPage({
+    slug: "about",
+    breadcrumbLabel: "運営者情報",
+    title: "運営者情報",
+    description: "Takarazuka Todayのサイト名・目的・編集方針・運営体制について説明します。",
+    panelTitle: "運営者情報",
+    panelIcon: "building",
+    contentHtml,
+    siteUrl,
+  });
+}
+
+export function adPolicyPage(siteUrl) {
+  const contentHtml = `
+<p>本サイト「Takarazuka Today（宝塚Today）」では、掲載する情報を以下のように区別しています。</p>
+
+<p class="guide-q">通常記事</p>
+<p>宝塚市、兵庫県、兵庫県警察などの公的機関が公開している情報をもとに、編集部が独自に要約・整理した記事です。通常記事は、広告主や第三者からの依頼によって内容が左右されることはありません。</p>
+
+<p class="guide-q">店舗・団体提供情報</p>
+<p>店舗、企業、団体などから提供された情報をもとに掲載する情報です。掲載の可否は編集部が判断します。情報提供をいただいた場合でも、掲載を保証するものではありません。内容に誤りがないか確認するため、必要に応じて提供元へ確認を行う場合があります。</p>
+
+<p class="guide-q">PR記事・広告掲載枠</p>
+<p>対価を受けて掲載する記事または広告枠です。PR記事・広告掲載枠には、<span class="badge-ai-editorial" style="background:#c8102e;">PR</span> ・ <span class="badge-ai-editorial" style="background:#c8102e;">広告</span> などの表記を付け、通常記事と区別します。また、必要に応じて広告主・提供者の名称を明記します。</p>
+
+<p class="guide-q">編集の独立性について</p>
+<p>有料掲載であっても、事実と異なる内容、根拠のない表現、誇張した表現は掲載しません。広告主・提供者には、事実誤認がないか確認を依頼する場合がありますが、掲載内容の最終判断は編集部が行います。</p>
+
+<p class="guide-q">防災・緊急情報との分離</p>
+<p>避難情報、気象警報、防災情報、緊急のお知らせなどには、広告・PR要素を混在させません。</p>
+
+<p class="guide-q">掲載をお断りする内容</p>
+<p>以下に該当する、またはそのおそれがある内容は掲載をお断りします。</p>
+<div class="rule-card">虚偽または誤認を招く内容</div>
+<div class="rule-card">根拠のない効果・実績・比較表現</div>
+<div class="rule-card">公序良俗に反する内容</div>
+<div class="rule-card">法令または各種ガイドラインに違反する内容</div>
+<div class="rule-card">第三者の権利を侵害する内容</div>
+<div class="rule-card">本サイトの編集方針に合わない内容</div>
+
+<p class="guide-q">掲載可否の決定</p>
+<p>掲載の可否は、本サイト編集部の判断により決定します。掲載をお断りする場合、理由を個別にお伝えできない場合があります。</p>
+
+<p class="guide-q">お問い合わせ</p>
+<p>掲載情報の提供、PR記事、広告掲載に関するお問い合わせは、<a href="/contact.html">お問い合わせページ</a>からご連絡ください。</p>
+`;
+
+  return staticInfoPage({
+    slug: "ad-policy",
+    breadcrumbLabel: "PR・広告掲載ポリシー",
+    title: "PR・広告掲載ポリシー",
+    description: "Takarazuka Todayにおける通常記事・店舗提供情報・PR記事・広告掲載枠の区別と、掲載に関する編集方針を説明します。",
+    panelTitle: "PR・広告掲載ポリシー",
+    panelIcon: "shield",
+    contentHtml,
+    siteUrl,
+  });
+}
+
+export function contactPage(siteUrl) {
+  const contentHtml = `
+<p>お問い合わせフォームは現在準備中です。</p>
+<p>記事内容の訂正依頼、情報提供、PR・広告掲載に関するご相談の受付方法は、準備が整い次第このページでご案内します。</p>
+`;
+
+  return staticInfoPage({
+    slug: "contact",
+    breadcrumbLabel: "お問い合わせ",
+    title: "お問い合わせ（準備中）",
+    description: "Takarazuka Todayへのお問い合わせ方法をご案内します（フォームは準備中です）。",
+    panelTitle: "お問い合わせ",
+    panelIcon: "bell",
+    contentHtml,
+    siteUrl,
   });
 }
