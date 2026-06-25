@@ -32,8 +32,7 @@ document.getElementById("contact-form")?.addEventListener("submit", async (e) =>
 
     if (res.ok && json.ok) {
       form.hidden = true;
-      statusEl.innerHTML =
-        "お問い合わせを受け付けました。<br>※返信を保証するものではありません。<br>※PR・広告掲載のご相談は、掲載を保証するものではありません。";
+      statusEl.textContent = "お問い合わせを受け付けました。";
     } else {
       statusEl.textContent = json.error || "送信に失敗しました。しばらくしてから再度お試しください。";
       submitBtn.disabled = false;
