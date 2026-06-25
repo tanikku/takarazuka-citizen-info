@@ -39,6 +39,12 @@
 - `.github/workflows/fetch-daily.yml`：毎日朝6時（JST）に`npm run fetch:all`→`npm run clean:pending`を自動実行し`data/pending/`へbotコミット。**要約作成・承認・公開は人間が手動で行う**（完全自動公開ではない）
 - `scripts/clean-pending.js`：`data/pending/`の自動整理（公開済み記事と同一URL／同一URLの重複（新しい方を残す）／60日超を削除。候補JSONに`keep:true`を付けると削除対象から保護できる。終了イベントの自動判定は誤削除リスクが高いため未実装で、60日ルールで代替）
 
+### フェーズ7：収益化の土台整備（進行中・2026-06-25〜）
+- 運営系固定ページ4本を実装・公開済み：`/privacy.html`（プライバシーポリシー）／`/about.html`（運営者情報）／`/ad-policy.html`（PR・広告掲載ポリシー）／`/contact.html`（お問い合わせ、現在は準備中の説明のみ・フォーム未実装）
+- フッターに4ページへのリンクを追加
+- お問い合わせフォーム（実送信機能）は**未実装**。ユーザーが①Cloudflare Turnstileサイト作成、②Resendアカウント作成・ドメイン認証、③Cloudflare Pages環境変数設定（`TURNSTILE_SITE_KEY`/`TURNSTILE_SECRET_KEY`/`RESEND_API_KEY`/`CONTACT_NOTIFY_EMAIL`/`CONTACT_FROM_EMAIL`）を完了した後、Cloudflare Pages Functionsで実装する予定
+- マネタイズ手段としては、広告（Google AdSense等、トラフィック規模が必要なため中長期）より先に、**地元店舗の有料掲載枠・PR記事**を優先する方針（詳細は[[DECISIONS.md]]参照）
+
 ## 保留・未実装事項
 
 | 項目 | 状態 | 理由 |
