@@ -1100,8 +1100,43 @@ export function adPolicyPage(siteUrl) {
   });
 }
 
-export function contactPage(siteUrl) {
-  const contentHtml = `
+const CONTACT_CATEGORIES = ["記事内容の訂正・削除依頼", "情報提供", "PR・広告掲載の相談", "その他"];
+
+export function contactPage(siteUrl, turnstileSiteKey) {
+  const contentHtml = turnstileSiteKey
+    ? `
+<form id="contact-form" class="contact-form">
+  <label>お名前または団体名 <span class="req">必須</span>
+    <input type="text" name="name" required maxlength="100">
+  </label>
+  <label>メールアドレス <span class="req">必須</span>
+    <input type="email" name="email" required maxlength="200">
+  </label>
+  <label>お問い合わせ種別 <span class="req">必須</span>
+    <select name="category" required>
+      <option value="">選択してください</option>
+      ${CONTACT_CATEGORIES.map((c) => `<option value="${escapeHtml(c)}">${escapeHtml(c)}</option>`).join("\n")}
+    </select>
+  </label>
+  <label>件名 <span class="req">必須</span>
+    <input type="text" name="subject" required maxlength="200">
+  </label>
+  <label>内容 <span class="req">必須</span>
+    <textarea name="message" required maxlength="2000" rows="8"></textarea>
+  </label>
+  <div class="cf-turnstile" data-sitekey="${escapeHtml(turnstileSiteKey)}"></div>
+  <label class="consent-label">
+    <input type="checkbox" name="consent" required>
+    <a href="/privacy.html" target="_blank" rel="noopener">プライバシーポリシー</a>に同意します
+  </label>
+  <button type="submit">送信する</button>
+  <p id="contact-form-status" class="contact-form-status" role="status"></p>
+</form>
+<p class="panel-note">※返信を保証するものではありません。※PR・広告掲載のご相談は、掲載を保証するものではありません。</p>
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+<script src="/js/contact-form.js" defer></script>
+`
+    : `
 <p>お問い合わせフォームは現在準備中です。</p>
 <p>記事内容の訂正依頼、情報提供、PR・広告掲載に関するご相談の受付方法は、準備が整い次第このページでご案内します。</p>
 `;
@@ -1109,8 +1144,8 @@ export function contactPage(siteUrl) {
   return staticInfoPage({
     slug: "contact",
     breadcrumbLabel: "お問い合わせ",
-    title: "お問い合わせ（準備中）",
-    description: "Takarazuka Todayへのお問い合わせ方法をご案内します（フォームは準備中です）。",
+    title: turnstileSiteKey ? "お問い合わせ" : "お問い合わせ（準備中）",
+    description: "Takarazuka Todayへのお問い合わせはこちらから。記事内容の訂正依頼・情報提供・PR・広告掲載のご相談を受け付けています。",
     panelTitle: "お問い合わせ",
     panelIcon: "bell",
     contentHtml,

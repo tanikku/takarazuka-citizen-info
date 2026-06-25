@@ -898,6 +898,73 @@ html[data-theme="dark"] .note-box {
   padding: 24px 16px 40px;
 }
 
+/* お問い合わせフォーム */
+.contact-form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.contact-form label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.contact-form .req {
+  color: var(--accent);
+  font-size: 0.7rem;
+  font-weight: 700;
+}
+
+.contact-form input,
+.contact-form select,
+.contact-form textarea {
+  font-family: inherit;
+  font-size: 0.92rem;
+  font-weight: 400;
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--surface);
+  color: var(--text);
+}
+
+.contact-form .consent-label {
+  flex-direction: row;
+  align-items: center;
+  font-weight: 400;
+  font-size: 0.85rem;
+}
+
+.contact-form .consent-label input {
+  width: auto;
+}
+
+.contact-form button[type="submit"] {
+  align-self: flex-start;
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 10px 24px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.contact-form button[type="submit"]:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.contact-form-status {
+  font-size: 0.85rem;
+  color: var(--text-sub);
+}
+
 .footer-links {
   margin-top: 12px;
 }

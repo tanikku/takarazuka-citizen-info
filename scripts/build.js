@@ -291,7 +291,7 @@ function main() {
   writeFile("privacy.html", privacyPage(SITE_URL));
   writeFile("about.html", aboutPage(SITE_URL));
   writeFile("ad-policy.html", adPolicyPage(SITE_URL));
-  writeFile("contact.html", contactPage(SITE_URL));
+  writeFile("contact.html", contactPage(SITE_URL, process.env.TURNSTILE_SITE_KEY));
 
   const giinWithArticles = giinList.filter(
     (giin) => publishedArticles.filter((a) => (a.giin ?? []).includes(giin.slug)).length > 0,
@@ -314,6 +314,7 @@ function main() {
 
   writeFile("css/style.css", fs.readFileSync(path.join(ASSETS_DIR, "style.css"), "utf-8"));
   writeFile("js/theme.js", fs.readFileSync(path.join(ASSETS_DIR, "theme.js"), "utf-8"));
+  writeFile("js/contact-form.js", fs.readFileSync(path.join(ASSETS_DIR, "contact-form.js"), "utf-8"));
   writeFile("favicon.svg", fs.readFileSync(path.join(ASSETS_DIR, "favicon.svg"), "utf-8"));
   writeFile("img/header-banner.png", fs.readFileSync(path.join(ASSETS_DIR, "header-banner.png")));
 
