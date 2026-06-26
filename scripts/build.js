@@ -305,6 +305,7 @@ function main() {
       photoOfDay: pickPhotoOfDay(allPhotos),
       dateLabel: todayDateLabel(),
       siteUrl: SITE_URL,
+      hasGianPage: gianSessions.length > 0,
     }),
   );
 

@@ -1,0 +1,251 @@
+{
+  "sourceVersion": 1,
+  "sessionName": "令和8年第2回定例会",
+  "sessionTerm": "2026-05-22〜2026-06-25",
+  "sourceUrl": "https://www.city.takarazuka.hyogo.jp/1060687/gikai/katsudo/1000795/1041633/1041642.html",
+  "sourceLabel": "宝塚市議会「市長提出議案」「議員提出議案等」（令和8年第2回定例会）",
+  "updatedAt": "2026-06-27",
+  "bills": [
+    {
+      "billNumber": "報告第2号",
+      "title": "専決処分した事件の承認を求めることについて（宝塚市市税条例の一部を改正する条例の制定について）",
+      "result": "承認",
+      "resultDetail": "全員一致",
+      "decidedAt": "2026-05-22",
+      "committee": "－",
+      "citizenImpact": "市税条例の改正が承認されました。"
+    },
+    {
+      "billNumber": "報告第3号",
+      "title": "専決処分した事件の承認を求めることについて（宝塚市都市計画税条例の一部を改正する条例の制定について）",
+      "result": "承認",
+      "resultDetail": "全員一致",
+      "decidedAt": "2026-05-22",
+      "committee": "－",
+      "citizenImpact": "都市計画税条例の改正が承認されました。"
+    },
+    {
+      "billNumber": "報告第4号",
+      "title": "専決処分した事件の承認を求めることについて（宝塚市国民健康保険税条例の一部を改正する条例の制定について）",
+      "result": "承認",
+      "resultDetail": "全員一致",
+      "decidedAt": "2026-05-22",
+      "committee": "－",
+      "citizenImpact": "国民健康保険税条例の改正が承認されました。"
+    },
+    {
+      "billNumber": "議員提出議案第13号",
+      "title": "宝塚市議会議員定数条例の一部を改正する条例の制定について",
+      "result": "修正可決",
+      "resultDetail": "賛成多数",
+      "decidedAt": "2026-05-22",
+      "committee": "総務常任委員会",
+      "citizenImpact": "市議会議員の定数（人数）見直しに関する議案が、議会の修正を経て可決されました。"
+    },
+    {
+      "billNumber": "選挙第1号",
+      "title": "阪神水道企業団議会議員の選挙について",
+      "result": "選挙執行",
+      "resultDetail": "指名推選",
+      "decidedAt": "2026-05-22",
+      "committee": "－"
+    },
+    {
+      "billNumber": "議案第47号",
+      "title": "令和8年度宝塚市一般会計補正予算（第1号）",
+      "result": "可決",
+      "resultDetail": "全員一致",
+      "decidedAt": "2026-06-25",
+      "committee": "総務常任委員会",
+      "citizenImpact": "令和8年度一般会計に補正予算が追加されました。"
+    },
+    {
+      "billNumber": "議案第48号",
+      "title": "令和8年度宝塚市水道事業会計補正予算（第1号）",
+      "result": "可決",
+      "resultDetail": "全員一致",
+      "decidedAt": "2026-06-25",
+      "committee": "産業建設常任委員会",
+      "citizenImpact": "水道事業会計に補正予算が追加されました。"
+    },
+    {
+      "billNumber": "議案第49号",
+      "title": "執行機関の附属機関設置に関する条例の一部を改正する条例の制定について",
+      "result": "可決",
+      "resultDetail": "全員一致",
+      "decidedAt": "2026-06-25",
+      "committee": "文教生活常任委員会"
+    },
+    {
+      "billNumber": "議案第50号",
+      "title": "宝塚市市税条例の一部を改正する条例の制定について",
+      "result": "可決",
+      "resultDetail": "全員一致",
+      "decidedAt": "2026-06-25",
+      "committee": "総務常任委員会",
+      "citizenImpact": "市税条例が改正されました。"
+    },
+    {
+      "billNumber": "議案第51号",
+      "title": "宝塚市都市計画税条例の一部を改正する条例の制定について",
+      "result": "可決",
+      "resultDetail": "全員一致",
+      "decidedAt": "2026-06-25",
+      "committee": "総務常任委員会",
+      "citizenImpact": "都市計画税条例が改正されました。"
+    },
+    {
+      "billNumber": "議案第52号",
+      "title": "職員の分限の手続及び効果に関する条例の一部を改正する条例の制定について",
+      "result": "可決",
+      "resultDetail": "全員一致",
+      "decidedAt": "2026-06-25",
+      "committee": "総務常任委員会"
+    },
+    {
+      "billNumber": "議案第53号",
+      "title": "地方自治法の一部を改正する法律の施行に伴う関係条例の整理に関する条例の制定について",
+      "result": "可決",
+      "resultDetail": "全員一致",
+      "decidedAt": "2026-06-25",
+      "committee": "総務常任委員会"
+    },
+    {
+      "billNumber": "議案第54号",
+      "title": "宝塚市福祉医療費の助成に関する条例の一部を改正する条例の制定について",
+      "result": "可決",
+      "resultDetail": "賛成多数",
+      "decidedAt": "2026-06-25",
+      "committee": "文教生活常任委員会",
+      "citizenImpact": "障がいの程度に応じた医療費助成の内容が見直されました。詳細は宝塚市公式サイトでご確認ください。"
+    },
+    {
+      "billNumber": "議案第55号",
+      "title": "宝塚市立地域児童育成会条例の一部を改正する条例の制定について",
+      "result": "修正可決",
+      "resultDetail": "賛成多数",
+      "decidedAt": "2026-06-25",
+      "committee": "文教生活常任委員会",
+      "citizenImpact": "地域児童育成会（留守家庭児童会）に関する条例が、議会の修正を経て改正されました。"
+    },
+    {
+      "billNumber": "議案第56号",
+      "title": "宝塚市地区計画の区域内における建築物の制限に関する条例の一部を改正する条例の制定について",
+      "result": "可決",
+      "resultDetail": "全員一致",
+      "decidedAt": "2026-06-25",
+      "committee": "産業建設常任委員会"
+    },
+    {
+      "billNumber": "議案第57号",
+      "title": "和解することについて",
+      "result": "可決",
+      "resultDetail": "全員一致",
+      "decidedAt": "2026-06-25",
+      "committee": "文教生活常任委員会"
+    },
+    {
+      "billNumber": "議案第58号",
+      "title": "損害賠償の額の決定について",
+      "result": "可決",
+      "resultDetail": "全員一致",
+      "decidedAt": "2026-06-25",
+      "committee": "文教生活常任委員会",
+      "citizenImpact": "市が関係する損害賠償の額が決定しました。"
+    },
+    {
+      "billNumber": "議案第59号",
+      "title": "宝塚市自治功労者の認定について",
+      "result": "認定",
+      "resultDetail": "全員一致",
+      "decidedAt": "2026-06-25",
+      "committee": "－"
+    },
+    {
+      "billNumber": "議案第60号",
+      "title": "宝塚市自治功労者の認定について",
+      "result": "認定",
+      "resultDetail": "全員一致",
+      "decidedAt": "2026-06-25",
+      "committee": "－"
+    },
+    {
+      "billNumber": "議案第61号",
+      "title": "宝塚市農業委員会の委員任命につき同意を求めることについて",
+      "result": "同意",
+      "resultDetail": "全員一致",
+      "decidedAt": "2026-06-25",
+      "committee": "－"
+    },
+    {
+      "billNumber": "議案第62号",
+      "title": "訴えの提起について",
+      "result": "可決",
+      "resultDetail": "全員一致",
+      "decidedAt": "2026-06-25",
+      "committee": "－",
+      "citizenImpact": "市が訴えを提起することが決定しました。"
+    },
+    {
+      "billNumber": "議案第63号",
+      "title": "損害賠償の額の決定について",
+      "result": "可決",
+      "resultDetail": "全員一致",
+      "decidedAt": "2026-06-25",
+      "committee": "－",
+      "citizenImpact": "市が関係する損害賠償の額が決定しました。"
+    },
+    {
+      "billNumber": "議案第64号",
+      "title": "損害賠償の額の決定について",
+      "result": "可決",
+      "resultDetail": "全員一致",
+      "decidedAt": "2026-06-25",
+      "committee": "－",
+      "citizenImpact": "市が関係する損害賠償の額が決定しました。"
+    },
+    {
+      "billNumber": "諮問第2号",
+      "title": "人権擁護委員の候補者推薦につき意見を求めることについて",
+      "result": "適任",
+      "resultDetail": "全員一致",
+      "decidedAt": "2026-06-25",
+      "committee": "－"
+    },
+    {
+      "billNumber": "議員提出議案第15号",
+      "title": "宝塚市議会委員会条例の一部を改正する条例の制定について",
+      "result": "可決",
+      "resultDetail": "全員一致",
+      "decidedAt": "2026-06-25",
+      "committee": "－"
+    },
+    {
+      "billNumber": "請願第19号",
+      "title": "豊かな教育を実現するための義務教育費国庫負担制度の堅持を求める請願",
+      "result": "採択",
+      "resultDetail": "全員一致",
+      "decidedAt": "2026-06-25",
+      "committee": "文教生活常任委員会",
+      "citizenImpact": "義務教育費の国庫負担制度の維持を求める請願が採択されました。"
+    },
+    {
+      "billNumber": "請願第20号",
+      "title": "不登校児童生徒の学校以外の学びの機会確保に向けた家庭支援を求める請願",
+      "result": "採択",
+      "resultDetail": "全員一致",
+      "decidedAt": "2026-06-25",
+      "committee": "文教生活常任委員会",
+      "citizenImpact": "不登校の児童生徒への学びの機会確保・家庭支援の充実を求める請願が採択されました。"
+    },
+    {
+      "billNumber": "請願第21号",
+      "title": "市庁舎「市民ホール」の早期開放と美観の復元を求める請願",
+      "result": "採択",
+      "resultDetail": "全員一致",
+      "decidedAt": "2026-06-25",
+      "committee": "総務常任委員会",
+      "citizenImpact": "市庁舎「市民ホール」の早期開放を求める請願が採択されました。"
+    }
+  ]
+}

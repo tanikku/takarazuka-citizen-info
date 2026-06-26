@@ -404,7 +404,36 @@ function guideNavPanel() {
 </div>`;
 }
 
-export function indexPage({ topArticles, todayArticles, categoryPageKeys, publishedArticles, ranking, weather, todayCounts, photoOfDay, dateLabel, siteUrl }) {
+function shigikaiCornerPanel({ hasGianPage, gikaiArticles }) {
+  if (!hasGianPage && gikaiArticles.length === 0) return "";
+
+  const announcement = hasGianPage
+    ? `<div class="corner-announce">${icon("bell")}<span><strong>NEW</strong>議案の採決結果・議員別の表決結果がわかる「議案採決一覧」を公開しました</span></div>`
+    : "";
+  const cta = hasGianPage
+    ? `<a class="gian-cta-card" href="/category/shigikai/gian.html">
+<div class="gian-cta-icon">${icon("newspaper")}</div>
+<div class="gian-cta-text">
+<div class="gian-cta-title">議案採決一覧を見る</div>
+<div class="gian-cta-sub">議案の可決・否決と、議員別の表決結果をまとめて確認できます</div>
+</div>
+<div class="gian-cta-arrow">→</div>
+</a>`
+    : "";
+  const items = gikaiArticles.slice(0, 3).map(gikaiRow).join("\n");
+
+  return `<div class="panel shigikai-corner">
+<p class="panel-title">${icon("building")}市議会情報</p>
+${announcement}
+${cta}
+${items}
+<p class="panel-note"><a href="/category/shigikai.html">→ 市議会ウォッチ一覧へ</a></p>
+</div>`;
+}
+
+export function indexPage({ topArticles, todayArticles, categoryPageKeys, publishedArticles, ranking, weather, todayCounts, photoOfDay, dateLabel, siteUrl, hasGianPage = false }) {
+  const gikaiArticles = publishedArticles.filter((a) => a.category === "市議会");
+
   const bodyHtml = `${dateBar(dateLabel)}
 ${todayPanel({ weather, counts: todayCounts })}
 ${quickAccessPanel()}
@@ -412,6 +441,7 @@ ${todayRow(todayArticles, photoOfDay)}
 <div class="grid-2">
   <div class="col-main">
     ${topNewsPanel(topArticles)}
+    ${shigikaiCornerPanel({ hasGianPage, gikaiArticles })}
     ${guideNavPanel()}
     ${recentCombinedFeed(publishedArticles, categoryPageKeys)}
     ${categoryPanel(categoryPageKeys)}
@@ -466,13 +496,24 @@ export function categoryPage(category, articles, siteUrl, guidesForCategory = []
   const isShigikai = category.key === "shigikai";
   const items = articles.map(isShigikai ? gikaiRow : headlineRow).join("\n");
   const giinLink = isShigikai
-    ? `<p class="panel-note">${hasGianPage ? '<a href="/category/shigikai/gian.html">議案採決一覧を見る →</a>　' : ""}<a href="/giin/">議員活動サマリー一覧を見る →</a>　<a href="/category/shigikai/guide.html">市議会のしくみ・このページの見方 →</a></p>`
+    ? `<p class="panel-note"><a href="/giin/">議員活動サマリー一覧を見る →</a>　<a href="/category/shigikai/guide.html">市議会のしくみ・このページの見方 →</a></p>`
+    : "";
+  const gianCta = hasGianPage
+    ? `<a class="gian-cta-card" href="/category/shigikai/gian.html">
+<div class="gian-cta-icon">${icon("newspaper")}</div>
+<div class="gian-cta-text">
+<div class="gian-cta-title">議案採決一覧を見る</div>
+<div class="gian-cta-sub">議案の可決・否決と、議員別の表決結果をまとめて確認できます</div>
+</div>
+<div class="gian-cta-arrow">→</div>
+</a>`
     : "";
   const guideCards = guidesForCategory.map(guideCard).join("\n");
 
   const bodyHtml = `<nav class="breadcrumb"><a href="/">トップ</a> &gt; ${escapeHtml(category.label)}</nav>
 <div class="page-content">
 ${guideCards}
+${gianCta}
 <div class="panel">
 <p class="panel-title">${icon(category.icon)}${escapeHtml(category.label)}${isShigikai ? "ウォッチ" : "の記事一覧"}</p>
 ${isShigikai ? SHIGIKAI_DISCLOSURE : ""}
@@ -853,6 +894,7 @@ const GIAN_RESULT_CLASS = {
   継続審査: "result-pending",
   趣旨採択: "result-pending",
   撤回: "result-pending",
+  選挙執行: "result-pending",
 };
 const VOTE_GROUP_ORDER = ["賛成", "反対", "棄権", "欠席", "退席", "議長（表決なし）"];
 
@@ -955,6 +997,7 @@ ${dateGroupsHtml}`;
 <p class="lead">宝塚市議会で審議された議案の採決結果と、市民生活への影響をまとめています。最新の開催回から表示しています。</p>
 <p class="lead">このページでは、宝塚市議会で審議された議案の結果を分かりやすく整理しています。議員別の表決結果は、宝塚市議会が公開する公式PDFをもとに掲載しています。</p>
 <div class="disclosure-box">本ページの議案・採決結果は宝塚市公式サイトの公開情報をもとに作成しています。市民生活への影響の説明は事実の整理のみを目的とし、議案・議員への評価や賛否の意見は記載しません。</div>
+<div class="disclosure-box">議員別の表決結果は、宝塚市議会が公開する「議員の賛否」PDFが議案ごとに発行された後に掲載します。賛成多数・反対多数など採決が分かれた議案でも、PDFがまだ公開されていない場合は議員別の表決結果が表示されません。公開後、随時更新します。</div>
 ${sessionsHtml || '<p class="empty-state">まだ掲載できる議案がありません</p>'}
 <p class="panel-note"><a href="${categoryPath("shigikai")}">→ 市議会ウォッチ一覧へ</a>　<a href="/category/shigikai/guide.html">→ 市議会のしくみへ</a></p>
 <p class="source-note">出典：宝塚市議会「議案等一覧・審議結果」「議決等結果（電子採決システムによる投票における賛否）」（各議案の詳しい出典は議案カード内のリンクをご確認ください）</p>

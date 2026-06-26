@@ -973,9 +973,108 @@ html[data-theme="dark"] .note-box {
 
 .vote-detail summary {
   cursor: pointer;
-  font-size: 0.82rem;
+  font-size: 0.84rem;
   font-weight: 700;
   color: var(--link);
+  background: var(--accent-soft);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 10px 14px;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.vote-detail summary::-webkit-details-marker {
+  display: none;
+}
+
+.vote-detail summary::after {
+  content: "▼";
+  font-size: 0.65rem;
+  flex: none;
+  transition: transform 0.2s;
+}
+
+.vote-detail[open] summary::after {
+  transform: rotate(180deg);
+}
+
+.vote-detail summary:hover {
+  background: var(--border);
+}
+
+/* 議案採決一覧への導線カード（カテゴリーページ） */
+.gian-cta-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: var(--accent);
+  color: #fff;
+  border-radius: 10px;
+  padding: 14px 16px;
+  margin-bottom: 14px;
+  text-decoration: none;
+}
+
+.gian-cta-card .icon {
+  color: #fff;
+}
+
+.gian-cta-icon {
+  flex: none;
+}
+
+.gian-cta-text {
+  flex: 1;
+}
+
+.gian-cta-title {
+  font-weight: 800;
+  font-size: 1rem;
+}
+
+.gian-cta-sub {
+  font-size: 0.76rem;
+  opacity: 0.9;
+  margin-top: 2px;
+}
+
+.gian-cta-arrow {
+  flex: none;
+  font-size: 1.2rem;
+  font-weight: 800;
+}
+
+/* トップページの市議会情報コーナー */
+.corner-announce {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--accent-soft);
+  color: var(--accent);
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.corner-announce .icon {
+  color: var(--accent);
+  flex: none;
+}
+
+.corner-announce strong {
+  background: var(--accent);
+  color: #fff;
+  padding: 1px 6px;
+  border-radius: 4px;
+  font-size: 0.68rem;
+  margin-right: 6px;
+  font-weight: 800;
 }
 
 .verified-badge {
