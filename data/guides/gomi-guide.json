@@ -46,16 +46,16 @@
       "id": "calendar",
       "heading": "収集日の確認方法",
       "items": [
-        "ごみ分別アプリ「さんあ～る」（収集日通知・分別検索）",
-        "LINE公式アカウント「宝塚市」（収集日通知）",
-        "ごみ収集カレンダー（公式サイト掲載）"
+        "<a href=\"https://www.city.takarazuka.hyogo.jp/cleancenter/household_garbage/1049789.html\" target=\"_blank\" rel=\"noopener\">ごみ分別アプリ「さんあ～る」</a>（収集日通知・分別検索）",
+        "<a href=\"https://www.city.takarazuka.hyogo.jp/shisei/1008927/1031437.html\" target=\"_blank\" rel=\"noopener\">LINE公式アカウント「宝塚市」</a>（収集日通知）",
+        "<a href=\"https://www.city.takarazuka.hyogo.jp/cleancenter/household_garbage/1010940.html\" target=\"_blank\" rel=\"noopener\">ごみ収集カレンダー</a>（公式サイト掲載）"
       ]
     },
     {
       "id": "ng",
       "heading": "収集できないごみ",
       "items": [
-        "消火器・プロパンボンベ・タイヤ・バイク・建築廃材など"
+        "消火器・プロパンボンベ・タイヤ・バイク・建築廃材など（<a href=\"https://www.city.takarazuka.hyogo.jp/cleancenter/index.html\" target=\"_blank\" rel=\"noopener\">クリーンセンター</a>へお問い合わせください）"
       ],
       "notes": [
         "エアコン・テレビ等の家電リサイクル対象品は購入店等への引き取り依頼が必要です"
@@ -63,8 +63,8 @@
     }
   ],
   "faq": [
-    { "q": "粗大ごみはどう出せばいい？", "a": "宝塚市粗大ごみインターネット受付での申込、またはクリーンセンターへの持ち込みが必要です。詳細は公式サイトをご確認ください。" },
-    { "q": "収集日を忘れてしまった場合は？", "a": "アプリ「さんあ～る」やLINE公式アカウントに登録すると、収集日の通知を受け取れます。" }
+    { "q": "粗大ごみはどう出せばいい？", "a": "<a href=\"https://www.sodai-takarazuka.jp/\" target=\"_blank\" rel=\"noopener\">宝塚市粗大ごみインターネット受付</a>での申込、または<a href=\"https://www.city.takarazuka.hyogo.jp/cleancenter/index.html\" target=\"_blank\" rel=\"noopener\">クリーンセンター</a>への持ち込みが必要です。詳細は公式サイトをご確認ください。" },
+    { "q": "収集日を忘れてしまった場合は？", "a": "<a href=\"https://www.city.takarazuka.hyogo.jp/cleancenter/household_garbage/1049789.html\" target=\"_blank\" rel=\"noopener\">アプリ「さんあ～る」</a>や<a href=\"https://www.city.takarazuka.hyogo.jp/shisei/1008927/1031437.html\" target=\"_blank\" rel=\"noopener\">LINE公式アカウント</a>に登録すると、収集日の通知を受け取れます。" }
   ],
   "relatedLinks": [
     { "href": "/category/kurashi.html", "label": "行政・くらしの記事一覧を見る" },

@@ -17,7 +17,7 @@
       "id": "teate",
       "heading": "児童手当",
       "items": [
-        "高校修了年代までの児童を養育している方が対象（所得制限なし）"
+        "<a href=\"https://www.city.takarazuka.hyogo.jp/kyoiku/teate/1000197.html\" target=\"_blank\" rel=\"noopener\">児童手当</a>：高校修了年代までの児童を養育している方が対象（所得制限なし）"
       ]
     },
     {
@@ -25,34 +25,34 @@
       "heading": "保育施設・支援拠点",
       "items": [
         "市立保育所（米谷・川面・わかくさ・逆瀬川など）で、未就園児とその保護者向けの子育て支援を実施",
-        "保育施設の検索は子ども・子育て支援情報公表システム「ここdeサーチ」が利用できます"
+        "保育施設の検索は<a href=\"https://www.wam.go.jp/kokodesearch/\" target=\"_blank\" rel=\"noopener\">子ども・子育て支援情報公表システム「ここdeサーチ」</a>が利用できます"
       ]
     },
     {
       "id": "iryo",
       "heading": "医療費助成",
       "items": [
-        "乳幼児・こども医療費助成制度があります"
+        "<a href=\"https://www.city.takarazuka.hyogo.jp/kurashi/nenkin/1041227/1040013.html\" target=\"_blank\" rel=\"noopener\">乳幼児等医療費助成・こども医療費助成</a>制度があります"
       ]
     },
     {
       "id": "hitori",
       "heading": "ひとり親家庭支援",
       "items": [
-        "児童扶養手当など、ひとり親家庭を対象とした支援制度があります"
+        "<a href=\"https://www.city.takarazuka.hyogo.jp/kyoiku/teate/1000526.html\" target=\"_blank\" rel=\"noopener\">児童扶養手当</a>など、ひとり親家庭を対象とした支援制度があります"
       ]
     },
     {
       "id": "soudan",
       "heading": "相談窓口",
       "items": [
-        "子育てに関する相談は宝塚市子ども政策課・各支援拠点で受け付けています"
+        "子育てに関する相談は宝塚市子育て応援課（0797-77-2196）・各支援拠点で受け付けています"
       ]
     }
   ],
   "faq": [
-    { "q": "保育園の入園はどう申し込む？", "a": "「ここdeサーチ」で施設を確認のうえ、市の担当窓口で申し込み手続きを行います。詳細は公式サイトをご確認ください。" },
-    { "q": "児童手当はどこで申請できる？", "a": "市役所の担当窓口（子育て支援課等）で申請できます。出生・転入時は早めの手続きが必要です。" }
+    { "q": "保育園の入園はどう申し込む？", "a": "<a href=\"https://www.wam.go.jp/kokodesearch/\" target=\"_blank\" rel=\"noopener\">「ここdeサーチ」</a>で施設を確認のうえ、市の担当窓口で申し込み手続きを行います。詳細は公式サイトをご確認ください。" },
+    { "q": "児童手当はどこで申請できる？", "a": "<a href=\"https://www.city.takarazuka.hyogo.jp/kyoiku/teate/1000197.html\" target=\"_blank\" rel=\"noopener\">児童手当</a>のページから、市役所の担当窓口（子育て応援課等）で申請できます。出生・転入時は早めの手続きが必要です。" }
   ],
   "relatedLinks": [
     { "href": "/category/kosodate.html", "label": "子育ての記事一覧を見る" },

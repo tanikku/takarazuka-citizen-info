@@ -872,7 +872,7 @@ ${guide.faq
   .map(
     (f) => `<div class="faq-item">
 <div class="faq-q">${escapeHtml(f.q)}</div>
-<div class="faq-a">${escapeHtml(f.a)}</div>
+<div class="faq-a">${f.a}</div>
 </div>`,
   )
   .join("\n")}
@@ -913,7 +913,7 @@ ${relatedHtml}
     mainEntity: guide.faq.map((f) => ({
       "@type": "Question",
       name: f.q,
-      acceptedAnswer: { "@type": "Answer", text: f.a },
+      acceptedAnswer: { "@type": "Answer", text: f.a.replace(/<[^>]*>/g, "") },
     })),
   };
 
