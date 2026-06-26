@@ -827,6 +827,192 @@ html[data-theme="dark"] .note-box {
   border-bottom: none;
 }
 
+/* 議案採決一覧 */
+.session-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 24px 0 10px;
+  padding-bottom: 6px;
+  border-bottom: 2px solid var(--accent);
+}
+
+.session-name {
+  font-size: 1rem;
+  font-weight: 800;
+}
+
+.session-date {
+  font-size: 0.74rem;
+  color: var(--text-sub);
+}
+
+.decision-date-label {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--text-sub);
+  margin: 14px 0 8px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.decision-date-label::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent);
+  display: inline-block;
+}
+
+.gian-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 14px;
+  margin-bottom: 10px;
+}
+
+.gian-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+.gian-number {
+  font-size: 0.72rem;
+  color: var(--text-sub);
+  font-weight: 700;
+}
+
+.gian-result {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 2px 10px;
+  border-radius: 999px;
+  color: #fff;
+  flex: none;
+  background: #2a8c4a;
+}
+
+.gian-result.result-reject {
+  background: #888888;
+}
+
+.gian-result.result-pending {
+  background: #b08900;
+}
+
+.gian-result .result-detail {
+  font-size: 0.66rem;
+  opacity: 0.9;
+  margin-left: 2px;
+}
+
+.gian-count-line {
+  font-size: 0.78rem;
+  color: var(--text-sub);
+  margin: 2px 0 8px;
+}
+
+.gian-title {
+  font-size: 0.92rem;
+  font-weight: 700;
+  margin: 0 0 8px;
+}
+
+.gian-impact {
+  background: var(--accent-soft);
+  border-radius: 6px;
+  padding: 8px 10px;
+  font-size: 0.82rem;
+  margin-bottom: 8px;
+}
+
+.gian-impact-label {
+  font-weight: 700;
+  font-size: 0.7rem;
+  display: block;
+  margin-bottom: 2px;
+}
+
+.gian-meta {
+  font-size: 0.72rem;
+  color: var(--text-sub);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+.gian-meta .committee-tag {
+  background: var(--accent-soft);
+  color: var(--accent);
+  padding: 1px 8px;
+  border-radius: 4px;
+}
+
+.gian-related-link {
+  font-size: 0.8rem;
+}
+
+.gian-related-link a {
+  color: var(--link);
+  font-weight: 700;
+}
+
+.vote-detail {
+  margin-top: 8px;
+  border-top: 1px solid var(--border);
+  padding-top: 8px;
+}
+
+.vote-detail summary {
+  cursor: pointer;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--link);
+}
+
+.verified-badge {
+  font-size: 0.72rem;
+  color: #2a8c4a;
+  font-weight: 700;
+  margin: 6px 0;
+}
+
+.unverified-note {
+  font-size: 0.72rem;
+  color: var(--text-sub);
+  margin: 6px 0;
+}
+
+.vote-group {
+  margin: 8px 0;
+}
+
+.vote-group-label {
+  font-size: 0.74rem;
+  font-weight: 700;
+  color: var(--text-sub);
+  margin: 0 0 2px;
+}
+
+.vote-group-members {
+  font-size: 0.82rem;
+  margin: 0;
+}
+
+.vote-source-note {
+  font-size: 0.7rem;
+  color: var(--text-sub);
+  margin-top: 8px;
+}
+
 .rank-num {
   flex: none;
   font-weight: 800;

@@ -9,6 +9,7 @@ import {
   eventsPage,
   rankingPage,
   gikaiGuidePage,
+  gianResultPage,
   guidePage,
   mukogawaBosaiPage,
   giinPage,
@@ -29,6 +30,8 @@ const PHOTOS_DIR = path.join(ROOT, "assets", "photos");
 const WEATHER_JSON = path.join(ROOT, "data", "weather.json");
 const GIIN_JSON = path.join(ROOT, "data", "giin.json");
 const GUIDES_DIR = path.join(ROOT, "data", "guides");
+const GIKAI_GIAN_DIR = path.join(ROOT, "data", "gikai-gian");
+const GIKAI_VOTES_DIR = path.join(ROOT, "data", "gikai-votes");
 const PUBLIC_DIR = path.join(ROOT, "public");
 const ASSETS_DIR = path.join(ROOT, "assets");
 
@@ -66,6 +69,33 @@ function loadGuides() {
 function loadGiin() {
   if (!fs.existsSync(GIIN_JSON)) return [];
   return JSON.parse(fs.readFileSync(GIIN_JSON, "utf-8"));
+}
+
+// 議案採決一覧：開催回ごとの議案・審議結果（宝塚市議会「議案等一覧・審議結果」をもとに人手で作成）
+function loadGianSessions() {
+  if (!fs.existsSync(GIKAI_GIAN_DIR)) return [];
+  return fs
+    .readdirSync(GIKAI_GIAN_DIR)
+    .filter((f) => f.endsWith(".json"))
+    .map((f) => JSON.parse(fs.readFileSync(path.join(GIKAI_GIAN_DIR, f), "utf-8")))
+    .sort((a, b) => (a.sessionTerm < b.sessionTerm ? 1 : -1));
+}
+
+// 議員別の表決結果：決議日ごとのPDF（議員の賛否）をClaudeが読み取って作成。billNumber+decidedAtで議案採決一覧と緩く連携する
+function loadGikaiVoteIndex() {
+  const index = new Map();
+  if (!fs.existsSync(GIKAI_VOTES_DIR)) return index;
+  for (const file of fs.readdirSync(GIKAI_VOTES_DIR).filter((f) => f.endsWith(".json"))) {
+    const data = JSON.parse(fs.readFileSync(path.join(GIKAI_VOTES_DIR, file), "utf-8"));
+    for (const bill of data.bills) {
+      index.set(`${bill.billNumber}|${data.decidedAt}`, {
+        ...bill,
+        verified: data.verified,
+        verifiedAt: data.verifiedAt,
+      });
+    }
+  }
+  return index;
 }
 
 function loadPhotos() {
@@ -197,7 +227,7 @@ function writeFile(relativePath, content) {
   fs.writeFileSync(filePath, content);
 }
 
-function buildSitemap(publishedArticles, categoryPageKeys, giinWithArticles, guides) {
+function buildSitemap(publishedArticles, categoryPageKeys, giinWithArticles, guides, gianSessions) {
   const today = todayDateKey();
   const entries = [
     { loc: `${SITE_URL}/`, lastmod: today },
@@ -212,6 +242,7 @@ function buildSitemap(publishedArticles, categoryPageKeys, giinWithArticles, gui
     { loc: `${SITE_URL}/ad-policy.html`, lastmod: today },
     { loc: `${SITE_URL}/contact.html`, lastmod: today },
     ...guides.map((g) => ({ loc: `${SITE_URL}/category/${g.categoryKey}/${g.slug}.html`, lastmod: g.updatedAt })),
+    ...(gianSessions.length > 0 ? [{ loc: `${SITE_URL}/category/shigikai/gian.html`, lastmod: today }] : []),
     ...(giinWithArticles.length > 0 ? [{ loc: `${SITE_URL}/giin/`, lastmod: today }] : []),
     ...giinWithArticles.map((giin) => ({ loc: `${SITE_URL}/giin/${giin.slug}.html`, lastmod: today })),
     ...publishedArticles.map((article) => ({
@@ -247,6 +278,8 @@ function main() {
   const ranking = loadRanking();
   const giinList = loadGiin();
   const guides = loadGuides();
+  const gianSessions = loadGianSessions();
+  const gikaiVoteIndex = loadGikaiVoteIndex();
 
   // カテゴリーごとに、公開対象（S/A/B）の記事をまとめる。記事が1件以上、またはガイドページがある場合のみカテゴリーページを生成する
   const categorySections = CATEGORIES.map((cat) => ({
@@ -280,7 +313,8 @@ function main() {
   }
 
   for (const section of categorySections) {
-    writeFile(`category/${section.key}.html`, categoryPage(section, section.allArticles, SITE_URL, section.guides));
+    const hasGianPage = section.key === "shigikai" && gianSessions.length > 0;
+    writeFile(`category/${section.key}.html`, categoryPage(section, section.allArticles, SITE_URL, section.guides, hasGianPage));
   }
   for (const guide of guides) {
     writeFile(`category/${guide.categoryKey}/${guide.slug}.html`, guidePage(guide, SITE_URL));
@@ -288,6 +322,9 @@ function main() {
   writeFile("livecam.html", livecamPage(SITE_URL));
   writeFile("mukogawa/index.html", mukogawaBosaiPage(SITE_URL));
   writeFile("category/shigikai/guide.html", gikaiGuidePage(SITE_URL));
+  if (gianSessions.length > 0) {
+    writeFile("category/shigikai/gian.html", gianResultPage(gianSessions, gikaiVoteIndex, SITE_URL));
+  }
   writeFile("privacy.html", privacyPage(SITE_URL));
   writeFile("about.html", aboutPage(SITE_URL));
   writeFile("ad-policy.html", adPolicyPage(SITE_URL));
@@ -309,7 +346,7 @@ function main() {
   writeFile("events/index.html", eventsPage({ todayEvents, thisWeekend, thisMonth, siteUrl: SITE_URL }));
   writeFile("ranking/index.html", rankingPage(ranking, publishedArticles, SITE_URL));
 
-  writeFile("sitemap.xml", buildSitemap(publishedArticles, categoryPageKeys, giinWithArticles, guides));
+  writeFile("sitemap.xml", buildSitemap(publishedArticles, categoryPageKeys, giinWithArticles, guides, gianSessions));
   writeFile("robots.txt", `User-agent: *\nAllow: /\nSitemap: ${SITE_URL}/sitemap.xml\n`);
 
   writeFile("css/style.css", fs.readFileSync(path.join(ASSETS_DIR, "style.css"), "utf-8"));

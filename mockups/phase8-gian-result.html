@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>フェーズ8 モック（議案採決一覧）｜Takarazuka Today</title>
+<style>
+  :root {
+    --bg: #f3f4f6; --surface: #ffffff; --text: #222222; --text-sub: #595959;
+    --border: #dcdfe3; --accent: #c8102e; --accent-soft: #fdecef; --link: #0057a3;
+  }
+  * { box-sizing: border-box; }
+  body { margin:0; font-family:-apple-system,"Hiragino Sans","Yu Gothic",sans-serif; background:var(--bg); color:var(--text); line-height:1.6; max-width:480px; margin:0 auto; border-left:1px solid #ddd; border-right:1px solid #ddd; }
+  .mock-banner { background:#fff3cd; color:#5c4400; text-align:center; font-size:.76rem; padding:6px; }
+  main { padding:14px; }
+  .breadcrumb { font-size:.78rem; color:var(--text-sub); margin-bottom:10px; }
+  .breadcrumb a { color:var(--link); }
+  h1 { font-size:1.3rem; margin:8px 0 4px; }
+  .lead { font-size:.86rem; color:var(--text-sub); margin-bottom:14px; }
+  .disclosure-box { background:#eef6ff; border:1px solid #b9d8f5; border-radius:8px; padding:10px 12px; font-size:.78rem; color:#1a3a5c; margin-bottom:16px; }
+
+  /* 開催回セクション */
+  .session-header { display:flex; align-items:center; justify-content:space-between; margin:20px 0 10px; padding-bottom:6px; border-bottom:2px solid var(--accent); }
+  .session-name { font-size:1rem; font-weight:800; }
+  .session-date { font-size:.74rem; color:var(--text-sub); }
+
+  /* 議決日グループ */
+  .decision-date-label { font-size:.78rem; font-weight:700; color:var(--text-sub); margin:14px 0 8px; display:flex; align-items:center; gap:6px; }
+  .decision-date-label::before { content:""; width:6px; height:6px; border-radius:50%; background:var(--accent); display:inline-block; }
+
+  /* 議案カード */
+  .gian-card { background:var(--surface); border:1px solid var(--border); border-radius:10px; padding:14px; margin-bottom:10px; }
+  .gian-head { display:flex; align-items:flex-start; justify-content:space-between; gap:8px; margin-bottom:6px; }
+  .gian-number { font-size:.72rem; color:var(--text-sub); font-weight:700; }
+  .gian-result { display:inline-block; font-size:.7rem; font-weight:700; padding:2px 10px; border-radius:999px; color:#fff; flex:none; }
+  .result-pass { background:#2a8c4a; }
+  .result-reject { background:#888; }
+  .result-pass-detail { font-size:.66rem; color:var(--text-sub); margin-left:4px; }
+  .gian-title { font-size:.92rem; font-weight:700; margin:0 0 8px; }
+  .gian-impact { background:#fff8e1; border-radius:6px; padding:8px 10px; font-size:.82rem; color:#5c4400; margin-bottom:8px; }
+  .gian-impact-label { font-weight:700; font-size:.7rem; color:#7a5c00; display:block; margin-bottom:2px; }
+  .gian-meta { font-size:.72rem; color:var(--text-sub); display:flex; flex-wrap:wrap; gap:8px; margin-bottom:6px; }
+  .gian-meta .committee-tag { background:var(--accent-soft); color:var(--accent); padding:1px 8px; border-radius:4px; }
+  .gian-related-link { font-size:.8rem; }
+  .gian-related-link a { color:var(--link); font-weight:700; }
+
+  .source-note { font-size:.76rem; color:var(--text-sub); margin-top:24px; padding-top:14px; border-top:1px solid var(--border); }
+  .panel-note { font-size:.8rem; }
+  .panel-note a { color:var(--link); }
+</style>
+</head>
+<body>
+<div class="mock-banner">※デザイン確認用モックです。議案・結果・関連記事は実データを参考にした例です</div>
+
+<main>
+<nav class="breadcrumb"><a href="#">トップ</a> &gt; <a href="#">市議会</a> &gt; 議案採決一覧</nav>
+<h1>議案採決一覧</h1>
+<p class="lead">宝塚市議会で審議された議案の採決結果と、市民生活への影響をまとめています。最新の開催回から表示しています。</p>
+
+<div class="disclosure-box">本ページの議案・採決結果は宝塚市公式サイトの公開情報をもとに作成しています。市民生活への影響の説明は事実の整理のみを目的とし、議案・議員への評価や賛否の意見は記載しません。</div>
+
+<div class="session-header">
+  <div class="session-name">令和8年第2回定例会</div>
+  <div class="session-date">会期：2026/5/22〜6/26</div>
+</div>
+
+<div class="decision-date-label">6月2日 議決</div>
+
+<div class="gian-card">
+  <div class="gian-head">
+    <span class="gian-number">議案第54号</span>
+    <span class="gian-result result-pass">可決<span class="result-pass-detail">（賛成多数）</span></span>
+  </div>
+  <p class="gian-title">宝塚市福祉医療費の助成に関する条例の一部を改正する条例の制定について</p>
+  <div class="gian-impact">
+    <span class="gian-impact-label">📌 市民生活への影響</span>
+    障がいの程度に応じた医療費助成の対象等級が変わります。対象が変わる方には市から個別に案内が送付される予定です。
+  </div>
+  <div class="gian-meta"><span class="committee-tag">文教生活常任委員会</span></div>
+  <p class="gian-related-link"><a href="#">→ 関連記事：11月定例会開会・審議入りの経緯を見る</a></p>
+</div>
+
+<div class="gian-card">
+  <div class="gian-head">
+    <span class="gian-number">議案第47号</span>
+    <span class="gian-result result-pass">可決<span class="result-pass-detail">（全員一致）</span></span>
+  </div>
+  <p class="gian-title">令和8年度宝塚市一般会計補正予算（第1号）</p>
+  <div class="gian-impact">
+    <span class="gian-impact-label">📌 市民生活への影響</span>
+    （要約例）特定の事業に予算が追加されました。詳細は公式サイトの議案資料をご確認ください。
+  </div>
+  <div class="gian-meta"></div>
+</div>
+
+<div class="decision-date-label">5月27日 議決</div>
+
+<div class="gian-card">
+  <div class="gian-head">
+    <span class="gian-number">議案第52号</span>
+    <span class="gian-result result-pass">可決<span class="result-pass-detail">（全員一致）</span></span>
+  </div>
+  <p class="gian-title">職員の分限の手続及び効果に関する条例の一部を改正する条例の制定について</p>
+  <div class="gian-meta"><span class="committee-tag">総務常任委員会</span></div>
+</div>
+
+<div class="session-header">
+  <div class="session-name">令和7年第4回定例会</div>
+  <div class="session-date">会期：2025/11/17〜12/22</div>
+</div>
+
+<div class="decision-date-label">12月22日 議決</div>
+
+<div class="gian-card">
+  <div class="gian-head">
+    <span class="gian-number">議案第150号</span>
+    <span class="gian-result result-pass">可決<span class="result-pass-detail">（賛成多数）</span></span>
+  </div>
+  <p class="gian-title">宝塚市福祉医療費の助成に関する条例の一部を改正する条例の制定について（審議入り時点）</p>
+  <div class="gian-meta"><span class="committee-tag">文教生活常任委員会</span></div>
+  <p class="gian-related-link"><a href="#">→ 関連記事：11月定例会開会、障がい者医療費助成の見直し条例を審議入り</a></p>
+</div>
+
+<p class="panel-note" style="margin-top:20px;"><a href="#">→ 過去の開催回を見る</a>　<a href="#">→ 市議会ウォッチ一覧へ</a>　<a href="#">→ 市議会のしくみへ</a></p>
+
+<p class="source-note">出典：<a href="#" target="_blank">宝塚市議会 議案等一覧・審議結果（宝塚市公式サイト）</a>（情報は要約です。最新情報は出典元をご確認ください）</p>
+</main>
+
+</body>
+</html>

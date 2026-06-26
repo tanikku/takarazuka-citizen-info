@@ -1,0 +1,55 @@
+{
+  "sourceVersion": 1,
+  "sessionName": "令和8年第1回定例会",
+  "sessionTerm": "2026-02-13〜2026-03-26",
+  "sourceUrl": "https://www.city.takarazuka.hyogo.jp/1060687/gikai/katsudo/1000795/1037640/1037641.html",
+  "sourceLabel": "宝塚市議会「市長提出議案」「議員提出議案等」（令和8年第1回定例会）",
+  "updatedAt": "2026-06-27",
+  "bills": [
+    {
+      "billNumber": "議案第2号",
+      "title": "令和8年度宝塚市特別会計国民健康保険事業費予算",
+      "result": "可決",
+      "resultDetail": "賛成多数",
+      "decidedAt": "2026-03-26",
+      "committee": "予算特別委員会",
+      "citizenImpact": "令和8年度の国民健康保険事業の予算が決まりました。"
+    },
+    {
+      "billNumber": "議案第5号",
+      "title": "令和8年度宝塚市特別会計後期高齢者医療事業費予算",
+      "result": "可決",
+      "resultDetail": "賛成多数",
+      "decidedAt": "2026-03-26",
+      "committee": "予算特別委員会",
+      "citizenImpact": "令和8年度の後期高齢者医療事業の予算が決まりました。"
+    },
+    {
+      "billNumber": "議案第15号",
+      "title": "職員の勤務時間その他の勤務条件に関する条例の一部を改正する条例の制定について",
+      "result": "可決",
+      "resultDetail": "賛成多数",
+      "decidedAt": "2026-03-26",
+      "committee": "総務常任委員会",
+      "citizenImpact": "市職員の勤務時間に関する条例が改正されました。"
+    },
+    {
+      "billNumber": "議案第17号",
+      "title": "宝塚市特別職の職員の給与に関する条例等の一部を改正する条例の制定について",
+      "result": "可決",
+      "resultDetail": "賛成多数",
+      "decidedAt": "2026-03-26",
+      "committee": "総務常任委員会",
+      "citizenImpact": "市長など特別職の給与に関する条例が改正されました。"
+    },
+    {
+      "billNumber": "議員提出議案第13号",
+      "title": "宝塚市議会議員定数条例の一部を改正する条例の制定について",
+      "result": "継続審査",
+      "resultDetail": "賛成多数",
+      "decidedAt": "2026-03-26",
+      "committee": "総務常任委員会",
+      "citizenImpact": "市議会議員の定数（人数）見直しに関する議案で、継続審査となり今回は結論が出ませんでした。"
+    }
+  ]
+}

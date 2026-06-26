@@ -461,12 +461,12 @@ function guideCard(guide) {
 </a>`;
 }
 
-export function categoryPage(category, articles, siteUrl, guidesForCategory = []) {
+export function categoryPage(category, articles, siteUrl, guidesForCategory = [], hasGianPage = false) {
   const canonicalUrl = `${siteUrl}${categoryPath(category.key)}`;
   const isShigikai = category.key === "shigikai";
   const items = articles.map(isShigikai ? gikaiRow : headlineRow).join("\n");
   const giinLink = isShigikai
-    ? `<p class="panel-note"><a href="/giin/">議員活動サマリー一覧を見る →</a>　<a href="/category/shigikai/guide.html">市議会のしくみ・このページの見方 →</a></p>`
+    ? `<p class="panel-note">${hasGianPage ? '<a href="/category/shigikai/gian.html">議案採決一覧を見る →</a>　' : ""}<a href="/giin/">議員活動サマリー一覧を見る →</a>　<a href="/category/shigikai/guide.html">市議会のしくみ・このページの見方 →</a></p>`
     : "";
   const guideCards = guidesForCategory.map(guideCard).join("\n");
 
@@ -843,6 +843,145 @@ export function gikaiGuidePage(siteUrl) {
     bodyHtml,
     canonicalUrl,
     structuredData: [breadcrumbLd, faqLd],
+  });
+}
+
+// 議案採決一覧：宝塚市議会公式サイトの「議案等一覧・審議結果」「議決等結果（議員の賛否）」をもとに作成
+const GIAN_RESULT_CLASS = {
+  否決: "result-reject",
+  不採択: "result-reject",
+  継続審査: "result-pending",
+  趣旨採択: "result-pending",
+  撤回: "result-pending",
+};
+const VOTE_GROUP_ORDER = ["賛成", "反対", "棄権", "欠席", "退席", "議長（表決なし）"];
+
+function gianResultBadgeClass(result) {
+  return GIAN_RESULT_CLASS[result] ?? "result-pass";
+}
+
+function formatDecidedAtLabel(decidedAt) {
+  const [, m, d] = decidedAt.split("-");
+  return `${Number(m)}月${Number(d)}日`;
+}
+
+function voteDetailHtml(voteBill) {
+  if (!voteBill) return "";
+  const groups = VOTE_GROUP_ORDER.map((label) => ({
+    label,
+    members: voteBill.votes.filter((v) => v.vote === label).map((v) => v.member),
+  })).filter((g) => g.members.length > 0);
+
+  const groupsHtml = groups
+    .map(
+      (g) => `<div class="vote-group">
+<p class="vote-group-label">${escapeHtml(g.label)}（${g.members.length}名）</p>
+<p class="vote-group-members">${g.members.map(escapeHtml).join("　")}</p>
+</div>`,
+    )
+    .join("\n");
+
+  const verifiedBadge = voteBill.verified
+    ? `<p class="verified-badge">${icon("shield")}公式PDF確認済</p>`
+    : `<p class="unverified-note">※現在、宝塚市議会公式PDFとの照合作業中です。</p>`;
+
+  return `<details class="vote-detail">
+<summary>議員別の表決結果を見る</summary>
+${verifiedBadge}
+${groupsHtml}
+<p class="vote-source-note">本データは宝塚市議会が公開する公式PDFをもとに作成しています。</p>
+</details>`;
+}
+
+function gianCard(bill, voteIndex) {
+  const voteBill = voteIndex.get(`${bill.billNumber}|${bill.decidedAt}`);
+  const resultClass = gianResultBadgeClass(bill.result);
+  const countLine = voteBill
+    ? `<p class="gian-count-line">賛成${voteBill.voteCounts["賛成"] ?? 0}・反対${voteBill.voteCounts["反対"] ?? 0}</p>`
+    : "";
+  const impactHtml = bill.citizenImpact
+    ? `<div class="gian-impact"><span class="gian-impact-label">${icon("bell")}市民生活への影響</span>${escapeHtml(bill.citizenImpact)}</div>`
+    : "";
+  const committeeTag =
+    bill.committee && bill.committee !== "－" ? `<span class="committee-tag">${escapeHtml(bill.committee)}</span>` : "";
+  const relatedLink = bill.relatedArticleSlug
+    ? `<p class="gian-related-link"><a href="/articles/${escapeHtml(bill.relatedArticleSlug)}.html">→ 関連記事を見る</a></p>`
+    : "";
+
+  return `<div class="gian-card">
+<div class="gian-head">
+<span class="gian-number">${escapeHtml(bill.billNumber)}</span>
+<span class="gian-result ${resultClass}">${escapeHtml(bill.result)}${bill.resultDetail ? `<span class="result-detail">（${escapeHtml(bill.resultDetail)}）</span>` : ""}</span>
+</div>
+${countLine}
+<p class="gian-title">${escapeHtml(bill.title)}</p>
+${impactHtml}
+<div class="gian-meta">${committeeTag}</div>
+${relatedLink}
+${voteDetailHtml(voteBill)}
+</div>`;
+}
+
+export function gianResultPage(sessions, voteIndex, siteUrl) {
+  const canonicalUrl = `${siteUrl}/category/shigikai/gian.html`;
+
+  const sessionsHtml = sessions
+    .map((session) => {
+      const byDate = new Map();
+      for (const bill of session.bills) {
+        if (!byDate.has(bill.decidedAt)) byDate.set(bill.decidedAt, []);
+        byDate.get(bill.decidedAt).push(bill);
+      }
+      const dateKeys = [...byDate.keys()].sort((a, b) => (a < b ? 1 : -1));
+
+      const dateGroupsHtml = dateKeys
+        .map(
+          (date) => `<div class="decision-date-label">${escapeHtml(formatDecidedAtLabel(date))} 議決</div>
+${byDate.get(date).map((bill) => gianCard(bill, voteIndex)).join("\n")}`,
+        )
+        .join("\n");
+
+      return `<div class="session-header">
+<div class="session-name">${escapeHtml(session.sessionName)}</div>
+<div class="session-date">会期：${escapeHtml(session.sessionTerm)}</div>
+</div>
+${dateGroupsHtml}`;
+    })
+    .join("\n");
+
+  const bodyHtml = `<nav class="breadcrumb"><a href="/">トップ</a> &gt; <a href="${categoryPath("shigikai")}">市議会</a> &gt; 議案採決一覧</nav>
+<div class="page-content">
+<h1>議案採決一覧</h1>
+<p class="lead">宝塚市議会で審議された議案の採決結果と、市民生活への影響をまとめています。最新の開催回から表示しています。</p>
+<p class="lead">このページでは、宝塚市議会で審議された議案の結果を分かりやすく整理しています。議員別の表決結果は、宝塚市議会が公開する公式PDFをもとに掲載しています。</p>
+<div class="disclosure-box">本ページの議案・採決結果は宝塚市公式サイトの公開情報をもとに作成しています。市民生活への影響の説明は事実の整理のみを目的とし、議案・議員への評価や賛否の意見は記載しません。</div>
+${sessionsHtml || '<p class="empty-state">まだ掲載できる議案がありません</p>'}
+<p class="panel-note"><a href="${categoryPath("shigikai")}">→ 市議会ウォッチ一覧へ</a>　<a href="/category/shigikai/guide.html">→ 市議会のしくみへ</a></p>
+<p class="source-note">出典：宝塚市議会「議案等一覧・審議結果」「議決等結果（電子採決システムによる投票における賛否）」（各議案の詳しい出典は議案カード内のリンクをご確認ください）</p>
+</div>`;
+
+  const collectionLd = {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    name: "議案採決一覧｜Takarazuka Today",
+    url: canonicalUrl,
+  };
+  const breadcrumbLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "トップ", item: `${siteUrl}/` },
+      { "@type": "ListItem", position: 2, name: "市議会", item: `${siteUrl}${categoryPath("shigikai")}` },
+      { "@type": "ListItem", position: 3, name: "議案採決一覧", item: canonicalUrl },
+    ],
+  };
+
+  return layout({
+    title: "議案採決一覧｜Takarazuka Today",
+    description: "宝塚市議会で審議された議案の採決結果（可決・否決等）と、市民生活への影響をご案内します。",
+    bodyHtml,
+    canonicalUrl,
+    structuredData: [collectionLd, breadcrumbLd],
   });
 }
 
