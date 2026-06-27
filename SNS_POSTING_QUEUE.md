@@ -3,6 +3,230 @@
 公開記事の一覧です。投稿したら `- [ ]` を `- [x]` に変更してチェックしてください。
 このファイルはサイトには含まれない、投稿管理用の手元メモです。
 
+## 2026-06-27　【機能アップグレード】市議会「議案採決一覧」ページを公開（記事ではないお知らせ）
+
+- カテゴリ：機能アップグレードのお知らせ
+- ページURL：https://takarazuka-today.jp/category/shigikai/gian.html
+- [x] 投稿済み
+
+```
+宝塚市議会の「議案採決一覧」ページを新しく公開しました。議案ごとの可決・否決の結果と、議員別の表決結果（宝塚市議会公式PDFをもとに作成）をまとめて確認できます。
+https://takarazuka-today.jp/category/shigikai/gian.html
+#宝塚市 #宝塚市議会
+```
+
+---
+
+## 2026-06-27　生産緑地地区の新規指定相談、7月1日から14日まで受付
+
+- カテゴリ：行政・くらし　評価：B
+- 記事URL：https://takarazuka-today.jp/articles/seisan-ryokuchi-2026.html
+- [ ] 投稿済み
+
+```
+生産緑地地区の新規指定相談を7/1(水)〜14(火)に受付。対象は300平方メートル以上の農地所有者等。相談は都市計画課（本庁舎3階）へ、事前連絡推奨。
+https://takarazuka-today.jp/articles/seisan-ryokuchi-2026.html
+#宝塚市
+```
+
+---
+
+## 2026-06-27　「20歳のつどい」令和10年・令和11年の開催日が決定
+
+- カテゴリ：行政・くらし　評価：B
+- 記事URL：https://takarazuka-today.jp/articles/seijin-shiki-r10-r11.html
+- [ ] 投稿済み
+
+```
+「20歳のつどい」令和10年(2028/1/10)・令和11年(2029/1/8)の開催日が決定。令和10年は宝塚ホテルで中学校区域別に2回開催。対象学年・会場の詳細はこちら。
+https://takarazuka-today.jp/articles/seijin-shiki-r10-r11.html
+#宝塚市
+```
+
+---
+
+## 2026-06-27　「第21回ミニたからづか」中高生スタッフ募集、応募締切7月22日
+
+- カテゴリ：子育て　評価：B
+- 記事URL：https://takarazuka-today.jp/articles/mini-takarazuka-21-staff-2026.html
+- [ ] 投稿済み
+
+```
+「第21回ミニたからづか」（12/12・13開催）の中高生スタッフを募集中。対象は市内在住・在学の中1〜18歳、25人。応募は電話・来館・Googleフォームで、締切7/22(水)。
+https://takarazuka-today.jp/articles/mini-takarazuka-21-staff-2026.html
+#宝塚市
+```
+
+---
+
+## 2026-06-26　市立病院市民公開講座、台風7号接近でも6月27日は予定通り開催（警報発令時は中止の可能性）
+
+- カテゴリ：防災　評価：A
+- 記事URL：https://takarazuka-today.jp/articles/shiritsubyoin-kouza-taifu-2026.html
+- [x] 投稿済み
+
+```
+【台風7号関連】6/27(土)14:00〜の市立病院市民公開講座は予定通り開催予定。ただし当日朝6時時点で兵庫県南部に大雨洪水警報等が発令された場合は中止の可能性。中止時は市公式サイトでお知らせ。
+https://takarazuka-today.jp/articles/shiritsubyoin-kouza-taifu-2026.html
+#宝塚市 #台風7号
+```
+
+---
+
+## 2026-06-26　「こどもたちによる"平和なまち"絵画コンテスト2026」作品募集中、締切9月30日
+
+- カテゴリ：子育て　評価：B
+- 記事URL：https://takarazuka-today.jp/articles/heiwa-kaiga-contest-2026.html
+- [ ] 投稿済み
+
+```
+「こどもたちによる“平和なまち”絵画コンテスト2026」作品募集中。対象は市内在住・在学の6〜15歳。締切9/30(水)。会長賞はクリアファイルデザインに採用、国連会議でも活用予定。
+https://takarazuka-today.jp/articles/heiwa-kaiga-contest-2026.html
+#宝塚市
+```
+
+---
+
+## 2026-06-25　「市民と市長の対話ひろば」7月は4回開催、テーマは市役所周辺エリアの未来
+
+- カテゴリ：行政・くらし　評価：A
+- 記事URL：https://takarazuka-today.jp/articles/taiwa-hiroba-202607.html
+- [x] 投稿済み
+
+```
+「市民と市長の対話ひろば」7月は4回開催（7/11・17・28・30）。テーマは市役所周辺エリアの未来。申込不要、市内在住・在勤・在学の方が対象。
+https://takarazuka-today.jp/articles/taiwa-hiroba-202607.html
+#宝塚市
+```
+
+---
+
+## 2026-06-25　歯科保健相談、7月17日・8月7日開催・予約受付は7月1日から
+
+- カテゴリ：イベント　評価：B
+- 記事URL：https://takarazuka-today.jp/articles/shika-hoken-soudan-2026.html
+- [ ] 投稿済み
+
+```
+7/17・8/7(金)13:30〜15:00、口腔保健相談センター（アピア3内）で歯科保健相談。各日先着3人・無料。予約受付は7/1(水)9時から、宝塚市歯科医師会（0797-78-6891）。
+https://takarazuka-today.jp/articles/shika-hoken-soudan-2026.html
+#宝塚市
+```
+
+---
+
+## 2026-06-25　「水辺の生き物探検」7月18日に逆瀬川で開催、応募締切は7月12日
+
+- カテゴリ：イベント　評価：A
+- 記事URL：https://takarazuka-today.jp/articles/mizube-ikimono-2026.html
+- [x] 投稿済み
+
+```
+7/18(土)9:30〜11:30、逆瀬川なかよし橋付近で「水辺の生き物探検」開催。小学生以下は保護者同伴。定員30名（抽選）・無料。応募は7/12(日)23:59まで。
+https://takarazuka-today.jp/articles/mizube-ikimono-2026.html
+#宝塚市
+```
+
+---
+
+## 2026-06-25　親子で木工体験「名匠セミナー」8月9日開催、申込締切7月15日
+
+- カテゴリ：イベント　評価：B
+- 記事URL：https://takarazuka-today.jp/articles/meisho-seminar-2026.html
+- [ ] 投稿済み
+
+```
+8/9(日)14:00〜16:00、中央公民館ホールで親子木工教室「名匠セミナー」。市内在住の小学生と保護者対象、ミニイス製作。定員10組（抽選）・1組1,000円。申込締切7/15(水)。
+https://takarazuka-today.jp/articles/meisho-seminar-2026.html
+#宝塚市
+```
+
+---
+
+## 2026-06-25　「こもたのひろば」7月30日開催、0〜2歳と保護者対象・申込不要
+
+- カテゴリ：子育て　評価：B
+- 記事URL：https://takarazuka-today.jp/articles/komotano-hiroba-2026.html
+- [ ] 投稿済み
+
+```
+7/30(木)10:00〜12:00、フレミラ宝塚で「こもたのひろば」開催。0〜2歳と保護者対象、入場無料・申込不要。ハイハイレースや親子遊びも。
+https://takarazuka-today.jp/articles/komotano-hiroba-2026.html
+#宝塚市 #子育て
+```
+
+---
+
+## 2026-06-25　「あつまれ夏休みこども食堂」7月29日開催、申込締切7月24日
+
+- カテゴリ：イベント　評価：B
+- 記事URL：https://takarazuka-today.jp/articles/kodomo-shokudo-natsu-2026.html
+- [ ] 投稿済み
+
+```
+7/29(水)13:00〜17:00、くらんど人権文化センターで「あつまれ夏休みこども食堂」。子ども100円・大人300円。申込は主催団体Instagramから、締切7/24(金)。
+https://takarazuka-today.jp/articles/kodomo-shokudo-natsu-2026.html
+#宝塚市 #こども食堂
+```
+
+---
+
+## 2026-06-25　「1歳児きらきら子育て講座」全3回、8月31日から開催・申込は8月24日まで
+
+- カテゴリ：子育て　評価：B
+- 記事URL：https://takarazuka-today.jp/articles/kirakira-kosodate-2026.html
+- [ ] 投稿済み
+
+```
+8/31・9/7・9/9(月・月・水)10:00〜11:45、フレミラ宝塚で「1歳児きらきら子育て講座」（全3回）。対象は満1歳第一子の保護者（市内在住）。一時保育あり・無料。申込は8/24まで。
+https://takarazuka-today.jp/articles/kirakira-kosodate-2026.html
+#宝塚市 #子育て
+```
+
+---
+
+## 2026-06-25　平和映画会、8月25日にソリオホールで開催・申込不要
+
+- カテゴリ：文化・観光　評価：A
+- 記事URL：https://takarazuka-today.jp/articles/heiwa-eigakai-2026.html
+- [x] 投稿済み
+
+```
+8/25(火)13:30〜15:45、ソリオホールで「平和映画会」開催。原爆研究に携わる科学者を描いた作品を上映。申込不要・先着300名・参加無料。
+https://takarazuka-today.jp/articles/heiwa-eigakai-2026.html
+#宝塚市 #平和映画会
+```
+
+---
+
+## 2026-06-25　夏のハチ相談が急増、自宅で巣を見つけたら無理せず専門窓口へ
+
+- カテゴリ：行政・くらし　評価：A
+- 記事URL：https://takarazuka-today.jp/articles/hachi-gaichu-2026.html
+- [x] 投稿済み
+
+```
+夏はハチの相談が急増中。スズメバチの巣を見つけたら近づかず、アシナガバチでも高所の巣は無理せず、兵庫県ペストコントロール協会（0120-76-2633）へ相談を。
+https://takarazuka-today.jp/articles/hachi-gaichu-2026.html
+#宝塚市 #ハチ対策
+```
+
+---
+
+## 2026-06-24　伊孑志・亀井町の一部で断水、6月24日17時に解除済み
+
+- カテゴリ：行政・くらし　評価：B
+- 記事URL：https://takarazuka-today.jp/articles/dansui-kaijo-2026.html
+- [ ] 投稿済み
+
+```
+伊孑志4丁目7番・亀井町8〜13番の一部区域で実施されていた断水は6/24 17:00に解除済みです。にごり水が出た場合は透明になるまで蛇口から水を流してからご使用ください。
+https://takarazuka-today.jp/articles/dansui-kaijo-2026.html
+#宝塚市
+```
+
+---
+
 ## 2026-06-23　上下水道モニター募集、任期は9月から・締切は7月23日
 
 - カテゴリ：行政・くらし　評価：B
@@ -546,4 +770,3 @@ https://takarazuka-today.jp/articles/cosmocast-fugu-2026.html
 ```
 
 ---
-
