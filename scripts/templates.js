@@ -949,6 +949,9 @@ function gianCard(bill, voteIndex) {
   const relatedLink = bill.relatedArticleSlug
     ? `<p class="gian-related-link"><a href="/articles/${escapeHtml(bill.relatedArticleSlug)}.html">→ 関連記事を見る</a></p>`
     : "";
+  const detailLink = bill.detailUrl
+    ? `<p class="gian-related-link"><a href="${escapeHtml(bill.detailUrl)}" target="_blank" rel="noopener">→ ${escapeHtml(bill.detailLabel ?? "この議案について詳しく見る")}</a></p>`
+    : "";
 
   return `<div class="gian-card">
 <div class="gian-head">
@@ -960,6 +963,7 @@ ${countLine}
 ${impactHtml}
 <div class="gian-meta">${committeeTag}</div>
 ${relatedLink}
+${detailLink}
 ${voteDetailHtml(voteBill)}
 </div>`;
 }
