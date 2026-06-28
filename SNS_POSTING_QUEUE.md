@@ -23,7 +23,7 @@ https://takarazuka-today.jp/category/shigikai/gian.html
 
 - カテゴリ：行政・くらし　評価：B
 - 記事URL：https://takarazuka-today.jp/articles/seisan-ryokuchi-2026.html
-- [ ] 投稿済み
+- [x] 投稿済み
 
 ```
 生産緑地地区の新規指定相談を7/1(水)〜14(火)に受付。対象は300平方メートル以上の農地所有者等。相談は都市計画課（本庁舎3階）へ、事前連絡推奨。
@@ -33,11 +33,39 @@ https://takarazuka-today.jp/articles/seisan-ryokuchi-2026.html
 
 ---
 
+## 2026-06-29　ソリオホール、2027年4月から毎週水曜が休館日に
+
+- カテゴリ：文化・観光　評価：B
+- 記事URL：https://takarazuka-today.jp/articles/solio-hall-kyukan-2027.html
+- [ ] 投稿済み
+
+```
+ソリオホールは2027年4月から毎週水曜が休館日に（祝日の場合は開館）。年末年始休館はこれまでどおり。利用予定がある方はご注意ください。
+https://takarazuka-today.jp/articles/solio-hall-kyukan-2027.html
+#宝塚市
+```
+
+---
+
+## 2026-06-29　市認定生活支援ヘルパー養成研修、受講者を募集（7月1日から申込開始）
+
+- カテゴリ：行政・くらし　評価：B
+- 記事URL：https://takarazuka-today.jp/articles/seikatsushien-helper-yousei-2026.html
+- [ ] 投稿済み
+
+```
+「生活支援ヘルパー養成研修」受講者募集。8/5・6(全2回)9:30〜17:30、市役所、定員30人。対象はホームヘルパー資格なし・自転車orバイク可能な方。申込7/1〜24、市保健福祉サービス公社（0797-86-9194）。
+https://takarazuka-today.jp/articles/seikatsushien-helper-yousei-2026.html
+#宝塚市
+```
+
+---
+
 ## 2026-06-28　住民票・印鑑登録証明書など、10月1日から手数料を値上げ
 
 - カテゴリ：行政・くらし　評価：A
 - 記事URL：https://takarazuka-today.jp/articles/tesuryo-shiyoryo-kaitei-2026.html
-- [ ] 投稿済み
+- [x] 投稿済み
 
 ```
 宝塚市は10/1から手数料・使用料を値上げ。住民票・印鑑登録証明書・課税証明書は各300円→400円、コンビニ交付は200円→300円、火葬場使用料は1万円→1万5000円に。
@@ -51,7 +79,7 @@ https://takarazuka-today.jp/articles/tesuryo-shiyoryo-kaitei-2026.html
 
 - カテゴリ：行政・くらし　評価：A
 - 記事URL：https://takarazuka-today.jp/articles/seijin-shiki-takarazuka-daigekijo-2027.html
-- [ ] 投稿済み
+- [x] 投稿済み
 
 ```
 来年1/11(祝)、「20歳のつどい」が宝塚大劇場で初開催。対象は平成18年4月2日〜平成19年4月1日生まれ。今年度のみ1回開催（来年度は宝塚ホテル実施）。企画委員も募集中、締切7/10。
@@ -65,7 +93,7 @@ https://takarazuka-today.jp/articles/seijin-shiki-takarazuka-daigekijo-2027.html
 
 - カテゴリ：行政・くらし　評価：A
 - 記事URL：https://takarazuka-today.jp/articles/cool-share-takarazuka-2026.html
-- [ ] 投稿済み
+- [x] 投稿済み
 
 ```
 「クールシェアたからづか2026」7/1〜9/30実施。市内200カ所以上の会社・店舗・公共施設で涼める。スタンプ8個で温泉入浴券などの抽選も。熱中症特別警戒アラート時は公共施設をクーリングシェルターとして開放。
@@ -79,7 +107,7 @@ https://takarazuka-today.jp/articles/cool-share-takarazuka-2026.html
 
 - カテゴリ：行政・くらし　評価：B
 - 記事URL：https://takarazuka-today.jp/articles/seisan-ryokuchi-2026.html
-- [ ] 投稿済み
+- [x] 投稿済み
 
 ```
 生産緑地地区の新規指定相談を7/1(水)〜14(火)に受付。対象は300平方メートル以上の農地所有者等。相談は都市計画課（本庁舎3階）へ、事前連絡推奨。
@@ -107,7 +135,7 @@ https://takarazuka-today.jp/articles/seijin-shiki-r10-r11.html
 
 - カテゴリ：子育て　評価：B
 - 記事URL：https://takarazuka-today.jp/articles/mini-takarazuka-21-staff-2026.html
-- [ ] 投稿済み
+- [x] 投稿済み
 
 ```
 「第21回ミニたからづか」（12/12・13開催）の中高生スタッフを募集中。対象は市内在住・在学の中1〜18歳、25人。応募は電話・来館・Googleフォームで、締切7/22(水)。
