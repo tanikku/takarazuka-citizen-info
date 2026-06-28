@@ -1,0 +1,66 @@
+{
+  "categoryKey": "kurashi",
+  "slug": "kyoyo-shisetsu-guide",
+  "title": "宝塚市 図書館・公民館・スポーツセンターなど公共施設ガイド",
+  "cardSummary": "図書館・公民館・体育館・施設予約をまとめました",
+  "lead": "宝塚市の中央図書館・西図書館、中央・東・西公民館、市立スポーツセンターなどの公共施設について、開館時間・アクセス・利用申し込み方法を、宝塚市公式サイトの情報をもとにまとめました。最新情報は出典元の公式サイトでご確認ください。",
+  "updatedAt": "2026-06-29",
+  "toc": [
+    { "id": "library", "label": "図書館" },
+    { "id": "kominkan", "label": "公民館" },
+    { "id": "sports", "label": "スポーツセンター（体育館）" },
+    { "id": "community", "label": "コミュニティ施設・施設予約" }
+  ],
+  "sections": [
+    {
+      "id": "library",
+      "heading": "図書館",
+      "items": [
+        "中央図書館（清荒神1丁目）：月・火・木・土・日は9時30分〜18時、金曜は9時30分〜19時。休館日は水曜・第2金曜・年末年始（<a href=\"https://www.city.takarazuka.hyogo.jp/1060678/1060692/shisetsu/1061539/1061541/1004491.html\" target=\"_blank\" rel=\"noopener\">中央図書館</a>）",
+        "西図書館（小林2丁目）：9時30分〜18時（金曜と7・8月の土曜は19時まで）。休館日は水曜・毎月1日・年末年始（<a href=\"https://www.city.takarazuka.hyogo.jp/1060678/1060692/shisetsu/1061539/1061541/1004509.html\" target=\"_blank\" rel=\"noopener\">西図書館</a>）",
+        "利用には図書館の利用券が必要です（<a href=\"https://www.city.takarazuka.hyogo.jp/1060680/1060699/kyoikuiinkai/library/1004453.html\" target=\"_blank\" rel=\"noopener\">利用券作成のご案内</a>）",
+        "神戸市・阪神間の図書館でも本の館外貸出ができる広域サービスがあります"
+      ]
+    },
+    {
+      "id": "kominkan",
+      "heading": "公民館",
+      "items": [
+        "市内には中央公民館（末広町）・東公民館（山本南）・西公民館（小林）があります（<a href=\"https://www.city.takarazuka.hyogo.jp/kyoiku/kominkan/index.html\" target=\"_blank\" rel=\"noopener\">公民館（公式サイト）</a>）",
+        "利用申し込みは<a href=\"https://www.shisetsu.city.takarazuka.hyogo.jp/\" target=\"_blank\" rel=\"noopener\">宝塚市施設予約システム</a>（パソコン・スマートフォン対応）から行います"
+      ]
+    },
+    {
+      "id": "sports",
+      "heading": "スポーツセンター（体育館）",
+      "items": [
+        "宝塚市立スポーツセンター（小浜1丁目、0797-87-5911）。利用時間はおおむね9時〜21時です（施設により異なります）",
+        "アクセス：阪神バス「小浜」下車徒歩5分、阪急バス「スポーツセンター前」下車すぐ（<a href=\"https://www.city.takarazuka.hyogo.jp/1060678/1060692/shisetsu/kankokanren/1010260/1004490.html\" target=\"_blank\" rel=\"noopener\">市立スポーツセンター</a>）",
+        "身体障がい者手帳等をお持ちの方は駐車料金が免除されます",
+        "大会・教室の案内は<a href=\"https://www.city.takarazuka.hyogo.jp/1060683/1060710/1061599/1021829/1000716.html\" target=\"_blank\" rel=\"noopener\">スポーツセンター大会・教室のご案内</a>でご確認ください"
+      ]
+    },
+    {
+      "id": "community",
+      "heading": "コミュニティ施設・施設予約",
+      "items": [
+        "地域のコミュニティ施設一覧は<a href=\"https://www.city.takarazuka.hyogo.jp/1060685/1060715/1061674/1001148.html\" target=\"_blank\" rel=\"noopener\">コミュニティ施設一覧</a>でご確認ください",
+        "公共施設全体の一覧は<a href=\"https://www.city.takarazuka.hyogo.jp/1060678/1060692/shisetsu/index.html\" target=\"_blank\" rel=\"noopener\">施設一覧（公式サイト）</a>から探せます",
+        "公民館・スポーツセンターなど予約可能な施設は<a href=\"https://www.shisetsu.city.takarazuka.hyogo.jp/\" target=\"_blank\" rel=\"noopener\">宝塚市施設予約システム</a>で一括して予約できます"
+      ]
+    }
+  ],
+  "faq": [
+    { "q": "図書館の休館日は？", "a": "中央図書館は水曜・第2金曜・年末年始、西図書館は水曜・毎月1日・年末年始が休館日です。詳細は各図書館のページでご確認ください。" },
+    { "q": "公民館の利用申し込みはどうする？", "a": "<a href=\"https://www.shisetsu.city.takarazuka.hyogo.jp/\" target=\"_blank\" rel=\"noopener\">宝塚市施設予約システム</a>からパソコン・スマートフォンで申し込みできます。" },
+    { "q": "スポーツセンターへのアクセスは？", "a": "阪神バス「小浜」下車徒歩5分、または阪急バス「スポーツセンター前」下車すぐです。詳細は<a href=\"https://www.city.takarazuka.hyogo.jp/1060678/1060692/shisetsu/kankokanren/1010260/1004490.html\" target=\"_blank\" rel=\"noopener\">市立スポーツセンター</a>のページをご確認ください。" }
+  ],
+  "relatedLinks": [
+    { "href": "/category/kurashi.html", "label": "行政・くらしの記事一覧を見る" },
+    { "href": "/category/kurashi/kotsu-guide.html", "label": "交通ガイドを見る" },
+    { "href": "/category/kurashi/gyousei-tetsuzuki-guide.html", "label": "行政手続きガイドを見る" },
+    { "href": "/category/kosodate/guide.html", "label": "子育て支援まとめを見る" }
+  ],
+  "sourceUrl": "https://www.city.takarazuka.hyogo.jp/1060678/1060692/shisetsu/index.html",
+  "sourceLabel": "宝塚市公式サイト「施設一覧」"
+}

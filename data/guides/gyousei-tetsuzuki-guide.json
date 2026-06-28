@@ -1,0 +1,88 @@
+{
+  "categoryKey": "kurashi",
+  "slug": "gyousei-tetsuzuki-guide",
+  "title": "宝塚市 引っ越し・証明書の行政手続きガイド",
+  "cardSummary": "転入転出・住民票・マイナンバー・印鑑登録をまとめました",
+  "lead": "宝塚市への引っ越しに伴う転入・転出届、住民票や印鑑登録証明書の取得方法、マイナンバーカードの申請・受け取り、休日や夜間の手続き方法について、宝塚市公式サイトの情報をもとにまとめました。最新情報は出典元の公式サイトでご確認ください。",
+  "updatedAt": "2026-06-29",
+  "toc": [
+    { "id": "tennyu", "label": "転入・転出の手続き" },
+    { "id": "shomei", "label": "住民票・証明書の取得" },
+    { "id": "mynumber", "label": "マイナンバーカード" },
+    { "id": "inkan", "label": "印鑑登録" },
+    { "id": "koseki", "label": "戸籍の届出" },
+    { "id": "kyujitsu", "label": "休日・夜間の手続き" }
+  ],
+  "sections": [
+    {
+      "id": "tennyu",
+      "heading": "転入・転出の手続き",
+      "items": [
+        "市外から宝塚市に引っ越す場合は<a href=\"https://www.city.takarazuka.hyogo.jp/1060679/1060694/1061544/1060199/1000158.html\" target=\"_blank\" rel=\"noopener\">転入届</a>が必要です。本庁舎2階の窓口サービス課（平日9時〜17時30分）で手続きします",
+        "宝塚市から市外へ引っ越す場合は<a href=\"https://www.city.takarazuka.hyogo.jp/1060679/1060694/1061544/1060199/1049360.html\" target=\"_blank\" rel=\"noopener\">転出届のオンライン申請</a>が可能です（マイナンバーカードの電子証明書が有効な方）",
+        "転入届はマイナポータルだけでは完結せず、引っ越し先の窓口での手続きが必要です"
+      ]
+    },
+    {
+      "id": "shomei",
+      "heading": "住民票・証明書の取得",
+      "items": [
+        "<a href=\"https://www.city.takarazuka.hyogo.jp/kurashi/madoguchi/1015691.html\" target=\"_blank\" rel=\"noopener\">マイナンバーカードを使ったコンビニ交付サービス</a>で、休日・夜間でも全国のコンビニ等で住民票の写し等の証明書を取得できます",
+        "<a href=\"https://www.city.takarazuka.hyogo.jp/kurashi/shomei/1043117.html\" target=\"_blank\" rel=\"noopener\">証明書のオンライン請求「スマート申請」</a>も利用できます",
+        "市内7カ所の<a href=\"https://www.city.takarazuka.hyogo.jp/kurashi/madoguchi/1000162.html\" target=\"_blank\" rel=\"noopener\">サービスセンター・サービスステーション</a>でも証明書を取得できます（平日9時〜17時30分、宝塚駅前サービスステーションは土曜も営業）"
+      ]
+    },
+    {
+      "id": "mynumber",
+      "heading": "マイナンバーカード",
+      "items": [
+        "<a href=\"https://www.city.takarazuka.hyogo.jp/kurashi/1012210/1042552.html\" target=\"_blank\" rel=\"noopener\">マイナンバーカードの申請方法</a>：本庁舎2階窓口サービス課でオンライン申請受付・無料の顔写真撮影サービスを実施しています",
+        "<a href=\"https://www.city.takarazuka.hyogo.jp/1060679/1060694/1012210/1013581.html\" target=\"_blank\" rel=\"noopener\">受け取り方法</a>：原則、簡易書留または本人限定受取郵便で受け取ります",
+        "平日の受け取りが難しい方向けに、原則毎月第4土曜日に休日臨時窓口（完全予約制）が開設されます",
+        "お問い合わせ：宝塚市マイナンバーコールセンター（0797-78-6075、平日9時〜17時）"
+      ]
+    },
+    {
+      "id": "inkan",
+      "heading": "印鑑登録",
+      "items": [
+        "宝塚市の住民基本台帳に記載されている15歳以上の方が登録できます（<a href=\"https://www.city.takarazuka.hyogo.jp/kurashi/1000067/1000170.html\" target=\"_blank\" rel=\"noopener\">印鑑登録</a>）",
+        "運転免許証・パスポート・マイナンバーカードなど顔写真付きの本人確認書類があれば即日登録できます",
+        "本人確認書類がない場合は、自宅に郵送される「照会・回答書」を使った登録方法もあります（回答期限は申請日から1カ月後）",
+        "印影が1辺25mmの正方形に収まらない、または1辺8mmの正方形に収まるものは登録できません"
+      ]
+    },
+    {
+      "id": "koseki",
+      "heading": "戸籍の届出",
+      "items": [
+        "婚姻・離婚・出生・死亡などの戸籍届出も窓口サービス課で受け付けています。届出には本人確認書類が必要です",
+        "詳細・必要書類は<a href=\"https://www.city.takarazuka.hyogo.jp/kurashi/shomei/index.html\" target=\"_blank\" rel=\"noopener\">各種証明（公式サイト）</a>でご確認ください"
+      ]
+    },
+    {
+      "id": "kyujitsu",
+      "heading": "休日・夜間の手続き",
+      "items": [
+        "住民票・印鑑登録証明書・戸籍証明書（死亡を除く）は、宝塚駅前サービスステーションで土曜日も取得できます（住民異動・住所変更の届出はできません）",
+        "それ以外の曜日・時間帯の証明書取得は、マイナンバーカードを使ったコンビニ交付サービスが便利です",
+        "マイナンバーカードの受け取りは、原則毎月第4土曜日の休日臨時窓口（完全予約制）が利用できます"
+      ]
+    }
+  ],
+  "faq": [
+    { "q": "引っ越し（転入・転出）の手続きはどこでできる？", "a": "本庁舎2階の窓口サービス課（平日9時〜17時30分）で手続きします。転出はマイナンバーカードがあればオンライン申請も可能です。詳細は<a href=\"https://www.city.takarazuka.hyogo.jp/1060679/1060694/1061544/1060199/1000158.html\" target=\"_blank\" rel=\"noopener\">転入届</a>のページをご確認ください。" },
+    { "q": "休日や夜間に住民票を取得したい", "a": "マイナンバーカードを持っていれば、休日・夜間でも全国のコンビニで住民票の写し等を取得できます（<a href=\"https://www.city.takarazuka.hyogo.jp/kurashi/madoguchi/1015691.html\" target=\"_blank\" rel=\"noopener\">コンビニ交付サービス</a>）。宝塚駅前サービスステーションは土曜日も営業しています。" },
+    { "q": "マイナンバーカードはどこで受け取れる？", "a": "原則、簡易書留または本人限定受取郵便で受け取ります。平日に受け取りが難しい場合は、原則毎月第4土曜日の休日臨時窓口（完全予約制）が利用できます。" },
+    { "q": "印鑑登録に必要なものは？", "a": "運転免許証・パスポート・マイナンバーカードなど顔写真付きの本人確認書類があれば即日登録できます。お持ちでない場合は、自宅への照会・回答書を使った登録方法もあります。詳細は<a href=\"https://www.city.takarazuka.hyogo.jp/kurashi/1000067/1000170.html\" target=\"_blank\" rel=\"noopener\">印鑑登録</a>のページをご確認ください。" }
+  ],
+  "relatedLinks": [
+    { "href": "/category/kurashi.html", "label": "行政・くらしの記事一覧を見る" },
+    { "href": "/category/kurashi/gomi-guide.html", "label": "ゴミ出し完全ガイドを見る" },
+    { "href": "/category/kosodate/guide.html", "label": "子育て支援まとめを見る" },
+    { "href": "/category/kurashi/koreisha-guide.html", "label": "高齢者向け介護・見守りサービスガイドを見る" },
+    { "href": "/category/bosai/guide.html", "label": "防災ガイドを見る" }
+  ],
+  "sourceUrl": "https://www.city.takarazuka.hyogo.jp/kurashi/madoguchi/index.html",
+  "sourceLabel": "宝塚市公式サイト「窓口サービス」"
+}

@@ -1,0 +1,68 @@
+{
+  "categoryKey": "kurashi",
+  "slug": "kotsu-guide",
+  "title": "宝塚市 交通ガイド（鉄道・バス・駐輪場・シェアサイクル）",
+  "cardSummary": "阪急・JR・バス・駐輪場・シェアサイクルをまとめました",
+  "lead": "宝塚市内のバス路線（阪急バス・阪神バス等）、駅周辺の駐輪場・駐車場、電動アシスト付きのシェアサイクル「HELLO CYCLING」について、宝塚市公式サイトの情報をもとにまとめました。鉄道の時刻は各社公式サイトでご確認ください。",
+  "updatedAt": "2026-06-29",
+  "toc": [
+    { "id": "tetsudo", "label": "鉄道（阪急・JR）" },
+    { "id": "bus", "label": "バス" },
+    { "id": "chuusharinjyo", "label": "駐輪場・駐車場" },
+    { "id": "sharecycle", "label": "シェアサイクル" }
+  ],
+  "sections": [
+    {
+      "id": "tetsudo",
+      "heading": "鉄道（阪急・JR）",
+      "items": [
+        "市内には阪急電鉄（宝塚線・今津線）とJR西日本（福知山線／JR宝塚線）の駅があります",
+        "時刻表・運行情報は各鉄道会社の公式サイトでご確認ください（<a href=\"https://www.hankyu.co.jp/\" target=\"_blank\" rel=\"noopener\">阪急電鉄</a>・<a href=\"https://www.jr-odekake.net/\" target=\"_blank\" rel=\"noopener\">JR西日本おでかけネット</a>）",
+        "宝塚市公式サイトの<a href=\"https://www.city.takarazuka.hyogo.jp/1060687/1060720/1061628/1001191.html\" target=\"_blank\" rel=\"noopener\">宝塚への交通</a>でも市外からのアクセスが紹介されています"
+      ]
+    },
+    {
+      "id": "bus",
+      "heading": "バス",
+      "items": [
+        "市内を走るバス事業者は阪急バス・阪神バス・伊丹市営バス・ランランバス（フクユ運営）の4社です（<a href=\"https://www.city.takarazuka.hyogo.jp/anzen/1009510/1017015/1017013.html\" target=\"_blank\" rel=\"noopener\">市内のバス一覧</a>）",
+        "阪急バスは市内一円および隣接市、阪神バスは宝塚駅〜阪神尼崎駅・甲子園駅方面、伊丹市営バスはJR中山寺駅〜伊丹市内、ランランバスは宝塚駅〜月見山・長寿ガ丘地域を運行しています",
+        "路線図・時刻表は各社公式サイト（<a href=\"https://www.hankyubus.co.jp/rosen/\" target=\"_blank\" rel=\"noopener\">阪急バス</a>・<a href=\"http://www.hanshin-bus.co.jp/rosen/\" target=\"_blank\" rel=\"noopener\">阪神バス</a>）でご確認ください",
+        "西谷地区では一部路線の廃止・運行変更も行われています。最新情報は<a href=\"https://www.city.takarazuka.hyogo.jp/anzen/1009510/1017015/1045076.html\" target=\"_blank\" rel=\"noopener\">路線バスに関するお知らせ</a>でご確認ください"
+      ]
+    },
+    {
+      "id": "chuusharinjyo",
+      "heading": "駐輪場・駐車場",
+      "items": [
+        "市立自転車等駐車場（駐輪場）が、仁川駅前・小林・逆瀬川・宝塚南口駅前・宝塚・清荒神・売布神社駅南・中山南・山本北・JR中山寺駅南・JR武田尾駅前など各駅周辺にあります",
+        "定期利用は各駐輪場へ直接申し込みます。料金は<a href=\"https://www.city.takarazuka.hyogo.jp/anzen/1009491/1009710/1049759.html\" target=\"_blank\" rel=\"noopener\">市立駐輪場・駐車場の利用について</a>のPDF一覧表でご確認ください",
+        "生活保護受給者・身体障害者手帳等所持者は定期使用料が半額に減免されます",
+        "市営駐車場は宝塚駅前（一時利用のみ、30分無料・以降30分400円）、武田尾駅前（定期・一時利用対応、1日500円）があります。身体障害者手帳等所持者は使用料免除です"
+      ]
+    },
+    {
+      "id": "sharecycle",
+      "heading": "シェアサイクル",
+      "items": [
+        "宝塚市シェアサイクル事業として「HELLO CYCLING」（Open Street株式会社運営）が導入されています（<a href=\"https://www.city.takarazuka.hyogo.jp/1060685/1060715/1017015/1063005.html\" target=\"_blank\" rel=\"noopener\">宝塚市シェアサイクル事業</a>）",
+        "令和8年4月1日現在、市内16カ所にサイクルポートが設置されています（令和8年4月1日〜令和13年3月31日の実証実験）",
+        "アプリをダウンロードして登録・予約し、サイクルポートで貸出・返却します。電動アシスト付き自転車です",
+        "料金は利用開始後30分160円、以降15分ごとに160円（12時間以内なら最大2,500円）"
+      ]
+    }
+  ],
+  "faq": [
+    { "q": "市内のバス路線図はどこで見られる？", "a": "市内には阪急バス・阪神バス・伊丹市営バス・ランランバスが運行しています。各社の路線図は公式サイト（<a href=\"https://www.hankyubus.co.jp/rosen/\" target=\"_blank\" rel=\"noopener\">阪急バス</a>等）でご確認ください。一覧は<a href=\"https://www.city.takarazuka.hyogo.jp/anzen/1009510/1017015/1017013.html\" target=\"_blank\" rel=\"noopener\">市内のバス一覧</a>にまとまっています。" },
+    { "q": "駅前の駐輪場はどこで申し込める？", "a": "定期利用は各駐輪場に直接申し込みます。料金や場所は<a href=\"https://www.city.takarazuka.hyogo.jp/anzen/1009491/1009710/1049759.html\" target=\"_blank\" rel=\"noopener\">市立駐輪場・駐車場の利用について</a>でご確認ください。" },
+    { "q": "宝塚市にシェアサイクルはある？", "a": "「HELLO CYCLING」が市内16カ所（令和8年4月時点）のサイクルポートで利用できます。アプリで予約し、電動アシスト付き自転車を借りられます。詳細は<a href=\"https://www.city.takarazuka.hyogo.jp/1060685/1060715/1017015/1063005.html\" target=\"_blank\" rel=\"noopener\">宝塚市シェアサイクル事業</a>をご確認ください。" }
+  ],
+  "relatedLinks": [
+    { "href": "/category/kurashi.html", "label": "行政・くらしの記事一覧を見る" },
+    { "href": "/category/kanko/hanshin-keibajo-guide.html", "label": "阪神競馬場ガイドを見る" },
+    { "href": "/category/kurashi/kyoyo-shisetsu-guide.html", "label": "図書館・公民館・スポーツセンターガイドを見る" },
+    { "href": "/category/kurashi/koreisha-guide.html", "label": "高齢者向け介護・見守りサービスガイドを見る" }
+  ],
+  "sourceUrl": "https://www.city.takarazuka.hyogo.jp/1060685/1060715/1017015/index.html",
+  "sourceLabel": "宝塚市公式サイト「公共交通」"
+}

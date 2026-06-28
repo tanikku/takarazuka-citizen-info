@@ -3,11 +3,14 @@
   "slug": "guide",
   "title": "宝塚市子育て支援まとめ",
   "cardSummary": "手当・保育・医療費助成などをまとめました",
-  "lead": "宝塚市公式サイトの情報をもとに、子育てに関する手当・保育施設・医療費助成・相談窓口をまとめました。最新情報は出典元の公式サイトでご確認ください。",
-  "updatedAt": "2026-06-22",
+  "lead": "宝塚市公式サイトの情報をもとに、児童手当の申請方法・保育園や幼稚園の入園手続き・児童館の利用案内・予防接種・医療費助成・ひとり親家庭支援など子育てに関する制度をまとめました。最新情報は出典元の公式サイトでご確認ください。",
+  "updatedAt": "2026-06-29",
   "toc": [
     { "id": "teate", "label": "児童手当" },
-    { "id": "hoiku", "label": "保育施設・支援拠点" },
+    { "id": "hoiku", "label": "保育園・保育施設" },
+    { "id": "youchien", "label": "幼稚園" },
+    { "id": "jidokan", "label": "児童館" },
+    { "id": "yobousessyu", "label": "予防接種" },
     { "id": "iryo", "label": "医療費助成" },
     { "id": "hitori", "label": "ひとり親家庭支援" },
     { "id": "soudan", "label": "相談窓口" }
@@ -22,10 +25,40 @@
     },
     {
       "id": "hoiku",
-      "heading": "保育施設・支援拠点",
+      "heading": "保育園・保育施設",
       "items": [
         "市立保育所（米谷・川面・わかくさ・逆瀬川など）で、未就園児とその保護者向けの子育て支援を実施",
-        "保育施設の検索は<a href=\"https://www.wam.go.jp/kokodesearch/\" target=\"_blank\" rel=\"noopener\">子ども・子育て支援情報公表システム「ここdeサーチ」</a>が利用できます"
+        "保育施設の検索は<a href=\"https://www.wam.go.jp/kokodesearch/\" target=\"_blank\" rel=\"noopener\">子ども・子育て支援情報公表システム「ここdeサーチ」</a>が利用できます",
+        "新規入所の案内・申請書類は<a href=\"https://www.city.takarazuka.hyogo.jp/kyoiku/gakkoshisetsu/1000105/1027922/index.html\" target=\"_blank\" rel=\"noopener\">新たに保育施設への入所を希望される方へのご案内</a>から確認できます",
+        "申請窓口は保育事業課（0797-77-2037）です"
+      ]
+    },
+    {
+      "id": "youchien",
+      "heading": "幼稚園",
+      "items": [
+        "市立幼稚園は2年保育が基本です（一部の幼稚園・認定こども園は3年保育の場合あり）",
+        "市立幼稚園の入園手続きは個別の園ではなく、教育委員会学事課（市役所3階）で受け付けます。応募多数の場合は抽選となります（<a href=\"https://www.city.takarazuka.hyogo.jp/kyoiku/gakkoshisetsu/1000106/index.html\" target=\"_blank\" rel=\"noopener\">幼稚園（公式サイト）</a>）",
+        "市内の幼稚園・認定こども園は<a href=\"https://www.city.takarazuka.hyogo.jp/1060680/1060699/1008832/1003624.html\" target=\"_blank\" rel=\"noopener\">幼稚園・認定こども園一覧</a>で確認できます"
+      ]
+    },
+    {
+      "id": "jidokan",
+      "heading": "児童館",
+      "items": [
+        "市内在住・在学・在園の0〜18歳の子どもと保護者が利用できる「地域児童館」が市内各地にあります",
+        "大型児童センター（フレミラ宝塚）は主に中高生向けの施設で、音楽室・運動室・情報図書室などがあります。開館時間は土日祝9時〜17時、その他の曜日は9時〜21時です（0797-85-3861）",
+        "児童館が遠い地域には「出前児童館事業」も実施されています"
+      ]
+    },
+    {
+      "id": "yobousessyu",
+      "heading": "予防接種",
+      "items": [
+        "子どもの定期予防接種は、医療機関を決めて予約し、母子健康手帳と予診票を持って受診します（<a href=\"https://www.city.takarazuka.hyogo.jp/kyoiku/kodomokenko/1000103/1000535.html\" target=\"_blank\" rel=\"noopener\">こどもの予防接種について</a>）",
+        "予診票や案内冊子は出生届・転入届の際に配布されます。お持ちでない場合は健康センターや窓口サービス課、各サービスセンター・ステーションで入手できます",
+        "長期療養等の理由で接種できなかった場合、かかりつけ医の証明書を添えて市立健康センターに申請すれば、公費負担（無料）で接種できる特例措置があります",
+        "予防接種歴証明書も発行可能です（日本語表記は無料、英文併記は有料）"
       ]
     },
     {
@@ -52,11 +85,16 @@
   ],
   "faq": [
     { "q": "保育園の入園はどう申し込む？", "a": "<a href=\"https://www.wam.go.jp/kokodesearch/\" target=\"_blank\" rel=\"noopener\">「ここdeサーチ」</a>で施設を確認のうえ、市の担当窓口で申し込み手続きを行います。詳細は公式サイトをご確認ください。" },
-    { "q": "児童手当はどこで申請できる？", "a": "<a href=\"https://www.city.takarazuka.hyogo.jp/kyoiku/teate/1000197.html\" target=\"_blank\" rel=\"noopener\">児童手当</a>のページから、市役所の担当窓口（子育て応援課等）で申請できます。出生・転入時は早めの手続きが必要です。" }
+    { "q": "児童手当はどこで申請できる？", "a": "<a href=\"https://www.city.takarazuka.hyogo.jp/kyoiku/teate/1000197.html\" target=\"_blank\" rel=\"noopener\">児童手当</a>のページから、市役所の担当窓口（子育て応援課等）で申請できます。出生・転入時は早めの手続きが必要です。" },
+    { "q": "市立幼稚園の入園手続きはどこでする？", "a": "個別の園ではなく、教育委員会学事課（市役所3階）で受け付けます。応募多数の場合は抽選になります。詳細は<a href=\"https://www.city.takarazuka.hyogo.jp/kyoiku/gakkoshisetsu/1000106/index.html\" target=\"_blank\" rel=\"noopener\">幼稚園（公式サイト）</a>をご確認ください。" },
+    { "q": "児童館は誰でも利用できる？", "a": "市内在住・在学・在園の0〜18歳の子どもと保護者が利用できます。大型児童センター（フレミラ宝塚）は主に中高生向けの施設です。" },
+    { "q": "予防接種の予診票をなくしてしまった場合は？", "a": "健康センターや窓口サービス課、各サービスセンター・ステーションで再度入手できます。詳細は<a href=\"https://www.city.takarazuka.hyogo.jp/kyoiku/kodomokenko/1000103/1000535.html\" target=\"_blank\" rel=\"noopener\">こどもの予防接種について</a>をご確認ください。" }
   ],
   "relatedLinks": [
     { "href": "/category/kosodate.html", "label": "子育ての記事一覧を見る" },
-    { "href": "/category/kyoiku.html", "label": "教育の記事一覧を見る" }
+    { "href": "/category/kyoiku.html", "label": "教育の記事一覧を見る" },
+    { "href": "/category/kurashi/gyousei-tetsuzuki-guide.html", "label": "行政手続きガイドを見る" },
+    { "href": "/category/kurashi/kyoyo-shisetsu-guide.html", "label": "図書館・公民館・スポーツセンターガイドを見る" }
   ],
   "sourceUrl": "https://www.city.takarazuka.hyogo.jp/kyoiku/kosodateshien/index.html",
   "sourceLabel": "宝塚市公式サイト「子育て支援」"
