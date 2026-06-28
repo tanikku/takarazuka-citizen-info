@@ -17,6 +17,64 @@ https://takarazuka-today.jp/category/shigikai/gian.html
 
 ---
 
+
+
+## 2026-06-27　生産緑地地区の新規指定相談、7月1日から14日まで受付
+
+- カテゴリ：行政・くらし　評価：B
+- 記事URL：https://takarazuka-today.jp/articles/seisan-ryokuchi-2026.html
+- [ ] 投稿済み
+
+```
+生産緑地地区の新規指定相談を7/1(水)〜14(火)に受付。対象は300平方メートル以上の農地所有者等。相談は都市計画課（本庁舎3階）へ、事前連絡推奨。
+https://takarazuka-today.jp/articles/seisan-ryokuchi-2026.html
+#宝塚市
+```
+
+---
+
+## 2026-06-28　住民票・印鑑登録証明書など、10月1日から手数料を値上げ
+
+- カテゴリ：行政・くらし　評価：A
+- 記事URL：https://takarazuka-today.jp/articles/tesuryo-shiyoryo-kaitei-2026.html
+- [ ] 投稿済み
+
+```
+宝塚市は10/1から手数料・使用料を値上げ。住民票・印鑑登録証明書・課税証明書は各300円→400円、コンビニ交付は200円→300円、火葬場使用料は1万円→1万5000円に。
+https://takarazuka-today.jp/articles/tesuryo-shiyoryo-kaitei-2026.html
+#宝塚市
+```
+
+---
+
+## 2026-06-28　「20歳のつどい」来年1月11日に宝塚大劇場で初開催
+
+- カテゴリ：行政・くらし　評価：A
+- 記事URL：https://takarazuka-today.jp/articles/seijin-shiki-takarazuka-daigekijo-2027.html
+- [ ] 投稿済み
+
+```
+来年1/11(祝)、「20歳のつどい」が宝塚大劇場で初開催。対象は平成18年4月2日〜平成19年4月1日生まれ。今年度のみ1回開催（来年度は宝塚ホテル実施）。企画委員も募集中、締切7/10。
+https://takarazuka-today.jp/articles/seijin-shiki-takarazuka-daigekijo-2027.html
+#宝塚市
+```
+
+---
+
+## 2026-06-28　「クールシェアたからづか2026」7月1日から9月30日まで実施
+
+- カテゴリ：行政・くらし　評価：A
+- 記事URL：https://takarazuka-today.jp/articles/cool-share-takarazuka-2026.html
+- [ ] 投稿済み
+
+```
+「クールシェアたからづか2026」7/1〜9/30実施。市内200カ所以上の会社・店舗・公共施設で涼める。スタンプ8個で温泉入浴券などの抽選も。熱中症特別警戒アラート時は公共施設をクーリングシェルターとして開放。
+https://takarazuka-today.jp/articles/cool-share-takarazuka-2026.html
+#宝塚市
+```
+
+---
+
 ## 2026-06-27　生産緑地地区の新規指定相談、7月1日から14日まで受付
 
 - カテゴリ：行政・くらし　評価：B
@@ -35,7 +93,7 @@ https://takarazuka-today.jp/articles/seisan-ryokuchi-2026.html
 
 - カテゴリ：行政・くらし　評価：B
 - 記事URL：https://takarazuka-today.jp/articles/seijin-shiki-r10-r11.html
-- [ ] 投稿済み
+- [x] 投稿済み
 
 ```
 「20歳のつどい」令和10年(2028/1/10)・令和11年(2029/1/8)の開催日が決定。令和10年は宝塚ホテルで中学校区域別に2回開催。対象学年・会場の詳細はこちら。
