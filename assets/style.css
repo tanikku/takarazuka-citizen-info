@@ -135,39 +135,8 @@ html[data-theme="dark"] .theme-icon-moon { display: block; }
   padding: 12px 16px 0;
 }
 
-/* 今日の宝塚パネル */
-.today-panel {
-  max-width: 1080px;
-  margin: 12px auto 0;
-  padding: 0 16px;
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 8px;
-}
-
-.stat-card {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  padding: 10px 6px;
-  text-align: center;
-}
-
-.stat-val {
-  font-size: 1.05rem;
-  font-weight: 800;
-  color: var(--accent);
-}
-
-.stat-lbl {
-  font-size: 0.66rem;
-  color: var(--text-sub);
-}
-
 .today-source {
-  max-width: 1080px;
-  margin: 4px auto 0;
-  padding: 0 16px;
+  margin: 4px 0 0;
   font-size: 0.7rem;
   color: var(--text-sub);
 }
@@ -229,9 +198,6 @@ html[data-theme="dark"] .guide-nav-panel {
 }
 
 @media (min-width: 480px) {
-  .today-panel {
-    grid-template-columns: repeat(5, 1fr);
-  }
   .quick-access {
     grid-template-columns: repeat(6, 1fr);
   }
@@ -293,6 +259,73 @@ html[data-theme="dark"] .guide-nav-panel {
   font-size: 0.62rem;
   opacity: 0.9;
   margin-top: 2px;
+}
+
+/* 今日の天気（今日のトピックより上の単独の段） */
+.weather-standalone-row {
+  max-width: 1080px;
+  margin: 12px auto 0;
+  padding: 0 16px;
+}
+
+/* フォトの下にカテゴリー一覧を重ねる列 */
+.today-row-side {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.weather-row {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+
+.weather-emoji {
+  font-size: 1.6rem;
+}
+
+.weather-temp {
+  font-size: 1.3rem;
+  font-weight: 800;
+  color: var(--accent);
+}
+
+.weather-area {
+  font-size: 0.8rem;
+  color: var(--text-sub);
+}
+
+.weather-body {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+
+.weather-pop-row {
+  display: flex;
+  gap: 10px;
+}
+
+.weather-pop-block {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+.weather-pop-time {
+  font-size: 0.62rem;
+  color: var(--text-sub);
+}
+
+.weather-pop-val {
+  font-size: 0.84rem;
+  font-weight: 800;
+  color: var(--link);
 }
 
 @media (min-width: 600px) {

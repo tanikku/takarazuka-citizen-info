@@ -77,19 +77,29 @@ function dateBar(dateLabel) {
   return `<div class="date-bar">${icon("calendar")}<span>${escapeHtml(dateLabel)}</span></div>`;
 }
 
-function todayPanel({ weather, counts }) {
-  const weatherStat = weather
-    ? `<div class="stat-card"><div class="stat-val">${escapeHtml(weather.weatherEmoji)}${escapeHtml(weather.tempMax ?? "?")}℃</div><div class="stat-lbl">${escapeHtml(weather.areaLabel)}</div></div>`
-    : `<div class="stat-card"><div class="stat-val">－</div><div class="stat-lbl">天気（未取得）</div></div>`;
+function weatherPanel(weather) {
+  if (!weather) {
+    return `<div class="panel" id="weather">
+<p class="panel-title">${icon("sun")}今日の天気</p>
+<p class="empty-state">天気情報を取得できませんでした</p>
+</div>`;
+  }
 
-  return `<div class="today-panel">
-${weatherStat}
-<div class="stat-card"><div class="stat-val">${counts.event}件</div><div class="stat-lbl">イベント情報</div></div>
-<div class="stat-card"><div class="stat-val">${counts.city}件</div><div class="stat-lbl">宝塚市（7日間）</div></div>
-<div class="stat-card"><div class="stat-val">${counts.pref}件</div><div class="stat-lbl">兵庫県（7日間）</div></div>
-<div class="stat-card"><div class="stat-val">${counts.police}件</div><div class="stat-lbl">県警（7日間）</div></div>
+  const popHtml =
+    weather.popBlocks && weather.popBlocks.length > 0
+      ? `<div class="weather-pop-row">
+${weather.popBlocks.map((b) => `<div class="weather-pop-block"><span class="weather-pop-time">${escapeHtml(b.label)}</span><span class="weather-pop-val">${escapeHtml(b.pop)}%</span></div>`).join("\n")}
+</div>`
+      : "";
+
+  return `<div class="panel" id="weather">
+<p class="panel-title">${icon("sun")}今日の天気</p>
+<div class="weather-body">
+  <div class="weather-row"><span class="weather-emoji">${escapeHtml(weather.weatherEmoji)}</span><span class="weather-temp">${escapeHtml(weather.tempMax ?? "?")}℃</span><span class="weather-area">${escapeHtml(weather.areaLabel)}</span></div>
+  ${popHtml}
 </div>
-${weather ? `<p class="today-source">天気出典：<a href="${escapeHtml(weather.sourceUrl)}" target="_blank" rel="noopener">気象庁</a>（${escapeHtml(weather.forecastDate)}発表予報・宝塚市は阪神地域のため代表地点「神戸」のデータを表示）</p>` : ""}`;
+<p class="today-source">天気出典：<a href="${escapeHtml(weather.sourceUrl)}" target="_blank" rel="noopener">気象庁</a>（${escapeHtml(weather.forecastDate)}発表予報・宝塚市は阪神地域のため代表地点「神戸」のデータを表示・降水確率は6時間ごと）</p>
+</div>`;
 }
 
 const QUICK_ACCESS_ITEMS = [
@@ -321,10 +331,13 @@ function photoOfDayPanel(photoOfDay) {
 </div>`;
 }
 
-function todayRow(todayArticles, photoOfDay) {
+function todayRow(todayArticles, photoOfDay, categoryPageKeys) {
   return `<div class="today-row">
 ${todayTopicPanel(todayArticles)}
+<div class="today-row-side">
 ${photoOfDayPanel(photoOfDay)}
+${categoryPanel(categoryPageKeys)}
+</div>
 </div>`;
 }
 
@@ -436,16 +449,15 @@ export function indexPage({ topArticles, todayArticles, categoryPageKeys, publis
   const gikaiArticles = publishedArticles.filter((a) => a.category === "市議会");
 
   const bodyHtml = `${dateBar(dateLabel)}
-${todayPanel({ weather, counts: todayCounts })}
 ${quickAccessPanel()}
-${todayRow(todayArticles, photoOfDay)}
+<div class="weather-standalone-row">${weatherPanel(weather)}</div>
+${todayRow(todayArticles, photoOfDay, categoryPageKeys)}
 <div class="grid-2">
   <div class="col-main">
     ${topNewsPanel(topArticles)}
     ${shigikaiCornerPanel({ hasGianPage, gikaiArticles })}
     ${guideNavPanel()}
     ${recentCombinedFeed(publishedArticles, categoryPageKeys)}
-    ${categoryPanel(categoryPageKeys)}
   </div>
   <div class="col-side">
     ${rankingOrRecentPanel(ranking, publishedArticles)}

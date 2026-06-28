@@ -29,6 +29,8 @@ async function main() {
   const nanbu = shortTerm.timeSeries[0].areas.find((a) => a.area.name === "南部");
   const kobeTemps = shortTerm.timeSeries.find((ts) => ts.areas.some((a) => a.area.name === "神戸"));
   const kobeArea = kobeTemps?.areas.find((a) => a.area.name === "神戸");
+  const popSeries = shortTerm.timeSeries[1];
+  const nanbuPop = popSeries?.areas.find((a) => a.area.name === "南部");
 
   const weatherCode = nanbu?.weatherCodes?.[0];
   const { label, emoji } = weatherCodeToLabel(weatherCode);
@@ -36,6 +38,17 @@ async function main() {
   const forecastDate = kobeTemps?.timeDefines?.[0]?.slice(0, 10) ?? "";
   const tempMin = kobeArea?.temps?.[0] ?? null;
   const tempMax = kobeArea?.temps?.[1] ?? null;
+
+  // 降水確率（6時間ごと）のうち、forecastDateと同じ日付の時間帯のみを抽出
+  const popBlocks = [];
+  if (popSeries && nanbuPop) {
+    popSeries.timeDefines.forEach((timeDefine, i) => {
+      if (!timeDefine.startsWith(forecastDate)) return;
+      const hour = Number(timeDefine.slice(11, 13));
+      const label = `${hour}〜${(hour + 6) % 24}時`;
+      popBlocks.push({ label, pop: nanbuPop.pops[i] });
+    });
+  }
 
   const result = {
     reportDatetime: shortTerm.reportDatetime,
@@ -45,6 +58,7 @@ async function main() {
     forecastDate,
     tempMin,
     tempMax,
+    popBlocks,
     sourceUrl: "https://www.jma.go.jp/bosai/forecast/#area_type=class20s&area_code=2821100",
     sourceName: "気象庁",
   };
