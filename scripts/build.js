@@ -355,6 +355,7 @@ function main() {
   writeFile("js/contact-form.js", fs.readFileSync(path.join(ASSETS_DIR, "contact-form.js"), "utf-8"));
   writeFile("favicon.svg", fs.readFileSync(path.join(ASSETS_DIR, "favicon.svg"), "utf-8"));
   writeFile("img/header-banner.png", fs.readFileSync(path.join(ASSETS_DIR, "header-banner.png")));
+  writeFile("photos/hanshin-keibajo.jpg", fs.readFileSync(path.join(ASSETS_DIR, "photos", "hanshin-keibajo.jpg")));
 
   for (const photo of allPhotos) {
     const srcPath = path.join(PHOTOS_DIR, photo.localFile);

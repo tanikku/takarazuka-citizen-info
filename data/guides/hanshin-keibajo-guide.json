@@ -1,0 +1,86 @@
+{
+  "categoryKey": "kanko",
+  "slug": "hanshin-keibajo-guide",
+  "icon": "horse",
+  "cardPhoto": "/photos/hanshin-keibajo.jpg",
+  "photoCredit": "写真：Cake6（<a href=\"https://commons.wikimedia.org/wiki/File:Hanshin_race_course_07.jpg\" target=\"_blank\" rel=\"noopener\">Wikimedia Commons</a>、<a href=\"https://creativecommons.org/licenses/by-sa/3.0/deed.ja\" target=\"_blank\" rel=\"noopener\">CC BY-SA 3.0</a>）",
+  "title": "阪神競馬場ガイド（アクセス・駐車場・ファミリー向け情報）",
+  "cardSummary": "アクセス・駐車場・キッズガーデンなど地域施設情報",
+  "lead": "宝塚市駒の町にある阪神競馬場について、アクセス・駐車場・ファミリー向け施設などの地域生活に役立つ情報をまとめました。",
+  "disclosure": "このページは阪神競馬場を地域施設として紹介するものであり、レース予想・馬券・オッズ等の情報は掲載しません。",
+  "updatedAt": "2026-06-28",
+  "toc": [
+    { "id": "access", "label": "所在地・アクセス・最寄駅" },
+    { "id": "parking", "label": "駐車場" },
+    { "id": "kids", "label": "ファミリー向け施設・キッズガーデン" },
+    { "id": "facilities", "label": "授乳室・飲食施設" },
+    { "id": "kaihou", "label": "一般開放（公園地区）" },
+    { "id": "kongou", "label": "開催日の混雑・地域住民向け注意点" }
+  ],
+  "sections": [
+    {
+      "id": "access",
+      "heading": "所在地・アクセス・最寄駅",
+      "items": [
+        "所在地は宝塚市駒の町1-1です（<a href=\"https://www.jra.go.jp/facilities/race/hanshin/access/\" target=\"_blank\" rel=\"noopener\">JRA公式サイト「所在地・アクセス」</a>）",
+        "最寄駅は阪急今津線「仁川駅」で、専用地下道・専用通路（サンライトウォーク）を通って徒歩約5分です",
+        "大阪・神戸方面からは、阪急電鉄で西宮北口駅まで行き、今津線に乗り換えるアクセスが一般的です"
+      ]
+    },
+    {
+      "id": "parking",
+      "heading": "駐車場",
+      "items": [
+        "JRA直営の駐車場があり、阪神競馬開催日は2,000円（税込）、パークウインズ（場外発売）開催日は1,000円（税込）です（<a href=\"https://www.jra.go.jp/facilities/race/hanshin/access/\" target=\"_blank\" rel=\"noopener\">JRA公式サイト「所在地・アクセス」</a>）",
+        "駐車台数には限りがあり、開催日は周辺道路・駐車場ともに混雑するため、公共交通機関の利用が推奨されています"
+      ],
+      "notes": ["身障者用駐車区画も用意されています。詳細・最新の料金はJRA公式サイトでご確認ください。"]
+    },
+    {
+      "id": "kids",
+      "heading": "ファミリー向け施設・キッズガーデン",
+      "items": [
+        "ボーネルンド監修の屋内キッズパーク「<a href=\"https://www.jra.go.jp/facilities/race/hanshin/asobiba/\" target=\"_blank\" rel=\"noopener\">あそび馬！</a>」があり、生後6カ月〜12歳が対象、約100種類の遊具で遊べます（保護者含め1組5名まで）",
+        "ふわふわドームや大型遊具などがあるキッズガーデン、芝生エリアもあります。詳細は<a href=\"https://www.jra.go.jp/facilities/race/hanshin/rcmap/index.html\" target=\"_blank\" rel=\"noopener\">JRA公式サイト「主な施設」</a>でご確認ください",
+        "馬とのふれあいイベントも開催されています（<a href=\"https://www.jra.go.jp/facilities/race/hanshin/news/fureai.html\" target=\"_blank\" rel=\"noopener\">JRA公式サイト「馬とのふれあいイベント・お子様向け遊具のご案内」</a>）"
+      ]
+    },
+    {
+      "id": "facilities",
+      "heading": "授乳室・飲食施設",
+      "items": [
+        "場内には授乳室・親子トイレ・ベビーシートが設置されています。詳細は<a href=\"https://jra.jp/faq/pop03/2_8.html\" target=\"_blank\" rel=\"noopener\">JRA公式サイトのFAQ「子供の遊び場や授乳室はありますか？」</a>でご確認ください",
+        "場内にレストラン・フードコート・キッズ向け飲食スペースがあります。店舗の詳細は<a href=\"https://www.jra.go.jp/facilities/race/hanshin/restaurant/\" target=\"_blank\" rel=\"noopener\">JRA公式サイト「レストラン」</a>でご確認ください"
+      ]
+    },
+    {
+      "id": "kaihou",
+      "heading": "一般開放（公園地区）",
+      "items": [
+        "競馬の開催がない平日には、キッズガーデンなどの公園地区が一般開放される期間があります（2026年は2月23日〜6月25日の期間に実施）",
+        "開放期間・時間は年によって異なるため、訪問前に<a href=\"https://www.jra.go.jp/facilities/race/hanshin/news/park.html\" target=\"_blank\" rel=\"noopener\">JRA公式サイト「キッズガーデン平日開放のご案内」</a>で最新情報をご確認ください"
+      ]
+    },
+    {
+      "id": "kongou",
+      "heading": "開催日の混雑・地域住民向け注意点",
+      "items": [
+        "G1レースなど大規模な開催日は、周辺道路や駐車場が大変混雑します。入場方法の詳細は<a href=\"https://www.jra.go.jp/facilities/race/hanshin/news/nyujou.html\" target=\"_blank\" rel=\"noopener\">JRA公式サイト「阪神競馬開催日のご入場方法」</a>でご確認ください",
+        "最終レース終了後しばらくの間が最も混雑する時間帯です。周辺にお住まいの方や近隣を通行される方は、開催日の午後は混雑を見込んでおくと良いでしょう"
+      ]
+    }
+  ],
+  "faq": [
+    { "q": "阪神競馬場はどこにありますか？", "a": "宝塚市駒の町1-1にあります。阪急今津線「仁川駅」から専用地下道・専用通路（サンライトウォーク）で徒歩約5分です。" },
+    { "q": "子ども向けの施設はありますか？", "a": "屋内キッズパーク「あそび馬！」や、ふわふわドーム・大型遊具のあるキッズガーデンがあります。授乳室や親子トイレも設置されています。" },
+    { "q": "競馬がない日でも入れますか？", "a": "競馬の開催がない平日には、キッズガーデンなどの公園地区が一般開放される期間があります。開放期間は年によって異なるため、訪問前にJRA公式サイトでご確認ください。" },
+    { "q": "開催日に気をつけることはありますか？", "a": "周辺道路や駐車場が混雑するため、公共交通機関の利用がおすすめです。G1レースなど大規模開催日は特に混雑します。" }
+  ],
+  "relatedLinks": [
+    { "href": "/category/kanko.html", "label": "文化・観光の記事一覧を見る" },
+    { "href": "/events/", "label": "イベント情報を見る" },
+    { "href": "https://www.jra.go.jp/facilities/race/hanshin/access/", "label": "JRA公式サイトでアクセス・交通情報の詳細を見る" }
+  ],
+  "sourceUrl": "https://www.jra.go.jp/facilities/race/hanshin/",
+  "sourceLabel": "JRA公式サイト「阪神競馬場」"
+}

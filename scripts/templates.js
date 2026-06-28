@@ -25,6 +25,7 @@ const ICON_PATHS = {
   videoCamera: '<rect x="2" y="6" width="13" height="12" rx="1.5"/><path d="M15 10l6-3v10l-6-3z"/><circle cx="6" cy="9" r="0.6" fill="currentColor" stroke="none"/>',
   ticket: '<path d="M3 8a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v2a2 2 0 0 0 0 4v2a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-2a2 2 0 0 0 0-4z"/><line x1="13" y1="6" x2="13" y2="18" stroke-dasharray="2 2"/>',
   user: '<circle cx="12" cy="7" r="4"/><path d="M5 21v-2a7 7 0 0 1 14 0v2"/>',
+  horse: '<ellipse cx="11" cy="14" rx="6" ry="3.2" fill="currentColor" stroke="none"/><path d="M14 11 L16 12 L20 5 L18 5 Z" fill="currentColor" stroke="none"/><circle cx="19.5" cy="5" r="1.8" fill="currentColor" stroke="none"/><path d="M19 3.5 L20 1.3 L21 3.5 Z" fill="currentColor" stroke="none"/><rect x="20.5" y="4.5" width="2.6" height="1.4" rx="0.6" fill="currentColor" stroke="none"/><rect x="6" y="16" width="1.4" height="6" fill="currentColor" stroke="none"/><rect x="9" y="16" width="1.4" height="6" fill="currentColor" stroke="none"/><rect x="13" y="16" width="1.4" height="6" fill="currentColor" stroke="none"/><rect x="16" y="16" width="1.4" height="6" fill="currentColor" stroke="none"/><path d="M5 12 Q2 14 3 19 Q4 16 6 14 Z" fill="currentColor" stroke="none"/>',
 };
 
 export function icon(name) {
@@ -482,8 +483,11 @@ function gikaiRow(article) {
 }
 
 function guideCard(guide) {
+  const iconBoxContent = guide.cardPhoto
+    ? `<img src="${escapeHtml(guide.cardPhoto)}" alt="" loading="lazy">`
+    : icon(guide.icon ?? guide.category.icon);
   return `<a class="guide-card" href="/category/${guide.categoryKey}/${escapeHtml(guide.slug)}.html">
-<div class="icon-box">${icon(guide.category.icon)}</div>
+<div class="icon-box${guide.cardPhoto ? " icon-box-photo" : ""}">${iconBoxContent}</div>
 <div>
   <div class="label">${escapeHtml(guide.title)}</div>
   <div class="sub">${escapeHtml(guide.cardSummary)}</div>
@@ -1071,10 +1075,17 @@ ${guide.relatedLinks.map((l) => `<a href="${escapeHtml(l.href)}">${escapeHtml(l.
 </div>
 </section>`;
 
+  const disclosureHtml = guide.disclosure ? `<div class="disclosure-box">${escapeHtml(guide.disclosure)}</div>` : "";
+  const heroPhotoHtml = guide.cardPhoto
+    ? `<div class="guide-hero-photo"><img src="${escapeHtml(guide.cardPhoto)}" alt="${escapeHtml(guide.title)}" loading="lazy"></div>${guide.photoCredit ? `<p class="photo-credit">${guide.photoCredit}</p>` : ""}`
+    : "";
+
   const bodyHtml = `<nav class="breadcrumb"><a href="/">トップ</a> &gt; <a href="${categoryPath(guide.category.key)}">${escapeHtml(guide.category.label)}</a> &gt; ${escapeHtml(guide.title)}</nav>
 <div class="page-content">
 <h1>${escapeHtml(guide.title)}</h1>
+${heroPhotoHtml}
 <p class="lead">${escapeHtml(guide.lead)}</p>
+${disclosureHtml}
 <p class="updated-at">最終更新：${escapeHtml(guide.updatedAt)}</p>
 ${tocHtml}
 ${sectionsHtml}
