@@ -33,6 +33,20 @@ https://takarazuka-today.jp/articles/seisan-ryokuchi-2026.html
 
 ---
 
+## 2026-06-29　阪神北地域に特殊詐欺多発警報、7月8日まで発令中
+
+- カテゴリ：防犯　評価：A
+- 記事URL：https://takarazuka-today.jp/articles/tokushu-sagi-keihou-2026.html
+- [ ] 投稿済み
+
+```
+【注意】阪神北地域に特殊詐欺多発警報が発令中（6/29〜7/8）。電話・メール・SNSでお金の話が出たら、まず詐欺を疑い、一人で判断せず身近な人や警察に相談を。
+https://takarazuka-today.jp/articles/tokushu-sagi-keihou-2026.html
+#宝塚市 #特殊詐欺
+```
+
+---
+
 ## 2026-06-29　ソリオホール、2027年4月から毎週水曜が休館日に
 
 - カテゴリ：文化・観光　評価：B
