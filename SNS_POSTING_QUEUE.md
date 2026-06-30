@@ -33,11 +33,25 @@ https://takarazuka-today.jp/articles/seisan-ryokuchi-2026.html
 
 ---
 
+## 2026-06-30　中学校部活動の地域移行「ZUKAッチャ」、活動団体・指導者を募集中
+
+- カテゴリ：教育　評価：B
+- 記事URL：https://takarazuka-today.jp/articles/zukacha-boshu-2026.html
+- [ ] 投稿済み
+
+```
+中学校部活動の地域移行「ZUKAッチャ」が活動団体・指導者を募集中。スポーツや文化活動を指導できる団体・個人が対象。オンライン応募または申請書提出で。問い合わせ：学校教育課（0797-77-2028）。
+https://takarazuka-today.jp/articles/zukacha-boshu-2026.html
+#宝塚市
+```
+
+---
+
 ## 2026-06-29　阪神北地域に特殊詐欺多発警報、7月8日まで発令中
 
 - カテゴリ：防犯　評価：A
 - 記事URL：https://takarazuka-today.jp/articles/tokushu-sagi-keihou-2026.html
-- [ ] 投稿済み
+- [x] 投稿済み
 
 ```
 【注意】阪神北地域に特殊詐欺多発警報が発令中（6/29〜7/8）。電話・メール・SNSでお金の話が出たら、まず詐欺を疑い、一人で判断せず身近な人や警察に相談を。
@@ -51,7 +65,7 @@ https://takarazuka-today.jp/articles/tokushu-sagi-keihou-2026.html
 
 - カテゴリ：文化・観光　評価：B
 - 記事URL：https://takarazuka-today.jp/articles/solio-hall-kyukan-2027.html
-- [ ] 投稿済み
+- [x] 投稿済み
 
 ```
 ソリオホールは2027年4月から毎週水曜が休館日に（祝日の場合は開館）。年末年始休館はこれまでどおり。利用予定がある方はご注意ください。
@@ -65,7 +79,7 @@ https://takarazuka-today.jp/articles/solio-hall-kyukan-2027.html
 
 - カテゴリ：行政・くらし　評価：B
 - 記事URL：https://takarazuka-today.jp/articles/seikatsushien-helper-yousei-2026.html
-- [ ] 投稿済み
+- [x] 投稿済み
 
 ```
 「生活支援ヘルパー養成研修」受講者募集。8/5・6(全2回)9:30〜17:30、市役所、定員30人。対象はホームヘルパー資格なし・自転車orバイク可能な方。申込7/1〜24、市保健福祉サービス公社（0797-86-9194）。
