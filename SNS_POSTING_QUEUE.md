@@ -33,11 +33,44 @@ https://takarazuka-today.jp/articles/seisan-ryokuchi-2026.html
 
 ---
 
+## 2026-07-01　子ども・若者が専門家に無料相談「宝塚ユース保健室」7月6日・20日開催
+
+- カテゴリ：子育て　評価：A
+- 記事URL：https://takarazuka-today.jp/articles/youth-hokenroom-2026.html
+- [x] 投稿済み
+
+```
+【無料・申込不要】中学生〜30歳対象「宝塚ユース保健室」。看護師・心理士・保健師に性や体・生活の悩みを相談できます。生理用ナプキンの無料提供も。
+
+📅 7/6・7/20(月) 16〜19時
+📍 男女共同参画センター・エル
+
+https://takarazuka-today.jp/articles/youth-hokenroom-2026.html
+#宝塚市 #子育て #若者支援
+```
+
+---
+
+## 2026-07-01　宝塚市観光大使「リボンの騎士サファイア」を募集（7月20日締切）
+
+- カテゴリ：文化・観光　評価：B（※元の情報は5月28日付。公式サイト再掲を新着と誤認して投稿）
+- 記事URL：https://takarazuka-today.jp/category/kanko/kanko-taishi-safaia-2026.html
+- [x] 投稿済み
+
+```
+【7/20締切】宝塚市が観光大使「リボンの騎士サファイア」を2名募集しています。18歳以上（高校生除く）が対象で、イベント・メディア・SNSで市の魅力を発信する活動です。報酬あり。
+
+詳細→ https://takarazuka-today.jp/category/kanko/kanko-taishi-safaia-2026.html
+#宝塚市 #宝塚 #観光大使
+```
+
+---
+
 ## 2026-06-30　中学校部活動の地域移行「ZUKAッチャ」、活動団体・指導者を募集中
 
 - カテゴリ：教育　評価：B
 - 記事URL：https://takarazuka-today.jp/articles/zukacha-boshu-2026.html
-- [ ] 投稿済み
+- [x] 投稿済み
 
 ```
 中学校部活動の地域移行「ZUKAッチャ」が活動団体・指導者を募集中。スポーツや文化活動を指導できる団体・個人が対象。オンライン応募または申請書提出で。問い合わせ：学校教育課（0797-77-2028）。

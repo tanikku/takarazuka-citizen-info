@@ -563,11 +563,25 @@ ${giinLink}
 }
 
 // 実在する公式ソースのみを掲載。武庫川武田尾は宝塚市内（玉瀬）に設置された国土交通省の観測点であることを確認済み
+// 兵庫県カメラは https://hyogo.kasenkanshi.info/ （旧 hyogo.rivercam.info から移転済み）
 const LIVE_CAMERAS = [
   {
     name: "武庫川武田尾（国土交通省 川の防災情報）",
-    description: "宝塚市玉瀬・武庫川武田尾地点の河川監視カメラ",
+    description: "宝塚市玉瀬・武庫川武田尾地点の河川監視カメラ（国土交通省）",
     url: "https://www.river.go.jp/kawabou/pc/tm?zm=14&clat=34.803796253690784&clon=135.30083656311038&fld=0&mapType=0&viewGrpStg=0&viewRd=1&viewRW=1&viewRiver=1&viewPoint=1&ext=0&itmkndCd=100&scamId=222057042&ownCd=22057&sysCamId=22057042",
+    area: "宝塚市玉瀬",
+  },
+  {
+    name: "阪神北地区（武田尾・大堀川・波豆川）（兵庫県河川監視カメラ）",
+    description: "宝塚市内の武田尾・大堀川・波豆川地点のカメラ映像（兵庫県）",
+    url: "https://hyogo.kasenkanshi.info/text_cameras/river/hanshinkita",
+    area: "宝塚市内3地点",
+  },
+  {
+    name: "武庫川生瀬局（兵庫県河川監視カメラ）",
+    description: "西宮市塩瀬町生瀬（宝塚市隣接）・武庫川の監視カメラ（約5分更新）",
+    url: "https://hyogo.kasenkanshi.info/text_cameras/river/hanshinminami",
+    area: "西宮市塩瀬町生瀬（宝塚市隣接）",
   },
 ];
 
@@ -585,7 +599,7 @@ function livecamPanel() {
   return `<div class="panel">
 <p class="panel-title">${icon("videoCamera")}宝塚市内のライブカメラ</p>
 ${items}
-<p class="panel-note"><a href="/livecam.html">国土交通省「川の防災情報」で他の地点も見る →</a></p>
+<p class="panel-note"><a href="/livecam.html">ライブカメラ一覧・水位基準を見る →</a></p>
 </div>`;
 }
 
@@ -605,9 +619,10 @@ function entertainmentPanel() {
 
 export function livecamPage(siteUrl) {
   const canonicalUrl = `${siteUrl}/livecam.html`;
-  const items = LIVE_CAMERAS.map(
+
+  const cameraItems = LIVE_CAMERAS.map(
     (cam) => `<a class="headline-row" href="${escapeHtml(cam.url)}" target="_blank" rel="noopener">
-<div class="headline-thumb">${icon("videoCamera")}</div>
+<div class="headline-thumb">${thumbHtml({ file: "001015680_takedaomomizi2013.jpg", title: "武田尾（武庫川）" }, "videoCamera")}</div>
 <div>
   <p class="headline-title">${escapeHtml(cam.name)}</p>
   <p class="headline-meta">${escapeHtml(cam.description)}</p>
@@ -615,31 +630,125 @@ export function livecamPage(siteUrl) {
 </a>`,
   ).join("\n");
 
-  const bodyHtml = `<nav class="breadcrumb"><a href="/">トップ</a> &gt; ライブカメラ</nav>
-<div class="page-content">
-<div class="panel">
-<p class="panel-title">${icon("videoCamera")}宝塚市内のライブカメラ</p>
-<p class="empty-state">本サイトでは、信頼できる公式の河川監視カメラのみをリンク掲載しています（画像の埋め込みは行わず、各機関の公式ページへ直接ご案内します）。</p>
-${items}
-<p class="panel-note">出典：国土交通省「川の防災情報」（<a href="https://www.river.go.jp/kawabou/" target="_blank" rel="noopener">https://www.river.go.jp/kawabou/</a>）<br>地図上で武庫川流域の他の観測点・カメラも確認できます。</p>
-</div>
-</div>`;
+  const faqItems = [
+    {
+      q: "ライブカメラの映像はリアルタイムで見られますか？",
+      a: "各機関のカメラによって更新頻度が異なります。国土交通省「川の防災情報」は概ね10分〜数十分更新、兵庫県の河川監視カメラは約5分更新です。大雨・台風時はアクセスが集中しつながりにくくなる場合があります。",
+    },
+    {
+      q: "武庫川の水位はどこで確認できますか？",
+      a: "宝塚市公式サイトの<a href=\"https://www.city.takarazuka.hyogo.jp/1013056/1011509/1013062/1020504.html\" target=\"_blank\" rel=\"noopener\">河川水位ページ</a>や、国土交通省<a href=\"https://www.river.go.jp/kawabou/\" target=\"_blank\" rel=\"noopener\">川の防災情報</a>で数値を確認できます。ライブカメラの映像と合わせて確認することをおすすめします。",
+    },
+    {
+      q: "武田尾地点の危険水位はどのくらいですか？",
+      a: "宝塚市が公表している水位基準（武田尾地点）は、警戒水位4.90m・避難判断水位5.90m・氾濫危険水位8.70mです。水位が警戒水位を超えたら、最新情報の確認と避難の準備を始めてください。",
+    },
+    {
+      q: "どのタイミングで避難を判断すればよいですか？",
+      a: "市が「避難指示」や「高齢者等避難」を発令した場合は速やかに避難してください。水位や雨量の数値を見ながら、警戒レベル3以上が発令されたら行動開始を目安にしてください。詳しくは<a href=\"/category/bosai/bosai-guide.html\">防災ガイド</a>をご覧ください。",
+    },
+    {
+      q: "大雨・台風のとき他に確認すべき情報源は？",
+      a: "気象庁の<a href=\"https://www.jma.go.jp/bosai/floodindex/#area_type=class20s&area_code=2821400\" target=\"_blank\" rel=\"noopener\">流域雨量指数（武庫川）</a>で河川が氾濫しやすい状況かを確認できます。また、宝塚市の<a href=\"https://www.city.takarazuka.hyogo.jp/1013056/index.html\" target=\"_blank\" rel=\"noopener\">防災情報ページ</a>・市公式SNS・防災行政無線（すみれ防災スピーカー）も必ず確認してください。",
+    },
+    {
+      q: "スマートフォンで見やすいカメラはありますか？",
+      a: "兵庫県の<a href=\"https://hyogo.kasenkanshi.info/\" target=\"_blank\" rel=\"noopener\">河川監視カメラシステム</a>はスマートフォン対応のサイトです。阪神北地区（武田尾・大堀川・波豆川）や生瀬地点の映像をまとめて確認できます。",
+    },
+  ];
+
+  const faqHtml = faqItems
+    .map(
+      (item) => `<div class="faq-item">
+<p class="faq-q">${icon("help")}${escapeHtml(item.q)}</p>
+<div class="faq-a">${item.a}</div>
+</div>`,
+    )
+    .join("\n");
+
+  const faqLd = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: faqItems.map((item) => ({
+      "@type": "Question",
+      name: item.q,
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: item.a.replace(/<[^>]+>/g, ""),
+      },
+    })),
+  };
 
   const breadcrumbLd = {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     itemListElement: [
       { "@type": "ListItem", position: 1, name: "トップ", item: `${siteUrl}/` },
-      { "@type": "ListItem", position: 2, name: "ライブカメラ", item: canonicalUrl },
+      { "@type": "ListItem", position: 2, name: "武庫川ライブカメラ・河川水位情報", item: canonicalUrl },
     ],
   };
 
+  const bodyHtml = `<nav class="breadcrumb"><a href="/">トップ</a> &gt; 武庫川ライブカメラ・河川水位情報</nav>
+<div class="page-content">
+
+<div class="panel">
+<p class="panel-title">${icon("videoCamera")}武庫川ライブカメラ・河川水位情報</p>
+<p style="margin-bottom:1rem;">宝塚市を流れる武庫川は、大雨・台風の際に水位が急上昇することがあります。国土交通省・兵庫県が運営する公式の河川監視カメラへのリンクを掲載しています。大雨が予想されるときは早めに状況を確認してください。</p>
+<p class="empty-state" style="font-size:0.85rem;">※ 画像の直接埋め込みは行わず、各機関の公式ページへ直接ご案内します</p>
+${cameraItems}
+<p class="panel-note">出典：国土交通省「川の防災情報」（<a href="https://www.river.go.jp/kawabou/" target="_blank" rel="noopener">river.go.jp/kawabou</a>）／兵庫県河川監視カメラ（<a href="https://hyogo.kasenkanshi.info/" target="_blank" rel="noopener">hyogo.kasenkanshi.info</a>）</p>
+</div>
+
+<div class="panel">
+<p class="panel-title">${icon("alert")}武庫川 水位基準（宝塚市公表値）</p>
+<table class="data-table" style="width:100%;border-collapse:collapse;font-size:0.9rem;">
+<thead><tr style="background:var(--color-surface-2,#f5f5f5);">
+<th style="padding:0.5rem;text-align:left;border-bottom:1px solid var(--color-border,#ddd);">観測地点</th>
+<th style="padding:0.5rem;text-align:right;border-bottom:1px solid var(--color-border,#ddd);">警戒水位</th>
+<th style="padding:0.5rem;text-align:right;border-bottom:1px solid var(--color-border,#ddd);">避難判断水位</th>
+<th style="padding:0.5rem;text-align:right;border-bottom:1px solid var(--color-border,#ddd);">氾濫危険水位</th>
+</tr></thead>
+<tbody>
+<tr><td style="padding:0.5rem;border-bottom:1px solid var(--color-border,#ddd);">武田尾地点（宝塚市玉瀬）</td><td style="padding:0.5rem;text-align:right;border-bottom:1px solid var(--color-border,#ddd);">4.90 m</td><td style="padding:0.5rem;text-align:right;border-bottom:1px solid var(--color-border,#ddd);">5.90 m</td><td style="padding:0.5rem;text-align:right;border-bottom:1px solid var(--color-border,#ddd);">8.70 m</td></tr>
+<tr><td style="padding:0.5rem;">生瀬地点（西宮市塩瀬町生瀬）</td><td style="padding:0.5rem;text-align:right;">3.20 m</td><td style="padding:0.5rem;text-align:right;">3.20 m</td><td style="padding:0.5rem;text-align:right;">4.60 m</td></tr>
+</tbody>
+</table>
+<p class="panel-note">出典：<a href="https://www.city.takarazuka.hyogo.jp/1013056/1011509/1013062/1020504.html" target="_blank" rel="noopener">宝塚市公式サイト「河川水位」</a></p>
+</div>
+
+<div class="panel">
+<p class="panel-title">${icon("link")}公式の水位・雨量情報</p>
+<ul class="related-links">
+<li><a href="https://www.city.takarazuka.hyogo.jp/1013056/1011509/1013062/1020504.html" target="_blank" rel="noopener">宝塚市 河川水位情報</a></li>
+<li><a href="https://www.river.go.jp/kawabou/" target="_blank" rel="noopener">国土交通省 川の防災情報（武庫川流域カメラ・水位）</a></li>
+<li><a href="https://www.jma.go.jp/bosai/floodindex/#area_type=class20s&area_code=2821400" target="_blank" rel="noopener">気象庁 流域雨量指数（武庫川）</a></li>
+<li><a href="https://hyogo.kasenkanshi.info/" target="_blank" rel="noopener">兵庫県 河川監視カメラシステム</a></li>
+<li><a href="https://www.city.takarazuka.hyogo.jp/1013056/index.html" target="_blank" rel="noopener">宝塚市 防災情報トップ</a></li>
+</ul>
+</div>
+
+<div class="panel">
+<p class="panel-title">${icon("help")}よくある質問</p>
+${faqHtml}
+</div>
+
+<div class="panel">
+<p class="panel-title">${icon("shield")}防災の備えも確認しよう</p>
+<ul class="related-links">
+<li><a href="/category/bosai/bosai-guide.html">防災ガイド（避難場所・ハザードマップ・非常持ち出し品）</a></li>
+<li><a href="/mukogawa/">武庫川防災情報</a></li>
+<li><a href="/category/bosai.html">防犯・防災の記事一覧</a></li>
+</ul>
+</div>
+
+</div>`;
+
   return layout({
-    title: "宝塚市内のライブカメラ｜Takarazuka Today",
-    description: "宝塚市内（武庫川流域）の河川監視ライブカメラを、国土交通省「川の防災情報」など公式ソースへのリンクでご案内します。",
+    title: "武庫川ライブカメラ・河川水位情報｜宝塚市防災｜Takarazuka Today",
+    description: "宝塚市内および周辺の武庫川・大堀川・波豆川の河川監視ライブカメラ（国交省・兵庫県）へのリンク一覧。警戒水位・避難判断水位の基準値もわかります。",
     bodyHtml,
     canonicalUrl,
-    structuredData: breadcrumbLd,
+    structuredData: [breadcrumbLd, faqLd],
   });
 }
 
