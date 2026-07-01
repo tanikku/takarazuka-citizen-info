@@ -1201,6 +1201,15 @@ ${guide.relatedLinks.map((l) => `<a href="${escapeHtml(l.href)}">${escapeHtml(l.
     ? `<div class="guide-hero-photo"><img src="${escapeHtml(guide.cardPhoto)}" alt="${escapeHtml(guide.title)}" loading="lazy"></div>${guide.photoCredit ? `<p class="photo-credit">${guide.photoCredit}</p>` : ""}`
     : "";
 
+  const changelogHtml = guide.changelog && guide.changelog.length > 0
+    ? `<div class="changelog">
+<p class="changelog-title">${icon("clock")}更新履歴</p>
+<ul class="changelog-list">
+${guide.changelog.map((c) => `<li><span class="changelog-date">${escapeHtml(c.date)}</span>${escapeHtml(c.note)}</li>`).join("\n")}
+</ul>
+</div>`
+    : "";
+
   const bodyHtml = `<nav class="breadcrumb"><a href="/">トップ</a> &gt; <a href="${categoryPath(guide.category.key)}">${escapeHtml(guide.category.label)}</a> &gt; ${escapeHtml(guide.title)}</nav>
 <div class="page-content">
 <h1>${escapeHtml(guide.title)}</h1>
@@ -1208,6 +1217,7 @@ ${heroPhotoHtml}
 <p class="lead">${escapeHtml(guide.lead)}</p>
 ${disclosureHtml}
 <p class="updated-at">最終更新：${escapeHtml(guide.updatedAt)}</p>
+${changelogHtml}
 ${tocHtml}
 ${sectionsHtml}
 ${faqHtml}

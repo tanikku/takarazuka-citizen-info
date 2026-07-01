@@ -639,7 +639,50 @@ html[data-theme="dark"] .point-box-title {
 .updated-at {
   font-size: 0.78rem;
   color: var(--text-sub);
+  margin-bottom: 10px;
+}
+
+.changelog {
+  border-left: 3px solid var(--accent);
+  padding: 8px 12px;
   margin-bottom: 16px;
+}
+
+.changelog-title {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--accent);
+  margin-bottom: 5px;
+}
+
+.changelog-title .icon {
+  width: 14px;
+  height: 14px;
+}
+
+.changelog-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  font-size: 0.8rem;
+  color: var(--text-sub);
+}
+
+.changelog-list li {
+  display: flex;
+  gap: 10px;
+  padding: 2px 0;
+  align-items: baseline;
+}
+
+.changelog-date {
+  flex-shrink: 0;
+  font-weight: 600;
+  color: var(--text-main);
+  font-variant-numeric: tabular-nums;
 }
 
 .toc {
