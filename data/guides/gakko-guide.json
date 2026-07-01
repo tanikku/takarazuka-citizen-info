@@ -47,6 +47,7 @@
     { "q": "指定校変更（区域外就学）はどんな場合に認められる？", "a": "特別な事由がある場合に、保護者の申し出により認められることがあります。詳細は<a href=\"https://www.city.takarazuka.hyogo.jp/kyoikuiinkai/1045390/1000581.html\" target=\"_blank\" rel=\"noopener\">就学学校の変更・区域外就学について</a>または学事課にご相談ください。" }
   ],
   "relatedLinks": [
+    { "href": "/category/kurashi/school-admission-guide.html", "label": "学区・高校受験ガイドを見る" },
     { "href": "/category/kyoiku.html", "label": "教育の記事一覧を見る" },
     { "href": "/category/kosodate.html", "label": "子育ての記事一覧を見る" }
   ],
