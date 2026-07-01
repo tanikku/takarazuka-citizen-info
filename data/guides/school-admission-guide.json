@@ -8,7 +8,7 @@
   "disclosure": "本ページの情報は公式サイトの要約です。最新の学区・入試情報は必ず兵庫県教育委員会または各高校の公式サイトでご確認ください。偏差値・倍率・募集定員・ランキング等は掲載しておりません。",
   "toc": [
     { "id": "gakku", "label": "兵庫県公立高校の学区制度" },
-    { "id": "public-schools", "label": "宝塚市内・周辺の公立高校" },
+    { "id": "public-schools", "label": "第2学区の公立高校（全日制 全35校）" },
     { "id": "private-schools", "label": "宝塚市内・周辺の私立高校" },
     { "id": "flow", "label": "高校受験の一般的な流れ" },
     { "id": "links", "label": "公式情報・関連リンク" }
@@ -29,17 +29,21 @@
     },
     {
       "id": "public-schools",
-      "heading": "宝塚市内・周辺の公立高校（兵庫県立）",
+      "heading": "第2学区の公立高校（兵庫県立）全日制 計35校",
       "items": [
-        "<strong>宝塚北高校</strong>（宝塚市安倉北）<br>学科：普通科・グローバルサイエンス科",
-        "<strong>宝塚高校</strong>（宝塚市東洋町）<br>学科：普通科",
-        "<strong>宝塚西高校</strong>（宝塚市中筋）<br>学科：普通科・総合理学科",
-        "<strong>宝塚東高校</strong>（宝塚市社）<br>学科：普通科",
-        "<strong>宝塚清陵高校</strong>（宝塚市仁川高台）<br>学科：普通科",
-        "<strong>宝塚武庫山高校</strong>（宝塚市武庫山）<br>学科：普通科（定時制・通信制も設置）",
-        "各校の詳細・公式サイトは<a href=\"https://www.hyogo-c.ed.jp/\" target=\"_blank\" rel=\"noopener\">兵庫県立学校ウェブサイト</a>から学校名で検索してください"
+        "<strong>宝塚市（4校）</strong>：宝塚 ／ 宝塚北 ／ 宝塚西 ／ 宝塚東",
+        "<strong>川西市（3校）</strong>：川西緑台 ／ 川西北陵 ／ 川西明峰",
+        "<strong>猪名川町（1校）</strong>：猪名川",
+        "<strong>伊丹市（3校）</strong>：伊丹 ／ 伊丹西 ／ 伊丹北",
+        "<strong>西宮市（7校）</strong>：西宮 ／ 西宮甲山 ／ 西宮南 ／ 西宮今津 ／ 西宮北 ／ 西宮苦楽園 ／ 鳴尾",
+        "<strong>尼崎市（7校）</strong>：尼崎 ／ 尼崎北 ／ 尼崎稲園 ／ 尼崎西 ／ 尼崎小田 ／ 尼崎工業 ／ 武庫荘総合",
+        "<strong>三田市（4校）</strong>：有馬 ／ 北摂三田 ／ 三田西陵 ／ 三田祥雲館",
+        "<strong>丹波篠山市（3校）</strong>：篠山鳳鳴 ／ 篠山産業 ／ 篠山東雲",
+        "<strong>丹波市（3校）</strong>：柏原 ／ 氷上 ／ 氷上西",
+        "各校の詳細・公式サイトは<a href=\"https://www.hyogo-c.ed.jp/~koko-bo/HYOGO/\" target=\"_blank\" rel=\"noopener\">兵庫県公立高校検索サイト</a>または<a href=\"https://www2.hyogo-c.ed.jp/hpe/koko/nyuushi/syoukaipamphlet/\" target=\"_blank\" rel=\"noopener\">学区紹介パンフレット</a>でご確認ください"
       ],
       "notes": [
+        "上記は全日制課程のみ。定時制・通信制については兵庫県教育委員会の公式サイトでご確認ください。",
         "学科・コースは変更される場合があります。詳細は各高校の公式サイトでご確認ください。"
       ]
     },
