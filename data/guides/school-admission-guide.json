@@ -18,9 +18,10 @@
       "id": "gakku",
       "heading": "兵庫県公立高校の学区制度",
       "items": [
-        "兵庫県の公立高校入試では、居住地によって受験できる学校の範囲（学区）が定められています",
+        "<strong>宝塚市は兵庫県公立高校入試の第2学区に属します</strong>。兵庫県は全域を5つの学区に分けており、原則として居住する学区内の公立高校を受験します",
+        "第2学区には宝塚市のほか、尼崎市・西宮市・伊丹市・川西市・三田市・猪名川町・丹波篠山市・丹波市が含まれます",
         "学区内の高校に加え、一部の学校では定員の一部が学区外の志願者向けに設定されています",
-        "宝塚市が属する学区と受験可能な学校の最新情報は、<a href=\"https://www.hyogo-c.ed.jp/\" target=\"_blank\" rel=\"noopener\">兵庫県教育委員会の公式サイト</a>でご確認ください"
+        "各学区の詳細は<a href=\"https://www2.hyogo-c.ed.jp/hpe/koko/nyuushi/syoukaipamphlet/\" target=\"_blank\" rel=\"noopener\">兵庫県教育委員会 学区紹介パンフレット</a>（第2学区PDF）でご確認ください。<a href=\"https://www.hyogo-c.ed.jp/~koko-bo/HYOGO/\" target=\"_blank\" rel=\"noopener\">高校検索サイト</a>で学区別に高校を絞り込むこともできます"
       ],
       "notes": [
         "学区の区分や制度の要件は年度により変更される場合があります。必ず兵庫県教育委員会の最新情報をご確認ください。"
@@ -72,7 +73,9 @@
       "id": "links",
       "heading": "公式情報・関連リンク",
       "items": [
-        "<a href=\"https://www.hyogo-c.ed.jp/\" target=\"_blank\" rel=\"noopener\">兵庫県立学校ウェブサイト（入試情報・学区・各校へのリンク）</a>",
+        "<a href=\"https://www2.hyogo-c.ed.jp/hpe/koko/nyuushi/syoukaipamphlet/\" target=\"_blank\" rel=\"noopener\">兵庫県教育委員会 学区紹介パンフレット（第2学区PDFあり）</a>",
+        "<a href=\"https://www.hyogo-c.ed.jp/~koko-bo/HYOGO/\" target=\"_blank\" rel=\"noopener\">兵庫県公立高校 検索サイト（学区別・学科別で絞り込み可能）</a>",
+        "<a href=\"https://www.hyogo-c.ed.jp/\" target=\"_blank\" rel=\"noopener\">兵庫県立学校ウェブサイト（各校公式サイトへのリンク）</a>",
         "<a href=\"https://www.city.takarazuka.hyogo.jp/kyoikuiinkai/\" target=\"_blank\" rel=\"noopener\">宝塚市教育委員会 公式サイト</a>",
         "<a href=\"https://www.hibari.ed.jp/\" target=\"_blank\" rel=\"noopener\">雲雀丘学園（公式サイト）</a>",
         "<a href=\"https://www.nigawa.ac.jp/\" target=\"_blank\" rel=\"noopener\">仁川学院（公式サイト）</a>"
@@ -82,7 +85,7 @@
   "faq": [
     {
       "q": "宝塚市の公立高校の学区はどこですか？",
-      "a": "兵庫県公立高校の学区は兵庫県教育委員会が定めており、年度によって変更される場合があります。宝塚市が属する学区の詳細は<a href=\"https://www.hyogo-c.ed.jp/\" target=\"_blank\" rel=\"noopener\">兵庫県教育委員会の公式サイト</a>でご確認ください。"
+      "a": "宝塚市は<strong>第2学区</strong>に属します。第2学区には宝塚市のほか、尼崎市・西宮市・伊丹市・川西市・三田市・猪名川町・丹波篠山市・丹波市が含まれます。詳細は<a href=\"https://www2.hyogo-c.ed.jp/hpe/koko/nyuushi/syoukaipamphlet/\" target=\"_blank\" rel=\"noopener\">兵庫県教育委員会 学区紹介パンフレット</a>でご確認ください。"
     },
     {
       "q": "市外・学区外の高校も受験できますか？",
@@ -111,6 +114,6 @@
     { "href": "/category/kurashi.html", "label": "行政・くらしの記事一覧を見る" },
     { "href": "/category/kyoiku.html", "label": "教育の記事一覧を見る" }
   ],
-  "sourceUrl": "https://www.hyogo-c.ed.jp/",
-  "sourceLabel": "兵庫県立学校ウェブサイト（兵庫県教育委員会）"
+  "sourceUrl": "https://www2.hyogo-c.ed.jp/hpe/koko/nyuushi/syoukaipamphlet/",
+  "sourceLabel": "兵庫県教育委員会 学区紹介パンフレット"
 }
