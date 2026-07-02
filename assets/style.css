@@ -1370,6 +1370,32 @@ html[data-theme="dark"] .note-box {
   color: var(--text-sub);
 }
 
+.footer-contact {
+  margin-top: 16px;
+}
+
+.footer-contact a {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 18px;
+  border: 1.5px solid var(--accent);
+  border-radius: 6px;
+  color: var(--accent);
+  font-weight: 600;
+  font-size: 0.95rem;
+  text-decoration: none;
+}
+
+.footer-contact a:hover {
+  background: var(--accent);
+  color: #fff;
+}
+
+.footer-contact a .icon {
+  flex-shrink: 0;
+}
+
 .footer-links {
   margin-top: 12px;
 }

@@ -26,6 +26,7 @@ const ICON_PATHS = {
   ticket: '<path d="M3 8a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v2a2 2 0 0 0 0 4v2a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-2a2 2 0 0 0 0-4z"/><line x1="13" y1="6" x2="13" y2="18" stroke-dasharray="2 2"/>',
   user: '<circle cx="12" cy="7" r="4"/><path d="M5 21v-2a7 7 0 0 1 14 0v2"/>',
   horse: '<ellipse cx="11" cy="14" rx="6" ry="3.2" fill="currentColor" stroke="none"/><path d="M14 11 L16 12 L20 5 L18 5 Z" fill="currentColor" stroke="none"/><circle cx="19.5" cy="5" r="1.8" fill="currentColor" stroke="none"/><path d="M19 3.5 L20 1.3 L21 3.5 Z" fill="currentColor" stroke="none"/><rect x="20.5" y="4.5" width="2.6" height="1.4" rx="0.6" fill="currentColor" stroke="none"/><rect x="6" y="16" width="1.4" height="6" fill="currentColor" stroke="none"/><rect x="9" y="16" width="1.4" height="6" fill="currentColor" stroke="none"/><rect x="13" y="16" width="1.4" height="6" fill="currentColor" stroke="none"/><rect x="16" y="16" width="1.4" height="6" fill="currentColor" stroke="none"/><path d="M5 12 Q2 14 3 19 Q4 16 6 14 Z" fill="currentColor" stroke="none"/>',
+  mail: '<rect x="3" y="5" width="18" height="14" rx="2"/><polyline points="3 7 12 13 21 7"/>',
 };
 
 export function icon(name) {
@@ -109,6 +110,7 @@ const QUICK_ACCESS_ITEMS = [
   { href: "/events/", icon: "calendar", label: "イベント" },
   { href: "/#photo", icon: "camera", label: "フォト" },
   { href: "/mukogawa/", icon: "videoCamera", label: "武庫川防災" },
+  { href: "/contact.html", icon: "mail", label: "お問い合わせ" },
 ];
 
 function quickAccessPanel() {
@@ -155,7 +157,8 @@ ${bodyHtml}
 <p>本サイトに掲載する記事は、公開情報の要約と出典リンクのみで構成しています。詳細・正式な内容は出典元をご確認ください。</p>
 <p>写真提供：<a href="https://www.city.takarazuka.hyogo.jp/1014984/1015575/" target="_blank" rel="noopener">宝塚市オープンデータ</a>（<a href="https://creativecommons.org/licenses/by/4.0/deed.ja" target="_blank" rel="noopener">CC BY 4.0</a>）</p>
 <p>公式X：<a href="https://x.com/TakaTodayJP" target="_blank" rel="noopener">@TakaTodayJP</a></p>
-<p class="footer-links"><a href="/privacy.html">プライバシーポリシー</a>　<a href="/about.html">運営者情報</a>　<a href="/ad-policy.html">PR・広告掲載ポリシー</a>　<a href="/contact.html">お問い合わせ</a></p>
+<p class="footer-contact"><a href="/contact.html">${icon("mail")}お問い合わせ</a></p>
+<p class="footer-links"><a href="/privacy.html">プライバシーポリシー</a>　<a href="/about.html">運営者情報</a>　<a href="/ad-policy.html">PR・広告掲載ポリシー</a></p>
 </footer>
 ${jsonLdScript}
 <script src="/js/theme.js" defer></script>
@@ -1364,6 +1367,9 @@ export function aboutPage(siteUrl) {
 
 <p class="guide-q">運営体制</p>
 <p>本サイトは個人により運営しています。運営者個人の氏名、所在地、電話番号については、プライバシー保護の観点から公開していません。</p>
+
+<p class="guide-q">更新頻度</p>
+<p>原則として平日は毎日更新しています。災害・緊急情報は確認でき次第更新します。</p>
 
 <p class="guide-q">内容の誤りについて</p>
 <p>記事内容に誤りや古い情報が含まれている場合は、<a href="/contact.html">お問い合わせページ</a>からご連絡ください。確認のうえ、必要に応じて訂正、追記、または掲載内容の見直しを行います。</p>
