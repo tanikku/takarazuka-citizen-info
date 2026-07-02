@@ -125,11 +125,15 @@ html[data-theme="dark"] .theme-icon-sun { display: none; }
 html[data-theme="dark"] .theme-icon-moon { display: block; }
 
 .site-lead {
-  max-width: 1080px;
-  margin: 6px auto 0;
-  padding: 0 16px;
-  font-size: 0.88rem;
+  margin-left: auto;
+  font-size: 0.8rem;
   color: var(--text-sub);
+}
+
+@media (max-width: 600px) {
+  .site-lead {
+    display: none;
+  }
 }
 
 .date-bar {

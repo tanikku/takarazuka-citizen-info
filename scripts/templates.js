@@ -75,7 +75,7 @@ function header() {
 }
 
 function dateBar(dateLabel) {
-  return `<div class="date-bar">${icon("calendar")}<span>${escapeHtml(dateLabel)}</span></div>`;
+  return `<div class="date-bar">${icon("calendar")}<span>${escapeHtml(dateLabel)}</span><span class="site-lead">宝塚市の防災・行政・市議会・暮らしの情報をまとめる地域情報サイト</span></div>`;
 }
 
 function weatherPanel(weather) {
@@ -452,7 +452,6 @@ export function indexPage({ topArticles, todayArticles, categoryPageKeys, publis
   const gikaiArticles = publishedArticles.filter((a) => a.category === "市議会");
 
   const bodyHtml = `${dateBar(dateLabel)}
-<p class="site-lead">宝塚市の防災・行政・市議会・暮らしの情報をわかりやすくまとめる地域情報サイトです。</p>
 ${quickAccessPanel()}
 <div class="weather-standalone-row">${weatherPanel(weather)}</div>
 ${todayRow(todayArticles, photoOfDay, categoryPageKeys)}
