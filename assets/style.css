@@ -124,14 +124,19 @@ a {
 html[data-theme="dark"] .theme-icon-sun { display: none; }
 html[data-theme="dark"] .theme-icon-moon { display: block; }
 
+.site-lead-sep {
+  color: var(--text-sub);
+  opacity: 0.4;
+}
+
 .site-lead {
-  margin-left: auto;
   font-size: 0.8rem;
   color: var(--text-sub);
 }
 
 @media (max-width: 600px) {
-  .site-lead {
+  .site-lead,
+  .site-lead-sep {
     display: none;
   }
 }
