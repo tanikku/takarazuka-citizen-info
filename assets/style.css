@@ -124,6 +124,14 @@ a {
 html[data-theme="dark"] .theme-icon-sun { display: none; }
 html[data-theme="dark"] .theme-icon-moon { display: block; }
 
+.site-lead {
+  max-width: 1080px;
+  margin: 6px auto 0;
+  padding: 0 16px;
+  font-size: 0.88rem;
+  color: var(--text-sub);
+}
+
 .date-bar {
   max-width: 1080px;
   margin: 0 auto;

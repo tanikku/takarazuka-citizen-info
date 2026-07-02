@@ -452,6 +452,7 @@ export function indexPage({ topArticles, todayArticles, categoryPageKeys, publis
   const gikaiArticles = publishedArticles.filter((a) => a.category === "市議会");
 
   const bodyHtml = `${dateBar(dateLabel)}
+<p class="site-lead">宝塚市の防災・行政・市議会・暮らしの情報をわかりやすくまとめる地域情報サイトです。</p>
 ${quickAccessPanel()}
 <div class="weather-standalone-row">${weatherPanel(weather)}</div>
 ${todayRow(todayArticles, photoOfDay, categoryPageKeys)}
@@ -474,12 +475,12 @@ ${todayRow(todayArticles, photoOfDay, categoryPageKeys)}
     "@type": "WebSite",
     name: "Takarazuka Today｜今日の宝塚を、3分で。",
     url: `${siteUrl}/`,
-    description: "宝塚市の行政・暮らし情報をまとめた市民向け情報サイト",
+    description: "宝塚市の防災・行政・市議会・暮らしの情報をわかりやすくまとめる地域情報サイト",
   };
 
   return layout({
     title: "Takarazuka Today｜今日の宝塚を、3分で。",
-    description: "宝塚市の行政・暮らし情報をまとめた市民向け情報サイト",
+    description: "宝塚市の防災・行政・市議会・暮らしの情報をわかりやすくまとめる地域情報サイト",
     bodyHtml,
     canonicalUrl: `${siteUrl}/`,
     structuredData,
