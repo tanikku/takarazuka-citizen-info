@@ -1421,6 +1421,31 @@ html[data-theme="dark"] .note-box {
   color: var(--link);
 }
 
+.guide-map-wrap {
+  margin-top: 8px;
+  border-radius: 6px;
+  overflow: hidden;
+  background: var(--border);
+}
+
+.guide-map-wrap iframe {
+  width: 100%;
+  height: 250px;
+  display: block;
+  border: none;
+}
+
+.guide-map-caption {
+  font-size: 0.77rem;
+  color: var(--text-sub);
+  padding: 5px 8px;
+  background: var(--surface);
+}
+
+.guide-map-caption a {
+  color: var(--link);
+}
+
 /* フォーカス可視化（アクセシビリティ） */
 a:focus-visible, button:focus-visible {
   outline: 3px solid var(--accent);

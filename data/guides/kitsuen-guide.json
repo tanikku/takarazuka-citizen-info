@@ -20,12 +20,14 @@
       "items": [
         "<strong>宝塚市が設置・管理する指定喫煙所は、2026年7月時点で以下の2か所です。</strong>",
         "<strong>① 阪急宝塚駅前 喫煙所</strong><br>最寄駅：阪急宝塚駅（改札を出てすぐ）<br>場所：栄町2丁目3番1号付近<br>屋内／屋根：詳細は宝塚市公式サイトでご確認ください<br>利用時間：通学時間帯（月〜土曜 7:00〜8:00、1月1〜3日を除く）は閉鎖",
+        "<div class=\"guide-map-wrap\"><iframe src=\"https://www.openstreetmap.org/export/embed.html?bbox=135.3548,34.7936,135.3608,34.7996&amp;layer=mapnik&amp;marker=34.7966,135.3578\" title=\"阪急宝塚駅前 喫煙所 付近の地図\" loading=\"lazy\"></iframe><p class=\"guide-map-caption\">地図：<a href=\"https://www.openstreetmap.org\" target=\"_blank\" rel=\"noopener\">OpenStreetMap</a> contributors ｜ マーカーは概算位置。正確な場所は<a href=\"https://www.city.takarazuka.hyogo.jp/kankyo/kankyoseikatsu/1049763/1012143.html\" target=\"_blank\" rel=\"noopener\">宝塚市公式サイト</a>でご確認ください</p></div>",
         "<strong>② JR宝塚駅前 喫煙所</strong><br>最寄駅：JR宝塚駅（改札を出てすぐ）<br>場所：栄町2丁目7付近<br>屋内／屋根：詳細は宝塚市公式サイトでご確認ください<br>利用時間：通学時間帯（月〜土曜 7:00〜8:00、1月1〜3日を除く）は閉鎖",
+        "<div class=\"guide-map-wrap\"><iframe src=\"https://www.openstreetmap.org/export/embed.html?bbox=135.3573,34.7911,135.3633,34.7971&amp;layer=mapnik&amp;marker=34.7941,135.3603\" title=\"JR宝塚駅前 喫煙所 付近の地図\" loading=\"lazy\"></iframe><p class=\"guide-map-caption\">地図：<a href=\"https://www.openstreetmap.org\" target=\"_blank\" rel=\"noopener\">OpenStreetMap</a> contributors ｜ マーカーは概算位置。正確な場所は<a href=\"https://www.city.takarazuka.hyogo.jp/kankyo/kankyoseikatsu/1049763/1012143.html\" target=\"_blank\" rel=\"noopener\">宝塚市公式サイト</a>でご確認ください</p></div>",
         "両喫煙所とも、子どもの受動喫煙防止を目的として通学時間帯は入口が閉鎖されます。それ以外の時間帯は原則利用可能です（詳細・変更は公式サイト参照）"
       ],
       "notes": [
         "場所・営業状況は変更される場合があります。最新情報は宝塚市公式サイトまたは生活環境課（0797-77-2074）でご確認ください。",
-        "写真・詳細地図は宝塚市公式サイトに掲載されています。"
+        "地図のマーカー位置は概算です。正確な場所・写真は宝塚市公式サイトでご確認ください。"
       ]
     },
     {
