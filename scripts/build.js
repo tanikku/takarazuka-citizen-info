@@ -47,6 +47,11 @@ const RANKING_READY_THRESHOLD = 5;
 const PUBLISHABLE_SCORES = new Set(["S", "A", "B"]);
 const HOMEPAGE_FEATURE_SCORES = new Set(["S", "A"]);
 
+// サイト自体のお知らせ（新機能追加等）。公式ニュース記事とは別枠で「今日の宝塚トピック」に一時的に表示する。untilを過ぎると自動的に消える
+const SITE_NOTICES = [
+  { text: "「宝塚市財政ウォッチ」を追加しました", href: "/category/shigikai/zaisei-watch.html", until: "2026-07-11" },
+];
+
 function loadArticles() {
   if (!fs.existsSync(ARTICLES_DIR)) return [];
 
@@ -288,6 +293,7 @@ function main() {
 
   const todayKey = todayDateKey();
   const todayArticles = featuredArticles.filter((a) => a.publishedAt === todayKey);
+  const activeNotices = SITE_NOTICES.filter((n) => todayKey <= n.until);
   const ranking = loadRanking();
   const giinList = loadGiin();
   const guides = loadGuides();
@@ -320,6 +326,7 @@ function main() {
       dateLabel: todayDateLabel(),
       siteUrl: SITE_URL,
       hasGianPage: gianSessions.length > 0,
+      activeNotices,
     }),
   );
 

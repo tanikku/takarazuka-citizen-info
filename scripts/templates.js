@@ -303,8 +303,20 @@ ${items || '<p class="empty-state">まだ記事がありません</p>'}
 </div>`;
 }
 
-function todayTopicPanel(todayArticles) {
-  if (todayArticles.length === 0) {
+// サイト自体のお知らせ（新機能追加等）を一時的に表示する。公式ニュース記事とは別枠のため data/articles/ は使わず、期限（until）を過ぎたら自動的に非表示にする
+function siteNoticeRow(notice) {
+  return `<a class="headline-row" href="${escapeHtml(notice.href)}">
+<div class="headline-thumb">${icon("bell")}</div>
+<div>
+  <p class="headline-title"><span class="topic-tag">お知らせ</span>${escapeHtml(notice.text)}</p>
+  <p class="headline-meta">Takarazuka Today</p>
+</div>
+</a>`;
+}
+
+function todayTopicPanel(todayArticles, activeNotices = []) {
+  const noticeItems = activeNotices.map(siteNoticeRow).join("\n");
+  if (todayArticles.length === 0 && activeNotices.length === 0) {
     return `<div class="panel" id="today-topic">
 <p class="panel-title">${icon("calendar")}今日の宝塚トピック</p>
 <p class="empty-state">本日の新しい記事はまだありません</p>
@@ -313,6 +325,7 @@ function todayTopicPanel(todayArticles) {
   const items = todayArticles.map(headlineRow).join("\n");
   return `<div class="panel" id="today-topic">
 <p class="panel-title">${icon("calendar")}今日の宝塚トピック</p>
+${noticeItems}
 ${items}
 </div>`;
 }
@@ -337,9 +350,9 @@ function photoOfDayPanel(photoOfDay) {
 </div>`;
 }
 
-function todayRow(todayArticles, photoOfDay, categoryPageKeys) {
+function todayRow(todayArticles, photoOfDay, categoryPageKeys, activeNotices = []) {
   return `<div class="today-row">
-${todayTopicPanel(todayArticles)}
+${todayTopicPanel(todayArticles, activeNotices)}
 <div class="today-row-side">
 ${photoOfDayPanel(photoOfDay)}
 ${categoryPanel(categoryPageKeys)}
@@ -451,13 +464,13 @@ ${items}
 </div>`;
 }
 
-export function indexPage({ topArticles, todayArticles, categoryPageKeys, publishedArticles, ranking, weather, todayCounts, photoOfDay, dateLabel, siteUrl, hasGianPage = false }) {
+export function indexPage({ topArticles, todayArticles, categoryPageKeys, publishedArticles, ranking, weather, todayCounts, photoOfDay, dateLabel, siteUrl, hasGianPage = false, activeNotices = [] }) {
   const gikaiArticles = publishedArticles.filter((a) => a.category === "市議会");
 
   const bodyHtml = `${dateBar(dateLabel)}
 ${quickAccessPanel()}
 <div class="weather-standalone-row">${weatherPanel(weather)}${contactCtaPanel()}</div>
-${todayRow(todayArticles, photoOfDay, categoryPageKeys)}
+${todayRow(todayArticles, photoOfDay, categoryPageKeys, activeNotices)}
 <div class="grid-2">
   <div class="col-main">
     ${topNewsPanel(topArticles)}
