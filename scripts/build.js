@@ -10,6 +10,7 @@ import {
   rankingPage,
   gikaiGuidePage,
   gianResultPage,
+  zaiseiWatchPage,
   guidePage,
   mukogawaBosaiPage,
   giinPage,
@@ -32,6 +33,7 @@ const GIIN_JSON = path.join(ROOT, "data", "giin.json");
 const GUIDES_DIR = path.join(ROOT, "data", "guides");
 const GIKAI_GIAN_DIR = path.join(ROOT, "data", "gikai-gian");
 const GIKAI_VOTES_DIR = path.join(ROOT, "data", "gikai-votes");
+const ZAISEI_DIR = path.join(ROOT, "data", "zaisei");
 const PUBLIC_DIR = path.join(ROOT, "public");
 const ASSETS_DIR = path.join(ROOT, "assets");
 
@@ -79,6 +81,16 @@ function loadGianSessions() {
     .filter((f) => f.endsWith(".json"))
     .map((f) => JSON.parse(fs.readFileSync(path.join(GIKAI_GIAN_DIR, f), "utf-8")))
     .sort((a, b) => (a.sessionTerm < b.sessionTerm ? 1 : -1));
+}
+
+// 財政ウォッチ：宝塚市が年2回（6月・12月）公表する「財政状況」をもとに作成。period（例: r8-06）の降順（新しい順）に並べる
+function loadZaiseiPeriods() {
+  if (!fs.existsSync(ZAISEI_DIR)) return [];
+  return fs
+    .readdirSync(ZAISEI_DIR)
+    .filter((f) => f.endsWith(".json"))
+    .map((f) => JSON.parse(fs.readFileSync(path.join(ZAISEI_DIR, f), "utf-8")))
+    .sort((a, b) => (a.period < b.period ? 1 : -1));
 }
 
 // 議員別の表決結果：決議日ごとのPDF（議員の賛否）をClaudeが読み取って作成。billNumber+decidedAtで議案採決一覧と緩く連携する
@@ -227,7 +239,7 @@ function writeFile(relativePath, content) {
   fs.writeFileSync(filePath, content);
 }
 
-function buildSitemap(publishedArticles, categoryPageKeys, giinWithArticles, guides, gianSessions) {
+function buildSitemap(publishedArticles, categoryPageKeys, giinWithArticles, guides, gianSessions, zaiseiPeriods) {
   const today = todayDateKey();
   const entries = [
     { loc: `${SITE_URL}/`, lastmod: today },
@@ -243,6 +255,7 @@ function buildSitemap(publishedArticles, categoryPageKeys, giinWithArticles, gui
     { loc: `${SITE_URL}/contact.html`, lastmod: today },
     ...guides.map((g) => ({ loc: `${SITE_URL}/category/${g.categoryKey}/${g.slug}.html`, lastmod: g.updatedAt })),
     ...(gianSessions.length > 0 ? [{ loc: `${SITE_URL}/category/shigikai/gian.html`, lastmod: today }] : []),
+    ...(zaiseiPeriods.length > 0 ? [{ loc: `${SITE_URL}/category/shigikai/zaisei-watch.html`, lastmod: zaiseiPeriods[0].publishedDate }] : []),
     ...(giinWithArticles.length > 0 ? [{ loc: `${SITE_URL}/giin/`, lastmod: today }] : []),
     ...giinWithArticles.map((giin) => ({ loc: `${SITE_URL}/giin/${giin.slug}.html`, lastmod: today })),
     ...publishedArticles.map((article) => ({
@@ -280,6 +293,7 @@ function main() {
   const guides = loadGuides();
   const gianSessions = loadGianSessions();
   const gikaiVoteIndex = loadGikaiVoteIndex();
+  const zaiseiPeriods = loadZaiseiPeriods();
 
   // カテゴリーごとに、公開対象（S/A/B）の記事をまとめる。記事が1件以上、またはガイドページがある場合のみカテゴリーページを生成する
   const categorySections = CATEGORIES.map((cat) => ({
@@ -315,7 +329,8 @@ function main() {
 
   for (const section of categorySections) {
     const hasGianPage = section.key === "shigikai" && gianSessions.length > 0;
-    writeFile(`category/${section.key}.html`, categoryPage(section, section.allArticles, SITE_URL, section.guides, hasGianPage));
+    const hasZaiseiPage = section.key === "shigikai" && zaiseiPeriods.length > 0;
+    writeFile(`category/${section.key}.html`, categoryPage(section, section.allArticles, SITE_URL, section.guides, hasGianPage, hasZaiseiPage));
   }
   for (const guide of guides) {
     writeFile(`category/${guide.categoryKey}/${guide.slug}.html`, guidePage(guide, SITE_URL));
@@ -325,6 +340,9 @@ function main() {
   writeFile("category/shigikai/guide.html", gikaiGuidePage(SITE_URL));
   if (gianSessions.length > 0) {
     writeFile("category/shigikai/gian.html", gianResultPage(gianSessions, gikaiVoteIndex, SITE_URL));
+  }
+  if (zaiseiPeriods.length > 0) {
+    writeFile("category/shigikai/zaisei-watch.html", zaiseiWatchPage(zaiseiPeriods, SITE_URL));
   }
   writeFile("privacy.html", privacyPage(SITE_URL));
   writeFile("about.html", aboutPage(SITE_URL));
@@ -347,7 +365,7 @@ function main() {
   writeFile("events/index.html", eventsPage({ todayEvents, thisWeekend, thisMonth, siteUrl: SITE_URL }));
   writeFile("ranking/index.html", rankingPage(ranking, publishedArticles, SITE_URL));
 
-  writeFile("sitemap.xml", buildSitemap(publishedArticles, categoryPageKeys, giinWithArticles, guides, gianSessions));
+  writeFile("sitemap.xml", buildSitemap(publishedArticles, categoryPageKeys, giinWithArticles, guides, gianSessions, zaiseiPeriods));
   writeFile("robots.txt", `User-agent: *\nAllow: /\nSitemap: ${SITE_URL}/sitemap.xml\n`);
 
   writeFile("css/style.css", fs.readFileSync(path.join(ASSETS_DIR, "style.css"), "utf-8"));

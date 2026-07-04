@@ -513,7 +513,7 @@ function guideCard(guide) {
 </a>`;
 }
 
-export function categoryPage(category, articles, siteUrl, guidesForCategory = [], hasGianPage = false) {
+export function categoryPage(category, articles, siteUrl, guidesForCategory = [], hasGianPage = false, hasZaiseiPage = false) {
   const canonicalUrl = `${siteUrl}${categoryPath(category.key)}`;
   const isShigikai = category.key === "shigikai";
   const items = articles.map(isShigikai ? gikaiRow : headlineRow).join("\n");
@@ -530,12 +530,23 @@ export function categoryPage(category, articles, siteUrl, guidesForCategory = []
 <div class="gian-cta-arrow">→</div>
 </a>`
     : "";
+  const zaiseiCta = hasZaiseiPage
+    ? `<a class="gian-cta-card" href="/category/shigikai/zaisei-watch.html">
+<div class="gian-cta-icon">${icon("building")}</div>
+<div class="gian-cta-text">
+<div class="gian-cta-title">財政ウォッチを見る</div>
+<div class="gian-cta-sub">市が年2回公表する財政状況を、予算・市債・基金などの主要指標でまとめて確認できます</div>
+</div>
+<div class="gian-cta-arrow">→</div>
+</a>`
+    : "";
   const guideCards = guidesForCategory.map(guideCard).join("\n");
 
   const bodyHtml = `<nav class="breadcrumb"><a href="/">トップ</a> &gt; ${escapeHtml(category.label)}</nav>
 <div class="page-content">
 ${guideCards}
 ${gianCta}
+${zaiseiCta}
 <div class="panel">
 <p class="panel-title">${icon(category.icon)}${escapeHtml(category.label)}${isShigikai ? "ウォッチ" : "の記事一覧"}</p>
 ${isShigikai ? SHIGIKAI_DISCLOSURE : ""}
@@ -974,6 +985,7 @@ export function gikaiGuidePage(siteUrl) {
 <p>本サイトの要約は<strong>事実の整理のみ</strong>を目的とし、議員や議案への評価・賛否の表明は行いません。</p>
 <p class="panel-note"><a href="${categoryPath("shigikai")}">→ 市議会ウォッチ一覧へ</a></p>
 <p class="panel-note"><a href="/giin/">→ 議員活動サマリー一覧へ</a></p>
+<p class="panel-note"><a href="/category/shigikai/zaisei-watch.html">→ 財政ウォッチ（財政状況の解説）へ</a></p>
 </div>
 </div>`;
 
@@ -1012,6 +1024,180 @@ export function gikaiGuidePage(siteUrl) {
   return layout({
     title: "宝塚市議会のしくみ・市議会ウォッチの見方｜Takarazuka Today",
     description: "宝塚市議会のしくみ、本会議と委員会の違い、本サイト「市議会ウォッチ」の見方を解説します。",
+    bodyHtml,
+    canonicalUrl,
+    structuredData: [breadcrumbLd, faqLd],
+  });
+}
+
+// 宝塚市財政ウォッチ：市が年2回（6月・12月）公表する「財政状況」をもとに事実を整理する。政治的評価・独自分析は行わない
+function formatYen(yen) {
+  if (yen == null) return "－";
+  if (yen >= 100000000) {
+    const oku = Math.floor(yen / 100000000);
+    const man = Math.round((yen % 100000000) / 10000);
+    return man > 0 ? `${oku.toLocaleString()}億${man.toLocaleString()}万円` : `${oku.toLocaleString()}億円`;
+  }
+  if (yen >= 10000) {
+    return `${Math.round(yen / 10000).toLocaleString()}万円`;
+  }
+  return `${yen.toLocaleString()}円`;
+}
+
+function formatIndicatorValue(indicator) {
+  if (indicator.unit === "percent") return `${indicator.value}%`;
+  return formatYen(indicator.value);
+}
+
+function formatIndicatorDiff(current, previous) {
+  if (!previous) return "－";
+  const diff = current.value - previous.value;
+  if (diff === 0) return "変動なし";
+  const sign = diff > 0 ? "+" : "";
+  if (current.unit === "percent") return `${sign}${(Math.round(diff * 10) / 10).toLocaleString()}pt`;
+  return `${sign}${formatYen(diff)}`;
+}
+
+function zaiseiIndicatorRows(current, previous) {
+  return current.indicators
+    .map((ind) => {
+      const prevInd = previous?.indicators.find((p) => p.key === ind.key);
+      return `<tr><td>${escapeHtml(ind.label)}</td><td>${formatIndicatorValue(ind)}</td><td>${prevInd ? formatIndicatorValue(prevInd) : "－"}</td><td>${formatIndicatorDiff(ind, prevInd)}</td></tr>`;
+    })
+    .join("\n");
+}
+
+const ZAISEI_TERMS = [
+  { term: "一般会計", desc: "市の基本的な行政活動（福祉・教育・道路整備など）に使うお金の会計区分です。国民健康保険や介護保険など目的が特定された「特別会計」とは別に管理されています。" },
+  { term: "基金", desc: "将来の特定の目的（施設整備・災害への備えなど）のために積み立てているお金です。家庭でいう「貯金」にあたります。" },
+  { term: "市債", desc: "市が学校や道路などの整備のために金融機関や国などから借り入れるお金です。家庭でいう「ローン」にあたり、複数年かけて返済します。" },
+  { term: "実質収支", desc: "1年間の収入と支出の差額から、翌年度に繰り越す事業の財源などを除いた金額のことで、その年度の家計簿でいう黒字・赤字に近い指標です。決算がまとまる公表回にあわせて紹介します。" },
+];
+
+const ZAISEI_FAQ = [
+  {
+    q: "宝塚市の「市債」とは何ですか？",
+    a: "市債とは、市が学校や道路などの整備のために金融機関や国などから借り入れるお金のことです。家庭でいう「住宅ローン」のように、複数年かけて返済していく仕組みです。",
+  },
+  {
+    q: "「基金」とは何ですか？",
+    a: "基金とは、将来の特定の目的のために積み立てているお金のことで、家庭でいう「貯金」にあたります。宝塚市には財政調整基金など複数の基金があります。",
+  },
+  {
+    q: "宝塚市の財政は赤字なのですか？",
+    a: "このページで紹介している「財政状況」の公表資料は、年度途中の予算の執行状況を示すもので、黒字・赤字を判定する決算資料ではありません。宝塚市は令和8年3月に策定した今後10年間の財政見通しの中で、人口減少や少子高齢化等によりリスク中位ケースでも累計約22.9億円の収支不足が見込まれるとしており、厳しい財政状況にあるとしています。",
+  },
+  {
+    q: "なぜ年に2回（6月・12月）公表されるのですか？",
+    a: "地方自治法第243条の3第1項及び宝塚市の条例に基づき、市は年に2回（6月・12月）財政状況を公表することが定められています。6月は前年度下半期分、12月はその年度の上半期分の状況が公表されます。",
+  },
+  {
+    q: "このページの数字はいつ時点の情報ですか？",
+    a: "直近の更新は令和8年（2026年）6月公表分で、令和7年度（2025年度）下半期（令和7年10月1日〜令和8年3月31日）の状況です。基礎数値（人口・世帯数）は令和8年3月31日時点のものです。",
+  },
+  {
+    q: "もっと詳しい情報はどこで見られますか？",
+    a: "宝塚市公式サイトの「財政状況」ページで、公表資料（PDF）の原本を確認できます。詳しい内訳や過去の公表分もあわせて掲載されています。",
+  },
+];
+
+export function zaiseiWatchPage(periods, siteUrl) {
+  const canonicalUrl = `${siteUrl}/category/shigikai/zaisei-watch.html`;
+  const current = periods[0];
+  const previous = periods[1];
+
+  const highlightsHtml = current.highlights.map((h) => `<li>${escapeHtml(h)}</li>`).join("\n");
+  const indicatorRows = zaiseiIndicatorRows(current, previous);
+  const termsHtml = ZAISEI_TERMS.map((t) => `<p class="guide-q">${escapeHtml(t.term)}</p><p>${escapeHtml(t.desc)}</p>`).join("\n");
+  const historyRows = periods
+    .map((p, i) => `<tr><td>${escapeHtml(p.publishedLabel)}</td><td>${escapeHtml(p.coverageLabel)}</td><td>${i === 0 ? "今回" : ""}</td></tr>`)
+    .join("\n");
+  const faqHtml = ZAISEI_FAQ.map((item) => `<p class="guide-q">Q. ${escapeHtml(item.q)}</p><p>${escapeHtml(item.a)}</p>`).join("\n");
+
+  const bodyHtml = `<nav class="breadcrumb"><a href="/">トップ</a> &gt; <a href="${categoryPath("shigikai")}">市議会</a> &gt; 財政ウォッチ</nav>
+<div class="page-content">
+<div class="panel">
+<p class="panel-title">${icon("newspaper")}宝塚市財政ウォッチ</p>
+<p>宝塚市では毎年6月・12月に「財政状況」を公表しています。このページでは、市民の皆さまが3〜5分で読めるよう、主要なポイントを分かりやすく整理して紹介します。</p>
+<p>本ページの内容は宝塚市公式資料を人が確認しながら要約したものです。数値・事実の整理のみを目的とし、財政運営に対する評価・意見は行いません。</p>
+<p class="today-source">対象：${escapeHtml(current.coverageLabel)}（${escapeHtml(current.coverageRange)}）・${escapeHtml(current.publishedLabel)}</p>
+</div>
+
+<div class="panel">
+<p class="panel-title">${icon("calendar")}今回のポイント</p>
+<ul>
+${highlightsHtml}
+</ul>
+</div>
+
+<div class="panel">
+<p class="panel-title">${icon("building")}主要指標</p>
+<div class="table-scroll">
+<table class="zaisei-table">
+<thead><tr><th>項目</th><th>今回</th><th>前回</th><th>増減</th></tr></thead>
+<tbody>
+${indicatorRows}
+</tbody>
+</table>
+</div>
+<p class="today-source">単位換算・端数処理の都合上、原資料と表示が完全に一致しない場合があります。詳細は出典PDFをご確認ください。</p>
+</div>
+
+<div class="panel">
+<p class="panel-title">${icon("book")}財政用語の解説</p>
+${termsHtml}
+</div>
+
+<div class="panel">
+<p class="panel-title">${icon("clock")}更新履歴</p>
+<div class="table-scroll">
+<table class="zaisei-table">
+<thead><tr><th>公表</th><th>対象期間</th><th>備考</th></tr></thead>
+<tbody>
+${historyRows}
+</tbody>
+</table>
+</div>
+</div>
+
+<div class="panel">
+<p class="panel-title">${icon("shield")}よくある質問</p>
+${faqHtml}
+</div>
+
+<div class="panel">
+<p class="panel-title">${icon("newspaper")}出典・関連ページ</p>
+<p class="panel-note"><a href="${escapeHtml(current.sourceListUrl)}" target="_blank" rel="noopener">→ 宝塚市公式サイト「財政状況」一覧を見る</a></p>
+<p class="panel-note"><a href="${escapeHtml(current.sourceUrl)}" target="_blank" rel="noopener">→ ${escapeHtml(current.publishedLabel)}分のPDFを見る</a></p>
+<p class="panel-note"><a href="${categoryPath("shigikai")}">→ 市議会ウォッチ一覧へ</a></p>
+<p class="panel-note"><a href="/category/shigikai/guide.html">→ 市議会のしくみを見る</a></p>
+<p class="panel-note"><a href="/category/kurashi/gyousei-tetsuzuki-guide.html">→ 行政手続きガイドを見る</a></p>
+</div>
+</div>`;
+
+  const breadcrumbLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "トップ", item: `${siteUrl}/` },
+      { "@type": "ListItem", position: 2, name: "市議会", item: `${siteUrl}${categoryPath("shigikai")}` },
+      { "@type": "ListItem", position: 3, name: "財政ウォッチ", item: canonicalUrl },
+    ],
+  };
+
+  const faqLd = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: ZAISEI_FAQ.map((item) => ({
+      "@type": "Question",
+      name: item.q,
+      acceptedAnswer: { "@type": "Answer", text: item.a },
+    })),
+  };
+
+  return layout({
+    title: "宝塚市財政ウォッチ｜財政状況を分かりやすく解説｜Takarazuka Today",
+    description: "宝塚市が毎年6月・12月に公表する「財政状況」をもとに、一般会計の予算規模・市税収入・市債残高・基金残高などの主要な財政指標を市民向けにわかりやすく整理して紹介するページです。政治的評価は行わず、公式資料の事実整理のみを行います。",
     bodyHtml,
     canonicalUrl,
     structuredData: [breadcrumbLd, faqLd],

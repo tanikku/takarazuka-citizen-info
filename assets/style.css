@@ -613,6 +613,37 @@ html[data-theme="dark"] .point-box-title {
   margin: 14px 0 4px;
 }
 
+/* 財政ウォッチ等の指標テーブル（横幅が広い場合はスクロールで対応） */
+.table-scroll {
+  overflow-x: auto;
+  margin: 8px 0;
+}
+
+.zaisei-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+  white-space: nowrap;
+}
+
+.zaisei-table th,
+.zaisei-table td {
+  padding: 8px 10px;
+  text-align: right;
+  border-bottom: 1px solid var(--border);
+}
+
+.zaisei-table th:first-child,
+.zaisei-table td:first-child {
+  text-align: left;
+  white-space: normal;
+}
+
+.zaisei-table thead th {
+  background: var(--accent-soft);
+  font-weight: 700;
+}
+
 /* 検索流入向け特集ページ（ごみ出し・子育て支援・防災・学校情報ガイド） */
 .guide-card {
   display: flex;

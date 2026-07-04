@@ -81,7 +81,8 @@
     { "href": "/category/kurashi/gomi-guide.html", "label": "ゴミ出し完全ガイドを見る" },
     { "href": "/category/kosodate/guide.html", "label": "子育て支援まとめを見る" },
     { "href": "/category/kurashi/koreisha-guide.html", "label": "高齢者向け介護・見守りサービスガイドを見る" },
-    { "href": "/category/bosai/guide.html", "label": "防災ガイドを見る" }
+    { "href": "/category/bosai/guide.html", "label": "防災ガイドを見る" },
+    { "href": "/category/shigikai/zaisei-watch.html", "label": "財政ウォッチ（財政状況の解説）を見る" }
   ],
   "sourceUrl": "https://www.city.takarazuka.hyogo.jp/kurashi/madoguchi/index.html",
   "sourceLabel": "宝塚市公式サイト「窓口サービス」"
