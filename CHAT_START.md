@@ -6,6 +6,7 @@
 2. `PROJECT_RULES.md`
 3. `PROJECT_STATUS.md`
 4. `DECISIONS.md`
+5. `NEXT_TASK.md`（次にやるべきタスクの実行用TODOリスト。最優先で参照する）
 
 読み終えたら、以下のみ返答してください。
 

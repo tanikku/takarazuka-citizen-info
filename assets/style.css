@@ -283,6 +283,36 @@ html[data-theme="dark"] .guide-nav-panel {
   max-width: 1080px;
   margin: 12px auto 0;
   padding: 0 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+@media (min-width: 768px) {
+  .weather-standalone-row {
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .weather-standalone-row #weather {
+    flex: 1;
+  }
+}
+
+.contact-cta-panel {
+  align-self: center;
+  flex: 0 0 168px;
+  width: 168px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 10px 4px;
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: var(--text);
+  text-align: center;
 }
 
 /* フォトの下にカテゴリー一覧を重ねる列 */
@@ -321,6 +351,7 @@ html[data-theme="dark"] .guide-nav-panel {
   gap: 24px;
   flex-wrap: wrap;
 }
+
 
 .weather-pop-row {
   display: flex;

@@ -3,6 +3,55 @@
 このファイルは「なぜそう決めたか」を将来読んでも分かるように残すための記録。
 現在のルールは[[PROJECT_RULES.md]]、実装状況は[[PROJECT_STATUS.md]]を参照。
 
+## Search Console運用の自動化フロー確定（フェーズ12.7、2026-07-03）
+毎週のSearch Console確認作業が個別指示ベースだと抜け漏れやばらつきが出るため、「スクリーンショット提出→分析→PROJECT_STATUS.md更新→NEXT_TASK.md更新→優先順位見直し→改善提案3件」を標準フローとして[[PROJECT_RULES.md]]に固定化。ユーザーが数値を都度指示しなくても、Claude側が定型分析を毎回実施する運用とした。
+
+## .html付き/拡張子なしURL問題の調査と対応方針（フェーズ12.7、2026-07-04）
+
+Search Console通知メールをきっかけに、インデックス未登録ページ（未登録76件／登録68件）の原因調査を実施。
+
+### 判明した事実
+- `.html`付きURLにアクセスすると、Cloudflare Pagesがサイト全体で自動的に308リダイレクトを返し拡張子なしURLへ転送する（curlで複数ページを直接検証し再現性を確認）
+- サイト側（templates.js・build.js・sitemap.xml・robots.txt・全guide.jsonのrelatedLinks・実際に配信されているHTMLソース）を全数調査したが、`.html`なしURLを生成している箇所は1件も存在しなかった。内部リンクは完全に`.html`付きで統一されている
+- Search Console「URL検査」で3ページ（livecam.html／koreisha-guide.html／hanshin-keibajo-guide.html）を確認した結果、Googleの「選択した正規URL」はページによって異なった（livecam.htmlのみ拡張子なしを選択、他2件は宣言通り`.html`付きを選択）。サイト全体で一貫した判断にはなっておらず、「拡張子なしへの統一が必要」という仮説は棄却された
+- Cloudflare Pages側でこの自動リダイレクトを無効化する設定（`html_handling`等）は、新しいWorkers Static Assets向けの`wrangler.toml`設定としては存在するが、本サイトが使っている従来型Pages（Git連携・wrangler.toml不使用）に同様の設定が適用できるかは公式ドキュメント上確認できなかった
+
+### 決定した対応方針
+コードにもサイト設計にも是正すべき不具合が見つからなかったため、拙速な大規模変更は行わない。以下の順で段階的に対応する。
+1. Cloudflare Pagesダッシュボードの設定を確認する（変更はしない）
+2. 2週間（2026-07-18頃まで）Search Consoleの状況を観察する
+3. 「検出-インデックス未登録」41件・「リダイレクトあり」26件の推移を確認する
+4. **減少が確認できない場合のみ**、URL問題への対応（Cloudflare Pages側の設定変更、または他の是正策）を再検討する
+
+詳細は[[PROJECT_RULES.md]]の運用フローおよび[[NEXT_TASK.md]]の該当タスクを参照。
+
+## Cloudflare Pages URL調査（フェーズ12.8、2026-07）
+
+`.html`付き/拡張子なしURLの不整合疑惑について、サイト側実装とCloudflare Pagesの両面を調査した最終まとめ。詳細な調査過程は[[.html付き/拡張子なしURL問題の調査と対応方針（フェーズ12.7、2026-07-04）]]を参照。
+
+### サイト側実装：不整合なし
+以下すべてを個別に確認したが、`.html`付きURLで統一されており、不整合は確認されなかった。
+- canonical（各ページの`<link rel="canonical">`）
+- sitemap.xml
+- 内部リンク（ヘッダー・フッター・relatedLinks・guideCard等）
+- JSON-LD（BreadcrumbList等）
+- robots.txt
+- 実際に本番公開されているHTML（curlで直接取得し全hrefを確認）
+
+### Cloudflare Pagesの仕様
+Cloudflare Pagesは`.html`付きURLへのアクセスを自動的に拡張子なしURLへ308リダイレクトする仕様であることを確認した（公式ドキュメントに記載の既定動作、サイト全体で再現）。ダッシュボードのSettings（Build／Variables and secrets／Bindings／Runtime／General）を確認したが、この挙動を無効化する設定項目は存在しなかった。
+
+### Search Consoleでの正規URL判定はページごとに異なる
+「URL検査」でGoogleが選択した正規URLを確認したところ、ページごとに結果が割れた。
+- livecam：拡張子なしをGoogleが正規URLとして選択
+- 高齢者ガイド（koreisha-guide）：`.html`付きをGoogleが正規URLとして選択
+- 阪神競馬場ガイド（hanshin-keibajo-guide）：`.html`付きをGoogleが正規URLとして選択
+
+サイト側の宣言はどのページも`.html`付きで統一されているにもかかわらず判断が割れているため、原因はサイト側ではなくGoogle側のアルゴリズム判断（またはCloudflareの308リダイレクトに対する処理のばらつき）にあると考えられる。
+
+### 方針
+サイト構造・コードの変更は行わず、Search Consoleを2〜3週間観察する。改善しない場合のみURL構造の見直しを再検討する（詳細は[[NEXT_TASK.md]]参照）。
+
 ## 情報源ごとの規約調査結果
 
 | 情報源 | 調査結果 | 判断 |

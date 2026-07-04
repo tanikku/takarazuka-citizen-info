@@ -103,6 +103,10 @@ ${weather.popBlocks.map((b) => `<div class="weather-pop-block"><span class="weat
 </div>`;
 }
 
+function contactCtaPanel() {
+  return `<a class="panel contact-cta-panel" href="/contact.html">${icon("mail")}<span>お問い合わせ</span></a>`;
+}
+
 const QUICK_ACCESS_ITEMS = [
   { href: "/#today-topic", icon: "calendar", label: "今日の宝塚" },
   { href: "/category/shigikai.html", icon: "building", label: "市議会" },
@@ -110,7 +114,6 @@ const QUICK_ACCESS_ITEMS = [
   { href: "/events/", icon: "calendar", label: "イベント" },
   { href: "/#photo", icon: "camera", label: "フォト" },
   { href: "/mukogawa/", icon: "videoCamera", label: "武庫川防災" },
-  { href: "/contact.html", icon: "mail", label: "お問い合わせ" },
 ];
 
 function quickAccessPanel() {
@@ -453,7 +456,7 @@ export function indexPage({ topArticles, todayArticles, categoryPageKeys, publis
 
   const bodyHtml = `${dateBar(dateLabel)}
 ${quickAccessPanel()}
-<div class="weather-standalone-row">${weatherPanel(weather)}</div>
+<div class="weather-standalone-row">${weatherPanel(weather)}${contactCtaPanel()}</div>
 ${todayRow(todayArticles, photoOfDay, categoryPageKeys)}
 <div class="grid-2">
   <div class="col-main">
