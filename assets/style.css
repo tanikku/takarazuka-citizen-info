@@ -65,11 +65,13 @@ a {
 }
 
 .header-row {
+  position: relative;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
   padding: 14px 18px;
   margin: 0 16px;
+  text-align: center;
 }
 
 .logo {
@@ -101,6 +103,7 @@ a {
   padding: 0 18px;
   font-size: 1rem;
   font-weight: 800;
+  text-align: center;
   color: #6e1224;
   text-shadow:
     -1px -1px 0 #fff8ec,
@@ -110,6 +113,10 @@ a {
 }
 
 .theme-toggle {
+  position: absolute;
+  right: 18px;
+  top: 50%;
+  transform: translateY(-50%);
   border: 1px solid rgba(110, 18, 36, 0.4);
   background: rgba(255, 248, 236, 0.7);
   color: #6e1224;
