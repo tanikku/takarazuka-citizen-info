@@ -165,7 +165,7 @@ ${bodyHtml}
 </footer>
 ${jsonLdScript}
 <script src="/js/theme.js" defer></script>
-<!-- Cloudflare Web Analytics --><script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "ba952a62129e40bc9a9b3423de1c98a3"}'></script><!-- End Cloudflare Web Analytics -->
+<!-- Cloudflare Web Analytics --><script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "5f991631faa34f22bb67b9b90d954848"}'></script><!-- End Cloudflare Web Analytics -->
 </body>
 </html>
 `;
