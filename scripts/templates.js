@@ -1288,7 +1288,9 @@ export function suisougakuGuidePage(years, siteUrl) {
 <div class="panel">
 <p class="panel-title">${icon("book")}宝塚市 吹奏楽コンクールガイド</p>
 <p>兵庫県の中学校・高校の吹奏楽部が出場する「兵庫県吹奏楽コンクール」は、<strong>地区大会 → 県大会 → 関西大会 → （部門により）全国大会</strong>という順に勝ち進む仕組みになっています。宝塚市内の学校は「西阪神地区」に属しており、まず西阪神吹奏楽連盟が主催する西阪神地区大会に出場します。このページでは、宝塚市内の学校がまず出場する西阪神地区大会の情報を中心に、県大会以降の結果も判明次第追記していきます。公式情報の整理のみを目的とし、評価・順位予想は行いません。</p>
+<p>学校の部活動だけでなく、市民による「宝塚市吹奏楽団」（1980年発足、約80名が毎週土曜日に市立東公民館で活動するアマチュア吹奏楽団）も、全日本吹奏楽コンクールの全国大会に出場した実績がある団体として活動しています。宝塚市文化財団は、こうした音楽活動が盛んな様子を「音楽のまち・宝塚」と表現することがあります。</p>
 <p class="panel-note"><a href="${escapeHtml(current.officialUrl)}" target="_blank" rel="noopener">→ ${escapeHtml(current.organizerName)}公式サイトを見る</a></p>
+<p class="panel-note"><a href="http://www.zukasui.com/" target="_blank" rel="noopener">→ 宝塚市吹奏楽団 公式サイトを見る</a></p>
 </div>
 
 <div class="panel">
