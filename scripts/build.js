@@ -51,7 +51,7 @@ const HOMEPAGE_FEATURE_SCORES = new Set(["S", "A"]);
 
 // サイト自体のお知らせ（新機能追加等）。公式ニュース記事とは別枠で「今日の宝塚トピック」に一時的に表示する。untilを過ぎると自動的に消える
 const SITE_NOTICES = [
-  { text: "「西阪神吹奏楽コンクールガイド」を追加しました", href: "/category/kyoiku/suisougaku-guide.html", until: "2026-07-19" },
+  { text: "「吹奏楽コンクールガイド」を追加しました", href: "/category/kyoiku/suisougaku-guide.html", until: "2026-07-19" },
 ];
 
 function loadArticles() {
