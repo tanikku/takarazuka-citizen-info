@@ -1235,6 +1235,22 @@ const SUISOUGAKU_FAQ = [
     a: "兵庫県吹奏楽コンクールは、地区大会 → 県大会 → 関西大会 → （部門により）全国大会という順に勝ち進むトーナメント形式です。部門は中学校・高校だけでなく、大学・職場・一般の部もあります。宝塚市内の学校・団体は「西阪神地区」に属しており、まず西阪神地区大会に出場します。本ページは中学校・高校の部門を中心に扱っており、上位大会に進んだ場合の情報は判明次第追記します。",
   },
   {
+    q: "県大会へはどうすれば進めますか？",
+    a: "地区大会での評価をもとに、県大会へ推薦される学校・団体が決まります。推薦される数の基準は部門・年度により異なるため、詳細は兵庫県吹奏楽連盟の公式サイトでご確認ください。",
+  },
+  {
+    q: "関西大会とはどのような大会ですか？",
+    a: "兵庫県大会を勝ち抜いた学校・団体が、近畿地方の各府県代表として出場する大会です。関西吹奏楽連盟（一般社団法人全日本吹奏楽連盟関西支部）が主催しています。",
+  },
+  {
+    q: "全国大会はいつ開催されますか？",
+    a: "全日本吹奏楽コンクールは例年10月下旬〜11月上旬に開催されます。開催日・会場は部門（中学校・高等学校・大学・職場・一般）ごとに異なります。詳細は本ページの「全国大会」欄、または全日本吹奏楽連盟の公式サイトをご確認ください。",
+  },
+  {
+    q: "中学校と高校は別の大会ですか？",
+    a: "地区大会・県大会・関西大会・全国大会のいずれも、中学校の部と高等学校の部は別部門として審査・開催されます（開催日や会場が分かれることもあります）。",
+  },
+  {
     q: "この大会は一般の人も観覧できますか？",
     a: "大会は公開で行われ、当日会場でチケットを購入すれば観覧できます（公式タイムテーブルに「チケット販売」の時間帯が記載されています）。詳細な観覧ルールは西阪神吹奏楽連盟の公式サイトでご確認ください。",
   },
@@ -1248,13 +1264,29 @@ const SUISOUGAKU_FAQ = [
   },
   {
     q: "結果はいつ・どこで掲載されますか？",
-    a: "西阪神地区大会の結果は西阪神吹奏楽連盟の公式サイトに、県大会以降の結果は兵庫県吹奏楽連盟等の公式サイトに順次掲載されます。本ページでも判明次第追記する予定です。",
+    a: "西阪神地区大会の結果は西阪神吹奏楽連盟の公式サイトに、県大会以降の結果は各大会の主催団体（兵庫県吹奏楽連盟・関西吹奏楽連盟・全日本吹奏楽連盟）の公式サイトに順次掲載されます。本ページでも判明次第追記する予定です。",
   },
   {
     q: "宝塚市内から何校参加しますか？",
     a: "年度によって異なります。本ページの「宝塚市内出場校」の一覧に、公式タイムテーブルで確認できた最新の学校数を掲載しています。",
   },
 ];
+
+function suisougakuStagePanel(iconName, title, stage) {
+  const venuesHtml = stage.yearInfo.venues.map((v) => `<li>${escapeHtml(v)}</li>`).join("\n");
+  return `<div class="panel">
+<p class="panel-title">${icon(iconName)}${escapeHtml(title)}</p>
+<p><strong>${escapeHtml(stage.name)}</strong></p>
+<p>${escapeHtml(stage.aboutText)}</p>
+<p class="guide-q">${escapeHtml(stage.yearInfo.dateLabel.match(/^\d{4}/)?.[0] ?? "今年")}年の開催時期・会場</p>
+<p>${escapeHtml(stage.yearInfo.dateLabel)}</p>
+<ul>
+${venuesHtml}
+</ul>
+<p class="today-source">主催：${escapeHtml(stage.organizerName)}</p>
+<p class="panel-note"><a href="${escapeHtml(stage.officialUrl)}" target="_blank" rel="noopener">→ ${escapeHtml(stage.organizerName)}公式サイトを見る</a></p>
+</div>`;
+}
 
 function loadSuisougakuSchoolRows(schools) {
   return schools
@@ -1294,7 +1326,21 @@ export function suisougakuGuidePage(years, siteUrl) {
 </div>
 
 <div class="panel">
-<p class="panel-title">${icon("calendar")}${current.year}年の開催概要</p>
+<p class="panel-title">${icon("newspaper")}コンクール全体の流れ</p>
+<p>宝塚市内の学校が出場する吹奏楽コンクールは、以下の順に勝ち進むトーナメント形式です。</p>
+<div class="contest-flow">
+<div class="contest-flow-step"><div class="contest-flow-label">西阪神地区大会</div><div class="contest-flow-sub">宝塚市内の学校がまず出場</div></div>
+<div class="contest-flow-arrow">↓</div>
+<div class="contest-flow-step"><div class="contest-flow-label">兵庫県吹奏楽コンクール（県大会）</div></div>
+<div class="contest-flow-arrow">↓</div>
+<div class="contest-flow-step"><div class="contest-flow-label">関西吹奏楽コンクール（関西大会）</div></div>
+<div class="contest-flow-arrow">↓</div>
+<div class="contest-flow-step"><div class="contest-flow-label">全日本吹奏楽コンクール（全国大会）</div><div class="contest-flow-sub">部門により出場可否が異なります</div></div>
+</div>
+</div>
+
+<div class="panel">
+<p class="panel-title">${icon("calendar")}${current.year}年の開催概要（西阪神地区大会）</p>
 <p><strong>${escapeHtml(current.contestName)}</strong></p>
 <div class="table-scroll">
 <table class="zaisei-table">
@@ -1306,6 +1352,12 @@ ${scheduleRows}
 </div>
 <p class="today-source">主催：${escapeHtml(current.organizerName)}</p>
 </div>
+
+${suisougakuStagePanel("building", "兵庫県大会", current.higherStages.prefectural)}
+
+${suisougakuStagePanel("building", "関西大会", current.higherStages.kansai)}
+
+${suisougakuStagePanel("shield", "全国大会", current.higherStages.national)}
 
 <div class="panel">
 <p class="panel-title">${icon("building")}宝塚市内出場校（${current.year}年）</p>
@@ -1331,6 +1383,11 @@ ${highSchoolRows}
 </div>
 
 <div class="panel">
+<p class="panel-title">${icon("shield")}宝塚市の学校の実績について</p>
+<p>${escapeHtml(current.takarazukaAchievementNote)}</p>
+</div>
+
+<div class="panel">
 <p class="panel-title">${icon("newspaper")}結果について</p>
 ${resultsHtml}
 </div>
@@ -1345,6 +1402,7 @@ ${faqHtml}
 ${sourceLinksHtml}
 <p class="panel-note"><a href="${categoryPath("kyoiku")}">→ 教育カテゴリ一覧へ</a></p>
 <p class="panel-note"><a href="/category/kyoiku/guide.html">→ 宝塚市 学校情報ガイドを見る</a></p>
+<p class="panel-note"><a href="/category/kurashi/school-admission-guide.html">→ 学区・高校受験ガイドを見る</a></p>
 </div>
 </div>`;
 
@@ -1370,7 +1428,7 @@ ${sourceLinksHtml}
 
   return layout({
     title: "宝塚市 吹奏楽コンクールガイド｜地区大会・県大会・結果まとめ｜Takarazuka Today",
-    description: "宝塚市内の中学校・高校が出場する吹奏楽コンクール（西阪神地区大会・県大会・関西大会・全国大会）について、開催日程・会場・宝塚市内出場校・結果情報を公式情報をもとに整理して紹介するガイドページです。評価・順位予想は行いません。",
+    description: "宝塚市内の中学校・高校が出場する吹奏楽コンクールについて、西阪神地区大会・兵庫県吹奏楽コンクール・関西吹奏楽コンクール・全日本吹奏楽コンクールという大会の流れと、開催日程・会場・宝塚市内出場校を公式情報をもとに整理して紹介するガイドページです。評価・順位予想は行いません。",
     bodyHtml,
     canonicalUrl,
     structuredData: [breadcrumbLd, faqLd],

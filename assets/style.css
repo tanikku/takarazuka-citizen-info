@@ -651,6 +651,43 @@ html[data-theme="dark"] .point-box-title {
   font-weight: 700;
 }
 
+/* 吹奏楽コンクール等、大会の階層構造を示すフロー図 */
+.contest-flow {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  margin: 12px 0;
+}
+
+.contest-flow-step {
+  width: 100%;
+  max-width: 420px;
+  background: var(--accent-soft);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 10px 16px;
+  text-align: center;
+}
+
+.contest-flow-label {
+  font-weight: 800;
+  font-size: 0.95rem;
+}
+
+.contest-flow-sub {
+  font-size: 0.75rem;
+  color: var(--text-sub);
+  margin-top: 2px;
+}
+
+.contest-flow-arrow {
+  font-size: 1.2rem;
+  font-weight: 800;
+  color: var(--accent);
+  line-height: 1;
+}
+
 /* 検索流入向け特集ページ（ごみ出し・子育て支援・防災・学校情報ガイド） */
 .guide-card {
   display: flex;
