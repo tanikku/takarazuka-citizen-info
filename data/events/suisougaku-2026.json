@@ -1,0 +1,47 @@
+{
+  "year": 2026,
+  "contestName": "第73回兵庫県吹奏楽コンクール 第49回西阪神地区大会",
+  "organizerName": "西阪神吹奏楽連盟",
+  "officialUrl": "https://nhsuiren.com/",
+  "schedule": [
+    { "dateLabel": "7月18日（土）", "venue": "三田市総合文化センター 郷の音ホール", "divisions": "中学生C部門・F部門、高等学校F部門、アンサンブル" },
+    { "dateLabel": "7月19日（日）", "venue": "三田市総合文化センター 郷の音ホール", "divisions": "高等学校S部門、中学生S部門" },
+    { "dateLabel": "7月25日（土）", "venue": "西宮市民会館 アミティ・ベイコムホール", "divisions": "中学生A部門（前半）" },
+    { "dateLabel": "7月26日（日）", "venue": "西宮市民会館 アミティ・ベイコムホール", "divisions": "中学生A部門（後半）、高等学校A部門" }
+  ],
+  "takarazukaSchools": {
+    "juniorHigh": [
+      { "name": "宝塚市立中山五月台中学校", "division": "S部門", "type": "public" },
+      { "name": "宝塚市立高司中学校", "division": "S部門", "type": "public" },
+      { "name": "宝塚市立安倉中学校", "division": "S部門", "type": "public" },
+      { "name": "宝塚市立西谷中学校", "division": "S部門", "type": "public" },
+      { "name": "宝塚市立南ひばりガ丘中学校", "division": "F部門・A部門", "type": "public" },
+      { "name": "宝塚市立御殿山中学校", "division": "F部門・A部門", "type": "public" },
+      { "name": "宝塚市立山手台中学校", "division": "A部門", "type": "public" },
+      { "name": "宝塚市立宝梅中学校", "division": "A部門", "type": "public" },
+      { "name": "宝塚市立宝塚第一中学校", "division": "A部門", "type": "public" },
+      { "name": "宝塚市立光ガ丘中学校", "division": "A部門", "type": "public" },
+      { "name": "宝塚市立長尾中学校", "division": "A部門", "type": "public" },
+      { "name": "宝塚市立宝塚中学校", "division": "A部門", "type": "public" },
+      { "name": "雲雀丘学園中学校", "division": "S部門", "type": "private" }
+    ],
+    "highSchool": [
+      { "name": "県立宝塚東高等学校", "division": "S部門", "type": "public" },
+      { "name": "県立宝塚高等学校", "division": "S部門", "type": "public" },
+      { "name": "県立宝塚北高等学校", "division": "A部門", "type": "public" },
+      { "name": "県立宝塚西高等学校", "division": "A部門", "type": "public" },
+      { "name": "雲雀丘学園高等学校", "division": "A部門", "type": "private" }
+    ]
+  },
+  "results": {
+    "announced": false,
+    "note": "結果は西阪神吹奏楽連盟の公式サイトに順次掲載されます。判明次第、本ページにも追記します。",
+    "officialResultsUrl": "https://nhsuiren.com/"
+  },
+  "sourceLinks": [
+    { "label": "西阪神吹奏楽連盟 公式サイトを見る", "url": "https://nhsuiren.com/" },
+    { "label": "公式タイムテーブル（三田会場・中学生C/F部門、高等学校F部門、アンサンブル）を見る", "url": "https://nhsuiren.com/wp-content/uploads/2026年西阪神コンクール三田会場CF部門TT.pdf" },
+    { "label": "公式タイムテーブル（三田会場・高等学校S部門、中学生S部門）を見る", "url": "https://nhsuiren.com/wp-content/uploads/2026西阪神コンクールTT（中高S部門）.pdf" },
+    { "label": "公式タイムテーブル（西宮会場・中学生A部門、高等学校A部門）を見る", "url": "https://nhsuiren.com/wp-content/uploads/2026地区吹コンTT（西宮）.pdf" }
+  ]
+}

@@ -11,6 +11,7 @@ import {
   gikaiGuidePage,
   gianResultPage,
   zaiseiWatchPage,
+  suisougakuGuidePage,
   guidePage,
   mukogawaBosaiPage,
   giinPage,
@@ -34,6 +35,7 @@ const GUIDES_DIR = path.join(ROOT, "data", "guides");
 const GIKAI_GIAN_DIR = path.join(ROOT, "data", "gikai-gian");
 const GIKAI_VOTES_DIR = path.join(ROOT, "data", "gikai-votes");
 const ZAISEI_DIR = path.join(ROOT, "data", "zaisei");
+const EVENTS_DIR = path.join(ROOT, "data", "events");
 const PUBLIC_DIR = path.join(ROOT, "public");
 const ASSETS_DIR = path.join(ROOT, "assets");
 
@@ -96,6 +98,16 @@ function loadZaiseiPeriods() {
     .filter((f) => f.endsWith(".json"))
     .map((f) => JSON.parse(fs.readFileSync(path.join(ZAISEI_DIR, f), "utf-8")))
     .sort((a, b) => (a.period < b.period ? 1 : -1));
+}
+
+// 西阪神吹奏楽コンクールガイド：年度ごとのJSON（例: suisougaku-2026.json）をyearの降順（新しい順）に並べる。翌年以降はJSONを追加するだけで最新年が表示される
+function loadSuisougakuYears() {
+  if (!fs.existsSync(EVENTS_DIR)) return [];
+  return fs
+    .readdirSync(EVENTS_DIR)
+    .filter((f) => f.startsWith("suisougaku-") && f.endsWith(".json"))
+    .map((f) => JSON.parse(fs.readFileSync(path.join(EVENTS_DIR, f), "utf-8")))
+    .sort((a, b) => b.year - a.year);
 }
 
 // 議員別の表決結果：決議日ごとのPDF（議員の賛否）をClaudeが読み取って作成。billNumber+decidedAtで議案採決一覧と緩く連携する
@@ -244,7 +256,7 @@ function writeFile(relativePath, content) {
   fs.writeFileSync(filePath, content);
 }
 
-function buildSitemap(publishedArticles, categoryPageKeys, giinWithArticles, guides, gianSessions, zaiseiPeriods) {
+function buildSitemap(publishedArticles, categoryPageKeys, giinWithArticles, guides, gianSessions, zaiseiPeriods, suisougakuYears) {
   const today = todayDateKey();
   const entries = [
     { loc: `${SITE_URL}/`, lastmod: today },
@@ -261,6 +273,7 @@ function buildSitemap(publishedArticles, categoryPageKeys, giinWithArticles, gui
     ...guides.map((g) => ({ loc: `${SITE_URL}/category/${g.categoryKey}/${g.slug}.html`, lastmod: g.updatedAt })),
     ...(gianSessions.length > 0 ? [{ loc: `${SITE_URL}/category/shigikai/gian.html`, lastmod: today }] : []),
     ...(zaiseiPeriods.length > 0 ? [{ loc: `${SITE_URL}/category/shigikai/zaisei-watch.html`, lastmod: zaiseiPeriods[0].publishedDate }] : []),
+    ...(suisougakuYears.length > 0 ? [{ loc: `${SITE_URL}/category/kyoiku/suisougaku-guide.html`, lastmod: today }] : []),
     ...(giinWithArticles.length > 0 ? [{ loc: `${SITE_URL}/giin/`, lastmod: today }] : []),
     ...giinWithArticles.map((giin) => ({ loc: `${SITE_URL}/giin/${giin.slug}.html`, lastmod: today })),
     ...publishedArticles.map((article) => ({
@@ -300,6 +313,7 @@ function main() {
   const gianSessions = loadGianSessions();
   const gikaiVoteIndex = loadGikaiVoteIndex();
   const zaiseiPeriods = loadZaiseiPeriods();
+  const suisougakuYears = loadSuisougakuYears();
 
   // カテゴリーごとに、公開対象（S/A/B）の記事をまとめる。記事が1件以上、またはガイドページがある場合のみカテゴリーページを生成する
   const categorySections = CATEGORIES.map((cat) => ({
@@ -337,7 +351,8 @@ function main() {
   for (const section of categorySections) {
     const hasGianPage = section.key === "shigikai" && gianSessions.length > 0;
     const hasZaiseiPage = section.key === "shigikai" && zaiseiPeriods.length > 0;
-    writeFile(`category/${section.key}.html`, categoryPage(section, section.allArticles, SITE_URL, section.guides, hasGianPage, hasZaiseiPage));
+    const hasSuisougakuPage = section.key === "kyoiku" && suisougakuYears.length > 0;
+    writeFile(`category/${section.key}.html`, categoryPage(section, section.allArticles, SITE_URL, section.guides, hasGianPage, hasZaiseiPage, hasSuisougakuPage));
   }
   for (const guide of guides) {
     writeFile(`category/${guide.categoryKey}/${guide.slug}.html`, guidePage(guide, SITE_URL));
@@ -350,6 +365,9 @@ function main() {
   }
   if (zaiseiPeriods.length > 0) {
     writeFile("category/shigikai/zaisei-watch.html", zaiseiWatchPage(zaiseiPeriods, SITE_URL));
+  }
+  if (suisougakuYears.length > 0) {
+    writeFile("category/kyoiku/suisougaku-guide.html", suisougakuGuidePage(suisougakuYears, SITE_URL));
   }
   writeFile("privacy.html", privacyPage(SITE_URL));
   writeFile("about.html", aboutPage(SITE_URL));
@@ -372,7 +390,7 @@ function main() {
   writeFile("events/index.html", eventsPage({ todayEvents, thisWeekend, thisMonth, siteUrl: SITE_URL }));
   writeFile("ranking/index.html", rankingPage(ranking, publishedArticles, SITE_URL));
 
-  writeFile("sitemap.xml", buildSitemap(publishedArticles, categoryPageKeys, giinWithArticles, guides, gianSessions, zaiseiPeriods));
+  writeFile("sitemap.xml", buildSitemap(publishedArticles, categoryPageKeys, giinWithArticles, guides, gianSessions, zaiseiPeriods, suisougakuYears));
   writeFile("robots.txt", `User-agent: *\nAllow: /\nSitemap: ${SITE_URL}/sitemap.xml\n`);
 
   writeFile("css/style.css", fs.readFileSync(path.join(ASSETS_DIR, "style.css"), "utf-8"));

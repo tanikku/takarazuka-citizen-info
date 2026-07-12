@@ -526,7 +526,7 @@ function guideCard(guide) {
 </a>`;
 }
 
-export function categoryPage(category, articles, siteUrl, guidesForCategory = [], hasGianPage = false, hasZaiseiPage = false) {
+export function categoryPage(category, articles, siteUrl, guidesForCategory = [], hasGianPage = false, hasZaiseiPage = false, hasSuisougakuPage = false) {
   const canonicalUrl = `${siteUrl}${categoryPath(category.key)}`;
   const isShigikai = category.key === "shigikai";
   const items = articles.map(isShigikai ? gikaiRow : headlineRow).join("\n");
@@ -553,6 +553,16 @@ export function categoryPage(category, articles, siteUrl, guidesForCategory = []
 <div class="gian-cta-arrow">→</div>
 </a>`
     : "";
+  const suisougakuCta = hasSuisougakuPage
+    ? `<a class="gian-cta-card" href="/category/kyoiku/suisougaku-guide.html">
+<div class="gian-cta-icon">${icon("book")}</div>
+<div class="gian-cta-text">
+<div class="gian-cta-title">吹奏楽コンクールガイドを見る</div>
+<div class="gian-cta-sub">西阪神吹奏楽コンクールの日程・会場・宝塚市内出場校をまとめて確認できます</div>
+</div>
+<div class="gian-cta-arrow">→</div>
+</a>`
+    : "";
   const guideCards = guidesForCategory.map(guideCard).join("\n");
 
   const bodyHtml = `<nav class="breadcrumb"><a href="/">トップ</a> &gt; ${escapeHtml(category.label)}</nav>
@@ -560,6 +570,7 @@ export function categoryPage(category, articles, siteUrl, guidesForCategory = []
 ${guideCards}
 ${gianCta}
 ${zaiseiCta}
+${suisougakuCta}
 <div class="panel">
 <p class="panel-title">${icon(category.icon)}${escapeHtml(category.label)}${isShigikai ? "ウォッチ" : "の記事一覧"}</p>
 ${isShigikai ? SHIGIKAI_DISCLOSURE : ""}
@@ -1211,6 +1222,149 @@ ${faqHtml}
   return layout({
     title: "宝塚市財政ウォッチ｜財政状況を分かりやすく解説｜Takarazuka Today",
     description: "宝塚市が毎年6月・12月に公表する「財政状況」をもとに、一般会計の予算規模・市税収入・市債残高・基金残高などの主要な財政指標を市民向けにわかりやすく整理して紹介するページです。政治的評価は行わず、公式資料の事実整理のみを行います。",
+    bodyHtml,
+    canonicalUrl,
+    structuredData: [breadcrumbLd, faqLd],
+  });
+}
+
+// 西阪神吹奏楽コンクール ガイド：西阪神吹奏楽連盟の公式情報（タイムテーブルPDF等）をもとに、宝塚市内出場校を整理して紹介する。結果予想・学校評価は行わない
+const SUISOUGAKU_FAQ = [
+  {
+    q: "この大会は一般の人も観覧できますか？",
+    a: "大会は公開で行われ、当日会場でチケットを購入すれば観覧できます（公式タイムテーブルに「チケット販売」の時間帯が記載されています）。詳細な観覧ルールは西阪神吹奏楽連盟の公式サイトでご確認ください。",
+  },
+  {
+    q: "入場料はいくらですか？",
+    a: "具体的な金額は西阪神吹奏楽連盟の公式サイト・当日会場でご確認ください。公式サイトに金額の記載がないため、本ページでは推測の金額は記載していません。",
+  },
+  {
+    q: "出演順（タイムテーブル）はどこで確認できますか？",
+    a: "西阪神吹奏楽連盟の公式サイトに、部門・会場ごとのタイムテーブル（PDF）が掲載されています。本ページ末尾の出典リンクからご確認いただけます。",
+  },
+  {
+    q: "結果はいつ・どこで掲載されますか？",
+    a: "大会結果は、西阪神吹奏楽連盟の公式サイトに順次掲載されます。本ページでも判明次第追記する予定です。",
+  },
+  {
+    q: "宝塚市内から何校参加しますか？",
+    a: "年度によって異なります。本ページの「宝塚市内出場校」の一覧に、公式タイムテーブルで確認できた最新の学校数を掲載しています。",
+  },
+];
+
+function loadSuisougakuSchoolRows(schools) {
+  return schools
+    .map((s) => `<tr><td>${escapeHtml(s.name)}${s.type === "private" ? "（私立）" : ""}</td><td>${escapeHtml(s.division)}</td></tr>`)
+    .join("\n");
+}
+
+export function suisougakuGuidePage(years, siteUrl) {
+  const canonicalUrl = `${siteUrl}/category/kyoiku/suisougaku-guide.html`;
+  const current = years[0];
+
+  const scheduleRows = current.schedule
+    .map((s) => `<tr><td>${escapeHtml(s.dateLabel)}</td><td>${escapeHtml(s.venue)}</td><td>${escapeHtml(s.divisions)}</td></tr>`)
+    .join("\n");
+
+  const juniorHighRows = loadSuisougakuSchoolRows(current.takarazukaSchools.juniorHigh);
+  const highSchoolRows = loadSuisougakuSchoolRows(current.takarazukaSchools.highSchool);
+
+  const resultsHtml = current.results.announced
+    ? escapeHtml(current.results.note)
+    : `<p>${escapeHtml(current.results.note)}</p>`;
+
+  const faqHtml = SUISOUGAKU_FAQ.map((item) => `<p class="guide-q">Q. ${escapeHtml(item.q)}</p><p>${escapeHtml(item.a)}</p>`).join("\n");
+
+  const sourceLinksHtml = current.sourceLinks
+    .map((link) => `<p class="panel-note"><a href="${escapeHtml(link.url)}" target="_blank" rel="noopener">→ ${escapeHtml(link.label)}</a></p>`)
+    .join("\n");
+
+  const bodyHtml = `<nav class="breadcrumb"><a href="/">トップ</a> &gt; <a href="${categoryPath("kyoiku")}">教育</a> &gt; 吹奏楽コンクールガイド</nav>
+<div class="page-content">
+<div class="panel">
+<p class="panel-title">${icon("book")}宝塚市 吹奏楽コンクールガイド</p>
+<p>兵庫県の中学校・高校の吹奏楽部が出場する「兵庫県吹奏楽コンクール」は、地区ごとに予選（地区大会）が行われます。宝塚市内の学校は「西阪神地区」に属しており、西阪神吹奏楽連盟が主催する西阪神地区大会に出場します。このページでは、宝塚市内の学校の出場状況を中心に、公式情報を整理して紹介します。評価・順位予想は行わず、事実の整理のみを目的としています。</p>
+<p class="panel-note"><a href="${escapeHtml(current.officialUrl)}" target="_blank" rel="noopener">→ ${escapeHtml(current.organizerName)}公式サイトを見る</a></p>
+</div>
+
+<div class="panel">
+<p class="panel-title">${icon("calendar")}${current.year}年の開催概要</p>
+<p><strong>${escapeHtml(current.contestName)}</strong></p>
+<div class="table-scroll">
+<table class="zaisei-table">
+<thead><tr><th>日程</th><th>会場</th><th>部門</th></tr></thead>
+<tbody>
+${scheduleRows}
+</tbody>
+</table>
+</div>
+<p class="today-source">主催：${escapeHtml(current.organizerName)}</p>
+</div>
+
+<div class="panel">
+<p class="panel-title">${icon("building")}宝塚市内出場校（${current.year}年）</p>
+<p class="guide-q">中学校</p>
+<div class="table-scroll">
+<table class="zaisei-table">
+<thead><tr><th>学校名</th><th>出場部門</th></tr></thead>
+<tbody>
+${juniorHighRows}
+</tbody>
+</table>
+</div>
+<p class="guide-q">高等学校</p>
+<div class="table-scroll">
+<table class="zaisei-table">
+<thead><tr><th>学校名</th><th>出場部門</th></tr></thead>
+<tbody>
+${highSchoolRows}
+</tbody>
+</table>
+</div>
+<p class="today-source">出典：${escapeHtml(current.organizerName)}公式サイト掲載の公式タイムテーブル（PDF）。年度・部門により出場校は変動します。</p>
+</div>
+
+<div class="panel">
+<p class="panel-title">${icon("newspaper")}結果について</p>
+${resultsHtml}
+</div>
+
+<div class="panel">
+<p class="panel-title">${icon("shield")}よくある質問</p>
+${faqHtml}
+</div>
+
+<div class="panel">
+<p class="panel-title">${icon("newspaper")}出典・関連ページ</p>
+${sourceLinksHtml}
+<p class="panel-note"><a href="${categoryPath("kyoiku")}">→ 教育カテゴリ一覧へ</a></p>
+<p class="panel-note"><a href="/category/kyoiku/guide.html">→ 宝塚市 学校情報ガイドを見る</a></p>
+</div>
+</div>`;
+
+  const breadcrumbLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "トップ", item: `${siteUrl}/` },
+      { "@type": "ListItem", position: 2, name: "教育", item: `${siteUrl}${categoryPath("kyoiku")}` },
+      { "@type": "ListItem", position: 3, name: "吹奏楽コンクールガイド", item: canonicalUrl },
+    ],
+  };
+
+  const faqLd = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: SUISOUGAKU_FAQ.map((item) => ({
+      "@type": "Question",
+      name: item.q,
+      acceptedAnswer: { "@type": "Answer", text: item.a },
+    })),
+  };
+
+  return layout({
+    title: "宝塚市 吹奏楽コンクールガイド｜西阪神吹奏楽連盟・日程・結果・参加校｜Takarazuka Today",
+    description: "宝塚市内の中学校・高校が出場する西阪神吹奏楽コンクールについて、開催日程・会場・宝塚市内出場校・結果情報を、西阪神吹奏楽連盟の公式情報をもとに整理して紹介するガイドページです。評価・順位予想は行いません。",
     bodyHtml,
     canonicalUrl,
     structuredData: [breadcrumbLd, faqLd],
