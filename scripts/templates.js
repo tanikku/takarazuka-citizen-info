@@ -731,10 +731,12 @@ export function livecamPage(siteUrl) {
 
   const bodyHtml = `<nav class="breadcrumb"><a href="/">トップ</a> &gt; 武庫川ライブカメラ・河川水位情報</nav>
 <div class="page-content">
+<h1>武庫川ライブカメラ・水位情報まとめ（宝塚市）</h1>
+<p class="lead">宝塚市を流れる武庫川（武田尾・生瀬など）と大堀川・波豆川の河川監視カメラ（国土交通省・兵庫県）へのリンクと、宝塚市公表の水位基準（警戒水位・避難判断水位・氾濫危険水位）をまとめています。</p>
 
 <div class="panel">
-<p class="panel-title">${icon("videoCamera")}武庫川ライブカメラ・河川水位情報</p>
-<p style="margin-bottom:1rem;">宝塚市を流れる武庫川は、大雨・台風の際に水位が急上昇することがあります。国土交通省・兵庫県が運営する公式の河川監視カメラへのリンクを掲載しています。大雨が予想されるときは早めに状況を確認してください。</p>
+<p class="panel-title">${icon("videoCamera")}武庫川ライブカメラ一覧</p>
+<p style="margin-bottom:1rem;">大雨・台風の際に水位が急上昇することがあります。国土交通省・兵庫県が運営する公式の河川監視カメラへのリンクを掲載しています。大雨が予想されるときは早めに状況を確認してください。</p>
 <p class="empty-state" style="font-size:0.85rem;">※ 画像の直接埋め込みは行わず、各機関の公式ページへ直接ご案内します</p>
 ${cameraItems}
 <p class="panel-note">出典：国土交通省「川の防災情報」（<a href="https://www.river.go.jp/kawabou/" target="_blank" rel="noopener">river.go.jp/kawabou</a>）／兵庫県河川監視カメラ（<a href="https://hyogo.kasenkanshi.info/" target="_blank" rel="noopener">hyogo.kasenkanshi.info</a>）</p>
@@ -785,8 +787,8 @@ ${faqHtml}
 </div>`;
 
   return layout({
-    title: "武庫川ライブカメラ・河川水位情報｜宝塚市防災｜Takarazuka Today",
-    description: "宝塚市内および周辺の武庫川・大堀川・波豆川の河川監視ライブカメラ（国交省・兵庫県）へのリンク一覧。警戒水位・避難判断水位の基準値もわかります。",
+    title: "武庫川ライブカメラ｜宝塚市周辺の河川監視カメラ・水位基準まとめ｜Takarazuka Today",
+    description: "武庫川（武田尾・生瀬）と大堀川・波豆川のライブカメラ（国土交通省・兵庫県）をまとめてリンク。警戒水位・避難判断水位・氾濫危険水位の基準値も宝塚市公表データで確認できます。大雨・台風時にご活用ください。",
     bodyHtml,
     canonicalUrl,
     structuredData: [breadcrumbLd, faqLd],
