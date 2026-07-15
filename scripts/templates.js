@@ -1049,7 +1049,7 @@ export function gikaiGuidePage(siteUrl) {
 
   return layout({
     title: "宝塚市議会のしくみ・市議会ウォッチの見方｜Takarazuka Today",
-    description: "宝塚市議会のしくみ、本会議と委員会の違い、本サイト「市議会ウォッチ」の見方を解説します。",
+    description: "宝塚市議会のしくみをわかりやすく解説。本会議と委員会（総務常任委員会・文教生活常任委員会など）の違い、定例会・臨時会の違い、本サイト「市議会ウォッチ」の見方や議員活動サマリー・財政ウォッチとの関係もあわせて紹介します。",
     bodyHtml,
     canonicalUrl,
     structuredData: [breadcrumbLd, faqLd],
