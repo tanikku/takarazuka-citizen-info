@@ -1405,6 +1405,7 @@ ${sourceLinksHtml}
 <p class="panel-note"><a href="${categoryPath("kyoiku")}">→ 教育カテゴリ一覧へ</a></p>
 <p class="panel-note"><a href="/category/kyoiku/guide.html">→ 宝塚市 学校情報ガイドを見る</a></p>
 <p class="panel-note"><a href="/category/kurashi/school-admission-guide.html">→ 学区・高校受験ガイドを見る</a></p>
+<p class="panel-note"><a href="/category/kyoiku/bunkasai-guide.html">→ 高校文化祭ガイドを見る</a></p>
 </div>
 </div>`;
 
