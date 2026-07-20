@@ -543,7 +543,7 @@ https://takarazuka-today.jp/articles/cosmocast-fugu-2026.html
 
 - カテゴリ：行政・くらし　評価：B
 - 記事URL：https://takarazuka-today.jp/articles/datsutanso-josei-2026.html
-- [ ] 投稿済み
+- [x] 投稿済み
 
 ```
 【助成金】太陽光発電・蓄電池の導入助成金、申請受付中（〜2027/1/29）。個人は太陽光1kWあたり7万円、蓄電池は経費の1/3を助成。窓口は市役所2階環境エネルギー課（0797-77-2361）。
@@ -648,7 +648,7 @@ https://takarazuka-today.jp/articles/cosmocast-fugu-2026.html
 
 - カテゴリ：行政・くらし　評価：B
 - 記事URL：https://takarazuka-today.jp/articles/poisute-jorei-2026.html
-- [ ] 投稿済み
+- [x] 投稿済み
 
 ```
 【知ってますか】宝塚駅・JR宝塚駅の指定喫煙所は、月〜土の朝7時〜8時、通学時間帯のため閉鎖されています（子どもの受動喫煙防止）。路上喫煙禁止区域での喫煙やポイ捨てには罰則（過料1,000円）も。
@@ -700,7 +700,7 @@ https://takarazuka-today.jp/articles/cosmocast-fugu-2026.html
 
 - カテゴリ：行政・くらし　評価：B
 - 記事URL：https://takarazuka-today.jp/articles/akichi-kanri-2026.html
-- [ ] 投稿済み
+- [x] 投稿済み
 
 ```
 【お知らせ】空き地を所有している方へ。放置すると火災・害虫・不法投棄等のリスクが高まります。市は定期的な手入れを呼びかけています（通知文に法的強制力はなく依頼ベース）。
@@ -778,7 +778,7 @@ https://takarazuka-today.jp/articles/cosmocast-fugu-2026.html
 
 - カテゴリ：行政・くらし　評価：A
 - 記事URL：https://takarazuka-today.jp/articles/taijo-hoshin-vaccine-2026.html
-- [ ] 投稿済み
+- [x] 投稿済み
 
 ```
 【お知らせ】高齢者等の帯状疱疹ワクチン定期接種、2027年3月31日まで実施中。対象は65歳等の宝塚市民。自己負担は生ワクチン4,000円、シングリックス1回11,000円（2回接種）。生活保護受給者等は無料。
@@ -817,7 +817,7 @@ https://takarazuka-today.jp/articles/cosmocast-fugu-2026.html
 
 - カテゴリ：防犯　評価：S
 - 記事URL：https://takarazuka-today.jp/articles/yane-tenken-shoho-2026.html
-- [ ] 投稿済み
+- [x] 投稿済み
 
 ```
 【注意】「屋根が外れそう」「今だけ安くできる」と急に訪問してくる屋根の点検商法のトラブルが急増中。その場で点検させない・即決しない・複数業者で相見積もりを。不安なら消費者ホットライン「188」へ。
@@ -830,7 +830,7 @@ https://takarazuka-today.jp/articles/cosmocast-fugu-2026.html
 
 - カテゴリ：行政・くらし　評価：A
 - 記事URL：https://takarazuka-today.jp/articles/nagaoyama-reien-bus-2026.html
-- [ ] 投稿済み
+- [x] 投稿済み
 
 ```
 【お知らせ】長尾山霊園への臨時バス、毎月第4日曜とお盆(8/13〜15)・秋彼岸(9/21〜23)に運行中。乗車地は阪急宝塚駅北側2番のりば。片道：大人270円・小児140円、予約不要。
@@ -869,7 +869,7 @@ https://takarazuka-today.jp/articles/cosmocast-fugu-2026.html
 
 - カテゴリ：防犯　評価：A
 - 記事URL：https://takarazuka-today.jp/articles/hanzai-higaisha-shien-2026.html
-- [ ] 投稿済み
+- [x] 投稿済み
 
 ```
 【お知らせ】宝塚市には犯罪被害者やご遺族向けの支援制度があります。遺族支援金30万円、家賃助成（上限3万円/月）、カウンセリング費用支給など。相談は第2・4木曜10:00〜12:00、市役所1階で無料。
@@ -882,7 +882,7 @@ https://takarazuka-today.jp/articles/cosmocast-fugu-2026.html
 
 - カテゴリ：防犯　評価：A
 - 記事URL：https://takarazuka-today.jp/articles/bohan-camera-josei-2026.html
-- [ ] 投稿済み
+- [x] 投稿済み
 
 ```
 【補助金】自治会など地域団体向け、防犯カメラ新規設置の補助事業を8/31(月)16時まで受付中。補助対象経費の2/3、上限8万円。申込は持参・郵送・メールで。
