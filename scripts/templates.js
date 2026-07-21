@@ -1290,10 +1290,47 @@ ${venuesHtml}
 </div>`;
 }
 
+function suisougakuResultCells(results) {
+  const items = (results ?? []).map((r) => {
+    if (r.pending) return { division: r.division, award: "結果待ち", advanced: "－" };
+    const award = r.award ? `${r.award}賞${r.best ? "（最優秀）" : ""}` : "－";
+    const advanced = r.advanced === true ? "○" : r.advanced === false ? "－" : "対象外";
+    return { division: r.division, award, advanced };
+  });
+  return {
+    divisionHtml: items.map((p) => escapeHtml(p.division)).join("<br>"),
+    awardHtml: items.map((p) => escapeHtml(p.award)).join("<br>"),
+    advancedHtml: items.map((p) => escapeHtml(p.advanced)).join("<br>"),
+  };
+}
+
 function loadSuisougakuSchoolRows(schools) {
   return schools
-    .map((s) => `<tr><td>${escapeHtml(s.name)}${s.type === "private" ? "（私立）" : ""}</td><td>${escapeHtml(s.division)}</td></tr>`)
+    .map((s) => {
+      const cells = suisougakuResultCells(s.results);
+      const name = `${escapeHtml(s.name)}${s.type === "private" ? "（私立）" : ""}`;
+      return `<tr><td>${name}</td><td>${cells.divisionHtml}</td><td>${cells.awardHtml}</td><td>${cells.advancedHtml}</td></tr>`;
+    })
     .join("\n");
+}
+
+function loadSuisougakuDistrictDivisionTable(division) {
+  const rows = division.schools
+    .map((s) => {
+      const award = s.award ? `${escapeHtml(s.award)}賞${s.best ? "（最優秀）" : ""}` : "－";
+      const advanced = division.hasAdvancement ? (s.advanced ? "○" : "－") : "対象外";
+      return `<tr><td>${s.order}</td><td>${escapeHtml(s.name)}</td><td>${award}</td><td>${advanced}</td></tr>`;
+    })
+    .join("\n");
+  return `<p class="guide-q">${escapeHtml(division.label)}（${escapeHtml(division.dateLabel)}）</p>
+<div class="table-scroll">
+<table class="zaisei-table">
+<thead><tr><th>出演順</th><th>学校名・団体名</th><th>賞</th><th>県大会出場</th></tr></thead>
+<tbody>
+${rows}
+</tbody>
+</table>
+</div>`;
 }
 
 export function suisougakuGuidePage(years, siteUrl) {
@@ -1307,9 +1344,14 @@ export function suisougakuGuidePage(years, siteUrl) {
   const juniorHighRows = loadSuisougakuSchoolRows(current.takarazukaSchools.juniorHigh);
   const highSchoolRows = loadSuisougakuSchoolRows(current.takarazukaSchools.highSchool);
 
-  const resultsHtml = current.results.announced
-    ? escapeHtml(current.results.note)
-    : `<p>${escapeHtml(current.results.note)}</p>`;
+  const resultsNoteHtml = `<p>${escapeHtml(current.results.note)}</p>`;
+
+  const districtResultsHtml = current.districtResults
+    ? `${resultsNoteHtml}
+${current.districtResults.divisions.map(loadSuisougakuDistrictDivisionTable).join("\n")}
+<p class="note-box">${escapeHtml(current.districtResults.pendingNote)}</p>
+<p class="today-source">F部門・C部門は上位大会（県大会）への出場対象外の部門です。</p>`
+    : resultsNoteHtml;
 
   const faqHtml = SUISOUGAKU_FAQ.map((item) => `<p class="guide-q">Q. ${escapeHtml(item.q)}</p><p>${escapeHtml(item.a)}</p>`).join("\n");
 
@@ -1355,44 +1397,47 @@ ${scheduleRows}
 <p class="today-source">主催：${escapeHtml(current.organizerName)}</p>
 </div>
 
-${suisougakuStagePanel("building", "兵庫県大会", current.higherStages.prefectural)}
-
-${suisougakuStagePanel("building", "関西大会", current.higherStages.kansai)}
-
-${suisougakuStagePanel("shield", "全国大会", current.higherStages.national)}
-
-<div class="panel">
-<p class="panel-title">${icon("building")}宝塚市内出場校（${current.year}年）</p>
-<p class="guide-q">中学校</p>
-<div class="table-scroll">
-<table class="zaisei-table">
-<thead><tr><th>学校名</th><th>出場部門</th></tr></thead>
-<tbody>
-${juniorHighRows}
-</tbody>
-</table>
-</div>
-<p class="guide-q">高等学校</p>
-<div class="table-scroll">
-<table class="zaisei-table">
-<thead><tr><th>学校名</th><th>出場部門</th></tr></thead>
-<tbody>
-${highSchoolRows}
-</tbody>
-</table>
-</div>
-<p class="today-source">出典：${escapeHtml(current.organizerName)}公式サイト掲載の公式タイムテーブル（PDF）。年度・部門により出場校は変動します。</p>
-</div>
-
 <div class="panel">
 <p class="panel-title">${icon("shield")}宝塚市の学校の実績について</p>
 <p>${escapeHtml(current.takarazukaAchievementNote)}</p>
 </div>
 
 <div class="panel">
-<p class="panel-title">${icon("newspaper")}結果について</p>
-${resultsHtml}
+<p class="panel-title">${icon("building")}宝塚市内中学校の結果（${current.year}年）</p>
+<div class="table-scroll">
+<table class="zaisei-table">
+<thead><tr><th>学校名</th><th>部門</th><th>賞</th><th>県大会出場</th></tr></thead>
+<tbody>
+${juniorHighRows}
+</tbody>
+</table>
 </div>
+<p class="today-source">出典：${escapeHtml(current.organizerName)}公式サイト掲載の公式タイムテーブル・審査結果（PDF）。年度・部門により出場校は変動します。</p>
+</div>
+
+<div class="panel">
+<p class="panel-title">${icon("building")}宝塚市内高校の結果（${current.year}年）</p>
+<div class="table-scroll">
+<table class="zaisei-table">
+<thead><tr><th>学校名</th><th>部門</th><th>賞</th><th>県大会出場</th></tr></thead>
+<tbody>
+${highSchoolRows}
+</tbody>
+</table>
+</div>
+<p class="today-source">出典：${escapeHtml(current.organizerName)}公式サイト掲載の公式タイムテーブル・審査結果（PDF）。年度・部門により出場校は変動します。</p>
+</div>
+
+<div class="panel">
+<p class="panel-title">${icon("newspaper")}西阪神地区大会 全結果（${current.year}年）</p>
+${districtResultsHtml}
+</div>
+
+${suisougakuStagePanel("building", "兵庫県大会", current.higherStages.prefectural)}
+
+${suisougakuStagePanel("building", "関西大会", current.higherStages.kansai)}
+
+${suisougakuStagePanel("shield", "全国大会", current.higherStages.national)}
 
 <div class="panel">
 <p class="panel-title">${icon("shield")}よくある質問</p>
@@ -1406,6 +1451,7 @@ ${sourceLinksHtml}
 <p class="panel-note"><a href="/category/kyoiku/guide.html">→ 宝塚市 学校情報ガイドを見る</a></p>
 <p class="panel-note"><a href="/category/kurashi/school-admission-guide.html">→ 学区・高校受験ガイドを見る</a></p>
 <p class="panel-note"><a href="/category/kyoiku/bunkasai-guide.html">→ 高校文化祭ガイドを見る</a></p>
+<p class="panel-note"><a href="/category/kyoiku/nenkan-event-guide.html">→ 学校年間イベントガイドを見る</a></p>
 </div>
 </div>`;
 
@@ -1430,8 +1476,8 @@ ${sourceLinksHtml}
   };
 
   return layout({
-    title: "宝塚市 吹奏楽コンクールガイド｜地区大会・県大会・結果まとめ｜Takarazuka Today",
-    description: "宝塚市内の中学校・高校が出場する吹奏楽コンクールについて、西阪神地区大会・兵庫県吹奏楽コンクール・関西吹奏楽コンクール・全日本吹奏楽コンクールという大会の流れと、開催日程・会場・宝塚市内出場校を公式情報をもとに整理して紹介するガイドページです。評価・順位予想は行いません。",
+    title: `宝塚市 吹奏楽コンクールガイド｜西阪神地区大会${current.year}年結果・県大会情報｜Takarazuka Today`,
+    description: `宝塚市内の中学校・高校が出場する吹奏楽コンクールの西阪神地区大会・兵庫県吹奏楽コンクール・関西吹奏楽コンクール・全日本吹奏楽コンクールという大会の流れと、${current.year}年の西阪神地区大会の結果（賞・県大会出場の有無）を公式発表をもとに整理して紹介するガイドページです。独自の評価・順位予想は行いません。`,
     bodyHtml,
     canonicalUrl,
     structuredData: [breadcrumbLd, faqLd],
