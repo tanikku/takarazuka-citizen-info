@@ -1290,36 +1290,20 @@ ${venuesHtml}
 </div>`;
 }
 
-function suisougakuResultCells(results) {
-  const items = (results ?? []).map((r) => {
-    if (r.pending) return { division: r.division, award: "結果待ち", advanced: "－" };
-    const award = r.award ? `${r.award}賞${r.best ? "（最優秀）" : ""}` : "－";
-    const advanced = r.advanced === true ? "○" : r.advanced === false ? "－" : "対象外";
-    return { division: r.division, award, advanced };
-  });
-  return {
-    divisionHtml: items.map((p) => escapeHtml(p.division)).join("<br>"),
-    awardHtml: items.map((p) => escapeHtml(p.award)).join("<br>"),
-    advancedHtml: items.map((p) => escapeHtml(p.advanced)).join("<br>"),
-  };
+function loadSuisougakuTakarazukaNameSet(takarazukaSchools) {
+  return new Set([...takarazukaSchools.juniorHigh, ...takarazukaSchools.highSchool].map((s) => s.name));
 }
 
-function loadSuisougakuSchoolRows(schools) {
-  return schools
-    .map((s) => {
-      const cells = suisougakuResultCells(s.results);
-      const name = `${escapeHtml(s.name)}${s.type === "private" ? "（私立）" : ""}`;
-      return `<tr><td>${name}</td><td>${cells.divisionHtml}</td><td>${cells.awardHtml}</td><td>${cells.advancedHtml}</td></tr>`;
-    })
-    .join("\n");
-}
-
-function loadSuisougakuDistrictDivisionTable(division) {
+function loadSuisougakuDistrictDivisionTable(division, takarazukaNames) {
   const rows = division.schools
     .map((s) => {
       const award = s.award ? `${escapeHtml(s.award)}賞${s.best ? "（最優秀）" : ""}` : "－";
       const advanced = division.hasAdvancement ? (s.advanced ? "○" : "－") : "対象外";
-      return `<tr><td>${s.order}</td><td>${escapeHtml(s.name)}</td><td>${award}</td><td>${advanced}</td></tr>`;
+      const isTakarazuka = takarazukaNames.has(s.name);
+      const nameCell = isTakarazuka
+        ? `<span class="takarazuka-tag">宝塚市内</span>${escapeHtml(s.name)}`
+        : escapeHtml(s.name);
+      return `<tr${isTakarazuka ? ' class="is-takarazuka"' : ""}><td>${s.order}</td><td>${nameCell}</td><td>${award}</td><td>${advanced}</td></tr>`;
     })
     .join("\n");
   return `<p class="guide-q">${escapeHtml(division.label)}（${escapeHtml(division.dateLabel)}）</p>
@@ -1341,14 +1325,13 @@ export function suisougakuGuidePage(years, siteUrl) {
     .map((s) => `<tr><td>${escapeHtml(s.dateLabel)}</td><td>${escapeHtml(s.venue)}</td><td>${escapeHtml(s.divisions)}</td></tr>`)
     .join("\n");
 
-  const juniorHighRows = loadSuisougakuSchoolRows(current.takarazukaSchools.juniorHigh);
-  const highSchoolRows = loadSuisougakuSchoolRows(current.takarazukaSchools.highSchool);
-
+  const takarazukaNames = loadSuisougakuTakarazukaNameSet(current.takarazukaSchools);
   const resultsNoteHtml = `<p>${escapeHtml(current.results.note)}</p>`;
 
   const districtResultsHtml = current.districtResults
     ? `${resultsNoteHtml}
-${current.districtResults.divisions.map(loadSuisougakuDistrictDivisionTable).join("\n")}
+<p class="today-source"><span class="takarazuka-tag">宝塚市内</span>のマークが付いた学校が宝塚市内・雲雀丘学園の学校です。</p>
+${current.districtResults.divisions.map((d) => loadSuisougakuDistrictDivisionTable(d, takarazukaNames)).join("\n")}
 <p class="note-box">${escapeHtml(current.districtResults.pendingNote)}</p>
 <p class="today-source">F部門・C部門は上位大会（県大会）への出場対象外の部門です。</p>`
     : resultsNoteHtml;
@@ -1403,34 +1386,9 @@ ${scheduleRows}
 </div>
 
 <div class="panel">
-<p class="panel-title">${icon("building")}宝塚市内中学校の結果（${current.year}年）</p>
-<div class="table-scroll">
-<table class="zaisei-table">
-<thead><tr><th>学校名</th><th>部門</th><th>賞</th><th>県大会出場</th></tr></thead>
-<tbody>
-${juniorHighRows}
-</tbody>
-</table>
-</div>
-<p class="today-source">出典：${escapeHtml(current.organizerName)}公式サイト掲載の公式タイムテーブル・審査結果（PDF）。年度・部門により出場校は変動します。</p>
-</div>
-
-<div class="panel">
-<p class="panel-title">${icon("building")}宝塚市内高校の結果（${current.year}年）</p>
-<div class="table-scroll">
-<table class="zaisei-table">
-<thead><tr><th>学校名</th><th>部門</th><th>賞</th><th>県大会出場</th></tr></thead>
-<tbody>
-${highSchoolRows}
-</tbody>
-</table>
-</div>
-<p class="today-source">出典：${escapeHtml(current.organizerName)}公式サイト掲載の公式タイムテーブル・審査結果（PDF）。年度・部門により出場校は変動します。</p>
-</div>
-
-<div class="panel">
 <p class="panel-title">${icon("newspaper")}西阪神地区大会 全結果（${current.year}年）</p>
 ${districtResultsHtml}
+<p class="today-source">出典：${escapeHtml(current.organizerName)}公式サイト掲載の公式タイムテーブル・審査結果（PDF）。年度・部門により出場校は変動します。</p>
 </div>
 
 ${suisougakuStagePanel("building", "兵庫県大会", current.higherStages.prefectural)}

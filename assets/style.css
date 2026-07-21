@@ -651,6 +651,23 @@ html[data-theme="dark"] .point-box-title {
   font-weight: 700;
 }
 
+.zaisei-table tr.is-takarazuka {
+  background: var(--accent-soft);
+  font-weight: 700;
+}
+
+.takarazuka-tag {
+  display: inline-block;
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-size: 0.68rem;
+  font-weight: 700;
+  padding: 1px 6px;
+  border-radius: 4px;
+  margin-right: 6px;
+  white-space: nowrap;
+}
+
 /* 吹奏楽コンクール等、大会の階層構造を示すフロー図 */
 .contest-flow {
   display: flex;
