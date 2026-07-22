@@ -382,7 +382,7 @@ function rankingOrRecentPanel(ranking, recentArticles, limit = 5, showMoreLink =
       .map(
         (entry, i) => `<li class="ranking-item">
 <span class="rank-num">${i + 1}</span>
-<a class="rank-title" href="/articles/${entry.slug}.html">${escapeHtml(entry.title)}</a>
+<a class="rank-title" href="${escapeHtml(entry.path)}">${escapeHtml(entry.title)}</a>
 </li>`,
       )
       .join("\n");

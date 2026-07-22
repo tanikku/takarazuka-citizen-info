@@ -1,5 +1,6 @@
 // Cloudflare Web Analytics（RUM・ボットを含まない実アクセスのみ）から、
-// 過去30日間のページビュー上位記事を集計し data/ranking.json を生成する。
+// 過去30日間のページビュー上位ページを集計し data/ranking.json を生成する。
+// 記事ページだけでなく、ガイド・カテゴリ等サイト内の全ページを対象とする（2026-07-21〜）。
 // 環境変数（CF_API_TOKEN / CF_ACCOUNT_ID）が未設定・取得失敗の場合はエラー終了せず、
 // 既存のランキング表示は「新着記事」へのフォールバックに委ねる（ranking.jsonを書き換えない）。
 import fs from "node:fs";
@@ -8,7 +9,7 @@ import { fileURLToPath } from "node:url";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.join(__dirname, "..");
-const ARTICLES_DIR = path.join(ROOT, "data", "articles");
+const PUBLIC_DIR = path.join(ROOT, "public");
 const RANKING_FILE = path.join(ROOT, "data", "ranking.json");
 const ENV_FILE = path.join(ROOT, ".env");
 
@@ -32,14 +33,30 @@ function loadEnvFile() {
   }
 }
 
-function loadPublishedSlugs() {
-  const slugs = new Set();
-  for (const file of fs.readdirSync(ARTICLES_DIR)) {
-    if (!file.endsWith(".json")) continue;
-    const data = JSON.parse(fs.readFileSync(path.join(ARTICLES_DIR, file), "utf-8"));
-    slugs.add(data.slug);
+// requestPath（例: "/articles/foo.html", "/livecam.html", "/events/"）から
+// public/配下の実ファイルを特定し、<title>タグを読み取ってページタイトルを得る。
+// サイト内の全ページ種別（記事・ガイド・カテゴリ・固定ページ）に対応できる汎用的な方法。
+// Cloudflare Pagesは.html付きURLを拡張子なしへ308リダイレクトするため、RUMデータ上の
+// requestPathは拡張子なしの場合がある（詳細はDECISIONS.md「Cloudflare Pages URL調査」参照）。
+// そのため候補を複数パターン試す。
+function resolvePage(requestPath) {
+  const candidates = requestPath.endsWith("/")
+    ? [{ file: `${requestPath}index.html`, canonicalPath: requestPath }]
+    : requestPath.endsWith(".html")
+      ? [{ file: requestPath, canonicalPath: requestPath }]
+      : [
+          { file: `${requestPath}.html`, canonicalPath: `${requestPath}.html` },
+          { file: `${requestPath}/index.html`, canonicalPath: `${requestPath}/` },
+        ];
+
+  for (const { file, canonicalPath } of candidates) {
+    const filePath = path.join(PUBLIC_DIR, file);
+    if (!fs.existsSync(filePath) || !fs.statSync(filePath).isFile()) continue;
+    const html = fs.readFileSync(filePath, "utf-8");
+    const match = html.match(/<title>(.*?)<\/title>/);
+    if (match) return { title: match[1].replace(/｜Takarazuka Today$/, "").trim(), path: canonicalPath };
   }
-  return slugs;
+  return null;
 }
 
 async function fetchPageviews(accountTag, apiToken, sinceIso, untilIso) {
@@ -99,23 +116,20 @@ async function main() {
     return;
   }
 
-  const publishedSlugs = loadPublishedSlugs();
-  const countBySlug = new Map();
+  // トップページ（"/"）はランキング対象から除外し、コンテンツページのみ集計する
+  const countByPath = new Map();
   for (const group of groups) {
-    const match = group.dimensions.requestPath?.match(/^\/articles\/([a-z0-9-]+)\.html$/);
-    if (!match) continue;
-    const slug = match[1];
-    if (!publishedSlugs.has(slug)) continue;
-    countBySlug.set(slug, (countBySlug.get(slug) ?? 0) + group.count);
+    const requestPath = group.dimensions.requestPath;
+    if (!requestPath || requestPath === "/") continue;
+    if (!/^\/[a-zA-Z0-9\-_/]+(\.html)?\/?$/.test(requestPath)) continue;
+    countByPath.set(requestPath, (countByPath.get(requestPath) ?? 0) + group.count);
   }
 
-  const top = [...countBySlug.entries()]
+  const top = [...countByPath.entries()]
     .sort((a, b) => b[1] - a[1])
-    .slice(0, TOP_N)
-    .map(([slug]) => {
-      const data = JSON.parse(fs.readFileSync(path.join(ARTICLES_DIR, `${slug}.json`), "utf-8"));
-      return { slug, title: data.title };
-    });
+    .map(([requestPath]) => resolvePage(requestPath))
+    .filter((entry) => entry)
+    .slice(0, TOP_N);
 
   if (top.length === 0) {
     console.log("対象期間のアクセスデータがまだありません（新着記事表示にフォールバックされます）。");
