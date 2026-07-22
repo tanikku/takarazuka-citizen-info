@@ -1,3 +1,13 @@
+import fs from "node:fs";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
+
+// フェーズ17：回遊率向上のための「おすすめページ」「人気コンテンツ」データ（JSON管理）
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const RECOMMENDATIONS = JSON.parse(
+  fs.readFileSync(path.join(__dirname, "..", "data", "recommendations.json"), "utf-8"),
+);
+
 export function escapeHtml(text) {
   return String(text)
     .replaceAll("&", "&amp;")
@@ -155,6 +165,7 @@ export function layout({ title, description, bodyHtml, canonicalUrl, ogType = "w
 ${header()}
 <main>
 ${bodyHtml}
+${popularContentStrip(new URL(canonicalUrl).pathname)}
 </main>
 <footer class="site-footer">
 <p>本サイトに掲載する記事は、公開情報の要約と出典リンクのみで構成しています。詳細・正式な内容は出典元をご確認ください。</p>
@@ -526,6 +537,41 @@ function guideCard(guide) {
 </a>`;
 }
 
+// フェーズ17：おすすめページ・人気コンテンツ導線。既存の.guide-cardデザインを流用する
+function recommendationCard(item) {
+  return `<a class="guide-card" href="${escapeHtml(item.href)}">
+<div class="icon-box">${icon(item.icon)}</div>
+<div>
+  <div class="label">${escapeHtml(item.label)}</div>
+  <div class="sub">${escapeHtml(item.sub)}</div>
+</div>
+</a>`;
+}
+
+// 資産ページ下部の「あなたへのおすすめ」：カテゴリごとに最適な候補を表示（関連リンクとは別枠）
+function recommendedPagesPanel(categoryKey, currentPath) {
+  const list = (RECOMMENDATIONS.categories[categoryKey] ?? RECOMMENDATIONS.default)
+    .filter((item) => item.href !== currentPath)
+    .slice(0, 4);
+  if (list.length === 0) return "";
+  return `<div class="panel">
+<p class="panel-title">${icon("newspaper")}あなたへのおすすめ</p>
+${list.map(recommendationCard).join("\n")}
+</div>`;
+}
+
+// 全ページ共通の「人気コンテンツ」導線（layout()から自動挿入。個別ページ側での対応は不要）
+function popularContentStrip(currentPath) {
+  const list = RECOMMENDATIONS.default.filter((item) => item.href !== currentPath).slice(0, 5);
+  if (list.length === 0) return "";
+  return `<div class="page-content">
+<div class="panel">
+<p class="panel-title">${icon("flame")}人気コンテンツ</p>
+${list.map(recommendationCard).join("\n")}
+</div>
+</div>`;
+}
+
 export function categoryPage(category, articles, siteUrl, guidesForCategory = [], hasGianPage = false, hasZaiseiPage = false, hasSuisougakuPage = false) {
   const canonicalUrl = `${siteUrl}${categoryPath(category.key)}`;
   const isShigikai = category.key === "shigikai";
@@ -784,6 +830,8 @@ ${faqHtml}
 </ul>
 </div>
 
+${recommendedPagesPanel("bosai", canonicalUrl.replace(siteUrl, ""))}
+
 </div>`;
 
   return layout({
@@ -1013,6 +1061,7 @@ export function gikaiGuidePage(siteUrl) {
 <p class="panel-note"><a href="/giin/">→ 議員活動サマリー一覧へ</a></p>
 <p class="panel-note"><a href="/category/shigikai/zaisei-watch.html">→ 財政ウォッチ（財政状況の解説）へ</a></p>
 </div>
+${recommendedPagesPanel("shigikai", canonicalUrl.replace(siteUrl, ""))}
 </div>`;
 
   const breadcrumbLd = {
@@ -1199,6 +1248,7 @@ ${faqHtml}
 <p class="panel-note"><a href="/category/shigikai/guide.html">→ 市議会のしくみを見る</a></p>
 <p class="panel-note"><a href="/category/kurashi/gyousei-tetsuzuki-guide.html">→ 行政手続きガイドを見る</a></p>
 </div>
+${recommendedPagesPanel("shigikai", canonicalUrl.replace(siteUrl, ""))}
 </div>`;
 
   const breadcrumbLd = {
@@ -1238,7 +1288,7 @@ const SUISOUGAKU_FAQ = [
   },
   {
     q: "県大会へはどうすれば進めますか？",
-    a: "地区大会での評価をもとに、県大会へ推薦される学校・団体が決まります。推薦される数の基準は部門・年度により異なるため、詳細は兵庫県吹奏楽連盟の公式サイトでご確認ください。",
+    a: "地区大会で「地区代表」に選ばれた学校・団体が、そのまま県大会に出場します。代表校数の基準は部門・年度により異なるため、詳細は兵庫県吹奏楽連盟の公式サイトでご確認ください。",
   },
   {
     q: "関西大会とはどのような大会ですか？",
@@ -1411,6 +1461,7 @@ ${sourceLinksHtml}
 <p class="panel-note"><a href="/category/kyoiku/bunkasai-guide.html">→ 高校文化祭ガイドを見る</a></p>
 <p class="panel-note"><a href="/category/kyoiku/nenkan-event-guide.html">→ 学校年間イベントガイドを見る</a></p>
 </div>
+${recommendedPagesPanel("kyoiku", canonicalUrl.replace(siteUrl, ""))}
 </div>`;
 
   const breadcrumbLd = {
@@ -1560,6 +1611,7 @@ ${dateGroupsHtml}`;
 ${sessionsHtml || '<p class="empty-state">まだ掲載できる議案がありません</p>'}
 <p class="panel-note"><a href="${categoryPath("shigikai")}">→ 市議会ウォッチ一覧へ</a>　<a href="/category/shigikai/guide.html">→ 市議会のしくみへ</a></p>
 <p class="source-note">出典：宝塚市議会「議案等一覧・審議結果」「議決等結果（電子採決システムによる投票における賛否）」（各議案の詳しい出典は議案カード内のリンクをご確認ください）</p>
+${recommendedPagesPanel("shigikai", canonicalUrl.replace(siteUrl, ""))}
 </div>`;
 
   const collectionLd = {
@@ -1653,6 +1705,7 @@ ${sectionsHtml}
 ${faqHtml}
 ${relatedHtml}
 <p class="source-note">出典：<a href="${escapeHtml(guide.sourceUrl)}" target="_blank" rel="noopener">${escapeHtml(guide.sourceLabel)}</a>（情報は要約です。最新情報は出典元をご確認ください）</p>
+${recommendedPagesPanel(guide.categoryKey, canonicalUrl.replace(siteUrl, ""))}
 </div>`;
 
   const breadcrumbLd = {
@@ -1694,7 +1747,9 @@ export function mukogawaBosaiPage(siteUrl) {
 <p>武庫川のライブカメラ・水位・雨量の最新情報は、下記の公式ページでご確認いただけます。</p>
 <p class="panel-note"><a href="/livecam.html">宝塚市内のライブカメラ一覧を見る →</a></p>
 <p class="panel-note"><a href="https://www.river.go.jp/kawabou/" target="_blank" rel="noopener">国土交通省「川の防災情報」で水位・雨量を見る →</a></p>
+<p class="panel-note"><a href="/category/bosai/bosai-guide.html">防災ガイド（避難場所・ハザードマップ・非常持ち出し品）を見る →</a></p>
 </div>
+${recommendedPagesPanel("bosai", canonicalUrl.replace(siteUrl, ""))}
 </div>`;
 
   const breadcrumbLd = {
@@ -1792,11 +1847,23 @@ export function aboutPage(siteUrl) {
 <p class="guide-q">編集方針</p>
 <p>行政・くらしの情報、防犯・防災情報、市議会の動き、イベント情報などを扱います。記事は公開情報の要約と出典リンクを中心に構成し、原文の転載は行いません。事実に基づく内容を扱い、推測や誇張した表現は避けます。市議会に関する記事では、議員、会派、議案などへの政治的な評価や優劣判断は行わず、公開情報をもとにした事実ベースの要約を行います。PR記事や広告掲載枠については、通常記事と区別できるよう「PR」「広告」などの表記を行います。</p>
 
+<p class="guide-q">情報源</p>
+<p>宝塚市公式サイト、兵庫県公式サイト、兵庫県警察、宝塚市議会公式サイト・会議録、各種公式PDF資料などの一次情報を情報源としています。記事・ガイドページには出典元へのリンクを必ず明記しています。最新かつ正確な情報は、各出典元の公式サイトでご確認ください。</p>
+
+<p class="guide-q">引用ポリシー</p>
+<p>出典元の文章をそのまま転載することはせず、内容を要約・言い換えたうえで掲載しています。図表・データを参照する場合も、独自にまとめ直した形で掲載し、出典を明記します。</p>
+
+<p class="guide-q">AI利用方針</p>
+<p>本サイトは、記事の要約作成やガイドページの整理に生成AI（Claude／Anthropic社）を活用しています。AIが生成した内容は、公開前に必ず運営者が内容を確認しています。市議会に関する記事では、AIによる政治的評価や賛否の判断は行わない方針とし、生成過程を「AI要約・編集確認済」等のバッジで明記しています。完全自動での記事公開は行わず、人によるレビューを経て掲載しています。</p>
+
 <p class="guide-q">運営体制</p>
 <p>本サイトは個人により運営しています。運営者個人の氏名、所在地、電話番号については、プライバシー保護の観点から公開していません。</p>
 
-<p class="guide-q">更新頻度</p>
-<p>原則として平日は毎日更新しています。災害・緊急情報は確認でき次第更新します。</p>
+<p class="guide-q">更新方針</p>
+<p>原則として平日は毎日更新しています。災害・緊急情報は確認でき次第更新します。常設ガイドページは年数回を目安に内容を見直し、実際に確認した内容のみを反映しています（内容の変更を伴わない日付のみの更新は行いません）。</p>
+
+<p class="guide-q">免責事項</p>
+<p>本サイトの内容は、情報提供を目的としたものであり、内容の完全性・正確性・最新性を保証するものではありません。掲載情報を利用したことにより生じたいかなる損害についても、本サイトは責任を負いかねます。制度・手続き等の詳細は、必ず各出典元の公式情報をご確認ください。</p>
 
 <p class="guide-q">内容の誤りについて</p>
 <p>記事内容に誤りや古い情報が含まれている場合は、<a href="/contact.html">お問い合わせページ</a>からご連絡ください。確認のうえ、必要に応じて訂正、追記、または掲載内容の見直しを行います。</p>
@@ -1817,6 +1884,9 @@ export function aboutPage(siteUrl) {
 export function adPolicyPage(siteUrl) {
   const contentHtml = `
 <p>本サイト「Takarazuka Today（宝塚Today）」では、掲載する情報を以下のように区別しています。</p>
+
+<p class="guide-q">現在の広告掲載について</p>
+<p>現在、本サイトでは広告の募集は行っておりません。将来的には、地域の企業・店舗の皆様に向けた広告掲載枠を設けることを予定しています。これは地域経済の活性化に貢献することを目的とした取り組みで、開始時期・掲載条件が決まり次第、本ページでお知らせします。掲載にご関心をお持ちの場合は、<a href="/contact.html">お問い合わせページ</a>からご連絡ください。</p>
 
 <p class="guide-q">通常記事</p>
 <p>宝塚市、兵庫県、兵庫県警察などの公的機関が公開している情報をもとに、編集部が独自に要約・整理した記事です。通常記事は、広告主や第三者からの依頼によって内容が左右されることはありません。</p>

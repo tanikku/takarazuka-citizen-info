@@ -1,0 +1,46 @@
+{
+  "default": [
+    { "href": "/livecam.html", "label": "武庫川ライブカメラ", "sub": "河川の様子をリアルタイムで確認できます", "icon": "videoCamera" },
+    { "href": "/category/kurashi/gomi-guide.html", "label": "ゴミ出し完全ガイド", "sub": "分別ルール・収集日をまとめました", "icon": "flame" },
+    { "href": "/category/kurashi/kitsuen-guide.html", "label": "喫煙所ガイド", "sub": "公共喫煙所の場所・利用時間", "icon": "building" },
+    { "href": "/category/kyoiku/guide.html", "label": "学校情報ガイド", "sub": "校区確認・転入学手続きをまとめました", "icon": "book" },
+    { "href": "/category/kyoiku/suisougaku-guide.html", "label": "吹奏楽コンクールガイド", "sub": "西阪神地区大会の結果・大会情報", "icon": "book" }
+  ],
+  "categories": {
+    "kyoiku": [
+      { "href": "/category/kyoiku/guide.html", "label": "学校情報ガイド", "sub": "校区確認・転入学手続きをまとめました", "icon": "book" },
+      { "href": "/category/kurashi/school-admission-guide.html", "label": "学区・高校受験ガイド", "sub": "学区制度・周辺高校一覧", "icon": "book" },
+      { "href": "/category/kyoiku/open-school-guide.html", "label": "オープンスクールガイド", "sub": "学校見学・説明会の申し込み方法", "icon": "book" },
+      { "href": "/category/kyoiku/bunkasai-guide.html", "label": "高校文化祭ガイド", "sub": "文化祭シーズン・一般公開の有無", "icon": "camera" },
+      { "href": "/category/kyoiku/nenkan-event-guide.html", "label": "学校年間イベントガイド", "sub": "入学式から卒業式までの年間の流れ", "icon": "calendar" },
+      { "href": "/category/kyoiku/suisougaku-guide.html", "label": "吹奏楽コンクールガイド", "sub": "西阪神地区大会の結果・大会情報", "icon": "book" }
+    ],
+    "bosai": [
+      { "href": "/livecam.html", "label": "武庫川ライブカメラ", "sub": "河川の様子をリアルタイムで確認できます", "icon": "videoCamera" },
+      { "href": "/mukogawa/", "label": "武庫川防災情報", "sub": "水位・雨量の確認先まとめ", "icon": "shield" },
+      { "href": "/category/bosai/bosai-guide.html", "label": "防災ガイド", "sub": "警戒レベル・避難場所・非常持ち出し品", "icon": "shield" }
+    ],
+    "kurashi": [
+      { "href": "/category/kurashi/gomi-guide.html", "label": "ゴミ出し完全ガイド", "sub": "分別ルール・収集日をまとめました", "icon": "flame" },
+      { "href": "/category/kurashi/gyousei-tetsuzuki-guide.html", "label": "行政手続きガイド", "sub": "転入転出・住民票・マイナンバー", "icon": "building" },
+      { "href": "/category/kurashi/kotsu-guide.html", "label": "交通ガイド", "sub": "バス・駐輪場・シェアサイクル", "icon": "building" },
+      { "href": "/category/kurashi/koreisha-guide.html", "label": "高齢者向けガイド", "sub": "介護保険・見守りサービス", "icon": "user" },
+      { "href": "/category/kurashi/kyoyo-shisetsu-guide.html", "label": "公共施設ガイド", "sub": "図書館・公民館・スポーツセンター", "icon": "building" },
+      { "href": "/category/kurashi/kitsuen-guide.html", "label": "喫煙所ガイド", "sub": "公共喫煙所の場所・利用時間", "icon": "building" }
+    ],
+    "kosodate": [
+      { "href": "/category/kosodate/guide.html", "label": "子育て支援まとめ", "sub": "保育園・幼稚園・児童館情報", "icon": "child" },
+      { "href": "/category/kyoiku/guide.html", "label": "学校情報ガイド", "sub": "校区確認・転入学手続きをまとめました", "icon": "book" },
+      { "href": "/category/kurashi/school-admission-guide.html", "label": "学区・高校受験ガイド", "sub": "学区制度・周辺高校一覧", "icon": "book" }
+    ],
+    "shigikai": [
+      { "href": "/category/shigikai/guide.html", "label": "市議会のしくみ", "sub": "本会議・委員会・定例会の違い", "icon": "building" },
+      { "href": "/category/shigikai/zaisei-watch.html", "label": "財政ウォッチ", "sub": "宝塚市の財政状況を解説", "icon": "newspaper" },
+      { "href": "/category/shigikai/gian.html", "label": "議案採決一覧", "sub": "議案の可決・否決と表決結果", "icon": "newspaper" }
+    ],
+    "kanko": [
+      { "href": "/category/kanko/hanshin-keibajo-guide.html", "label": "阪神競馬場ガイド", "sub": "アクセス・駐車場・ファミリー向け情報", "icon": "camera" },
+      { "href": "/livecam.html", "label": "武庫川ライブカメラ", "sub": "河川の様子をリアルタイムで確認できます", "icon": "videoCamera" }
+    ]
+  }
+}
