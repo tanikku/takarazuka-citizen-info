@@ -38,6 +38,7 @@ const ICON_PATHS = {
   horse: '<ellipse cx="11" cy="14" rx="6" ry="3.2" fill="currentColor" stroke="none"/><path d="M14 11 L16 12 L20 5 L18 5 Z" fill="currentColor" stroke="none"/><circle cx="19.5" cy="5" r="1.8" fill="currentColor" stroke="none"/><path d="M19 3.5 L20 1.3 L21 3.5 Z" fill="currentColor" stroke="none"/><rect x="20.5" y="4.5" width="2.6" height="1.4" rx="0.6" fill="currentColor" stroke="none"/><rect x="6" y="16" width="1.4" height="6" fill="currentColor" stroke="none"/><rect x="9" y="16" width="1.4" height="6" fill="currentColor" stroke="none"/><rect x="13" y="16" width="1.4" height="6" fill="currentColor" stroke="none"/><rect x="16" y="16" width="1.4" height="6" fill="currentColor" stroke="none"/><path d="M5 12 Q2 14 3 19 Q4 16 6 14 Z" fill="currentColor" stroke="none"/>',
   mail: '<rect x="3" y="5" width="18" height="14" rx="2"/><polyline points="3 7 12 13 21 7"/>',
   temple: '<path d="M3 8 Q12 4 21 8"/><line x1="3" y1="8" x2="3" y2="9.5"/><line x1="21" y1="8" x2="21" y2="9.5"/><line x1="4.5" y1="11" x2="19.5" y2="11"/><line x1="7" y1="11" x2="7" y2="21"/><line x1="17" y1="11" x2="17" y2="21"/>',
+  search: '<circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.2" y2="16.2"/>',
 };
 
 export function icon(name) {
@@ -114,6 +115,17 @@ ${weather.popBlocks.map((b) => `<div class="weather-pop-block"><span class="weat
 </div>`;
 }
 
+// フェーズ20：サイト内検索。/search-index.json（ビルド時自動生成）を/js/search.jsが読み込み、入力中に候補表示・Enterで/search.htmlへ遷移する
+function searchBoxPanel() {
+  return `<div class="search-box">
+<form id="site-search-form" class="search-form" action="/search.html" role="search" autocomplete="off">
+${icon("search")}
+<input type="search" id="site-search-input" name="q" placeholder="サイト内を検索（例：ゴミ出し、防災、宝塚歌劇）" aria-label="サイト内検索">
+</form>
+<div id="site-search-suggestions" class="search-suggestions" hidden></div>
+</div>`;
+}
+
 function contactCtaPanel() {
   return `<a class="panel contact-cta-panel" href="/contact.html">${icon("mail")}<span>お問い合わせ</span></a>`;
 }
@@ -134,7 +146,7 @@ function quickAccessPanel() {
   return `<div class="quick-access">${items}</div>`;
 }
 
-export function layout({ title, description, bodyHtml, canonicalUrl, ogType = "website", structuredData = null }) {
+export function layout({ title, description, bodyHtml, canonicalUrl, ogType = "website", structuredData = null, extraScripts = [] }) {
   const dataList = Array.isArray(structuredData) ? structuredData : structuredData ? [structuredData] : [];
   const jsonLdScript = dataList
     .map((data) => `<script type="application/ld+json">${JSON.stringify(data)}</script>`)
@@ -177,6 +189,7 @@ ${popularContentStrip(new URL(canonicalUrl).pathname)}
 </footer>
 ${jsonLdScript}
 <script src="/js/theme.js" defer></script>
+${extraScripts.map((src) => `<script src="${escapeHtml(src)}" defer></script>`).join("\n")}
 <!-- Cloudflare Web Analytics --><script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "5f991631faa34f22bb67b9b90d954848"}'></script><!-- End Cloudflare Web Analytics -->
 </body>
 </html>
@@ -481,6 +494,7 @@ export function indexPage({ topArticles, todayArticles, categoryPageKeys, publis
   const gikaiArticles = publishedArticles.filter((a) => a.category === "市議会");
 
   const bodyHtml = `${dateBar(dateLabel)}
+${searchBoxPanel()}
 ${quickAccessPanel()}
 <div class="weather-standalone-row">${weatherPanel(weather)}${contactCtaPanel()}</div>
 ${todayRow(todayArticles, photoOfDay, categoryPageKeys, activeNotices)}
@@ -504,6 +518,14 @@ ${todayRow(todayArticles, photoOfDay, categoryPageKeys, activeNotices)}
     name: "Takarazuka Today｜今日の宝塚を、3分で。",
     url: `${siteUrl}/`,
     description: "宝塚市の防災・行政・市議会・暮らしの情報をわかりやすくまとめる地域情報サイト",
+    potentialAction: {
+      "@type": "SearchAction",
+      target: {
+        "@type": "EntryPoint",
+        urlTemplate: `${siteUrl}/search.html?q={search_term_string}`,
+      },
+      "query-input": "required name=search_term_string",
+    },
   };
 
   return layout({
@@ -512,6 +534,7 @@ ${todayRow(todayArticles, photoOfDay, categoryPageKeys, activeNotices)}
     bodyHtml,
     canonicalUrl: `${siteUrl}/`,
     structuredData,
+    extraScripts: ["/js/search.js"],
   });
 }
 
@@ -951,6 +974,41 @@ ${monthItems}
     bodyHtml,
     canonicalUrl,
     structuredData: [collectionLd, breadcrumbLd],
+  });
+}
+
+export function searchPage(siteUrl) {
+  const canonicalUrl = `${siteUrl}/search.html`;
+  const bodyHtml = `<nav class="breadcrumb"><a href="/">トップ</a> &gt; サイト内検索</nav>
+<div class="page-content">
+<h1>${icon("search")}サイト内検索</h1>
+<div class="search-box search-box-page">
+<form id="site-search-form" class="search-form" action="/search.html" role="search" autocomplete="off">
+${icon("search")}
+<input type="search" id="site-search-input" name="q" placeholder="サイト内を検索（例：ゴミ出し、防災、宝塚歌劇）" aria-label="サイト内検索">
+</form>
+</div>
+<div id="site-search-results" class="search-results">
+<p class="empty-state">検索キーワードを入力してください。</p>
+</div>
+</div>`;
+
+  const breadcrumbLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "トップ", item: `${siteUrl}/` },
+      { "@type": "ListItem", position: 2, name: "サイト内検索", item: canonicalUrl },
+    ],
+  };
+
+  return layout({
+    title: "サイト内検索｜Takarazuka Today",
+    description: "Takarazuka Today（宝塚市の防災・行政・市議会・暮らしの情報サイト）のサイト内検索です。記事・ガイドをキーワードで探せます。",
+    bodyHtml,
+    canonicalUrl,
+    structuredData: breadcrumbLd,
+    extraScripts: ["/js/search.js"],
   });
 }
 

@@ -20,6 +20,7 @@ import {
   aboutPage,
   adPolicyPage,
   contactPage,
+  searchPage,
   CATEGORIES,
 } from "./templates.js";
 
@@ -53,6 +54,7 @@ const HOMEPAGE_FEATURE_SCORES = new Set(["S", "A"]);
 const SITE_NOTICES = [
   { text: "「吹奏楽コンクールガイド」を追加しました", href: "/category/kyoiku/suisougaku-guide.html", until: "2026-07-19" },
   { text: "「宝塚おでかけガイド」を追加しました（手塚治虫記念館・中山寺・清荒神清澄寺など）", href: "/category/kanko.html", until: "2026-07-30" },
+  { text: "サイト内検索を追加しました。ページ上部の検索窓からキーワードで探せます", href: "/search.html", until: "2026-08-06" },
 ];
 
 function loadArticles() {
@@ -266,6 +268,7 @@ function buildSitemap(publishedArticles, categoryPageKeys, giinWithArticles, gui
     { loc: `${SITE_URL}/mukogawa/`, lastmod: today },
     { loc: `${SITE_URL}/events/`, lastmod: today },
     { loc: `${SITE_URL}/ranking/`, lastmod: today },
+    { loc: `${SITE_URL}/search.html`, lastmod: today },
     { loc: `${SITE_URL}/category/shigikai/guide.html`, lastmod: today },
     { loc: `${SITE_URL}/privacy.html`, lastmod: today },
     { loc: `${SITE_URL}/about.html`, lastmod: today },
@@ -292,6 +295,146 @@ function buildSitemap(publishedArticles, categoryPageKeys, giinWithArticles, gui
 ${body}
 </urlset>
 `;
+}
+
+// サイト内検索用インデックス。ビルドごとに全ページから自動生成するため、記事・ガイドを追加するだけで検索対象になる
+function buildSearchIndex({ publishedArticles, categorySections, guides, gianSessions, zaiseiPeriods, suisougakuYears, giinWithArticles }) {
+  const entries = [];
+
+  for (const article of publishedArticles) {
+    entries.push({
+      title: article.title,
+      description: article.summary ?? "",
+      category: article.category,
+      keywords: "",
+      url: `/articles/${article.slug}.html`,
+    });
+  }
+
+  for (const guide of guides) {
+    const keywords = [
+      ...(guide.toc ?? []).map((t) => t.label),
+      ...(guide.faq ?? []).map((f) => f.q),
+    ].join(" ");
+    entries.push({
+      title: guide.title,
+      description: guide.lead ?? "",
+      category: guide.category?.label ?? "",
+      keywords,
+      url: `/category/${guide.categoryKey}/${guide.slug}.html`,
+    });
+  }
+
+  for (const section of categorySections) {
+    entries.push({
+      title: `${section.label}の記事一覧`,
+      description: `宝塚市の「${section.label}」に関する記事一覧です。`,
+      category: section.label,
+      keywords: "",
+      url: `/category/${section.key}.html`,
+    });
+  }
+
+  if (gianSessions.length > 0) {
+    entries.push({
+      title: "議案採決一覧",
+      description: "宝塚市議会で審議された議案の採決結果（可決・否決等）と、市民生活への影響をご案内します。",
+      category: "市議会",
+      keywords: "議決 賛否 議員",
+      url: "/category/shigikai/gian.html",
+    });
+  }
+  if (zaiseiPeriods.length > 0) {
+    entries.push({
+      title: "宝塚市財政ウォッチ",
+      description: "宝塚市が毎年6月・12月に公表する「財政状況」をもとに、主要な財政指標を市民向けに整理して紹介するページです。",
+      category: "市議会",
+      keywords: "予算 市税収入 市債残高 基金残高",
+      url: "/category/shigikai/zaisei-watch.html",
+    });
+  }
+  if (suisougakuYears.length > 0) {
+    entries.push({
+      title: "吹奏楽コンクールガイド",
+      description: "宝塚市内の中学校・高校が出場する吹奏楽コンクールの大会情報・結果をまとめたガイドページです。",
+      category: "教育",
+      keywords: "西阪神地区大会 県大会 中学校 高校",
+      url: "/category/kyoiku/suisougaku-guide.html",
+    });
+  }
+  entries.push({
+    title: "宝塚市議会のしくみ・市議会ウォッチの見方",
+    description: "宝塚市議会のしくみをわかりやすく解説。本会議と委員会の違い、定例会・臨時会の違いなどを紹介します。",
+    category: "市議会",
+    keywords: "",
+    url: "/category/shigikai/guide.html",
+  });
+
+  if (giinWithArticles.length > 0) {
+    entries.push({
+      title: "議員活動サマリー一覧",
+      description: "宝塚市議会議員の公開発言を時系列で整理した一覧です。",
+      category: "市議会",
+      keywords: giinWithArticles.map((g) => g.name).join(" "),
+      url: "/giin/",
+    });
+    for (const giin of giinWithArticles) {
+      entries.push({
+        title: `${giin.name}議員の発言記録`,
+        description: `${giin.name}議員の市議会会議録に基づく公開発言を時系列で整理したページです。`,
+        category: "市議会",
+        keywords: "",
+        url: `/giin/${giin.slug}.html`,
+      });
+    }
+  }
+
+  entries.push(
+    {
+      title: "武庫川ライブカメラ",
+      description: "武庫川（武田尾・生瀬）と大堀川・波豆川のライブカメラをまとめてリンク。水位基準もあわせて確認できます。",
+      category: "防災",
+      keywords: "河川監視カメラ 水位",
+      url: "/livecam.html",
+    },
+    {
+      title: "武庫川防災情報",
+      description: "武庫川のライブカメラ・水位・雨量情報を確認できる公式ページへの案内です。",
+      category: "防災",
+      keywords: "",
+      url: "/mukogawa/",
+    },
+    {
+      title: "イベントカレンダー",
+      description: "宝塚市内で開催されるイベントの今日・今週末・今月の予定一覧です。",
+      category: "イベント",
+      keywords: "",
+      url: "/events/",
+    },
+    {
+      title: "人気記事ランキング",
+      description: "Takarazuka Todayでよく読まれている記事のランキングです。",
+      category: "",
+      keywords: "",
+      url: "/ranking/",
+    },
+    {
+      title: "運営者情報",
+      description: "Takarazuka Todayのサイト名・目的・編集方針・運営体制について説明します。",
+      category: "",
+      keywords: "",
+      url: "/about.html",
+    },
+    {
+      title: "お問い合わせ",
+      description: "Takarazuka Todayへのお問い合わせはこちらから。記事内容の訂正依頼・情報提供・PR・広告掲載のご相談を受け付けています。",
+      category: "",
+      keywords: "",
+      url: "/contact.html",
+    },
+  );
+
+  return entries;
 }
 
 function main() {
@@ -394,6 +537,11 @@ function main() {
   writeFile("sitemap.xml", buildSitemap(publishedArticles, categoryPageKeys, giinWithArticles, guides, gianSessions, zaiseiPeriods, suisougakuYears));
   writeFile("robots.txt", `User-agent: *\nAllow: /\nSitemap: ${SITE_URL}/sitemap.xml\n`);
 
+  const searchIndex = buildSearchIndex({ publishedArticles, categorySections, guides, gianSessions, zaiseiPeriods, suisougakuYears, giinWithArticles });
+  writeFile("search-index.json", JSON.stringify(searchIndex));
+  writeFile("search.html", searchPage(SITE_URL));
+  writeFile("js/search.js", fs.readFileSync(path.join(ASSETS_DIR, "search.js"), "utf-8"));
+
   writeFile("css/style.css", fs.readFileSync(path.join(ASSETS_DIR, "style.css"), "utf-8"));
   writeFile("js/theme.js", fs.readFileSync(path.join(ASSETS_DIR, "theme.js"), "utf-8"));
   writeFile("js/contact-form.js", fs.readFileSync(path.join(ASSETS_DIR, "contact-form.js"), "utf-8"));
@@ -415,6 +563,7 @@ function main() {
   console.log(`カテゴリーページ: ${categorySections.length}件`);
   console.log(`議員活動サマリー: ${giinWithArticles.length}名`);
   console.log(`ランキング表示: ${ranking ? "有効" : "未蓄積のため新着記事で代替"}`);
+  console.log(`検索インデックス: ${searchIndex.length}件`);
 }
 
 main();
