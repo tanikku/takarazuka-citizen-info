@@ -26,7 +26,7 @@
       "id": "houkatsu",
       "heading": "地域包括支援センター",
       "items": [
-        "市内に複数の地域包括支援センターがあり、高齢者の総合相談窓口になっています（<a href=\"https://www.city.takarazuka.hyogo.jp/kenkofukushi/kaigohoken/1028820.html\" target=\"_blank\" rel=\"noopener\">地域包括支援センター一覧</a>）",
+        "市内に複数の地域包括支援センターがあり、高齢者の総合相談窓口になっています（<a href=\"https://www.city.takarazuka.hyogo.jp/1060682/1060704/1049450/1053174/1000636.html\" target=\"_blank\" rel=\"noopener\">地域包括支援センター一覧</a>）",
         "お住まいの地域によって担当のセンターが決まっています。一覧から最寄りのセンターをご確認ください",
         "介護・健康・生活上の困りごとなど、高齢者に関する相談を幅広く受け付けています"
       ]
@@ -46,14 +46,14 @@
       "id": "sonota",
       "heading": "その他の高齢者福祉サービス",
       "items": [
-        "介護保険外の高齢者福祉サービス（家族介護者への支援等）の一覧は<a href=\"https://www.city.takarazuka.hyogo.jp/kenkofukushi/koreisha/1000635.html\" target=\"_blank\" rel=\"noopener\">高齢者福祉サービス（介護保険外のサービス）</a>でご確認ください",
+        "介護保険外の高齢者福祉サービス（家族介護者への支援等）の一覧は<a href=\"https://www.city.takarazuka.hyogo.jp/1060682/1060704/1049450/index.html\" target=\"_blank\" rel=\"noopener\">高齢者福祉サービス（介護保険外のサービス）</a>でご確認ください",
         "お問い合わせ：高齢福祉課"
       ]
     }
   ],
   "faq": [
     { "q": "介護保険の申請はどこでする？", "a": "市役所の介護保険課の窓口で、要介護認定申請書に介護保険被保険者証を添えて提出します。詳細は<a href=\"https://www.city.takarazuka.hyogo.jp/kenkofukushi/kaigohoken/1008582/1000261.html\" target=\"_blank\" rel=\"noopener\">はじめての要介護認定申請のしかた</a>をご確認ください。" },
-    { "q": "高齢者の生活の相談はどこにすればいい？", "a": "お住まいの地域を担当する<a href=\"https://www.city.takarazuka.hyogo.jp/kenkofukushi/kaigohoken/1028820.html\" target=\"_blank\" rel=\"noopener\">地域包括支援センター</a>が、介護・健康・生活上の相談を幅広く受け付けています。" },
+    { "q": "高齢者の生活の相談はどこにすればいい？", "a": "お住まいの地域を担当する<a href=\"https://www.city.takarazuka.hyogo.jp/1060682/1060704/1049450/1053174/1000636.html\" target=\"_blank\" rel=\"noopener\">地域包括支援センター</a>が、介護・健康・生活上の相談を幅広く受け付けています。" },
     { "q": "一人暮らしの高齢者向けの見守りサービスはある？", "a": "緊急通報システム（ボタンで相談センターに連絡できる装置の給付）があります。対象や料金など詳細は<a href=\"https://www.city.takarazuka.hyogo.jp/kenkofukushi/koreisha/1049450/1049526.html\" target=\"_blank\" rel=\"noopener\">緊急通報システムの給付</a>をご確認ください。" }
   ],
   "relatedLinks": [

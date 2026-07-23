@@ -762,7 +762,7 @@ export function livecamPage(siteUrl) {
     },
     {
       q: "どのタイミングで避難を判断すればよいですか？",
-      a: "市が「避難指示」や「高齢者等避難」を発令した場合は速やかに避難してください。水位や雨量の数値を見ながら、警戒レベル3以上が発令されたら行動開始を目安にしてください。詳しくは<a href=\"/category/bosai/bosai-guide.html\">防災ガイド</a>をご覧ください。",
+      a: "市が「避難指示」や「高齢者等避難」を発令した場合は速やかに避難してください。水位や雨量の数値を見ながら、警戒レベル3以上が発令されたら行動開始を目安にしてください。詳しくは<a href=\"/category/bosai/guide.html\">防災ガイド</a>をご覧ください。",
     },
     {
       q: "大雨・台風のとき他に確認すべき情報源は？",
@@ -854,7 +854,7 @@ ${faqHtml}
 <div class="panel">
 <p class="panel-title">${icon("shield")}防災の備えも確認しよう</p>
 <ul class="related-links">
-<li><a href="/category/bosai/bosai-guide.html">防災ガイド（避難場所・ハザードマップ・非常持ち出し品）</a></li>
+<li><a href="/category/bosai/guide.html">防災ガイド（避難場所・ハザードマップ・非常持ち出し品）</a></li>
 <li><a href="/mukogawa/">武庫川防災情報</a></li>
 <li><a href="/category/bosai.html">防犯・防災の記事一覧</a></li>
 </ul>
@@ -1777,7 +1777,7 @@ export function mukogawaBosaiPage(siteUrl) {
 <p>武庫川のライブカメラ・水位・雨量の最新情報は、下記の公式ページでご確認いただけます。</p>
 <p class="panel-note"><a href="/livecam.html">宝塚市内のライブカメラ一覧を見る →</a></p>
 <p class="panel-note"><a href="https://www.river.go.jp/kawabou/" target="_blank" rel="noopener">国土交通省「川の防災情報」で水位・雨量を見る →</a></p>
-<p class="panel-note"><a href="/category/bosai/bosai-guide.html">防災ガイド（避難場所・ハザードマップ・非常持ち出し品）を見る →</a></p>
+<p class="panel-note"><a href="/category/bosai/guide.html">防災ガイド（避難場所・ハザードマップ・非常持ち出し品）を見る →</a></p>
 </div>
 ${recommendedPagesPanel("bosai", canonicalUrl.replace(siteUrl, ""))}
 </div>`;
