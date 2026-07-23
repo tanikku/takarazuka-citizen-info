@@ -690,17 +690,25 @@ ${items}
 </div>`;
 }
 
+// フェーズ18：宝塚エンタメガイド強化。宝塚歌劇ガイド・阪神競馬場ガイドへの2カード構成に変更（既存.guide-cardデザインを流用）
 function entertainmentPanel() {
   return `<div class="panel">
 <p class="panel-title">${icon("ticket")}宝塚エンタメ情報</p>
-<a class="headline-row" href="https://kageki.hankyu.co.jp/schedule/index.html" target="_blank" rel="noopener">
-<div class="headline-thumb">${thumbHtml({ file: "001015682_daigekizyo.jpg", title: "宝塚大劇場" }, "ticket")}</div>
+<a class="guide-card" href="/category/kanko/takarazuka-kageki-guide.html">
+<div class="icon-box icon-box-photo"><img src="/photos/001015682_takarazukadaigekizyou.jpg" alt="" loading="lazy"></div>
 <div>
-  <p class="headline-title">宝塚歌劇 公演・チケット情報</p>
-  <p class="headline-meta">宝塚大劇場の最新公演スケジュールは公式サイトでご確認ください</p>
+  <div class="label">宝塚歌劇ガイド</div>
+  <div class="sub">宝塚大劇場のアクセス・チケット購入・館内施設</div>
 </div>
 </a>
-<p class="panel-note"><a href="https://kageki.hankyu.co.jp/schedule/index.html" target="_blank" rel="noopener">宝塚歌劇公式サイトで公演スケジュールを見る →</a></p>
+<a class="guide-card" href="/category/kanko/hanshin-keibajo-guide.html">
+<div class="icon-box">${icon("horse")}</div>
+<div>
+  <div class="label">阪神競馬場ガイド</div>
+  <div class="sub">アクセス・駐車場・ファミリー向け情報</div>
+</div>
+</a>
+<p class="panel-note"><a href="/category/kanko.html">→ 文化・観光の記事一覧を見る</a></p>
 </div>`;
 }
 
