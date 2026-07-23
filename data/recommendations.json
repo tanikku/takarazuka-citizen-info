@@ -41,6 +41,9 @@
     "kanko": [
       { "href": "/category/kanko/takarazuka-kageki-guide.html", "label": "宝塚歌劇ガイド", "sub": "宝塚大劇場のアクセス・チケット購入・館内施設", "icon": "ticket" },
       { "href": "/category/kanko/hanshin-keibajo-guide.html", "label": "阪神競馬場ガイド", "sub": "アクセス・駐車場・ファミリー向け情報", "icon": "camera" },
+      { "href": "/category/kanko/tezuka-museum-guide.html", "label": "手塚治虫記念館ガイド", "sub": "アクセス・入館案内・館内のみどころ", "icon": "book" },
+      { "href": "/category/kanko/nakayamadera-guide.html", "label": "中山寺ガイド", "sub": "安産祈願・戌の日・アクセス", "icon": "temple" },
+      { "href": "/category/kanko/kiyoshikojin-guide.html", "label": "清荒神清澄寺ガイド", "sub": "境内案内・参道商店街・アクセス", "icon": "temple" },
       { "href": "/livecam.html", "label": "武庫川ライブカメラ", "sub": "河川の様子をリアルタイムで確認できます", "icon": "videoCamera" }
     ]
   }

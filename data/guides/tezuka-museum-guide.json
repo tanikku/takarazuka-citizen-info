@@ -1,0 +1,126 @@
+{
+  "categoryKey": "kanko",
+  "slug": "tezuka-museum-guide",
+  "icon": "book",
+  "cardPhoto": "/photos/001015682_tezukakinenkan2015.jpg",
+  "photoCredit": "写真提供：宝塚市オープンデータ",
+  "title": "手塚治虫記念館ガイド（アクセス・入館案内・館内のみどころ）",
+  "cardSummary": "アクセス・開館時間・入館方法・館内フロアのみどころ",
+  "lead": "宝塚市武庫川町にある宝塚市立手塚治虫記念館について、アクセス・駐車場・開館時間・入館方法・館内のみどころなど、訪れる前に知っておきたい情報をまとめました。企画展・料金など変動する情報は公式サイトでご確認ください。",
+  "disclosure": "本ページは宝塚市立手塚治虫記念館公式サイトの公開情報をもとに作成しています。企画展・料金・開館時間の最新情報は必ず公式サイトでご確認ください。",
+  "updatedAt": "2026-07-23",
+  "toc": [
+    { "id": "about", "label": "手塚治虫記念館とは" },
+    { "id": "access", "label": "アクセス・最寄駅" },
+    { "id": "parking", "label": "駐車場" },
+    { "id": "hours", "label": "開館時間（概要）" },
+    { "id": "nyukan", "label": "入館方法" },
+    { "id": "highlights", "label": "館内のみどころ" },
+    { "id": "kikakuten", "label": "企画展について（概要）" },
+    { "id": "shop", "label": "ミュージアムショップ" },
+    { "id": "family", "label": "ファミリー向け情報" }
+  ],
+  "sections": [
+    {
+      "id": "about",
+      "heading": "手塚治虫記念館とは",
+      "items": [
+        "手塚治虫記念館は1994年に開館した宝塚市立の記念館です。手塚治虫が唱え続けてきた「自然への愛」「生命の尊さ」をテーマに、青少年の夢と希望を未来へ広げていくことを目的として設立されました",
+        "手塚治虫は宝塚市で幼少期を過ごしたことで知られ、記念館は宝塚大劇場に近い武庫川沿いに位置しています",
+        "詳細は<a href=\"https://tezukaosamu.net/jp/museum/\" target=\"_blank\" rel=\"noopener\">手塚治虫記念館公式サイト（tezukaosamu.net）</a>および<a href=\"https://www.city.takarazuka.hyogo.jp/tezuka/\" target=\"_blank\" rel=\"noopener\">宝塚市立手塚治虫記念館公式サイト</a>でご確認ください"
+      ]
+    },
+    {
+      "id": "access",
+      "heading": "アクセス・最寄駅",
+      "items": [
+        "所在地：〒665-0844　兵庫県宝塚市武庫川町7-65",
+        "JR・阪急「宝塚駅」から：花のみちを徒歩約10分",
+        "阪急「宝塚南口駅」から：宝塚大橋を渡り徒歩約7分"
+      ],
+      "notes": ["詳しいアクセスマップは<a href=\"https://www.city.takarazuka.hyogo.jp/tezuka/4000018/4000038.html\" target=\"_blank\" rel=\"noopener\">公式サイト「交通アクセス」</a>でご確認ください。"]
+    },
+    {
+      "id": "parking",
+      "heading": "駐車場",
+      "items": [
+        "<strong>自家用車：</strong>宝塚文化創造館駐車場（入館時に1時間無料券を配布）、または宝塚大劇場北駐車場（20分200円、1日最大1,200円）が利用できます",
+        "<strong>バス：</strong>宝塚市立文化芸術センター駐車場（要事前予約、1日2,000円）が利用できます",
+        "<strong>自転車・バイク：</strong>宝塚市立文化芸術センター駐輪場が利用できます"
+      ],
+      "notes": ["最新の駐車場情報・料金は<a href=\"https://www.city.takarazuka.hyogo.jp/tezuka/4000018/4000038.html\" target=\"_blank\" rel=\"noopener\">公式サイト「交通アクセス」</a>でご確認ください。"]
+    },
+    {
+      "id": "hours",
+      "heading": "開館時間（概要）",
+      "items": [
+        "開館時間：9:30〜17:00（入館は16:30まで）",
+        "休館日：原則毎週月曜日（月曜が祝日の場合の扱いや、館内整備等による連続休館期間もあります）"
+      ],
+      "notes": ["休館日は年によって変動するため、来館前に必ず<a href=\"https://www.city.takarazuka.hyogo.jp/tezuka/4000018/4000024.html\" target=\"_blank\" rel=\"noopener\">公式サイトの開館日カレンダー</a>でご確認ください。"]
+    },
+    {
+      "id": "nyukan",
+      "heading": "入館方法",
+      "items": [
+        "当日、館内の窓口で入館券を購入できます",
+        "前売券は<a href=\"https://www.city.takarazuka.hyogo.jp/tezuka/4000018/4000246.html\" target=\"_blank\" rel=\"noopener\">ローソンチケット</a>・<a href=\"https://www.city.takarazuka.hyogo.jp/tezuka/4000018/4000373.html\" target=\"_blank\" rel=\"noopener\">楽天トラベル</a>・<a href=\"https://www.city.takarazuka.hyogo.jp/tezuka/4000018/4000481.html\" target=\"_blank\" rel=\"noopener\">イープラス（スマチケ）</a>でも購入できます",
+        "10名以上の団体には割引料金が用意されています。各種会員証提示による割引制度もあります",
+        "入館料の区分（大人・中高生・小学生等）や最新の料金は<a href=\"https://www.city.takarazuka.hyogo.jp/tezuka/4000018/4000015.html\" target=\"_blank\" rel=\"noopener\">公式サイト「開館時間・入館料」</a>でご確認ください"
+      ]
+    },
+    {
+      "id": "highlights",
+      "heading": "館内のみどころ",
+      "items": [
+        "<strong>1階：</strong>「リボンの騎士」の王宮をモチーフにしたエントランスホール、40本の展示カプセルで手塚治虫の生涯を時系列で紹介する常設展示室、月替わりで作品を上映する「アトムビジョン」",
+        "<strong>2階：</strong>年3回入れ替わる企画展示室、約2000冊の書籍（外国語版・点字書籍を含む）が閲覧できるライブラリー、「ジャングル大帝」休憩コーナー",
+        "<strong>G階（グランドフロア）：</strong>「手塚治虫昆虫日記の宝塚」をテーマにしたジオラマ、アニメ制作の初歩を体験できる「アニメ工房」"
+      ],
+      "notes": ["各フロアの詳細は<a href=\"https://www.city.takarazuka.hyogo.jp/tezuka/4000014.html\" target=\"_blank\" rel=\"noopener\">公式サイト「館内フロアガイド」</a>でご確認ください。"]
+    },
+    {
+      "id": "kikakuten",
+      "heading": "企画展について（概要）",
+      "items": [
+        "2階の企画展示室では、年3回程度のペースでテーマが入れ替わります",
+        "企画展の具体的なテーマ・開催期間は時期によって変わるため、本ページでは掲載していません。最新情報は<a href=\"https://www.city.takarazuka.hyogo.jp/tezuka/4000020/index.html\" target=\"_blank\" rel=\"noopener\">公式サイトの企画展ページ</a>でご確認ください"
+      ]
+    },
+    {
+      "id": "shop",
+      "heading": "ミュージアムショップ",
+      "items": [
+        "館内にミュージアムショップがあり、記念館限定グッズなどを購入できます",
+        "取り扱い商品の詳細は来館時にご確認ください"
+      ]
+    },
+    {
+      "id": "family",
+      "heading": "ファミリー向け情報",
+      "items": [
+        "入館料には小学生向けの料金区分があり、家族での来館がしやすい設計になっています",
+        "G階の「アニメ工房」では、アニメ制作の初歩を体験できます",
+        "庭園にはキャラクターのモチーフが隠れており、探しながら楽しめる仕掛けがあります",
+        "手塚治虫記念館アプリ（iOS・Android対応）も用意されています。詳細は<a href=\"https://www.city.takarazuka.hyogo.jp/tezuka/4000018/4000247.html\" target=\"_blank\" rel=\"noopener\">公式サイト</a>でご確認ください"
+      ]
+    }
+  ],
+  "faq": [
+    { "q": "手塚治虫記念館はどこにありますか？", "a": "宝塚市武庫川町7-65です。JR・阪急「宝塚駅」から花のみちを徒歩約10分、阪急「宝塚南口駅」から宝塚大橋を渡り徒歩約7分です。" },
+    { "q": "開館時間は？", "a": "9:30〜17:00（入館は16:30まで）です。休館日は原則毎週月曜日ですが、館内整備等による連続休館期間もあるため、来館前に公式サイトの開館日カレンダーをご確認ください。" },
+    { "q": "入館券はどこで買えますか？", "a": "当日は館内窓口で購入できます。前売券はローソンチケット・楽天トラベル・イープラス（スマチケ）でも購入できます。" },
+    { "q": "駐車場はありますか？", "a": "専用駐車場はありませんが、宝塚文化創造館駐車場（入館時に1時間無料券配布）や宝塚大劇場北駐車場が利用できます。最新情報は公式サイトでご確認ください。" },
+    { "q": "子どもも楽しめますか？", "a": "はい。小学生向けの料金区分があるほか、アニメ制作を体験できる「アニメ工房」や、庭園でキャラクターを探す仕掛けなど、家族で楽しめる工夫があります。" },
+    { "q": "企画展はいつ変わりますか？", "a": "2階の企画展示室では年3回程度のペースでテーマが入れ替わります。具体的なテーマ・開催期間は公式サイトの企画展ページでご確認ください。" },
+    { "q": "ミュージアムショップはありますか？", "a": "はい。館内に記念館限定グッズなどを販売するミュージアムショップがあります。" }
+  ],
+  "relatedLinks": [
+    { "href": "/category/kanko.html", "label": "文化・観光の記事一覧を見る" },
+    { "href": "/category/kanko/takarazuka-kageki-guide.html", "label": "宝塚歌劇ガイドを見る" },
+    { "href": "/category/kanko/nakayamadera-guide.html", "label": "中山寺ガイドを見る" },
+    { "href": "https://www.city.takarazuka.hyogo.jp/tezuka/", "label": "手塚治虫記念館公式サイトを見る" }
+  ],
+  "sourceUrl": "https://www.city.takarazuka.hyogo.jp/tezuka/",
+  "sourceLabel": "宝塚市立手塚治虫記念館公式サイト"
+}

@@ -37,6 +37,7 @@ const ICON_PATHS = {
   user: '<circle cx="12" cy="7" r="4"/><path d="M5 21v-2a7 7 0 0 1 14 0v2"/>',
   horse: '<ellipse cx="11" cy="14" rx="6" ry="3.2" fill="currentColor" stroke="none"/><path d="M14 11 L16 12 L20 5 L18 5 Z" fill="currentColor" stroke="none"/><circle cx="19.5" cy="5" r="1.8" fill="currentColor" stroke="none"/><path d="M19 3.5 L20 1.3 L21 3.5 Z" fill="currentColor" stroke="none"/><rect x="20.5" y="4.5" width="2.6" height="1.4" rx="0.6" fill="currentColor" stroke="none"/><rect x="6" y="16" width="1.4" height="6" fill="currentColor" stroke="none"/><rect x="9" y="16" width="1.4" height="6" fill="currentColor" stroke="none"/><rect x="13" y="16" width="1.4" height="6" fill="currentColor" stroke="none"/><rect x="16" y="16" width="1.4" height="6" fill="currentColor" stroke="none"/><path d="M5 12 Q2 14 3 19 Q4 16 6 14 Z" fill="currentColor" stroke="none"/>',
   mail: '<rect x="3" y="5" width="18" height="14" rx="2"/><polyline points="3 7 12 13 21 7"/>',
+  temple: '<path d="M3 8 Q12 4 21 8"/><line x1="3" y1="8" x2="3" y2="9.5"/><line x1="21" y1="8" x2="21" y2="9.5"/><line x1="4.5" y1="11" x2="19.5" y2="11"/><line x1="7" y1="11" x2="7" y2="21"/><line x1="17" y1="11" x2="17" y2="21"/>',
 };
 
 export function icon(name) {
@@ -690,10 +691,10 @@ ${items}
 </div>`;
 }
 
-// フェーズ18：宝塚エンタメガイド強化。宝塚歌劇ガイド・阪神競馬場ガイドへの2カード構成に変更（既存.guide-cardデザインを流用）
+// フェーズ18〜19：宝塚おでかけガイドシリーズへの導線。既存.guide-cardデザインを流用し、シリーズ追加ごとにカードを増やす
 function entertainmentPanel() {
   return `<div class="panel">
-<p class="panel-title">${icon("ticket")}宝塚エンタメ情報</p>
+<p class="panel-title">${icon("ticket")}宝塚おでかけガイド</p>
 <a class="guide-card" href="/category/kanko/takarazuka-kageki-guide.html">
 <div class="icon-box icon-box-photo"><img src="/photos/001015682_takarazukadaigekizyou.jpg" alt="" loading="lazy"></div>
 <div>
@@ -702,10 +703,31 @@ function entertainmentPanel() {
 </div>
 </a>
 <a class="guide-card" href="/category/kanko/hanshin-keibajo-guide.html">
-<div class="icon-box">${icon("horse")}</div>
+<div class="icon-box icon-box-photo"><img src="/photos/hanshin-keibajo.jpg" alt="" loading="lazy"></div>
 <div>
   <div class="label">阪神競馬場ガイド</div>
   <div class="sub">アクセス・駐車場・ファミリー向け情報</div>
+</div>
+</a>
+<a class="guide-card" href="/category/kanko/tezuka-museum-guide.html">
+<div class="icon-box icon-box-photo"><img src="/photos/001015682_tezukakinenkan2015.jpg" alt="" loading="lazy"></div>
+<div>
+  <div class="label">手塚治虫記念館ガイド</div>
+  <div class="sub">アクセス・入館案内・館内のみどころ</div>
+</div>
+</a>
+<a class="guide-card" href="/category/kanko/nakayamadera-guide.html">
+<div class="icon-box icon-box-photo"><img src="/photos/nakayamadera.jpg" alt="" loading="lazy"></div>
+<div>
+  <div class="label">中山寺ガイド</div>
+  <div class="sub">安産祈願・戌の日・アクセス</div>
+</div>
+</a>
+<a class="guide-card" href="/category/kanko/kiyoshikojin-guide.html">
+<div class="icon-box icon-box-photo"><img src="/photos/kiyoshikojin.jpg" alt="" loading="lazy"></div>
+<div>
+  <div class="label">清荒神清澄寺ガイド</div>
+  <div class="sub">境内案内・参道商店街・アクセス</div>
 </div>
 </a>
 <p class="panel-note"><a href="/category/kanko.html">→ 文化・観光の記事一覧を見る</a></p>

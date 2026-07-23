@@ -399,6 +399,8 @@ function main() {
   writeFile("favicon.svg", fs.readFileSync(path.join(ASSETS_DIR, "favicon.svg"), "utf-8"));
   writeFile("img/header-banner.png", fs.readFileSync(path.join(ASSETS_DIR, "header-banner.png")));
   writeFile("photos/hanshin-keibajo.jpg", fs.readFileSync(path.join(ASSETS_DIR, "photos", "hanshin-keibajo.jpg")));
+  writeFile("photos/nakayamadera.jpg", fs.readFileSync(path.join(ASSETS_DIR, "photos", "nakayamadera.jpg")));
+  writeFile("photos/kiyoshikojin.jpg", fs.readFileSync(path.join(ASSETS_DIR, "photos", "kiyoshikojin.jpg")));
 
   for (const photo of allPhotos) {
     const srcPath = path.join(PHOTOS_DIR, photo.localFile);
