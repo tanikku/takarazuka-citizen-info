@@ -859,9 +859,11 @@ html[data-theme="dark"] .point-box-title {
   margin: 10px 0;
 }
 
+/* 縦長写真でもページが専有されないよう、全ガイドで3:2比率に統一（はみ出す分は中央トリミング。2026-07-24） */
 .guide-hero-photo img {
   width: 100%;
-  height: auto;
+  aspect-ratio: 3 / 2;
+  object-fit: cover;
   display: block;
 }
 
