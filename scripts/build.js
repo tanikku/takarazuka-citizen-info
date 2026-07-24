@@ -56,6 +56,7 @@ const SITE_NOTICES = [
   { text: "「吹奏楽コンクールガイド」を追加しました", href: "/category/kyoiku/suisougaku-guide.html", until: "2026-07-19" },
   { text: "「宝塚おでかけガイド」を追加しました（手塚治虫記念館・中山寺・清荒神清澄寺など）", href: "/category/kanko.html", until: "2026-07-30" },
   { text: "サイト内検索を追加しました。ページ上部の検索窓からキーワードで探せます", href: "/search.html", until: "2026-08-06" },
+  { text: "おでかけガイドに6ページ追加（宝塚北SA・武田尾温泉・宝塚温泉・廃線ハイキング・あいあいパーク・ダリア園）", href: "/category/kanko.html", until: "2026-08-07" },
 ];
 
 function loadArticles() {
@@ -556,6 +557,7 @@ function main() {
   writeFile("photos/hanshin-keibajo.jpg", fs.readFileSync(path.join(ASSETS_DIR, "photos", "hanshin-keibajo.jpg")));
   writeFile("photos/nakayamadera.jpg", fs.readFileSync(path.join(ASSETS_DIR, "photos", "nakayamadera.jpg")));
   writeFile("photos/kiyoshikojin.jpg", fs.readFileSync(path.join(ASSETS_DIR, "photos", "kiyoshikojin.jpg")));
+  writeFile("photos/takarazuka-kita-sa.jpg", fs.readFileSync(path.join(ASSETS_DIR, "photos", "takarazuka-kita-sa.jpg")));
 
   for (const photo of allPhotos) {
     const srcPath = path.join(PHOTOS_DIR, photo.localFile);

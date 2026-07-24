@@ -763,45 +763,34 @@ ${items}
 </div>`;
 }
 
-// フェーズ18〜19：宝塚おでかけガイドシリーズへの導線。既存.guide-cardデザインを流用し、シリーズ追加ごとにカードを増やす
+// フェーズ18〜22：宝塚おでかけガイドシリーズへの導線。既存.guide-cardデザインを流用し、シリーズ追加ごとにカードを増やす（順序は検索需要を考慮）
+const ODEKAKE_GUIDE_CARDS = [
+  { href: "/category/kanko/takarazuka-kageki-guide.html", photo: "/photos/001015682_takarazukadaigekizyou.jpg", label: "宝塚歌劇ガイド", sub: "宝塚大劇場のアクセス・チケット購入・館内施設" },
+  { href: "/category/kanko/hanshin-keibajo-guide.html", photo: "/photos/hanshin-keibajo.jpg", label: "阪神競馬場ガイド", sub: "アクセス・駐車場・ファミリー向け情報" },
+  { href: "/category/kanko/takarazuka-kita-sa-guide.html", photo: "/photos/takarazuka-kita-sa.jpg", label: "宝塚北サービスエリアガイド", sub: "西日本最大級SA。一般道からの利用方法も" },
+  { href: "/category/kanko/haisen-hiking-guide.html", photo: "/photos/001015680_takedaomomizi2013.jpg", label: "武田尾廃線ハイキングガイド", sub: "トンネルと鉄橋を歩く人気コース" },
+  { href: "/category/kanko/tezuka-museum-guide.html", photo: "/photos/001015682_tezukakinenkan2015.jpg", label: "手塚治虫記念館ガイド", sub: "アクセス・入館案内・館内のみどころ" },
+  { href: "/category/kanko/nakayamadera-guide.html", photo: "/photos/nakayamadera.jpg", label: "中山寺ガイド", sub: "安産祈願・戌の日・アクセス" },
+  { href: "/category/kanko/kiyoshikojin-guide.html", photo: "/photos/kiyoshikojin.jpg", label: "清荒神清澄寺ガイド", sub: "境内案内・参道商店街・アクセス" },
+  { href: "/category/kanko/takedao-onsen-guide.html", photo: "/photos/001015680_takedao2b.jpg", label: "武田尾温泉ガイド", sub: "武庫川渓谷の秘湯。日帰り入浴・足湯" },
+  { href: "/category/kanko/takarazuka-onsen-guide.html", photo: "/photos/001015682_mukogawa.jpg", label: "宝塚温泉ガイド", sub: "宝塚駅近くの歴史ある街なか温泉" },
+  { href: "/category/kanko/aiaipark-guide.html", photo: "/photos/001015682_aiaipark2011.jpg", label: "あいあいパークガイド", sub: "植木のまち山本の園芸拠点。入場無料" },
+  { href: "/category/kanko/dahlia-en-guide.html", photo: "/photos/001015680_daria2015.jpg", label: "宝塚ダリア園ガイド", sub: "約300種10万本のダリア。花摘み体験も" },
+];
+
 function entertainmentPanel() {
+  const cards = ODEKAKE_GUIDE_CARDS.map(
+    (c) => `<a class="guide-card" href="${escapeHtml(c.href)}">
+<div class="icon-box icon-box-photo"><img src="${escapeHtml(c.photo)}" alt="" loading="lazy"></div>
+<div>
+  <div class="label">${escapeHtml(c.label)}</div>
+  <div class="sub">${escapeHtml(c.sub)}</div>
+</div>
+</a>`,
+  ).join("\n");
   return `<div class="panel">
 <p class="panel-title">${icon("ticket")}宝塚おでかけガイド</p>
-<a class="guide-card" href="/category/kanko/takarazuka-kageki-guide.html">
-<div class="icon-box icon-box-photo"><img src="/photos/001015682_takarazukadaigekizyou.jpg" alt="" loading="lazy"></div>
-<div>
-  <div class="label">宝塚歌劇ガイド</div>
-  <div class="sub">宝塚大劇場のアクセス・チケット購入・館内施設</div>
-</div>
-</a>
-<a class="guide-card" href="/category/kanko/hanshin-keibajo-guide.html">
-<div class="icon-box icon-box-photo"><img src="/photos/hanshin-keibajo.jpg" alt="" loading="lazy"></div>
-<div>
-  <div class="label">阪神競馬場ガイド</div>
-  <div class="sub">アクセス・駐車場・ファミリー向け情報</div>
-</div>
-</a>
-<a class="guide-card" href="/category/kanko/tezuka-museum-guide.html">
-<div class="icon-box icon-box-photo"><img src="/photos/001015682_tezukakinenkan2015.jpg" alt="" loading="lazy"></div>
-<div>
-  <div class="label">手塚治虫記念館ガイド</div>
-  <div class="sub">アクセス・入館案内・館内のみどころ</div>
-</div>
-</a>
-<a class="guide-card" href="/category/kanko/nakayamadera-guide.html">
-<div class="icon-box icon-box-photo"><img src="/photos/nakayamadera.jpg" alt="" loading="lazy"></div>
-<div>
-  <div class="label">中山寺ガイド</div>
-  <div class="sub">安産祈願・戌の日・アクセス</div>
-</div>
-</a>
-<a class="guide-card" href="/category/kanko/kiyoshikojin-guide.html">
-<div class="icon-box icon-box-photo"><img src="/photos/kiyoshikojin.jpg" alt="" loading="lazy"></div>
-<div>
-  <div class="label">清荒神清澄寺ガイド</div>
-  <div class="sub">境内案内・参道商店街・アクセス</div>
-</div>
-</a>
+${cards}
 <p class="panel-note"><a href="/category/kanko.html">→ 文化・観光の記事一覧を見る</a></p>
 </div>`;
 }

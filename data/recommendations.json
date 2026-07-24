@@ -52,9 +52,15 @@
     "kanko": [
       { "href": "/category/kanko/takarazuka-kageki-guide.html", "label": "宝塚歌劇ガイド", "sub": "宝塚大劇場のアクセス・チケット購入・館内施設", "icon": "ticket" },
       { "href": "/category/kanko/hanshin-keibajo-guide.html", "label": "阪神競馬場ガイド", "sub": "アクセス・駐車場・ファミリー向け情報", "icon": "camera" },
+      { "href": "/category/kanko/takarazuka-kita-sa-guide.html", "label": "宝塚北サービスエリアガイド", "sub": "西日本最大級SA。一般道からの利用方法も", "icon": "building" },
+      { "href": "/category/kanko/haisen-hiking-guide.html", "label": "武田尾廃線ハイキングガイド", "sub": "トンネルと鉄橋を歩く人気コース", "icon": "camera" },
       { "href": "/category/kanko/tezuka-museum-guide.html", "label": "手塚治虫記念館ガイド", "sub": "アクセス・入館案内・館内のみどころ", "icon": "book" },
       { "href": "/category/kanko/nakayamadera-guide.html", "label": "中山寺ガイド", "sub": "安産祈願・戌の日・アクセス", "icon": "temple" },
       { "href": "/category/kanko/kiyoshikojin-guide.html", "label": "清荒神清澄寺ガイド", "sub": "境内案内・参道商店街・アクセス", "icon": "temple" },
+      { "href": "/category/kanko/takedao-onsen-guide.html", "label": "武田尾温泉ガイド", "sub": "武庫川渓谷の秘湯。日帰り入浴・足湯", "icon": "sun" },
+      { "href": "/category/kanko/takarazuka-onsen-guide.html", "label": "宝塚温泉ガイド", "sub": "宝塚駅近くの歴史ある街なか温泉", "icon": "sun" },
+      { "href": "/category/kanko/aiaipark-guide.html", "label": "あいあいパークガイド", "sub": "植木のまち山本の園芸拠点。入場無料", "icon": "flame" },
+      { "href": "/category/kanko/dahlia-en-guide.html", "label": "宝塚ダリア園ガイド", "sub": "約300種10万本のダリア。花摘み体験も", "icon": "flame" },
       { "href": "/livecam.html", "label": "武庫川ライブカメラ", "sub": "河川の様子をリアルタイムで確認できます", "icon": "videoCamera" }
     ]
   }

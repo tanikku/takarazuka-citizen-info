@@ -1,0 +1,119 @@
+{
+  "categoryKey": "kanko",
+  "slug": "takarazuka-kita-sa-guide",
+  "icon": "building",
+  "cardPhoto": "/photos/takarazuka-kita-sa.jpg",
+  "photoCredit": "写真：Miya（<a href=\"https://commons.wikimedia.org/wiki/File:TakarazukaKitaSA20180323-1.jpg\" target=\"_blank\" rel=\"noopener\">Wikimedia Commons</a>、<a href=\"https://creativecommons.org/licenses/by-sa/4.0/deed.ja\" target=\"_blank\" rel=\"noopener\">CC BY-SA 4.0</a>）",
+  "title": "宝塚北サービスエリアガイド（アクセス・営業時間・一般道からの利用方法）",
+  "cardSummary": "新名神の西日本最大級SA。一般道からも利用できるウェルカムゲート情報も",
+  "lead": "新名神高速道路の宝塚北サービスエリア（宝塚市玉瀬）について、アクセス・駐車場・営業時間・施設内容と、高速道路に乗らず一般道から利用できるウェルカムゲートの情報をまとめました。店舗の最新情報は公式サイトでご確認ください。",
+  "disclosure": "本ページはNEXCO西日本・宝塚北サービスエリア公式サイトの公開情報をもとに作成しています。店舗・営業時間の最新情報は必ず公式サイトでご確認ください。",
+  "updatedAt": "2026-07-24",
+  "toc": [
+    { "id": "about", "label": "宝塚北サービスエリアとは" },
+    { "id": "highlights", "label": "見どころ・施設内容" },
+    { "id": "access", "label": "アクセス・スマートIC" },
+    { "id": "welcome-gate", "label": "一般道からの利用（ウェルカムゲート）" },
+    { "id": "parking", "label": "駐車場" },
+    { "id": "hours", "label": "営業時間（概要）" },
+    { "id": "family", "label": "子ども連れ・バリアフリー" },
+    { "id": "around", "label": "周辺スポット" }
+  ],
+  "sections": [
+    {
+      "id": "about",
+      "heading": "宝塚北サービスエリアとは",
+      "items": [
+        "宝塚北サービスエリア（宝塚北SA）は、2018年に開業した新名神高速道路のサービスエリアです。上り線・下り線共用の集約型で、西日本最大級の規模を誇ります",
+        "所在地は宝塚市玉瀬字奥之焼1-125。建物は宝塚の「花のみち」周辺をイメージした南欧風のデザインで、「ハイウェイの宝島」をコンセプトに運営されています",
+        "宝塚が生誕の地である手塚治虫のキャラクターグッズの販売やオブジェの展示があり、宝塚らしさを感じられるサービスエリアです",
+        "詳細は<a href=\"https://www.takarazukakita-sa.jp/\" target=\"_blank\" rel=\"noopener\">宝塚北サービスエリア公式サイト</a>および<a href=\"https://www.w-holdings.co.jp/sapa/01070/\" target=\"_blank\" rel=\"noopener\">NEXCO西日本のSA・PA情報サイト</a>でご確認ください"
+      ]
+    },
+    {
+      "id": "highlights",
+      "heading": "見どころ・施設内容",
+      "items": [
+        "<strong>フードコート・レストラン：</strong>うどん・そばの「めん処 つる庵」、地元の味を提供する「西谷食堂 花ぐるま」など複数の飲食店があります（<a href=\"https://www.takarazukakita-sa.jp/foodcourt/index.php\" target=\"_blank\" rel=\"noopener\">公式サイト「フードコート」</a>・<a href=\"https://www.w-holdings.co.jp/sapa/01070/gourmet/\" target=\"_blank\" rel=\"noopener\">NEXCO西日本「おすすめメニュー」</a>）",
+        "<strong>ベーカリー・スイーツ：</strong>焼きたてパンの「<a href=\"https://www.takarazukakita-sa.jp/bread/index.php\" target=\"_blank\" rel=\"noopener\">森のパン</a>」、イタリアンジェラートの「<a href=\"https://www.takarazukakita-sa.jp/yogorino/index.php\" target=\"_blank\" rel=\"noopener\">yogorino（ヨゴリーノ）</a>」、<a href=\"https://www.takarazukakita-sa.jp/takeout/index.php\" target=\"_blank\" rel=\"noopener\">テイクアウトフード</a>の店舗があります",
+        "<strong>ショッピング：</strong>宝塚土産・手塚治虫キャラクターグッズ・兵庫の特産品などを扱う売店があります（<a href=\"https://www.takarazukakita-sa.jp/shopping/index.php\" target=\"_blank\" rel=\"noopener\">公式サイト「ショッピング」</a>）",
+        "<strong>手塚治虫キャラクターのオブジェ：</strong>館内外にリボンの騎士などのオブジェがあり、記念撮影スポットになっています",
+        "館内の設備配置は<a href=\"https://www.takarazukakita-sa.jp/guide/\" target=\"_blank\" rel=\"noopener\">公式サイト「施設ガイド」</a>でご確認ください"
+      ],
+      "notes": ["出店店舗は入れ替わることがあります。最新の店舗情報は<a href=\"https://www.takarazukakita-sa.jp/\" target=\"_blank\" rel=\"noopener\">公式サイト</a>でご確認ください。"]
+    },
+    {
+      "id": "access",
+      "heading": "アクセス・スマートIC",
+      "items": [
+        "新名神高速道路の上り線（大阪方面）・下り線（神戸方面）どちらからも同じ施設を利用できます（集約型SA）",
+        "<strong>宝塚北スマートIC</strong>が併設されており、ETC搭載車は一般道との出入りができます。ただし進行方向によってはSAとスマートICを連続利用できない場合があります。詳細は<a href=\"https://www.city.takarazuka.hyogo.jp/anzen/1009510/1009486/1001385.html\" target=\"_blank\" rel=\"noopener\">宝塚市公式サイト「宝塚北スマートインターチェンジについて」</a>でご確認ください"
+      ]
+    },
+    {
+      "id": "welcome-gate",
+      "heading": "一般道からの利用（ウェルカムゲート）",
+      "items": [
+        "宝塚北SAには<strong>ウェルカムゲート</strong>（一般道側の出入口）があり、高速道路に乗らなくても施設を利用できます",
+        "ウェルカムゲート側の駐車場は台数が少なめ（十数台程度）です。混雑時は駐車できない場合があります",
+        "市内北部（西谷地区）からの買い物・食事スポットとしても利用されています"
+      ],
+      "notes": ["一般道からのアクセス経路・駐車場の詳細は<a href=\"https://www.takarazukakita-sa.jp/access/\" target=\"_blank\" rel=\"noopener\">公式サイト「交通アクセス」</a>でご確認ください。"]
+    },
+    {
+      "id": "parking",
+      "heading": "駐車場",
+      "items": [
+        "高速道路側：小型82台・大型64台・兼用27台・トレーラー3台・バス15台・身障者用7台・二輪車4台",
+        "一般道側（ウェルカムゲート）：十数台程度＋駐輪スペース"
+      ],
+      "notes": ["連休・行楽シーズンは混雑します。台数・区画は変更される場合があるため、最新情報は公式サイトでご確認ください。"]
+    },
+    {
+      "id": "hours",
+      "heading": "営業時間（概要）",
+      "items": [
+        "フードコートの一部（めん処 つる庵・西谷食堂 花ぐるま）は24時間営業です",
+        "ショップ・ベーカリー等の店舗は店舗ごとに営業時間が異なります（おおむね日中〜夜間）",
+        "トイレ・自動販売機は24時間利用できます"
+      ],
+      "notes": ["各店舗の営業時間は変更される場合があります。<a href=\"https://www.w-holdings.co.jp/sapa/01070/facility/\" target=\"_blank\" rel=\"noopener\">NEXCO西日本のSA・PA情報サイト</a>で最新情報をご確認ください。"]
+    },
+    {
+      "id": "family",
+      "heading": "子ども連れ・バリアフリー",
+      "items": [
+        "ベビーコーナー（授乳・おむつ替え）が設置されています",
+        "障がい者用駐車区画（7台）・障がい者用トイレが整備されています",
+        "手塚治虫キャラクターのオブジェなど、子どもが楽しめる撮影スポットがあります"
+      ],
+      "notes": ["設備の詳細は<a href=\"https://www.w-holdings.co.jp/sapa/01070/facility/\" target=\"_blank\" rel=\"noopener\">NEXCO西日本のサービス・配置MAP</a>でご確認ください。"]
+    },
+    {
+      "id": "around",
+      "heading": "周辺スポット",
+      "items": [
+        "<strong>宝塚ダリア園（上佐曽利）：</strong>宝塚北スマートICから約8km。夏・秋の開園期間中はダリアの花摘みが楽しめます（<a href=\"/category/kanko/dahlia-en-guide.html\">宝塚ダリア園ガイド</a>）",
+        "<strong>武田尾温泉・廃線ハイキング：</strong>武庫川渓谷方面へ車で移動できます（<a href=\"/category/kanko/takedao-onsen-guide.html\">武田尾温泉ガイド</a>・<a href=\"/category/kanko/haisen-hiking-guide.html\">武田尾廃線ハイキングガイド</a>）",
+        "<strong>市街地方面：</strong>宝塚大劇場・手塚治虫記念館へは車で約20〜30分です（<a href=\"/category/kanko/takarazuka-kageki-guide.html\">宝塚歌劇ガイド</a>・<a href=\"/category/kanko/tezuka-museum-guide.html\">手塚治虫記念館ガイド</a>）"
+      ]
+    }
+  ],
+  "faq": [
+    { "q": "高速道路に乗らなくても利用できますか？", "a": "はい。一般道側に「ウェルカムゲート」という出入口と専用駐車場（十数台程度）があり、高速道路を使わずに施設を利用できます。" },
+    { "q": "上り線と下り線で施設は違いますか？", "a": "いいえ。宝塚北SAは上下線集約型のサービスエリアで、大阪方面・神戸方面のどちらから来ても同じ施設を利用します。" },
+    { "q": "24時間営業ですか？", "a": "フードコートの一部（めん処 つる庵・西谷食堂 花ぐるま）とトイレ・自動販売機は24時間利用できます。ショップ等の営業時間は店舗により異なります。" },
+    { "q": "スマートICから出入りできますか？", "a": "宝塚北スマートICが併設されており、ETC搭載車は一般道と出入りできます。ただし進行方向によってはSAとスマートICを連続利用できない場合があるため、事前に公式サイトでご確認ください。" },
+    { "q": "手塚治虫グッズはありますか？", "a": "はい。宝塚が生誕の地である手塚治虫のキャラクターグッズの販売や、キャラクターオブジェの展示があります。" },
+    { "q": "赤ちゃん連れでも利用しやすいですか？", "a": "ベビーコーナー（授乳・おむつ替えスペース）が設置されています。障がい者用駐車区画・トイレも整備されています。" }
+  ],
+  "relatedLinks": [
+    { "href": "/category/kanko.html", "label": "文化・観光の記事一覧を見る" },
+    { "href": "/category/kanko/dahlia-en-guide.html", "label": "宝塚ダリア園ガイドを見る" },
+    { "href": "/category/kanko/takedao-onsen-guide.html", "label": "武田尾温泉ガイドを見る" },
+    { "href": "/category/kurashi/kotsu-guide.html", "label": "交通ガイドを見る" },
+    { "href": "https://www.takarazukakita-sa.jp/", "label": "宝塚北サービスエリア公式サイトを見る" }
+  ],
+  "sourceUrl": "https://www.takarazukakita-sa.jp/",
+  "sourceLabel": "宝塚北サービスエリア公式サイト"
+}

@@ -119,6 +119,8 @@
     { "href": "/category/kanko.html", "label": "文化・観光の記事一覧を見る" },
     { "href": "/category/kanko/takarazuka-kageki-guide.html", "label": "宝塚歌劇ガイドを見る" },
     { "href": "/category/kanko/nakayamadera-guide.html", "label": "中山寺ガイドを見る" },
+    { "href": "/category/kanko/takarazuka-onsen-guide.html", "label": "宝塚温泉ガイドを見る" },
+    { "href": "/category/kanko/takarazuka-kita-sa-guide.html", "label": "宝塚北サービスエリアガイドを見る（手塚グッズ販売あり）" },
     { "href": "https://www.city.takarazuka.hyogo.jp/tezuka/", "label": "手塚治虫記念館公式サイトを見る" }
   ],
   "sourceUrl": "https://www.city.takarazuka.hyogo.jp/tezuka/",

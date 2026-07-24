@@ -65,6 +65,12 @@
 | 手塚治虫記念館ガイド | /category/kanko/tezuka-museum-guide.html | 2026-07-23 | 年数回 | 随時（開館時間・アクセス等の変更時） | 宝塚歌劇ガイド、中山寺ガイド | ★★★★☆ |
 | 中山寺ガイド | /category/kanko/nakayamadera-guide.html | 2026-07-23 | 年数回 | 随時（アクセス・祈祷受付時間等の変更時） | 清荒神清澄寺ガイド、子育て支援まとめ | ★★★★☆ |
 | 清荒神清澄寺ガイド | /category/kanko/kiyoshikojin-guide.html | 2026-07-23 | 年数回 | 随時（アクセス・駐車場料金等の変更時） | 中山寺ガイド、交通ガイド | ★★★☆☆ |
+| 宝塚北サービスエリアガイド | /category/kanko/takarazuka-kita-sa-guide.html | 2026-07-24 | 年数回 | 随時（店舗・営業時間変更時） | ダリア園ガイド、武田尾温泉ガイド | ★★★★☆ |
+| 武田尾廃線ハイキングガイド | /category/kanko/haisen-hiking-guide.html | 2026-07-24 | 年1回程度 | 秋前（紅葉シーズン前）・通行状況変更時 | 武田尾温泉ガイド、ライブカメラ | ★★★★☆ |
+| 武田尾温泉ガイド | /category/kanko/takedao-onsen-guide.html | 2026-07-24 | 年1回程度 | 随時（施設営業状況変更時） | 廃線ハイキングガイド、宝塚温泉ガイド | ★★★☆☆ |
+| 宝塚温泉ガイド | /category/kanko/takarazuka-onsen-guide.html | 2026-07-24 | 年数回 | 随時（ナチュールスパ宝塚の再開時は必ず更新） | 宝塚歌劇ガイド、武田尾温泉ガイド | ★★★☆☆ |
+| あいあいパークガイド | /category/kanko/aiaipark-guide.html | 2026-07-24 | 年1回程度 | 随時（営業時間変更時） | ダリア園ガイド、中山寺ガイド | ★★★☆☆ |
+| 宝塚ダリア園ガイド | /category/kanko/dahlia-en-guide.html | 2026-07-24 | 年2回 | 毎年6月頃・9月頃（夏季・秋季の開園日程発表時） | 宝塚北SAガイド、あいあいパークガイド | ★★★★☆ |
 
 ---
 

@@ -1,0 +1,127 @@
+{
+  "categoryKey": "kanko",
+  "slug": "haisen-hiking-guide",
+  "icon": "camera",
+  "cardPhoto": "/photos/001015680_takedaomomizi2013.jpg",
+  "photoCredit": "写真提供：宝塚市オープンデータ",
+  "title": "武田尾廃線ハイキングガイド（JR福知山線廃線敷・コース・持ち物）",
+  "cardSummary": "トンネルと鉄橋を歩く人気コース。持ち物・注意事項・アクセス",
+  "lead": "武庫川渓谷沿いのJR福知山線廃線敷ハイキング（生瀬〜武田尾）について、コースの概要・所要時間・見どころ・必須の持ち物（懐中電灯）・注意事項・アクセスをまとめました。安全に楽しむための情報は必ず公式案内でご確認ください。",
+  "disclosure": "本ページは宝塚市国際観光協会・西宮観光協会等の公開情報をもとに作成しています。コースは自己責任での利用が前提です。最新の通行状況・注意事項は必ず公式案内でご確認ください。",
+  "updatedAt": "2026-07-24",
+  "toc": [
+    { "id": "about", "label": "廃線敷ハイキングとは" },
+    { "id": "course", "label": "コース概要・所要時間" },
+    { "id": "highlights", "label": "見どころ" },
+    { "id": "items", "label": "持ち物・服装（懐中電灯必須）" },
+    { "id": "rules", "label": "注意事項・禁止行為" },
+    { "id": "access", "label": "アクセス・最寄駅" },
+    { "id": "season", "label": "おすすめの季節" },
+    { "id": "around", "label": "周辺スポット" }
+  ],
+  "sections": [
+    {
+      "id": "about",
+      "heading": "廃線敷ハイキングとは",
+      "items": [
+        "JR福知山線の旧線（生瀬〜武田尾間）の廃線敷を歩くハイキングコースです。武庫川渓谷に沿って、トンネルや鉄橋などの鉄道遺構が当時のまま残っています",
+        "長らく立入禁止でしたが、現在は一般開放されており、関西でも人気のハイキングコースになっています",
+        "コースの大部分は平坦な廃線敷のため、ハイキング初心者や家族連れにも歩きやすいコースです（ただしトンネル内は真っ暗で足元は枕木・砂利です）",
+        "詳細は<a href=\"https://kanko-takarazuka.jp/plan/walking/haisenato/\" target=\"_blank\" rel=\"noopener\">宝塚市国際観光協会のハイキングプラン</a>でご確認ください"
+      ]
+    },
+    {
+      "id": "course",
+      "heading": "コース概要・所要時間",
+      "items": [
+        "<strong>区間：</strong>JR「生瀬駅」（西宮市）〜 JR「武田尾駅」（宝塚市）。廃線敷区間は約4.7km、駅からの歩きを含めると全体で約7〜8kmです",
+        "<strong>所要時間：</strong>約2〜3時間が目安です（休憩・写真撮影の時間により変わります）",
+        "<strong>方向：</strong>どちらの駅からでも歩けます。生瀬側からスタートし、ゴールの武田尾で温泉に立ち寄るコースが人気です",
+        "<strong>高低差：</strong>元が鉄道線路のため、コース内の高低差は緩やかです",
+        "<strong>ルート行程図：</strong><div class=\"contest-flow\"><div class=\"contest-flow-step\"><div class=\"contest-flow-label\">JR生瀬駅（スタート）</div><div class=\"contest-flow-sub\">JR宝塚駅から1駅・約3分</div></div><div class=\"contest-flow-arrow\">↓</div><div class=\"contest-flow-step\"><div class=\"contest-flow-label\">廃線敷入口（南側）</div><div class=\"contest-flow-sub\">駅から国道176号沿いを徒歩約15〜20分</div></div><div class=\"contest-flow-arrow\">↓</div><div class=\"contest-flow-step\"><div class=\"contest-flow-label\">トンネル群・武庫川渓谷</div><div class=\"contest-flow-sub\">6つのトンネルを通過（最長約400m・照明なし）</div></div><div class=\"contest-flow-arrow\">↓</div><div class=\"contest-flow-step\"><div class=\"contest-flow-label\">第二武庫川橋梁（赤い鉄橋）</div><div class=\"contest-flow-sub\">コースを代表する撮影スポット</div></div><div class=\"contest-flow-arrow\">↓</div><div class=\"contest-flow-step\"><div class=\"contest-flow-label\">廃線敷出口（北側）</div><div class=\"contest-flow-sub\">親水広場・桜の園を通過</div></div><div class=\"contest-flow-arrow\">↓</div><div class=\"contest-flow-step\"><div class=\"contest-flow-label\">JR武田尾駅（ゴール）</div><div class=\"contest-flow-sub\">出口から徒歩約10〜15分。武田尾温泉はすぐそば</div></div></div>",
+        "<strong>コース模式図：</strong><div class=\"guide-map-wrap\" style=\"background:var(--surface);padding:8px;\"><svg viewBox=\"0 0 400 350\" style=\"width:100%;height:auto;display:block\" role=\"img\" aria-label=\"廃線敷ハイキングコースの模式図（生瀬駅から武庫川に沿って北西の武田尾駅へ）\"><path d=\"M355,285 C330,250 345,205 310,172 C278,143 242,165 205,140 C172,118 152,115 122,93 C100,77 78,55 52,30\" fill=\"none\" stroke=\"#9ec9e8\" stroke-width=\"13\" stroke-linecap=\"round\"/><path d=\"M355,285 C330,250 345,205 310,172 C278,143 242,165 205,140 C172,118 152,115 122,93 C100,77 78,55 52,30\" fill=\"none\" stroke=\"#c8102e\" stroke-width=\"3.5\" stroke-dasharray=\"9 6\" stroke-linecap=\"round\"/><rect x=\"334\" y=\"224\" width=\"8\" height=\"8\" fill=\"#4a3f8f\"/><rect x=\"314\" y=\"181\" width=\"8\" height=\"8\" fill=\"#4a3f8f\"/><rect x=\"268\" y=\"146\" width=\"8\" height=\"8\" fill=\"#4a3f8f\"/><rect x=\"221\" y=\"139\" width=\"8\" height=\"8\" fill=\"#4a3f8f\"/><rect x=\"180\" y=\"120\" width=\"8\" height=\"8\" fill=\"#4a3f8f\"/><rect x=\"96\" y=\"69\" width=\"8\" height=\"8\" fill=\"#4a3f8f\"/><line x1=\"132\" y1=\"112\" x2=\"150\" y2=\"96\" stroke=\"#555\" stroke-width=\"2.5\"/><line x1=\"128\" y1=\"108\" x2=\"146\" y2=\"92\" stroke=\"#555\" stroke-width=\"2.5\"/><text x=\"150\" y=\"84\" font-size=\"10\" fill=\"currentColor\">第二武庫川橋梁（鉄橋）</text><circle cx=\"355\" cy=\"285\" r=\"6.5\" fill=\"var(--surface)\" stroke=\"#c8102e\" stroke-width=\"3\"/><text x=\"352\" y=\"305\" font-size=\"11\" font-weight=\"bold\" fill=\"currentColor\" text-anchor=\"end\">JR生瀬駅（スタート）</text><circle cx=\"52\" cy=\"30\" r=\"6.5\" fill=\"var(--surface)\" stroke=\"#c8102e\" stroke-width=\"3\"/><text x=\"64\" y=\"26\" font-size=\"11\" font-weight=\"bold\" fill=\"currentColor\">JR武田尾駅（ゴール）</text><circle cx=\"342\" cy=\"252\" r=\"3.5\" fill=\"#c8102e\"/><text x=\"334\" y=\"258\" font-size=\"10\" fill=\"currentColor\" text-anchor=\"end\">廃線敷入口</text><circle cx=\"75\" cy=\"52\" r=\"3.5\" fill=\"#c8102e\"/><text x=\"86\" y=\"60\" font-size=\"10\" fill=\"currentColor\">廃線敷出口</text><text x=\"252\" y=\"192\" font-size=\"10\" fill=\"#3f7fb0\">武庫川（渓谷）</text><text x=\"378\" y=\"22\" font-size=\"11\" fill=\"currentColor\" text-anchor=\"middle\">N</text><path d=\"M378,44 L378,28 M373,33 L378,28 L383,33\" stroke=\"currentColor\" stroke-width=\"2\" fill=\"none\"/><line x1=\"14\" y1=\"323\" x2=\"44\" y2=\"323\" stroke=\"#c8102e\" stroke-width=\"3.5\" stroke-dasharray=\"9 6\"/><text x=\"50\" y=\"327\" font-size=\"10\" fill=\"currentColor\">ハイキングコース（廃線敷・約4.7km）</text><rect x=\"240\" y=\"318\" width=\"8\" height=\"8\" fill=\"#4a3f8f\"/><text x=\"253\" y=\"327\" font-size=\"10\" fill=\"currentColor\">トンネル（6カ所）</text><line x1=\"14\" y1=\"340\" x2=\"44\" y2=\"340\" stroke=\"#9ec9e8\" stroke-width=\"8\"/><text x=\"50\" y=\"344\" font-size=\"10\" fill=\"currentColor\">武庫川</text></svg><p class=\"guide-map-caption\">コース模式図（位置関係のイメージです。実際の距離・形状とは異なります）。赤い破線のコースが武庫川渓谷に沿って生瀬駅から武田尾駅へ続きます</p></div>",
+        "<strong>周辺地図：</strong>マーカーがスタートのJR生瀬駅です。上の模式図のとおり、コースは武庫川に沿って地図の左上（北西）方向へ進み、武田尾駅へ抜けます。地図を拡大すると武庫川沿いの廃線敷の道も確認できます",
+        "<div class=\"guide-map-wrap\"><iframe src=\"https://www.openstreetmap.org/export/embed.html?bbox=135.2950,34.8140,135.3350,34.8620&amp;layer=mapnik&amp;marker=34.8192,135.3251\" title=\"JR福知山線廃線敷ハイキングコース（生瀬〜武田尾）周辺の地図\" loading=\"lazy\"></iframe><p class=\"guide-map-caption\">地図：<a href=\"https://www.openstreetmap.org\" target=\"_blank\" rel=\"noopener\">OpenStreetMap</a> contributors ｜ マーカー＝JR生瀬駅（スタート）。ゴールのJR武田尾駅は地図左上方向です。コース詳細図は<a href=\"https://kanko-takarazuka.jp/plan/walking/haisenato/\" target=\"_blank\" rel=\"noopener\">宝塚市国際観光協会のハイキングプラン</a>でご確認ください</p></div>"
+      ]
+    },
+    {
+      "id": "highlights",
+      "heading": "見どころ",
+      "items": [
+        "<strong>6つのトンネル:</strong>最長約400mのトンネルを含む6つの旧鉄道トンネルを歩いて通過します。内部に照明はなく、ひんやりとした探検気分が味わえます",
+        "<strong>鉄橋（第二武庫川橋梁）：</strong>武庫川をまたぐ赤い鉄橋が残っており、歩道橋として渡れます。コースを代表する撮影スポットです",
+        "<strong>武庫川渓谷の景観：</strong>春の山桜・新緑、秋の紅葉と、四季折々の渓谷美が楽しめます",
+        "<strong>鉄道遺構：</strong>枕木や速度標識など、現役時代の面影が随所に残っています"
+      ]
+    },
+    {
+      "id": "items",
+      "heading": "持ち物・服装（懐中電灯必須）",
+      "items": [
+        "<strong>懐中電灯（必須）：</strong>トンネル内に照明は一切ありません。スマートフォンのライトでも歩けますが、足元が枕木・砂利のため、明るい懐中電灯やヘッドライトの持参が推奨されています",
+        "<strong>歩きやすい靴：</strong>砂利道・枕木の区間が続くため、スニーカーやトレッキングシューズがおすすめです",
+        "<strong>飲み物・軽食：</strong>コース内に売店・自動販売機はありません。事前に用意してください",
+        "<strong>トイレ：</strong>コース内にトイレはありません。生瀬駅・武田尾駅周辺で事前に済ませてください"
+      ]
+    },
+    {
+      "id": "rules",
+      "heading": "注意事項・禁止行為",
+      "items": [
+        "コースは<strong>自己責任での利用</strong>が前提として開放されています。落石・増水等の危険がある日は利用を控えてください",
+        "<strong>禁止行為：</strong>自転車・バイクでの通行、ランニング、火気の使用は禁止されています",
+        "<strong>ペットの同伴はご遠慮ください</strong>と案内されています",
+        "ゴミは必ず持ち帰ってください",
+        "大雨の後は足元が悪くなります。天候・河川の状況は<a href=\"/livecam.html\">武庫川ライブカメラ</a>でも確認できます"
+      ],
+      "notes": ["最新の通行可否・注意事項は宝塚市国際観光協会・西宮観光協会の公式案内でご確認ください。"]
+    },
+    {
+      "id": "access",
+      "heading": "アクセス・最寄駅",
+      "items": [
+        "<strong>スタート（生瀬側）：</strong>JR宝塚線「生瀬駅」から廃線敷入口まで徒歩約15〜20分",
+        "<strong>ゴール（武田尾側）：</strong>廃線敷出口からJR「武田尾駅」まで徒歩約10〜15分",
+        "JR宝塚駅から生瀬駅までは1駅・約3分。電車でアクセスしやすいコースです",
+        "車での来訪は駐車場が限られるため、公共交通機関の利用が推奨されています"
+      ]
+    },
+    {
+      "id": "season",
+      "heading": "おすすめの季節",
+      "items": [
+        "<strong>秋（11月頃）：</strong>紅葉シーズンが最も人気です。渓谷全体が色づき、混雑することもあります",
+        "<strong>春：</strong>山桜と新緑の季節も美しく、歩きやすい気候です",
+        "<strong>夏：</strong>トンネル内はひんやりしていますが、コース全体では暑さ・熱中症対策が必要です",
+        "<strong>冬：</strong>空気が澄んで静かに歩けますが、防寒対策をしてください"
+      ]
+    },
+    {
+      "id": "around",
+      "heading": "周辺スポット",
+      "items": [
+        "<strong>武田尾温泉：</strong>ゴールの武田尾駅近く。ハイキングの汗を日帰り温泉で流すのが定番コースです（<a href=\"/category/kanko/takedao-onsen-guide.html\">武田尾温泉ガイド</a>）",
+        "<strong>宝塚ダリア園：</strong>武田尾駅から阪急バスで約25分（<a href=\"/category/kanko/dahlia-en-guide.html\">宝塚ダリア園ガイド</a>）",
+        "<strong>宝塚北サービスエリア：</strong>車の場合は一般道からも利用できます（<a href=\"/category/kanko/takarazuka-kita-sa-guide.html\">宝塚北サービスエリアガイド</a>）"
+      ]
+    }
+  ],
+  "faq": [
+    { "q": "懐中電灯は本当に必要ですか？", "a": "はい、必須です。トンネル内に照明は一切なく、最長約400mのトンネルでは出口の光も見えない区間があります。足元が枕木・砂利のため、明るい懐中電灯やヘッドライトをご持参ください。" },
+    { "q": "所要時間はどのくらいですか？", "a": "廃線敷区間は約4.7km、駅から駅まで全体で約7〜8kmで、所要時間は約2〜3時間が目安です。" },
+    { "q": "子ども連れでも歩けますか？", "a": "コースは元が線路のため高低差が少なく、家族連れにも人気です。ただしトンネル内は真っ暗で、コース内にトイレ・売店がないため、準備を整えてお出かけください。" },
+    { "q": "トイレや売店はありますか？", "a": "コース内にはありません。生瀬駅・武田尾駅周辺で事前に済ませ、飲み物は持参してください。" },
+    { "q": "自転車で通行できますか？", "a": "できません。自転車・バイクでの通行、ランニング、火気の使用は禁止されています。ペットの同伴も遠慮するよう案内されています。" },
+    { "q": "おすすめの季節はいつですか？", "a": "紅葉の秋（11月頃）が最も人気です。春の山桜・新緑の時期も歩きやすくおすすめです。" },
+    { "q": "どちらの駅から歩くのがいいですか？", "a": "どちらからでも歩けますが、生瀬駅からスタートしてゴールの武田尾で温泉に立ち寄るコースが人気です。" }
+  ],
+  "relatedLinks": [
+    { "href": "/category/kanko.html", "label": "文化・観光の記事一覧を見る" },
+    { "href": "/category/kanko/takedao-onsen-guide.html", "label": "武田尾温泉ガイドを見る" },
+    { "href": "/category/bosai/guide.html", "label": "防災ガイドを見る" },
+    { "href": "/livecam.html", "label": "武庫川ライブカメラを見る" },
+    { "href": "https://kanko-takarazuka.jp/plan/walking/haisenato/", "label": "宝塚市国際観光協会のハイキングプランを見る" }
+  ],
+  "sourceUrl": "https://kanko-takarazuka.jp/plan/walking/haisenato/",
+  "sourceLabel": "宝塚市国際観光協会「JR福知山線廃線敷 武田尾 ハイキングプラン」"
+}
