@@ -20,6 +20,17 @@
       { "href": "/mukogawa/", "label": "武庫川防災情報", "sub": "水位・雨量の確認先まとめ", "icon": "shield" },
       { "href": "/category/bosai/guide.html", "label": "防災ガイド", "sub": "警戒レベル・避難場所・非常持ち出し品", "icon": "shield" }
     ],
+    "bohan": [
+      { "href": "/category/bohan.html", "label": "防犯の記事一覧", "sub": "兵庫県警・宝塚市の防犯情報まとめ", "icon": "shield" },
+      { "href": "/category/bosai/guide.html", "label": "防災ガイド", "sub": "警戒レベル・避難場所・非常持ち出し品", "icon": "shield" },
+      { "href": "/category/kurashi/koreisha-guide.html", "label": "高齢者向けガイド", "sub": "介護保険・見守りサービス", "icon": "user" }
+    ],
+    "event": [
+      { "href": "/events/", "label": "イベントカレンダー", "sub": "今日・今週末・今月のイベント予定", "icon": "calendar" },
+      { "href": "/category/kanko/takarazuka-kageki-guide.html", "label": "宝塚歌劇ガイド", "sub": "宝塚大劇場のアクセス・チケット購入・館内施設", "icon": "ticket" },
+      { "href": "/category/kanko/tezuka-museum-guide.html", "label": "手塚治虫記念館ガイド", "sub": "アクセス・入館案内・館内のみどころ", "icon": "book" },
+      { "href": "/category/kurashi/kotsu-guide.html", "label": "交通ガイド", "sub": "バス・駐輪場・シェアサイクル", "icon": "building" }
+    ],
     "kurashi": [
       { "href": "/category/kurashi/gomi-guide.html", "label": "ゴミ出し完全ガイド", "sub": "分別ルール・収集日をまとめました", "icon": "flame" },
       { "href": "/category/kurashi/gyousei-tetsuzuki-guide.html", "label": "行政手続きガイド", "sub": "転入転出・住民票・マイナンバー", "icon": "building" },

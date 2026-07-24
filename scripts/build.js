@@ -22,6 +22,7 @@ import {
   contactPage,
   searchPage,
   CATEGORIES,
+  AD_CONFIG,
 } from "./templates.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -536,6 +537,11 @@ function main() {
 
   writeFile("sitemap.xml", buildSitemap(publishedArticles, categoryPageKeys, giinWithArticles, guides, gianSessions, zaiseiPeriods, suisougakuYears));
   writeFile("robots.txt", `User-agent: *\nAllow: /\nSitemap: ${SITE_URL}/sitemap.xml\n`);
+
+  // AdSense導入準備（フェーズ21）：data/ad-config.jsonのadsTxtに内容を設定するとads.txtが出力される。未設定の間は生成しない
+  if (AD_CONFIG.adsTxt) {
+    writeFile("ads.txt", `${AD_CONFIG.adsTxt}\n`);
+  }
 
   const searchIndex = buildSearchIndex({ publishedArticles, categorySections, guides, gianSessions, zaiseiPeriods, suisougakuYears, giinWithArticles });
   writeFile("search-index.json", JSON.stringify(searchIndex));

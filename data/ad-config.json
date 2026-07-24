@@ -1,0 +1,19 @@
+{
+  "_comment": [
+    "広告表示の全体設定（フェーズ21で導入）。",
+    "adsTxtが空の場合はads.txtは生成されません（404）。空のads.txtは『認可販売者ゼロ』と解釈され有害なため、未設置が正しい状態です。",
+    "AdSense審査時はadsTxtへパブリッシャーIDの行（google.com, pub-XXXX, DIRECT, f08c47fec0942fa0）を設定してください。",
+    "広告表示はenabledで制御します。adsTxtとは独立しています（審査中は enabled:true + adsenseClientId 設定でスニペットのみ出力し、slotsを空にしておけば広告ユニットは表示されません）。",
+    "excludedCategories/excludedPathsに該当するページは、enabledがtrueでも広告・スニペットを一切出力しません。"
+  ],
+  "enabled": false,
+  "adsenseClientId": "",
+  "adsTxt": "",
+  "excludedCategories": ["防災", "防犯"],
+  "excludedPaths": ["/livecam.html", "/mukogawa/", "/category/bosai.html", "/category/bohan.html", "/category/bosai/guide.html"],
+  "slots": {
+    "articleBottom": "",
+    "beforeRelated": "",
+    "guideBottom": ""
+  }
+}

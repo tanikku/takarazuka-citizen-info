@@ -165,6 +165,12 @@ html[data-theme="dark"] .theme-icon-moon { display: block; }
   color: var(--text-sub);
 }
 
+/* 広告スロット（フェーズ21：AdSense導入準備。ad-config.jsonのenabled:falseの間は出力されない） */
+.ad-slot {
+  margin: 16px 0;
+  text-align: center;
+}
+
 /* サイト内検索（フェーズ20） */
 .search-box {
   max-width: 1080px;

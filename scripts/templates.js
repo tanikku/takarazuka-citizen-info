@@ -8,6 +8,30 @@ const RECOMMENDATIONS = JSON.parse(
   fs.readFileSync(path.join(__dirname, "..", "data", "recommendations.json"), "utf-8"),
 );
 
+// フェーズ21：広告設定（AdSense導入準備）。enabled:falseの間は広告関連の出力を一切行わない。
+// 防災・防犯など広告を出さないページはexcludedCategories/excludedPathsで制御する
+export const AD_CONFIG = JSON.parse(
+  fs.readFileSync(path.join(__dirname, "..", "data", "ad-config.json"), "utf-8"),
+);
+
+// このページで広告を表示してよいか（カテゴリ・パスの除外ルールを適用）
+export function adsAllowedFor({ category = "", pathname = "" }) {
+  if (AD_CONFIG.excludedCategories.includes(category)) return false;
+  if (AD_CONFIG.excludedPaths.includes(pathname)) return false;
+  return true;
+}
+
+// 広告挿入ポイント。enabled:false、スロット未設定、または除外ページでは空文字を返す（HTMLに何も出力しない）
+function adSlot(slotName, adsAllowed) {
+  if (!AD_CONFIG.enabled || !adsAllowed) return "";
+  const slotId = AD_CONFIG.slots[slotName];
+  if (!slotId || !AD_CONFIG.adsenseClientId) return "";
+  return `<div class="ad-slot ad-slot-${escapeHtml(slotName)}">
+<ins class="adsbygoogle" style="display:block" data-ad-client="${escapeHtml(AD_CONFIG.adsenseClientId)}" data-ad-slot="${escapeHtml(slotId)}" data-ad-format="auto" data-full-width-responsive="true"></ins>
+<script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+</div>`;
+}
+
 export function escapeHtml(text) {
   return String(text)
     .replaceAll("&", "&amp;")
@@ -146,11 +170,25 @@ function quickAccessPanel() {
   return `<div class="quick-access">${items}</div>`;
 }
 
-export function layout({ title, description, bodyHtml, canonicalUrl, ogType = "website", structuredData = null, extraScripts = [] }) {
+export function layout({ title, description, bodyHtml, canonicalUrl, ogType = "website", structuredData = null, extraScripts = [], ogImage = null, adsAllowed = true }) {
   const dataList = Array.isArray(structuredData) ? structuredData : structuredData ? [structuredData] : [];
   const jsonLdScript = dataList
     .map((data) => `<script type="application/ld+json">${JSON.stringify(data)}</script>`)
     .join("\n");
+
+  // ogImageはサイト内の絶対パス（/photos/...）または完全URLを受け取り、絶対URLに正規化する
+  const origin = new URL(canonicalUrl).origin;
+  const ogImageUrl = ogImage ? (ogImage.startsWith("http") ? ogImage : `${origin}${ogImage}`) : null;
+  const ogImageTags = ogImageUrl
+    ? `<meta property="og:image" content="${escapeHtml(ogImageUrl)}">
+<meta name="twitter:image" content="${escapeHtml(ogImageUrl)}">`
+    : "";
+
+  // AdSense審査用スニペット。ad-config.jsonのenabled:true＋クライアントID設定時のみ出力（広告除外ページには出力しない）
+  const adsenseHeadScript =
+    AD_CONFIG.enabled && AD_CONFIG.adsenseClientId && adsAllowed
+      ? `<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${escapeHtml(AD_CONFIG.adsenseClientId)}" crossorigin="anonymous"></script>`
+      : "";
 
   return `<!DOCTYPE html>
 <html lang="ja">
@@ -168,11 +206,13 @@ export function layout({ title, description, bodyHtml, canonicalUrl, ogType = "w
 <meta property="og:description" content="${escapeHtml(description)}">
 <meta property="og:url" content="${escapeHtml(canonicalUrl)}">
 <meta property="og:locale" content="ja_JP">
-<meta name="twitter:card" content="summary">
+<meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="${escapeHtml(title)}">
 <meta name="twitter:description" content="${escapeHtml(description)}">
+${ogImageTags}
 <link rel="stylesheet" href="/css/style.css">
 <script>${themeInitScript()}</script>
+${adsenseHeadScript}
 </head>
 <body>
 ${header()}
@@ -216,6 +256,8 @@ export function articlePage(article, siteUrl, giinList = []) {
     isAccessibleForFree: true,
   };
   const categoryMeta = findCategory(article.category);
+  // 防災・防犯カテゴリの記事（避難情報・災害情報・被害者が存在しうる事件事故等）には広告を表示しない
+  const adsAllowed = adsAllowedFor({ category: article.category, pathname: `/articles/${article.slug}.html` });
 
   const breadcrumbLd = {
     "@context": "https://schema.org",
@@ -257,11 +299,14 @@ ${keyPointsBox}
 <p class="article-summary">${escapeHtml(article.summary)}</p>
 ${giinLinkBox}
 ${shigikaiDisclosure}
+${adSlot("articleBottom", adsAllowed)}
 <p class="article-source">出典：<a href="${escapeHtml(article.sourceUrl)}" rel="noopener" target="_blank">${escapeHtml(article.sourceName)}</a>${article.sourceUnavailable ? "（掲載終了）" : ""}</p>
 ${article.sourceUnavailable ? `<p class="empty-state" style="font-size:0.85rem;">※ 出典ページは掲載終了しています（期間限定のお知らせのため）。本文は掲載当時の公式発表内容を要約したものです。</p>` : ""}
 <p class="x-follow-note">公式X：<a href="https://x.com/TakaTodayJP" target="_blank" rel="noopener">@TakaTodayJP</a><br>最新の更新情報や防災情報をお届けしています。</p>
 <p class="back-link"><a href="/">${icon("newspaper")}トップへ戻る</a></p>
-</article>`;
+</article>
+${adSlot("beforeRelated", adsAllowed)}
+${recommendedPagesPanel(categoryMeta?.key ?? "", `/articles/${article.slug}.html`)}`;
 
   return layout({
     title: `${article.title}｜Takarazuka Today`,
@@ -270,6 +315,7 @@ ${article.sourceUnavailable ? `<p class="empty-state" style="font-size:0.85rem;"
     canonicalUrl,
     ogType: "article",
     structuredData: [jsonLd, breadcrumbLd],
+    adsAllowed,
   });
 }
 
@@ -535,6 +581,7 @@ ${todayRow(todayArticles, photoOfDay, categoryPageKeys, activeNotices)}
     canonicalUrl: `${siteUrl}/`,
     structuredData,
     extraScripts: ["/js/search.js"],
+    ogImage: "/img/header-banner.png",
   });
 }
 
@@ -671,6 +718,7 @@ ${giinLink}
     bodyHtml,
     canonicalUrl,
     structuredData: [collectionLd, breadcrumbLd],
+    adsAllowed: adsAllowedFor({ category: category.label, pathname: categoryPath(category.key) }),
   });
 }
 
@@ -894,6 +942,8 @@ ${recommendedPagesPanel("bosai", canonicalUrl.replace(siteUrl, ""))}
     bodyHtml,
     canonicalUrl,
     structuredData: [breadcrumbLd, faqLd],
+    ogImage: "/photos/001015680_takedaomomizi2013.jpg",
+    adsAllowed: false,
   });
 }
 
@@ -1732,6 +1782,7 @@ ${recommendedPagesPanel("shigikai", canonicalUrl.replace(siteUrl, ""))}
 // ニュース記事ではなく評価性のない常設リファレンス情報のため、記事スキーマとは別に専用ページとして実装する
 export function guidePage(guide, siteUrl) {
   const canonicalUrl = `${siteUrl}/category/${guide.categoryKey}/${guide.slug}.html`;
+  const guideAdsAllowed = adsAllowedFor({ category: guide.category?.label ?? "", pathname: `/category/${guide.categoryKey}/${guide.slug}.html` });
 
   const tocHtml = `<div class="toc">
 <p class="toc-title">${icon("newspaper")}目次</p>
@@ -1794,6 +1845,7 @@ ${sectionsHtml}
 ${faqHtml}
 ${relatedHtml}
 <p class="source-note">出典：<a href="${escapeHtml(guide.sourceUrl)}" target="_blank" rel="noopener">${escapeHtml(guide.sourceLabel)}</a>（情報は要約です。最新情報は出典元をご確認ください）</p>
+${adSlot("guideBottom", guideAdsAllowed)}
 ${recommendedPagesPanel(guide.categoryKey, canonicalUrl.replace(siteUrl, ""))}
 </div>`;
 
@@ -1823,6 +1875,9 @@ ${recommendedPagesPanel(guide.categoryKey, canonicalUrl.replace(siteUrl, ""))}
     bodyHtml,
     canonicalUrl,
     structuredData: [breadcrumbLd, faqLd],
+    // cardPhotoを持つガイドはOGP画像として自動設定される（宝塚歌劇・阪神競馬場・手塚治虫記念館・中山寺・清荒神清澄寺等）
+    ogImage: guide.cardPhoto ?? null,
+    adsAllowed: guideAdsAllowed,
   });
 }
 
@@ -1856,6 +1911,7 @@ ${recommendedPagesPanel("bosai", canonicalUrl.replace(siteUrl, ""))}
     bodyHtml,
     canonicalUrl,
     structuredData: breadcrumbLd,
+    adsAllowed: false,
   });
 }
 
