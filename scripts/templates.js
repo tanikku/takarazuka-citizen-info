@@ -289,6 +289,30 @@ ${icon("user")}
 </div>`
       : "";
 
+  const comparisonTablesHtml =
+    Array.isArray(article.comparisonTables) && article.comparisonTables.length > 0
+      ? article.comparisonTables
+          .map(
+            (t) => `<div class="panel" style="margin:1rem 0;">
+<p class="panel-title">${escapeHtml(t.title)}</p>
+<table class="data-table" style="width:100%;border-collapse:collapse;font-size:0.9rem;">
+<thead><tr style="background:var(--color-surface-2,#f5f5f5);">
+${t.headers.map((h, i) => `<th style="padding:0.5rem;text-align:${i === 0 ? "left" : "right"};border-bottom:1px solid var(--color-border,#ddd);">${escapeHtml(h)}</th>`).join("\n")}
+</tr></thead>
+<tbody>
+${t.rows
+  .map(
+    (row) =>
+      `<tr>${row.map((cell, i) => `<td style="padding:0.5rem;text-align:${i === 0 ? "left" : "right"};border-bottom:1px solid var(--color-border,#ddd);">${escapeHtml(cell)}</td>`).join("")}</tr>`
+  )
+  .join("\n")}
+</tbody>
+</table>
+</div>`
+          )
+          .join("\n")
+      : "";
+
   const bodyHtml = `<nav class="breadcrumb breadcrumb-article"><a href="/">トップ</a> &gt; ${categoryMeta ? `<a href="${categoryPath(categoryMeta.key)}">${escapeHtml(categoryMeta.label)}</a>` : escapeHtml(article.category)}</nav>
 <article class="article-detail">
 <p class="category-tag">${sourceBadge(article.sourceName)}${categoryMeta ? icon(categoryMeta.icon) : icon("newspaper")}${escapeHtml(article.category)}</p>
@@ -297,6 +321,7 @@ ${icon("user")}
 ${aiEditorialBadge}
 ${keyPointsBox}
 <p class="article-summary">${escapeHtml(article.summary)}</p>
+${comparisonTablesHtml}
 ${giinLinkBox}
 ${shigikaiDisclosure}
 ${adSlot("articleBottom", adsAllowed)}
