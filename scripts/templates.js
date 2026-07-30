@@ -308,6 +308,7 @@ ${t.rows
   .join("\n")}
 </tbody>
 </table>
+${t.sourceUrl ? `<p class="panel-note">出典：<a href="${escapeHtml(t.sourceUrl)}" target="_blank" rel="noopener">${escapeHtml(t.sourceLabel ?? "宝塚市公式サイト")}</a></p>` : ""}
 </div>`
           )
           .join("\n")
