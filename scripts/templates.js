@@ -1480,6 +1480,25 @@ const SUISOUGAKU_FAQ = [
 
 function suisougakuStagePanel(iconName, title, stage) {
   const venuesHtml = stage.yearInfo.venues.map((v) => `<li>${escapeHtml(v)}</li>`).join("\n");
+  const scheduleHtml =
+    Array.isArray(stage.takarazukaSchedule) && stage.takarazukaSchedule.length > 0
+      ? `<p class="guide-q">宝塚市関係校の出演スケジュール</p>
+<table class="data-table" style="width:100%;border-collapse:collapse;font-size:0.9rem;">
+<thead><tr style="background:var(--color-surface-2,#f5f5f5);">
+<th style="padding:0.5rem;text-align:left;border-bottom:1px solid var(--color-border,#ddd);">学校名</th>
+<th style="padding:0.5rem;text-align:right;border-bottom:1px solid var(--color-border,#ddd);">出演順</th>
+<th style="padding:0.5rem;text-align:right;border-bottom:1px solid var(--color-border,#ddd);">演奏予定時刻</th>
+</tr></thead>
+<tbody>
+${stage.takarazukaSchedule
+  .map(
+    (s) =>
+      `<tr><td style="padding:0.5rem;border-bottom:1px solid var(--color-border,#ddd);">${escapeHtml(s.name)}</td><td style="padding:0.5rem;text-align:right;border-bottom:1px solid var(--color-border,#ddd);">${escapeHtml(s.order)}</td><td style="padding:0.5rem;text-align:right;border-bottom:1px solid var(--color-border,#ddd);">${escapeHtml(s.time)}</td></tr>`
+  )
+  .join("\n")}
+</tbody>
+</table>`
+      : "";
   return `<div class="panel">
 <p class="panel-title">${icon(iconName)}${escapeHtml(title)}</p>
 <p><strong>${escapeHtml(stage.name)}</strong></p>
@@ -1489,6 +1508,7 @@ function suisougakuStagePanel(iconName, title, stage) {
 <ul>
 ${venuesHtml}
 </ul>
+${scheduleHtml}
 <p class="today-source">主催：${escapeHtml(stage.organizerName)}</p>
 <p class="panel-note"><a href="${escapeHtml(stage.officialUrl)}" target="_blank" rel="noopener">→ ${escapeHtml(stage.organizerName)}公式サイトを見る</a></p>
 </div>`;
