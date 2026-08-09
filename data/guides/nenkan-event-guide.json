@@ -24,7 +24,7 @@
         "<strong>4月</strong>：入学式・始業式。新年度がスタートします",
         "<strong>5月</strong>：校外学習・遠足（学年により内容が異なります）",
         "<strong>6月</strong>：修学旅行（実施学年・時期は学校により異なります）",
-        "<strong>7月</strong>：終業式・夏休み開始。高校では夏休み中に<a href=\"/category/kyoiku/open-school-guide.html\">オープンスクール</a>を実施する学校もあります"
+        "<strong>7月</strong>：終業式・夏休み開始。高校では夏休み中に<a href=\"/category/kyoiku/open-school-guide\">オープンスクール</a>を実施する学校もあります"
       ],
       "notes": [
         "修学旅行の実施学年・時期は学校により異なります",
@@ -37,7 +37,7 @@
       "icon": "calendar",
       "items": [
         "<strong>9月</strong>：始業式。体育大会（運動会）を2学期に実施する学校ではこの時期に行われます（時期は学校により異なります）",
-        "<strong>秋（9〜11月頃）</strong>：文化祭が多く実施される時期です（詳しくは<a href=\"/category/kyoiku/bunkasai-guide.html\">高校文化祭ガイド</a>参照）。高校の<a href=\"/category/kyoiku/open-school-guide.html\">オープンスクール</a>も秋に実施する学校が多いですが、7〜8月に実施する学校もあり、時期は学校により幅があります",
+        "<strong>秋（9〜11月頃）</strong>：文化祭が多く実施される時期です（詳しくは<a href=\"/category/kyoiku/bunkasai-guide\">高校文化祭ガイド</a>参照）。高校の<a href=\"/category/kyoiku/open-school-guide\">オープンスクール</a>も秋に実施する学校が多いですが、7〜8月に実施する学校もあり、時期は学校により幅があります",
         "<strong>12月</strong>：終業式・冬休み開始"
       ]
     },
@@ -47,7 +47,7 @@
       "icon": "moon",
       "items": [
         "<strong>1月</strong>：始業式。高校入試に向けた準備が本格化します",
-        "<strong>2〜3月</strong>：高校入試（学力検査等）。詳しくは<a href=\"/category/kurashi/school-admission-guide.html\">学区・高校受験ガイド</a>参照",
+        "<strong>2〜3月</strong>：高校入試（学力検査等）。詳しくは<a href=\"/category/kurashi/school-admission-guide\">学区・高校受験ガイド</a>参照",
         "<strong>3月</strong>：卒業式・修了式"
       ]
     },
@@ -66,16 +66,16 @@
     { "q": "運動会と体育大会は同じですか？", "a": "呼び方は学校によって異なりますが、多くは同様の内容の行事を指します。詳細は各校の案内をご確認ください。" },
     { "q": "体育大会（運動会）はいつ開催されますか？", "a": "宝塚市内でも学校・校種により、春（1学期）に実施する学校と秋（2学期）に実施する学校があり、一律ではありません。お子さんが通う（通う予定の）学校の年間行事予定表でご確認ください。" },
     { "q": "修学旅行はいつ・どの学年で行きますか？", "a": "学校により実施学年・時期が異なります。詳細は各校からの案内をご確認ください。" },
-    { "q": "文化祭とオープンスクールは同じ時期に開催されますか？", "a": "秋（9〜11月頃）に実施する学校が多いですが、高校のオープンスクールは7〜8月に実施する学校もあり、学校により時期に幅があります。それぞれ<a href=\"/category/kyoiku/bunkasai-guide.html\">高校文化祭ガイド</a>・<a href=\"/category/kyoiku/open-school-guide.html\">オープンスクールガイド</a>でも紹介していますので、志望校の日程は各校公式サイトで直接ご確認ください。" },
+    { "q": "文化祭とオープンスクールは同じ時期に開催されますか？", "a": "秋（9〜11月頃）に実施する学校が多いですが、高校のオープンスクールは7〜8月に実施する学校もあり、学校により時期に幅があります。それぞれ<a href=\"/category/kyoiku/bunkasai-guide\">高校文化祭ガイド</a>・<a href=\"/category/kyoiku/open-school-guide\">オープンスクールガイド</a>でも紹介していますので、志望校の日程は各校公式サイトで直接ご確認ください。" },
     { "q": "年間行事予定はどこで確認できますか？", "a": "各校が配布する年間行事予定表、または宝塚市教育委員会公式サイトでご確認ください。" }
   ],
   "relatedLinks": [
-    { "href": "/category/kyoiku.html", "label": "教育の記事一覧を見る" },
-    { "href": "/category/kyoiku/guide.html", "label": "学校情報ガイドを見る" },
-    { "href": "/category/kyoiku/suisougaku-guide.html", "label": "吹奏楽コンクールガイドを見る" },
-    { "href": "/category/kyoiku/open-school-guide.html", "label": "オープンスクールガイドを見る" },
-    { "href": "/category/kyoiku/bunkasai-guide.html", "label": "高校文化祭ガイドを見る" },
-    { "href": "/category/kurashi/school-admission-guide.html", "label": "学区・高校受験ガイドを見る" }
+    { "href": "/category/kyoiku", "label": "教育の記事一覧を見る" },
+    { "href": "/category/kyoiku/guide", "label": "学校情報ガイドを見る" },
+    { "href": "/category/kyoiku/suisougaku-guide", "label": "吹奏楽コンクールガイドを見る" },
+    { "href": "/category/kyoiku/open-school-guide", "label": "オープンスクールガイドを見る" },
+    { "href": "/category/kyoiku/bunkasai-guide", "label": "高校文化祭ガイドを見る" },
+    { "href": "/category/kurashi/school-admission-guide", "label": "学区・高校受験ガイドを見る" }
   ],
   "sourceUrl": "https://www.city.takarazuka.hyogo.jp/kyoikuiinkai/",
   "sourceLabel": "宝塚市教育委員会 公式サイト"

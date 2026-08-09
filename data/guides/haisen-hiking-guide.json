@@ -72,7 +72,7 @@
         "<strong>禁止行為：</strong>自転車・バイクでの通行、ランニング、火気の使用は禁止されています",
         "<strong>ペットの同伴はご遠慮ください</strong>と案内されています",
         "ゴミは必ず持ち帰ってください",
-        "大雨の後は足元が悪くなります。天候・河川の状況は<a href=\"/livecam.html\">武庫川ライブカメラ</a>でも確認できます"
+        "大雨の後は足元が悪くなります。天候・河川の状況は<a href=\"/livecam\">武庫川ライブカメラ</a>でも確認できます"
       ],
       "notes": ["最新の通行可否・注意事項は宝塚市国際観光協会・西宮観光協会の公式案内でご確認ください。"]
     },
@@ -100,9 +100,9 @@
       "id": "around",
       "heading": "周辺スポット",
       "items": [
-        "<strong>武田尾温泉：</strong>ゴールの武田尾駅近く。ハイキングの汗を日帰り温泉で流すのが定番コースです（<a href=\"/category/kanko/takedao-onsen-guide.html\">武田尾温泉ガイド</a>）",
-        "<strong>宝塚ダリア園：</strong>武田尾駅から阪急バスで約25分（<a href=\"/category/kanko/dahlia-en-guide.html\">宝塚ダリア園ガイド</a>）",
-        "<strong>宝塚北サービスエリア：</strong>車の場合は一般道からも利用できます（<a href=\"/category/kanko/takarazuka-kita-sa-guide.html\">宝塚北サービスエリアガイド</a>）"
+        "<strong>武田尾温泉：</strong>ゴールの武田尾駅近く。ハイキングの汗を日帰り温泉で流すのが定番コースです（<a href=\"/category/kanko/takedao-onsen-guide\">武田尾温泉ガイド</a>）",
+        "<strong>宝塚ダリア園：</strong>武田尾駅から阪急バスで約25分（<a href=\"/category/kanko/dahlia-en-guide\">宝塚ダリア園ガイド</a>）",
+        "<strong>宝塚北サービスエリア：</strong>車の場合は一般道からも利用できます（<a href=\"/category/kanko/takarazuka-kita-sa-guide\">宝塚北サービスエリアガイド</a>）"
       ]
     }
   ],
@@ -116,10 +116,10 @@
     { "q": "どちらの駅から歩くのがいいですか？", "a": "どちらからでも歩けますが、生瀬駅からスタートしてゴールの武田尾で温泉に立ち寄るコースが人気です。" }
   ],
   "relatedLinks": [
-    { "href": "/category/kanko.html", "label": "文化・観光の記事一覧を見る" },
-    { "href": "/category/kanko/takedao-onsen-guide.html", "label": "武田尾温泉ガイドを見る" },
-    { "href": "/category/bosai/guide.html", "label": "防災ガイドを見る" },
-    { "href": "/livecam.html", "label": "武庫川ライブカメラを見る" },
+    { "href": "/category/kanko", "label": "文化・観光の記事一覧を見る" },
+    { "href": "/category/kanko/takedao-onsen-guide", "label": "武田尾温泉ガイドを見る" },
+    { "href": "/category/bosai/guide", "label": "防災ガイドを見る" },
+    { "href": "/livecam", "label": "武庫川ライブカメラを見る" },
     { "href": "https://kanko-takarazuka.jp/plan/walking/haisenato/", "label": "宝塚市国際観光協会のハイキングプランを見る" }
   ],
   "sourceUrl": "https://kanko-takarazuka.jp/plan/walking/haisenato/",

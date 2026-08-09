@@ -33,19 +33,19 @@ function loadEnvFile() {
   }
 }
 
-// requestPath（例: "/articles/foo.html", "/livecam.html", "/events/"）から
-// public/配下の実ファイルを特定し、<title>タグを読み取ってページタイトルを得る。
+// requestPath（例: "/articles/foo", "/livecam", "/events/"）から
+// public/配下の実ファイル（.html）を特定し、<title>タグを読み取ってページタイトルを得る。
 // サイト内の全ページ種別（記事・ガイド・カテゴリ・固定ページ）に対応できる汎用的な方法。
-// Cloudflare Pagesは.html付きURLを拡張子なしへ308リダイレクトするため、RUMデータ上の
-// requestPathは拡張子なしの場合がある（詳細はDECISIONS.md「Cloudflare Pages URL調査」参照）。
-// そのため候補を複数パターン試す。
+// 正規URLは拡張子なしのため、canonicalPathは常に拡張子なしで返す。実ファイル名（.html）は
+// Cloudflare Pagesの静的ホスティング仕様上そのまま残る（詳細はDECISIONS.md「Cloudflare Pages
+// URL調査」参照）。RUMデータ上のrequestPathが稀に旧`.html`付きで記録されている場合にも対応する。
 function resolvePage(requestPath) {
   const candidates = requestPath.endsWith("/")
     ? [{ file: `${requestPath}index.html`, canonicalPath: requestPath }]
     : requestPath.endsWith(".html")
-      ? [{ file: requestPath, canonicalPath: requestPath }]
+      ? [{ file: requestPath, canonicalPath: requestPath.slice(0, -".html".length) }]
       : [
-          { file: `${requestPath}.html`, canonicalPath: `${requestPath}.html` },
+          { file: `${requestPath}.html`, canonicalPath: requestPath },
           { file: `${requestPath}/index.html`, canonicalPath: `${requestPath}/` },
         ];
 

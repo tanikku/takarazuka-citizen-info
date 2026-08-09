@@ -88,7 +88,7 @@ export const SHIGIKAI_CATEGORY = CATEGORIES.find((c) => c.key === "shigikai");
 const SHIGIKAI_DISCLOSURE = `<div class="disclosure-box">本ページの会議要約は、宝塚市議会会議録検索システムの公開情報を基に、人間が内容を確認しながらAIが要約を作成しています。事実のみを記載し、議員の評価・政治的意見・優劣判断は一切行いません。</div>`;
 
 export function categoryPath(key) {
-  return `/category/${key}.html`;
+  return `/category/${key}`;
 }
 
 function themeInitScript() {
@@ -139,10 +139,10 @@ ${weather.popBlocks.map((b) => `<div class="weather-pop-block"><span class="weat
 </div>`;
 }
 
-// フェーズ20：サイト内検索。/search-index.json（ビルド時自動生成）を/js/search.jsが読み込み、入力中に候補表示・Enterで/search.htmlへ遷移する
+// フェーズ20：サイト内検索。/search-index.json（ビルド時自動生成）を/js/search.jsが読み込み、入力中に候補表示・Enterで/searchへ遷移する
 function searchBoxPanel() {
   return `<div class="search-box">
-<form id="site-search-form" class="search-form" action="/search.html" role="search" autocomplete="off">
+<form id="site-search-form" class="search-form" action="/search" role="search" autocomplete="off">
 ${icon("search")}
 <input type="search" id="site-search-input" name="q" placeholder="サイト内を検索（例：ゴミ出し、防災、宝塚歌劇）" aria-label="サイト内検索">
 </form>
@@ -151,13 +151,13 @@ ${icon("search")}
 }
 
 function contactCtaPanel() {
-  return `<a class="panel contact-cta-panel" href="/contact.html">${icon("mail")}<span>お問い合わせ</span></a>`;
+  return `<a class="panel contact-cta-panel" href="/contact">${icon("mail")}<span>お問い合わせ</span></a>`;
 }
 
 const QUICK_ACCESS_ITEMS = [
   { href: "/#today-topic", icon: "calendar", label: "今日の宝塚" },
-  { href: "/category/shigikai.html", icon: "building", label: "市議会" },
-  { href: "/category/bohan.html", icon: "shield", label: "防犯" },
+  { href: "/category/shigikai", icon: "building", label: "市議会" },
+  { href: "/category/bohan", icon: "shield", label: "防犯" },
   { href: "/events/", icon: "calendar", label: "イベント" },
   { href: "/#photo", icon: "camera", label: "フォト" },
   { href: "/mukogawa/", icon: "videoCamera", label: "武庫川防災" },
@@ -224,8 +224,8 @@ ${popularContentStrip(new URL(canonicalUrl).pathname)}
 <p>本サイトに掲載する記事は、公開情報の要約と出典リンクのみで構成しています。詳細・正式な内容は出典元をご確認ください。</p>
 <p>写真提供：<a href="https://www.city.takarazuka.hyogo.jp/1014984/1015575/" target="_blank" rel="noopener">宝塚市オープンデータ</a>（<a href="https://creativecommons.org/licenses/by/4.0/deed.ja" target="_blank" rel="noopener">CC BY 4.0</a>）</p>
 <p>公式X：<a href="https://x.com/TakaTodayJP" target="_blank" rel="noopener">@TakaTodayJP</a></p>
-<p class="footer-contact"><a href="/contact.html">${icon("mail")}お問い合わせ</a></p>
-<p class="footer-links"><a href="/privacy.html">プライバシーポリシー</a>　<a href="/about.html">運営者情報</a>　<a href="/ad-policy.html">PR・広告掲載ポリシー</a></p>
+<p class="footer-contact"><a href="/contact">${icon("mail")}お問い合わせ</a></p>
+<p class="footer-links"><a href="/privacy">プライバシーポリシー</a>　<a href="/about">運営者情報</a>　<a href="/ad-policy">PR・広告掲載ポリシー</a></p>
 </footer>
 ${jsonLdScript}
 <script src="/js/theme.js" defer></script>
@@ -242,7 +242,7 @@ function findCategory(label) {
 
 export function articlePage(article, siteUrl, giinList = []) {
   const findGiinName = (slug) => giinList.find((g) => g.slug === slug)?.name;
-  const canonicalUrl = `${siteUrl}/articles/${article.slug}.html`;
+  const canonicalUrl = `${siteUrl}/articles/${article.slug}`;
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "NewsArticle",
@@ -257,7 +257,7 @@ export function articlePage(article, siteUrl, giinList = []) {
   };
   const categoryMeta = findCategory(article.category);
   // 防災・防犯カテゴリの記事（避難情報・災害情報・被害者が存在しうる事件事故等）には広告を表示しない
-  const adsAllowed = adsAllowedFor({ category: article.category, pathname: `/articles/${article.slug}.html` });
+  const adsAllowed = adsAllowedFor({ category: article.category, pathname: `/articles/${article.slug}` });
 
   const breadcrumbLd = {
     "@context": "https://schema.org",
@@ -285,7 +285,7 @@ export function articlePage(article, siteUrl, giinList = []) {
     isShigikai && Array.isArray(article.giin) && article.giin.length > 0
       ? `<div class="giin-link-box">
 ${icon("user")}
-<div>この記事で発言した議員：${article.giin.map((slug) => `<a href="/giin/${escapeHtml(slug)}.html">${escapeHtml(findGiinName(slug) ?? slug)}議員の発言記録を見る →</a>`).join("、")}</div>
+<div>この記事で発言した議員：${article.giin.map((slug) => `<a href="/giin/${escapeHtml(slug)}">${escapeHtml(findGiinName(slug) ?? slug)}議員の発言記録を見る →</a>`).join("、")}</div>
 </div>`
       : "";
 
@@ -332,7 +332,7 @@ ${article.sourceUnavailable ? `<p class="empty-state" style="font-size:0.85rem;"
 <p class="back-link"><a href="/">${icon("newspaper")}トップへ戻る</a></p>
 </article>
 ${adSlot("beforeRelated", adsAllowed)}
-${recommendedPagesPanel(categoryMeta?.key ?? "", `/articles/${article.slug}.html`)}`;
+${recommendedPagesPanel(categoryMeta?.key ?? "", `/articles/${article.slug}`)}`;
 
   return layout({
     title: `${article.title}｜Takarazuka Today`,
@@ -384,7 +384,7 @@ function thumbHtml(photo, fallbackIconName) {
 function headlineRow(article) {
   const categoryMeta = findCategory(article.category);
   const photo = findPhotoForText(`${article.title} ${article.summary ?? ""}`);
-  return `<a class="headline-row" href="/articles/${article.slug}.html">
+  return `<a class="headline-row" href="/articles/${article.slug}">
 <div class="headline-thumb">${thumbHtml(photo, categoryMeta ? categoryMeta.icon : "newspaper")}</div>
 <div>
   <p class="headline-title">${sourceBadge(article.sourceName)}<span class="topic-tag">${escapeHtml(article.category)}</span>${escapeHtml(article.title)}</p>
@@ -496,7 +496,7 @@ ${showMoreLink ? '<p class="panel-note"><a href="/ranking/">ランキングを�
     .map(
       (a, i) => `<li class="ranking-item">
 <span class="rank-num">${i + 1}</span>
-<a class="rank-title" href="/articles/${a.slug}.html">${escapeHtml(a.title)}</a>
+<a class="rank-title" href="/articles/${a.slug}">${escapeHtml(a.title)}</a>
 </li>`,
     )
     .join("\n");
@@ -519,10 +519,10 @@ ${browseLink}
 }
 
 const GUIDE_NAV_ITEMS = [
-  { href: "/category/kurashi/gomi-guide.html", icon: "building", label: "ゴミ出し" },
-  { href: "/category/kosodate/guide.html", icon: "child", label: "子育て支援" },
-  { href: "/category/bosai/guide.html", icon: "alert", label: "防災" },
-  { href: "/category/kyoiku/guide.html", icon: "book", label: "学校情報" },
+  { href: "/category/kurashi/gomi-guide", icon: "building", label: "ゴミ出し" },
+  { href: "/category/kosodate/guide", icon: "child", label: "子育て支援" },
+  { href: "/category/bosai/guide", icon: "alert", label: "防災" },
+  { href: "/category/kyoiku/guide", icon: "book", label: "学校情報" },
 ];
 
 function guideNavPanel() {
@@ -542,7 +542,7 @@ function shigikaiCornerPanel({ hasGianPage, gikaiArticles }) {
     ? `<div class="corner-announce">${icon("bell")}<span><strong>NEW</strong>議案の採決結果・議員別の表決結果がわかる「議案採決一覧」を公開しました</span></div>`
     : "";
   const cta = hasGianPage
-    ? `<a class="gian-cta-card" href="/category/shigikai/gian.html">
+    ? `<a class="gian-cta-card" href="/category/shigikai/gian">
 <div class="gian-cta-icon">${icon("newspaper")}</div>
 <div class="gian-cta-text">
 <div class="gian-cta-title">議案採決一覧を見る</div>
@@ -558,7 +558,7 @@ function shigikaiCornerPanel({ hasGianPage, gikaiArticles }) {
 ${announcement}
 ${cta}
 ${items}
-<p class="panel-note"><a href="/category/shigikai.html">→ 市議会ウォッチ一覧へ</a></p>
+<p class="panel-note"><a href="/category/shigikai">→ 市議会ウォッチ一覧へ</a></p>
 </div>`;
 }
 
@@ -594,7 +594,7 @@ ${todayRow(todayArticles, photoOfDay, categoryPageKeys, activeNotices)}
       "@type": "SearchAction",
       target: {
         "@type": "EntryPoint",
-        urlTemplate: `${siteUrl}/search.html?q={search_term_string}`,
+        urlTemplate: `${siteUrl}/search?q={search_term_string}`,
       },
       "query-input": "required name=search_term_string",
     },
@@ -613,7 +613,7 @@ ${todayRow(todayArticles, photoOfDay, categoryPageKeys, activeNotices)}
 
 function gikaiRow(article) {
   const photo = findPhotoForText(`${article.title} ${article.summary ?? ""}`);
-  return `<a class="headline-row" href="/articles/${article.slug}.html">
+  return `<a class="headline-row" href="/articles/${article.slug}">
 <div class="headline-thumb">${thumbHtml(photo, "building")}</div>
 <div>
   <p class="headline-title"><span class="badge-ai-editorial">AI要約・編集確認済</span>${escapeHtml(article.title)}</p>
@@ -626,7 +626,7 @@ function guideCard(guide) {
   const iconBoxContent = guide.cardPhoto
     ? `<img src="${escapeHtml(guide.cardPhoto)}" alt="" loading="lazy">`
     : icon(guide.icon ?? guide.category.icon);
-  return `<a class="guide-card" href="/category/${guide.categoryKey}/${escapeHtml(guide.slug)}.html">
+  return `<a class="guide-card" href="/category/${guide.categoryKey}/${escapeHtml(guide.slug)}">
 <div class="icon-box${guide.cardPhoto ? " icon-box-photo" : ""}">${iconBoxContent}</div>
 <div>
   <div class="label">${escapeHtml(guide.title)}</div>
@@ -675,10 +675,10 @@ export function categoryPage(category, articles, siteUrl, guidesForCategory = []
   const isShigikai = category.key === "shigikai";
   const items = articles.map(isShigikai ? gikaiRow : headlineRow).join("\n");
   const giinLink = isShigikai
-    ? `<p class="panel-note"><a href="/giin/">議員活動サマリー一覧を見る →</a>　<a href="/category/shigikai/guide.html">市議会のしくみ・このページの見方 →</a></p>`
+    ? `<p class="panel-note"><a href="/giin/">議員活動サマリー一覧を見る →</a>　<a href="/category/shigikai/guide">市議会のしくみ・このページの見方 →</a></p>`
     : "";
   const gianCta = hasGianPage
-    ? `<a class="gian-cta-card" href="/category/shigikai/gian.html">
+    ? `<a class="gian-cta-card" href="/category/shigikai/gian">
 <div class="gian-cta-icon">${icon("newspaper")}</div>
 <div class="gian-cta-text">
 <div class="gian-cta-title">議案採決一覧を見る</div>
@@ -688,7 +688,7 @@ export function categoryPage(category, articles, siteUrl, guidesForCategory = []
 </a>`
     : "";
   const zaiseiCta = hasZaiseiPage
-    ? `<a class="gian-cta-card" href="/category/shigikai/zaisei-watch.html">
+    ? `<a class="gian-cta-card" href="/category/shigikai/zaisei-watch">
 <div class="gian-cta-icon">${icon("building")}</div>
 <div class="gian-cta-text">
 <div class="gian-cta-title">財政ウォッチを見る</div>
@@ -698,7 +698,7 @@ export function categoryPage(category, articles, siteUrl, guidesForCategory = []
 </a>`
     : "";
   const suisougakuCta = hasSuisougakuPage
-    ? `<a class="gian-cta-card" href="/category/kyoiku/suisougaku-guide.html">
+    ? `<a class="gian-cta-card" href="/category/kyoiku/suisougaku-guide">
 <div class="gian-cta-icon">${icon("book")}</div>
 <div class="gian-cta-text">
 <div class="gian-cta-title">吹奏楽コンクールガイドを見る</div>
@@ -785,23 +785,23 @@ function livecamPanel() {
   return `<div class="panel">
 <p class="panel-title">${icon("videoCamera")}宝塚市内のライブカメラ</p>
 ${items}
-<p class="panel-note"><a href="/livecam.html">ライブカメラ一覧・水位基準を見る →</a></p>
+<p class="panel-note"><a href="/livecam">ライブカメラ一覧・水位基準を見る →</a></p>
 </div>`;
 }
 
 // フェーズ18〜22：宝塚おでかけガイドシリーズへの導線。既存.guide-cardデザインを流用し、シリーズ追加ごとにカードを増やす（順序は検索需要を考慮）
 const ODEKAKE_GUIDE_CARDS = [
-  { href: "/category/kanko/takarazuka-kageki-guide.html", photo: "/photos/001015682_takarazukadaigekizyou.jpg", label: "宝塚歌劇ガイド", sub: "宝塚大劇場のアクセス・チケット購入・館内施設" },
-  { href: "/category/kanko/hanshin-keibajo-guide.html", photo: "/photos/hanshin-keibajo.jpg", label: "阪神競馬場ガイド", sub: "アクセス・駐車場・ファミリー向け情報" },
-  { href: "/category/kanko/takarazuka-kita-sa-guide.html", photo: "/photos/takarazuka-kita-sa.jpg", label: "宝塚北サービスエリアガイド", sub: "西日本最大級SA。一般道からの利用方法も" },
-  { href: "/category/kanko/haisen-hiking-guide.html", photo: "/photos/001015680_takedaomomizi2013.jpg", label: "武田尾廃線ハイキングガイド", sub: "トンネルと鉄橋を歩く人気コース" },
-  { href: "/category/kanko/tezuka-museum-guide.html", photo: "/photos/001015682_tezukakinenkan2015.jpg", label: "手塚治虫記念館ガイド", sub: "アクセス・入館案内・館内のみどころ" },
-  { href: "/category/kanko/nakayamadera-guide.html", photo: "/photos/nakayamadera.jpg", label: "中山寺ガイド", sub: "安産祈願・戌の日・アクセス" },
-  { href: "/category/kanko/kiyoshikojin-guide.html", photo: "/photos/kiyoshikojin.jpg", label: "清荒神清澄寺ガイド", sub: "境内案内・参道商店街・アクセス" },
-  { href: "/category/kanko/takedao-onsen-guide.html", photo: "/photos/001015680_takedao2b.jpg", label: "武田尾温泉ガイド", sub: "武庫川渓谷の秘湯。日帰り入浴・足湯" },
-  { href: "/category/kanko/takarazuka-onsen-guide.html", photo: "/photos/001015682_mukogawa.jpg", label: "宝塚温泉ガイド", sub: "宝塚駅近くの歴史ある街なか温泉" },
-  { href: "/category/kanko/aiaipark-guide.html", photo: "/photos/001015682_aiaipark2011.jpg", label: "あいあいパークガイド", sub: "植木のまち山本の園芸拠点。入場無料" },
-  { href: "/category/kanko/dahlia-en-guide.html", photo: "/photos/001015680_daria2015.jpg", label: "宝塚ダリア園ガイド", sub: "約300種10万本のダリア。花摘み体験も" },
+  { href: "/category/kanko/takarazuka-kageki-guide", photo: "/photos/001015682_takarazukadaigekizyou.jpg", label: "宝塚歌劇ガイド", sub: "宝塚大劇場のアクセス・チケット購入・館内施設" },
+  { href: "/category/kanko/hanshin-keibajo-guide", photo: "/photos/hanshin-keibajo.jpg", label: "阪神競馬場ガイド", sub: "アクセス・駐車場・ファミリー向け情報" },
+  { href: "/category/kanko/takarazuka-kita-sa-guide", photo: "/photos/takarazuka-kita-sa.jpg", label: "宝塚北サービスエリアガイド", sub: "西日本最大級SA。一般道からの利用方法も" },
+  { href: "/category/kanko/haisen-hiking-guide", photo: "/photos/001015680_takedaomomizi2013.jpg", label: "武田尾廃線ハイキングガイド", sub: "トンネルと鉄橋を歩く人気コース" },
+  { href: "/category/kanko/tezuka-museum-guide", photo: "/photos/001015682_tezukakinenkan2015.jpg", label: "手塚治虫記念館ガイド", sub: "アクセス・入館案内・館内のみどころ" },
+  { href: "/category/kanko/nakayamadera-guide", photo: "/photos/nakayamadera.jpg", label: "中山寺ガイド", sub: "安産祈願・戌の日・アクセス" },
+  { href: "/category/kanko/kiyoshikojin-guide", photo: "/photos/kiyoshikojin.jpg", label: "清荒神清澄寺ガイド", sub: "境内案内・参道商店街・アクセス" },
+  { href: "/category/kanko/takedao-onsen-guide", photo: "/photos/001015680_takedao2b.jpg", label: "武田尾温泉ガイド", sub: "武庫川渓谷の秘湯。日帰り入浴・足湯" },
+  { href: "/category/kanko/takarazuka-onsen-guide", photo: "/photos/001015682_mukogawa.jpg", label: "宝塚温泉ガイド", sub: "宝塚駅近くの歴史ある街なか温泉" },
+  { href: "/category/kanko/aiaipark-guide", photo: "/photos/001015682_aiaipark2011.jpg", label: "あいあいパークガイド", sub: "植木のまち山本の園芸拠点。入場無料" },
+  { href: "/category/kanko/dahlia-en-guide", photo: "/photos/001015680_daria2015.jpg", label: "宝塚ダリア園ガイド", sub: "約300種10万本のダリア。花摘み体験も" },
 ];
 
 function entertainmentPanel() {
@@ -817,12 +817,12 @@ function entertainmentPanel() {
   return `<div class="panel">
 <p class="panel-title">${icon("ticket")}宝塚おでかけガイド</p>
 ${cards}
-<p class="panel-note"><a href="/category/kanko.html">→ 文化・観光の記事一覧を見る</a></p>
+<p class="panel-note"><a href="/category/kanko">→ 文化・観光の記事一覧を見る</a></p>
 </div>`;
 }
 
 export function livecamPage(siteUrl) {
-  const canonicalUrl = `${siteUrl}/livecam.html`;
+  const canonicalUrl = `${siteUrl}/livecam`;
 
   const cameraItems = LIVE_CAMERAS.map(
     (cam) => `<a class="headline-row" href="${escapeHtml(cam.url)}" target="_blank" rel="noopener">
@@ -849,7 +849,7 @@ export function livecamPage(siteUrl) {
     },
     {
       q: "どのタイミングで避難を判断すればよいですか？",
-      a: "市が「避難指示」や「高齢者等避難」を発令した場合は速やかに避難してください。水位や雨量の数値を見ながら、警戒レベル3以上が発令されたら行動開始を目安にしてください。詳しくは<a href=\"/category/bosai/guide.html\">防災ガイド</a>をご覧ください。",
+      a: "市が「避難指示」や「高齢者等避難」を発令した場合は速やかに避難してください。水位や雨量の数値を見ながら、警戒レベル3以上が発令されたら行動開始を目安にしてください。詳しくは<a href=\"/category/bosai/guide\">防災ガイド</a>をご覧ください。",
     },
     {
       q: "大雨・台風のとき他に確認すべき情報源は？",
@@ -941,9 +941,9 @@ ${faqHtml}
 <div class="panel">
 <p class="panel-title">${icon("shield")}防災の備えも確認しよう</p>
 <ul class="related-links">
-<li><a href="/category/bosai/guide.html">防災ガイド（避難場所・ハザードマップ・非常持ち出し品）</a></li>
+<li><a href="/category/bosai/guide">防災ガイド（避難場所・ハザードマップ・非常持ち出し品）</a></li>
 <li><a href="/mukogawa/">武庫川防災情報</a></li>
-<li><a href="/category/bosai.html">防犯・防災の記事一覧</a></li>
+<li><a href="/category/bosai">防犯・防災の記事一覧</a></li>
 </ul>
 </div>
 
@@ -967,7 +967,7 @@ function eventRow(occurrence) {
   const categoryMeta = findCategory(article.category);
   const photo = findPhotoForText(`${article.title} ${article.summary ?? ""}`);
   const dateLabel = new Date(`${date}T00:00:00+09:00`).toLocaleDateString("ja-JP", { timeZone: "Asia/Tokyo", month: "long", day: "numeric", weekday: "short" });
-  return `<a class="headline-row" href="/articles/${article.slug}.html">
+  return `<a class="headline-row" href="/articles/${article.slug}">
 <div class="headline-thumb">${thumbHtml(photo, categoryMeta ? categoryMeta.icon : "calendar")}</div>
 <div>
   <p class="headline-title">${escapeHtml(dateLabel)}　${escapeHtml(article.title)}</p>
@@ -1043,12 +1043,12 @@ ${monthItems}
 }
 
 export function searchPage(siteUrl) {
-  const canonicalUrl = `${siteUrl}/search.html`;
+  const canonicalUrl = `${siteUrl}/search`;
   const bodyHtml = `<nav class="breadcrumb"><a href="/">トップ</a> &gt; サイト内検索</nav>
 <div class="page-content">
 <h1>${icon("search")}サイト内検索</h1>
 <div class="search-box search-box-page">
-<form id="site-search-form" class="search-form" action="/search.html" role="search" autocomplete="off">
+<form id="site-search-form" class="search-form" action="/search" role="search" autocomplete="off">
 ${icon("search")}
 <input type="search" id="site-search-input" name="q" placeholder="サイト内を検索（例：ゴミ出し、防災、宝塚歌劇）" aria-label="サイト内検索">
 </form>
@@ -1104,12 +1104,12 @@ ${rankingOrRecentPanel(ranking, recentArticles, 10, false)}
 
 // 議員活動サマリー：本人の公開発言（市議会会議録）を時系列で並べるのみ。スコア化・ランキング・評価は行わない
 export function giinPage(giin, relatedArticles, siteUrl) {
-  const canonicalUrl = `${siteUrl}/giin/${giin.slug}.html`;
+  const canonicalUrl = `${siteUrl}/giin/${giin.slug}`;
   const items = relatedArticles
     .map(
       (article) => `<div class="row">
 <div>
-  <a href="/articles/${article.slug}.html">${escapeHtml(article.title)}</a>
+  <a href="/articles/${article.slug}">${escapeHtml(article.title)}</a>
   <p class="headline-meta">${escapeHtml(article.meetingType ?? "")}・${escapeHtml(article.meetingDate ?? article.publishedAt)}</p>
 </div>
 </div>`,
@@ -1155,7 +1155,7 @@ export function giinIndexPage(giinList, siteUrl) {
   const canonicalUrl = `${siteUrl}/giin/`;
   const items = giinList
     .map(
-      (giin) => `<a class="headline-row" href="/giin/${giin.slug}.html">
+      (giin) => `<a class="headline-row" href="/giin/${giin.slug}">
 <div class="headline-thumb">${icon("user")}</div>
 <div>
   <p class="headline-title">${escapeHtml(giin.name)}　議員</p>
@@ -1194,7 +1194,7 @@ ${items || '<p class="empty-state">まだ掲載がありません</p>'}
 }
 
 export function gikaiGuidePage(siteUrl) {
-  const canonicalUrl = `${siteUrl}/category/shigikai/guide.html`;
+  const canonicalUrl = `${siteUrl}/category/shigikai/guide`;
 
   const bodyHtml = `<nav class="breadcrumb"><a href="/">トップ</a> &gt; <a href="${categoryPath("shigikai")}">市議会</a> &gt; 市議会のしくみ</nav>
 <div class="page-content">
@@ -1213,7 +1213,7 @@ export function gikaiGuidePage(siteUrl) {
 <p>本サイトの要約は<strong>事実の整理のみ</strong>を目的とし、議員や議案への評価・賛否の表明は行いません。</p>
 <p class="panel-note"><a href="${categoryPath("shigikai")}">→ 市議会ウォッチ一覧へ</a></p>
 <p class="panel-note"><a href="/giin/">→ 議員活動サマリー一覧へ</a></p>
-<p class="panel-note"><a href="/category/shigikai/zaisei-watch.html">→ 財政ウォッチ（財政状況の解説）へ</a></p>
+<p class="panel-note"><a href="/category/shigikai/zaisei-watch">→ 財政ウォッチ（財政状況の解説）へ</a></p>
 </div>
 ${recommendedPagesPanel("shigikai", canonicalUrl.replace(siteUrl, ""))}
 </div>`;
@@ -1331,7 +1331,7 @@ const ZAISEI_FAQ = [
 ];
 
 export function zaiseiWatchPage(periods, siteUrl) {
-  const canonicalUrl = `${siteUrl}/category/shigikai/zaisei-watch.html`;
+  const canonicalUrl = `${siteUrl}/category/shigikai/zaisei-watch`;
   const current = periods[0];
   const previous = periods[1];
 
@@ -1399,8 +1399,8 @@ ${faqHtml}
 <p class="panel-note"><a href="${escapeHtml(current.sourceListUrl)}" target="_blank" rel="noopener">→ 宝塚市公式サイト「財政状況」一覧を見る</a></p>
 <p class="panel-note"><a href="${escapeHtml(current.sourceUrl)}" target="_blank" rel="noopener">→ ${escapeHtml(current.publishedLabel)}分のPDFを見る</a></p>
 <p class="panel-note"><a href="${categoryPath("shigikai")}">→ 市議会ウォッチ一覧へ</a></p>
-<p class="panel-note"><a href="/category/shigikai/guide.html">→ 市議会のしくみを見る</a></p>
-<p class="panel-note"><a href="/category/kurashi/gyousei-tetsuzuki-guide.html">→ 行政手続きガイドを見る</a></p>
+<p class="panel-note"><a href="/category/shigikai/guide">→ 市議会のしくみを見る</a></p>
+<p class="panel-note"><a href="/category/kurashi/gyousei-tetsuzuki-guide">→ 行政手続きガイドを見る</a></p>
 </div>
 ${recommendedPagesPanel("shigikai", canonicalUrl.replace(siteUrl, ""))}
 </div>`;
@@ -1542,7 +1542,7 @@ ${rows}
 }
 
 export function suisougakuGuidePage(years, siteUrl) {
-  const canonicalUrl = `${siteUrl}/category/kyoiku/suisougaku-guide.html`;
+  const canonicalUrl = `${siteUrl}/category/kyoiku/suisougaku-guide`;
   const current = years[0];
 
   const scheduleRows = current.schedule
@@ -1630,10 +1630,10 @@ ${faqHtml}
 <p class="panel-title">${icon("newspaper")}出典・関連ページ</p>
 ${sourceLinksHtml}
 <p class="panel-note"><a href="${categoryPath("kyoiku")}">→ 教育カテゴリ一覧へ</a></p>
-<p class="panel-note"><a href="/category/kyoiku/guide.html">→ 宝塚市 学校情報ガイドを見る</a></p>
-<p class="panel-note"><a href="/category/kurashi/school-admission-guide.html">→ 学区・高校受験ガイドを見る</a></p>
-<p class="panel-note"><a href="/category/kyoiku/bunkasai-guide.html">→ 高校文化祭ガイドを見る</a></p>
-<p class="panel-note"><a href="/category/kyoiku/nenkan-event-guide.html">→ 学校年間イベントガイドを見る</a></p>
+<p class="panel-note"><a href="/category/kyoiku/guide">→ 宝塚市 学校情報ガイドを見る</a></p>
+<p class="panel-note"><a href="/category/kurashi/school-admission-guide">→ 学区・高校受験ガイドを見る</a></p>
+<p class="panel-note"><a href="/category/kyoiku/bunkasai-guide">→ 高校文化祭ガイドを見る</a></p>
+<p class="panel-note"><a href="/category/kyoiku/nenkan-event-guide">→ 学校年間イベントガイドを見る</a></p>
 </div>
 ${recommendedPagesPanel("kyoiku", canonicalUrl.replace(siteUrl, ""))}
 </div>`;
@@ -1727,7 +1727,7 @@ function gianCard(bill, voteIndex) {
   const committeeTag =
     bill.committee && bill.committee !== "－" ? `<span class="committee-tag">${escapeHtml(bill.committee)}</span>` : "";
   const relatedLink = bill.relatedArticleSlug
-    ? `<p class="gian-related-link"><a href="/articles/${escapeHtml(bill.relatedArticleSlug)}.html">→ 関連記事を見る</a></p>`
+    ? `<p class="gian-related-link"><a href="/articles/${escapeHtml(bill.relatedArticleSlug)}">→ 関連記事を見る</a></p>`
     : "";
   const detailLink = bill.detailUrl
     ? `<p class="gian-related-link"><a href="${escapeHtml(bill.detailUrl)}" target="_blank" rel="noopener">→ ${escapeHtml(bill.detailLabel ?? "この議案について詳しく見る")}</a></p>`
@@ -1749,7 +1749,7 @@ ${voteDetailHtml(voteBill)}
 }
 
 export function gianResultPage(sessions, voteIndex, siteUrl) {
-  const canonicalUrl = `${siteUrl}/category/shigikai/gian.html`;
+  const canonicalUrl = `${siteUrl}/category/shigikai/gian`;
 
   const sessionsHtml = sessions
     .map((session) => {
@@ -1783,7 +1783,7 @@ ${dateGroupsHtml}`;
 <div class="disclosure-box">本ページの議案・採決結果は宝塚市公式サイトの公開情報をもとに作成しています。市民生活への影響の説明は事実の整理のみを目的とし、議案・議員への評価や賛否の意見は記載しません。</div>
 <div class="disclosure-box">議員別の表決結果は、宝塚市議会が公開する「議員の賛否」PDFが議案ごとに発行された後に掲載します。賛成多数・反対多数など採決が分かれた議案でも、PDFがまだ公開されていない場合は議員別の表決結果が表示されません。公開後、随時更新します。</div>
 ${sessionsHtml || '<p class="empty-state">まだ掲載できる議案がありません</p>'}
-<p class="panel-note"><a href="${categoryPath("shigikai")}">→ 市議会ウォッチ一覧へ</a>　<a href="/category/shigikai/guide.html">→ 市議会のしくみへ</a></p>
+<p class="panel-note"><a href="${categoryPath("shigikai")}">→ 市議会ウォッチ一覧へ</a>　<a href="/category/shigikai/guide">→ 市議会のしくみへ</a></p>
 <p class="source-note">出典：宝塚市議会「議案等一覧・審議結果」「議決等結果（電子採決システムによる投票における賛否）」（各議案の詳しい出典は議案カード内のリンクをご確認ください）</p>
 ${recommendedPagesPanel("shigikai", canonicalUrl.replace(siteUrl, ""))}
 </div>`;
@@ -1816,8 +1816,8 @@ ${recommendedPagesPanel("shigikai", canonicalUrl.replace(siteUrl, ""))}
 // 検索流入向けの常設ガイドページ（ごみ出し・子育て支援・防災・学校情報など）
 // ニュース記事ではなく評価性のない常設リファレンス情報のため、記事スキーマとは別に専用ページとして実装する
 export function guidePage(guide, siteUrl) {
-  const canonicalUrl = `${siteUrl}/category/${guide.categoryKey}/${guide.slug}.html`;
-  const guideAdsAllowed = adsAllowedFor({ category: guide.category?.label ?? "", pathname: `/category/${guide.categoryKey}/${guide.slug}.html` });
+  const canonicalUrl = `${siteUrl}/category/${guide.categoryKey}/${guide.slug}`;
+  const guideAdsAllowed = adsAllowedFor({ category: guide.category?.label ?? "", pathname: `/category/${guide.categoryKey}/${guide.slug}` });
 
   const tocHtml = `<div class="toc">
 <p class="toc-title">${icon("newspaper")}目次</p>
@@ -1924,9 +1924,9 @@ export function mukogawaBosaiPage(siteUrl) {
 <div class="panel">
 <p class="panel-title">${icon("videoCamera")}武庫川防災情報</p>
 <p>武庫川のライブカメラ・水位・雨量の最新情報は、下記の公式ページでご確認いただけます。</p>
-<p class="panel-note"><a href="/livecam.html">宝塚市内のライブカメラ一覧を見る →</a></p>
+<p class="panel-note"><a href="/livecam">宝塚市内のライブカメラ一覧を見る →</a></p>
 <p class="panel-note"><a href="https://www.river.go.jp/kawabou/" target="_blank" rel="noopener">国土交通省「川の防災情報」で水位・雨量を見る →</a></p>
-<p class="panel-note"><a href="/category/bosai/guide.html">防災ガイド（避難場所・ハザードマップ・非常持ち出し品）を見る →</a></p>
+<p class="panel-note"><a href="/category/bosai/guide">防災ガイド（避難場所・ハザードマップ・非常持ち出し品）を見る →</a></p>
 </div>
 ${recommendedPagesPanel("bosai", canonicalUrl.replace(siteUrl, ""))}
 </div>`;
@@ -1952,7 +1952,7 @@ ${recommendedPagesPanel("bosai", canonicalUrl.replace(siteUrl, ""))}
 
 // フェーズ7：収益化の土台整備として追加した運営系の固定ページ共通レイアウト
 function staticInfoPage({ slug, breadcrumbLabel, title, description, panelTitle, panelIcon, contentHtml, siteUrl }) {
-  const canonicalUrl = `${siteUrl}/${slug}.html`;
+  const canonicalUrl = `${siteUrl}/${slug}`;
 
   const bodyHtml = `<nav class="breadcrumb"><a href="/">トップ</a> &gt; ${escapeHtml(breadcrumbLabel)}</nav>
 <div class="page-content">
@@ -2046,7 +2046,7 @@ export function aboutPage(siteUrl) {
 <p>本サイトの内容は、情報提供を目的としたものであり、内容の完全性・正確性・最新性を保証するものではありません。掲載情報を利用したことにより生じたいかなる損害についても、本サイトは責任を負いかねます。制度・手続き等の詳細は、必ず各出典元の公式情報をご確認ください。</p>
 
 <p class="guide-q">内容の誤りについて</p>
-<p>記事内容に誤りや古い情報が含まれている場合は、<a href="/contact.html">お問い合わせページ</a>からご連絡ください。確認のうえ、必要に応じて訂正、追記、または掲載内容の見直しを行います。</p>
+<p>記事内容に誤りや古い情報が含まれている場合は、<a href="/contact">お問い合わせページ</a>からご連絡ください。確認のうえ、必要に応じて訂正、追記、または掲載内容の見直しを行います。</p>
 `;
 
   return staticInfoPage({
@@ -2066,7 +2066,7 @@ export function adPolicyPage(siteUrl) {
 <p>本サイト「Takarazuka Today（宝塚Today）」では、掲載する情報を以下のように区別しています。</p>
 
 <p class="guide-q">現在の広告掲載について</p>
-<p>現在、本サイトでは広告の募集は行っておりません。将来的には、地域の企業・店舗の皆様に向けた広告掲載枠を設けることを予定しています。これは地域経済の活性化に貢献することを目的とした取り組みで、開始時期・掲載条件が決まり次第、本ページでお知らせします。掲載にご関心をお持ちの場合は、<a href="/contact.html">お問い合わせページ</a>からご連絡ください。</p>
+<p>現在、本サイトでは広告の募集は行っておりません。将来的には、地域の企業・店舗の皆様に向けた広告掲載枠を設けることを予定しています。これは地域経済の活性化に貢献することを目的とした取り組みで、開始時期・掲載条件が決まり次第、本ページでお知らせします。掲載にご関心をお持ちの場合は、<a href="/contact">お問い合わせページ</a>からご連絡ください。</p>
 
 <p class="guide-q">通常記事</p>
 <p>宝塚市、兵庫県、兵庫県警察などの公的機関が公開している情報をもとに、編集部が独自に要約・整理した記事です。通常記事は、広告主や第三者からの依頼によって内容が左右されることはありません。</p>
@@ -2096,7 +2096,7 @@ export function adPolicyPage(siteUrl) {
 <p>掲載の可否は、本サイト編集部の判断により決定します。掲載をお断りする場合、理由を個別にお伝えできない場合があります。</p>
 
 <p class="guide-q">お問い合わせ</p>
-<p>掲載情報の提供、PR記事、広告掲載に関するお問い合わせは、<a href="/contact.html">お問い合わせページ</a>からご連絡ください。</p>
+<p>掲載情報の提供、PR記事、広告掲載に関するお問い合わせは、<a href="/contact">お問い合わせページ</a>からご連絡ください。</p>
 `;
 
   return staticInfoPage({
@@ -2138,7 +2138,7 @@ export function contactPage(siteUrl, turnstileSiteKey) {
   <div class="cf-turnstile" data-sitekey="${escapeHtml(turnstileSiteKey)}"></div>
   <label class="consent-label">
     <input type="checkbox" name="consent" required>
-    <a href="/privacy.html" target="_blank" rel="noopener">プライバシーポリシー</a>に同意します
+    <a href="/privacy" target="_blank" rel="noopener">プライバシーポリシー</a>に同意します
   </label>
   <button type="submit">送信する</button>
   <p id="contact-form-status" class="contact-form-status" role="status"></p>

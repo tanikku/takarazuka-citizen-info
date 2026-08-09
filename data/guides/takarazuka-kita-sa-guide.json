@@ -93,9 +93,9 @@
       "id": "around",
       "heading": "周辺スポット",
       "items": [
-        "<strong>宝塚ダリア園（上佐曽利）：</strong>宝塚北スマートICから約8km。夏・秋の開園期間中はダリアの花摘みが楽しめます（<a href=\"/category/kanko/dahlia-en-guide.html\">宝塚ダリア園ガイド</a>）",
-        "<strong>武田尾温泉・廃線ハイキング：</strong>武庫川渓谷方面へ車で移動できます（<a href=\"/category/kanko/takedao-onsen-guide.html\">武田尾温泉ガイド</a>・<a href=\"/category/kanko/haisen-hiking-guide.html\">武田尾廃線ハイキングガイド</a>）",
-        "<strong>市街地方面：</strong>宝塚大劇場・手塚治虫記念館へは車で約20〜30分です（<a href=\"/category/kanko/takarazuka-kageki-guide.html\">宝塚歌劇ガイド</a>・<a href=\"/category/kanko/tezuka-museum-guide.html\">手塚治虫記念館ガイド</a>）"
+        "<strong>宝塚ダリア園（上佐曽利）：</strong>宝塚北スマートICから約8km。夏・秋の開園期間中はダリアの花摘みが楽しめます（<a href=\"/category/kanko/dahlia-en-guide\">宝塚ダリア園ガイド</a>）",
+        "<strong>武田尾温泉・廃線ハイキング：</strong>武庫川渓谷方面へ車で移動できます（<a href=\"/category/kanko/takedao-onsen-guide\">武田尾温泉ガイド</a>・<a href=\"/category/kanko/haisen-hiking-guide\">武田尾廃線ハイキングガイド</a>）",
+        "<strong>市街地方面：</strong>宝塚大劇場・手塚治虫記念館へは車で約20〜30分です（<a href=\"/category/kanko/takarazuka-kageki-guide\">宝塚歌劇ガイド</a>・<a href=\"/category/kanko/tezuka-museum-guide\">手塚治虫記念館ガイド</a>）"
       ]
     }
   ],
@@ -108,10 +108,10 @@
     { "q": "赤ちゃん連れでも利用しやすいですか？", "a": "ベビーコーナー（授乳・おむつ替えスペース）が設置されています。障がい者用駐車区画・トイレも整備されています。" }
   ],
   "relatedLinks": [
-    { "href": "/category/kanko.html", "label": "文化・観光の記事一覧を見る" },
-    { "href": "/category/kanko/dahlia-en-guide.html", "label": "宝塚ダリア園ガイドを見る" },
-    { "href": "/category/kanko/takedao-onsen-guide.html", "label": "武田尾温泉ガイドを見る" },
-    { "href": "/category/kurashi/kotsu-guide.html", "label": "交通ガイドを見る" },
+    { "href": "/category/kanko", "label": "文化・観光の記事一覧を見る" },
+    { "href": "/category/kanko/dahlia-en-guide", "label": "宝塚ダリア園ガイドを見る" },
+    { "href": "/category/kanko/takedao-onsen-guide", "label": "武田尾温泉ガイドを見る" },
+    { "href": "/category/kurashi/kotsu-guide", "label": "交通ガイドを見る" },
     { "href": "https://www.takarazukakita-sa.jp/", "label": "宝塚北サービスエリア公式サイトを見る" }
   ],
   "sourceUrl": "https://www.takarazukakita-sa.jp/",

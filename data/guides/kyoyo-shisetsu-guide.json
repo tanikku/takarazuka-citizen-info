@@ -59,10 +59,10 @@
     { "q": "スポーツセンターへのアクセスは？", "a": "阪神バス「小浜」下車徒歩5分、または阪急バス「スポーツセンター前」下車すぐです。詳細は<a href=\"https://www.city.takarazuka.hyogo.jp/1060678/1060692/shisetsu/kankokanren/1010260/1004490.html\" target=\"_blank\" rel=\"noopener\">市立スポーツセンター</a>のページをご確認ください。" }
   ],
   "relatedLinks": [
-    { "href": "/category/kurashi.html", "label": "行政・くらしの記事一覧を見る" },
-    { "href": "/category/kurashi/kotsu-guide.html", "label": "交通ガイドを見る" },
-    { "href": "/category/kurashi/gyousei-tetsuzuki-guide.html", "label": "行政手続きガイドを見る" },
-    { "href": "/category/kosodate/guide.html", "label": "子育て支援まとめを見る" }
+    { "href": "/category/kurashi", "label": "行政・くらしの記事一覧を見る" },
+    { "href": "/category/kurashi/kotsu-guide", "label": "交通ガイドを見る" },
+    { "href": "/category/kurashi/gyousei-tetsuzuki-guide", "label": "行政手続きガイドを見る" },
+    { "href": "/category/kosodate/guide", "label": "子育て支援まとめを見る" }
   ],
   "sourceUrl": "https://www.city.takarazuka.hyogo.jp/1060678/1060692/shisetsu/index.html",
   "sourceLabel": "宝塚市公式サイト「施設一覧」"

@@ -32,7 +32,7 @@
       "items": [
         "宝塚市内には兵庫県立の公立高校（全日制）が4校あります：<strong>宝塚 ／ 宝塚北 ／ 宝塚西 ／ 宝塚東</strong>",
         "各校のオープンスクール・学校説明会の実施有無や日程は、<a href=\"https://www.hyogo-c.ed.jp/~koko-bo/HYOGO/\" target=\"_blank\" rel=\"noopener\">兵庫県公立高校検索サイト</a>から各校公式サイトをご確認ください",
-        "市内の公立高校一覧の詳細は<a href=\"/category/kurashi/school-admission-guide.html\">学区・高校受験ガイド</a>でも紹介しています"
+        "市内の公立高校一覧の詳細は<a href=\"/category/kurashi/school-admission-guide\">学区・高校受験ガイド</a>でも紹介しています"
       ]
     },
     {
@@ -100,12 +100,12 @@
     { "q": "保護者だけでも参加できますか？", "a": "学校により異なります。保護者のみの参加可否は各校公式サイトの案内でご確認ください。" }
   ],
   "relatedLinks": [
-    { "href": "/category/kyoiku/guide.html", "label": "学校情報ガイドを見る" },
-    { "href": "/category/kurashi/school-admission-guide.html", "label": "学区・高校受験ガイドを見る" },
-    { "href": "/category/kyoiku/suisougaku-guide.html", "label": "吹奏楽コンクールガイドを見る" },
-    { "href": "/category/kyoiku/bunkasai-guide.html", "label": "高校文化祭ガイドを見る" },
-    { "href": "/category/kyoiku/nenkan-event-guide.html", "label": "学校年間イベントガイドを見る" },
-    { "href": "/category/kyoiku.html", "label": "教育の記事一覧を見る" }
+    { "href": "/category/kyoiku/guide", "label": "学校情報ガイドを見る" },
+    { "href": "/category/kurashi/school-admission-guide", "label": "学区・高校受験ガイドを見る" },
+    { "href": "/category/kyoiku/suisougaku-guide", "label": "吹奏楽コンクールガイドを見る" },
+    { "href": "/category/kyoiku/bunkasai-guide", "label": "高校文化祭ガイドを見る" },
+    { "href": "/category/kyoiku/nenkan-event-guide", "label": "学校年間イベントガイドを見る" },
+    { "href": "/category/kyoiku", "label": "教育の記事一覧を見る" }
   ],
   "sourceUrl": "https://www.hyogo-c.ed.jp/~koko-bo/HYOGO/",
   "sourceLabel": "兵庫県公立高校検索サイト"

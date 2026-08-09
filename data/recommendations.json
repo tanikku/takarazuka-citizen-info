@@ -1,67 +1,67 @@
 {
   "default": [
-    { "href": "/livecam.html", "label": "武庫川ライブカメラ", "sub": "河川の様子をリアルタイムで確認できます", "icon": "videoCamera" },
-    { "href": "/category/kurashi/gomi-guide.html", "label": "ゴミ出し完全ガイド", "sub": "分別ルール・収集日をまとめました", "icon": "flame" },
-    { "href": "/category/kurashi/kitsuen-guide.html", "label": "喫煙所ガイド", "sub": "公共喫煙所の場所・利用時間", "icon": "building" },
-    { "href": "/category/kyoiku/guide.html", "label": "学校情報ガイド", "sub": "校区確認・転入学手続きをまとめました", "icon": "book" },
-    { "href": "/category/kyoiku/suisougaku-guide.html", "label": "吹奏楽コンクールガイド", "sub": "西阪神地区大会の結果・大会情報", "icon": "book" }
+    { "href": "/livecam", "label": "武庫川ライブカメラ", "sub": "河川の様子をリアルタイムで確認できます", "icon": "videoCamera" },
+    { "href": "/category/kurashi/gomi-guide", "label": "ゴミ出し完全ガイド", "sub": "分別ルール・収集日をまとめました", "icon": "flame" },
+    { "href": "/category/kurashi/kitsuen-guide", "label": "喫煙所ガイド", "sub": "公共喫煙所の場所・利用時間", "icon": "building" },
+    { "href": "/category/kyoiku/guide", "label": "学校情報ガイド", "sub": "校区確認・転入学手続きをまとめました", "icon": "book" },
+    { "href": "/category/kyoiku/suisougaku-guide", "label": "吹奏楽コンクールガイド", "sub": "西阪神地区大会の結果・大会情報", "icon": "book" }
   ],
   "categories": {
     "kyoiku": [
-      { "href": "/category/kyoiku/guide.html", "label": "学校情報ガイド", "sub": "校区確認・転入学手続きをまとめました", "icon": "book" },
-      { "href": "/category/kurashi/school-admission-guide.html", "label": "学区・高校受験ガイド", "sub": "学区制度・周辺高校一覧", "icon": "book" },
-      { "href": "/category/kyoiku/open-school-guide.html", "label": "オープンスクールガイド", "sub": "学校見学・説明会の申し込み方法", "icon": "book" },
-      { "href": "/category/kyoiku/bunkasai-guide.html", "label": "高校文化祭ガイド", "sub": "文化祭シーズン・一般公開の有無", "icon": "camera" },
-      { "href": "/category/kyoiku/nenkan-event-guide.html", "label": "学校年間イベントガイド", "sub": "入学式から卒業式までの年間の流れ", "icon": "calendar" },
-      { "href": "/category/kyoiku/suisougaku-guide.html", "label": "吹奏楽コンクールガイド", "sub": "西阪神地区大会の結果・大会情報", "icon": "book" }
+      { "href": "/category/kyoiku/guide", "label": "学校情報ガイド", "sub": "校区確認・転入学手続きをまとめました", "icon": "book" },
+      { "href": "/category/kurashi/school-admission-guide", "label": "学区・高校受験ガイド", "sub": "学区制度・周辺高校一覧", "icon": "book" },
+      { "href": "/category/kyoiku/open-school-guide", "label": "オープンスクールガイド", "sub": "学校見学・説明会の申し込み方法", "icon": "book" },
+      { "href": "/category/kyoiku/bunkasai-guide", "label": "高校文化祭ガイド", "sub": "文化祭シーズン・一般公開の有無", "icon": "camera" },
+      { "href": "/category/kyoiku/nenkan-event-guide", "label": "学校年間イベントガイド", "sub": "入学式から卒業式までの年間の流れ", "icon": "calendar" },
+      { "href": "/category/kyoiku/suisougaku-guide", "label": "吹奏楽コンクールガイド", "sub": "西阪神地区大会の結果・大会情報", "icon": "book" }
     ],
     "bosai": [
-      { "href": "/livecam.html", "label": "武庫川ライブカメラ", "sub": "河川の様子をリアルタイムで確認できます", "icon": "videoCamera" },
+      { "href": "/livecam", "label": "武庫川ライブカメラ", "sub": "河川の様子をリアルタイムで確認できます", "icon": "videoCamera" },
       { "href": "/mukogawa/", "label": "武庫川防災情報", "sub": "水位・雨量の確認先まとめ", "icon": "shield" },
-      { "href": "/category/bosai/guide.html", "label": "防災ガイド", "sub": "警戒レベル・避難場所・非常持ち出し品", "icon": "shield" }
+      { "href": "/category/bosai/guide", "label": "防災ガイド", "sub": "警戒レベル・避難場所・非常持ち出し品", "icon": "shield" }
     ],
     "bohan": [
-      { "href": "/category/bohan.html", "label": "防犯の記事一覧", "sub": "兵庫県警・宝塚市の防犯情報まとめ", "icon": "shield" },
-      { "href": "/category/bosai/guide.html", "label": "防災ガイド", "sub": "警戒レベル・避難場所・非常持ち出し品", "icon": "shield" },
-      { "href": "/category/kurashi/koreisha-guide.html", "label": "高齢者向けガイド", "sub": "介護保険・見守りサービス", "icon": "user" }
+      { "href": "/category/bohan", "label": "防犯の記事一覧", "sub": "兵庫県警・宝塚市の防犯情報まとめ", "icon": "shield" },
+      { "href": "/category/bosai/guide", "label": "防災ガイド", "sub": "警戒レベル・避難場所・非常持ち出し品", "icon": "shield" },
+      { "href": "/category/kurashi/koreisha-guide", "label": "高齢者向けガイド", "sub": "介護保険・見守りサービス", "icon": "user" }
     ],
     "event": [
       { "href": "/events/", "label": "イベントカレンダー", "sub": "今日・今週末・今月のイベント予定", "icon": "calendar" },
-      { "href": "/category/kanko/takarazuka-kageki-guide.html", "label": "宝塚歌劇ガイド", "sub": "宝塚大劇場のアクセス・チケット購入・館内施設", "icon": "ticket" },
-      { "href": "/category/kanko/tezuka-museum-guide.html", "label": "手塚治虫記念館ガイド", "sub": "アクセス・入館案内・館内のみどころ", "icon": "book" },
-      { "href": "/category/kurashi/kotsu-guide.html", "label": "交通ガイド", "sub": "バス・駐輪場・シェアサイクル", "icon": "building" }
+      { "href": "/category/kanko/takarazuka-kageki-guide", "label": "宝塚歌劇ガイド", "sub": "宝塚大劇場のアクセス・チケット購入・館内施設", "icon": "ticket" },
+      { "href": "/category/kanko/tezuka-museum-guide", "label": "手塚治虫記念館ガイド", "sub": "アクセス・入館案内・館内のみどころ", "icon": "book" },
+      { "href": "/category/kurashi/kotsu-guide", "label": "交通ガイド", "sub": "バス・駐輪場・シェアサイクル", "icon": "building" }
     ],
     "kurashi": [
-      { "href": "/category/kurashi/gomi-guide.html", "label": "ゴミ出し完全ガイド", "sub": "分別ルール・収集日をまとめました", "icon": "flame" },
-      { "href": "/category/kurashi/gyousei-tetsuzuki-guide.html", "label": "行政手続きガイド", "sub": "転入転出・住民票・マイナンバー", "icon": "building" },
-      { "href": "/category/kurashi/kotsu-guide.html", "label": "交通ガイド", "sub": "バス・駐輪場・シェアサイクル", "icon": "building" },
-      { "href": "/category/kurashi/koreisha-guide.html", "label": "高齢者向けガイド", "sub": "介護保険・見守りサービス", "icon": "user" },
-      { "href": "/category/kurashi/kyoyo-shisetsu-guide.html", "label": "公共施設ガイド", "sub": "図書館・公民館・スポーツセンター", "icon": "building" },
-      { "href": "/category/kurashi/kitsuen-guide.html", "label": "喫煙所ガイド", "sub": "公共喫煙所の場所・利用時間", "icon": "building" }
+      { "href": "/category/kurashi/gomi-guide", "label": "ゴミ出し完全ガイド", "sub": "分別ルール・収集日をまとめました", "icon": "flame" },
+      { "href": "/category/kurashi/gyousei-tetsuzuki-guide", "label": "行政手続きガイド", "sub": "転入転出・住民票・マイナンバー", "icon": "building" },
+      { "href": "/category/kurashi/kotsu-guide", "label": "交通ガイド", "sub": "バス・駐輪場・シェアサイクル", "icon": "building" },
+      { "href": "/category/kurashi/koreisha-guide", "label": "高齢者向けガイド", "sub": "介護保険・見守りサービス", "icon": "user" },
+      { "href": "/category/kurashi/kyoyo-shisetsu-guide", "label": "公共施設ガイド", "sub": "図書館・公民館・スポーツセンター", "icon": "building" },
+      { "href": "/category/kurashi/kitsuen-guide", "label": "喫煙所ガイド", "sub": "公共喫煙所の場所・利用時間", "icon": "building" }
     ],
     "kosodate": [
-      { "href": "/category/kosodate/guide.html", "label": "子育て支援まとめ", "sub": "保育園・幼稚園・児童館情報", "icon": "child" },
-      { "href": "/category/kyoiku/guide.html", "label": "学校情報ガイド", "sub": "校区確認・転入学手続きをまとめました", "icon": "book" },
-      { "href": "/category/kurashi/school-admission-guide.html", "label": "学区・高校受験ガイド", "sub": "学区制度・周辺高校一覧", "icon": "book" }
+      { "href": "/category/kosodate/guide", "label": "子育て支援まとめ", "sub": "保育園・幼稚園・児童館情報", "icon": "child" },
+      { "href": "/category/kyoiku/guide", "label": "学校情報ガイド", "sub": "校区確認・転入学手続きをまとめました", "icon": "book" },
+      { "href": "/category/kurashi/school-admission-guide", "label": "学区・高校受験ガイド", "sub": "学区制度・周辺高校一覧", "icon": "book" }
     ],
     "shigikai": [
-      { "href": "/category/shigikai/guide.html", "label": "市議会のしくみ", "sub": "本会議・委員会・定例会の違い", "icon": "building" },
-      { "href": "/category/shigikai/zaisei-watch.html", "label": "財政ウォッチ", "sub": "宝塚市の財政状況を解説", "icon": "newspaper" },
-      { "href": "/category/shigikai/gian.html", "label": "議案採決一覧", "sub": "議案の可決・否決と表決結果", "icon": "newspaper" }
+      { "href": "/category/shigikai/guide", "label": "市議会のしくみ", "sub": "本会議・委員会・定例会の違い", "icon": "building" },
+      { "href": "/category/shigikai/zaisei-watch", "label": "財政ウォッチ", "sub": "宝塚市の財政状況を解説", "icon": "newspaper" },
+      { "href": "/category/shigikai/gian", "label": "議案採決一覧", "sub": "議案の可決・否決と表決結果", "icon": "newspaper" }
     ],
     "kanko": [
-      { "href": "/category/kanko/takarazuka-kageki-guide.html", "label": "宝塚歌劇ガイド", "sub": "宝塚大劇場のアクセス・チケット購入・館内施設", "icon": "ticket" },
-      { "href": "/category/kanko/hanshin-keibajo-guide.html", "label": "阪神競馬場ガイド", "sub": "アクセス・駐車場・ファミリー向け情報", "icon": "camera" },
-      { "href": "/category/kanko/takarazuka-kita-sa-guide.html", "label": "宝塚北サービスエリアガイド", "sub": "西日本最大級SA。一般道からの利用方法も", "icon": "building" },
-      { "href": "/category/kanko/haisen-hiking-guide.html", "label": "武田尾廃線ハイキングガイド", "sub": "トンネルと鉄橋を歩く人気コース", "icon": "camera" },
-      { "href": "/category/kanko/tezuka-museum-guide.html", "label": "手塚治虫記念館ガイド", "sub": "アクセス・入館案内・館内のみどころ", "icon": "book" },
-      { "href": "/category/kanko/nakayamadera-guide.html", "label": "中山寺ガイド", "sub": "安産祈願・戌の日・アクセス", "icon": "temple" },
-      { "href": "/category/kanko/kiyoshikojin-guide.html", "label": "清荒神清澄寺ガイド", "sub": "境内案内・参道商店街・アクセス", "icon": "temple" },
-      { "href": "/category/kanko/takedao-onsen-guide.html", "label": "武田尾温泉ガイド", "sub": "武庫川渓谷の秘湯。日帰り入浴・足湯", "icon": "sun" },
-      { "href": "/category/kanko/takarazuka-onsen-guide.html", "label": "宝塚温泉ガイド", "sub": "宝塚駅近くの歴史ある街なか温泉", "icon": "sun" },
-      { "href": "/category/kanko/aiaipark-guide.html", "label": "あいあいパークガイド", "sub": "植木のまち山本の園芸拠点。入場無料", "icon": "flame" },
-      { "href": "/category/kanko/dahlia-en-guide.html", "label": "宝塚ダリア園ガイド", "sub": "約300種10万本のダリア。花摘み体験も", "icon": "flame" },
-      { "href": "/livecam.html", "label": "武庫川ライブカメラ", "sub": "河川の様子をリアルタイムで確認できます", "icon": "videoCamera" }
+      { "href": "/category/kanko/takarazuka-kageki-guide", "label": "宝塚歌劇ガイド", "sub": "宝塚大劇場のアクセス・チケット購入・館内施設", "icon": "ticket" },
+      { "href": "/category/kanko/hanshin-keibajo-guide", "label": "阪神競馬場ガイド", "sub": "アクセス・駐車場・ファミリー向け情報", "icon": "camera" },
+      { "href": "/category/kanko/takarazuka-kita-sa-guide", "label": "宝塚北サービスエリアガイド", "sub": "西日本最大級SA。一般道からの利用方法も", "icon": "building" },
+      { "href": "/category/kanko/haisen-hiking-guide", "label": "武田尾廃線ハイキングガイド", "sub": "トンネルと鉄橋を歩く人気コース", "icon": "camera" },
+      { "href": "/category/kanko/tezuka-museum-guide", "label": "手塚治虫記念館ガイド", "sub": "アクセス・入館案内・館内のみどころ", "icon": "book" },
+      { "href": "/category/kanko/nakayamadera-guide", "label": "中山寺ガイド", "sub": "安産祈願・戌の日・アクセス", "icon": "temple" },
+      { "href": "/category/kanko/kiyoshikojin-guide", "label": "清荒神清澄寺ガイド", "sub": "境内案内・参道商店街・アクセス", "icon": "temple" },
+      { "href": "/category/kanko/takedao-onsen-guide", "label": "武田尾温泉ガイド", "sub": "武庫川渓谷の秘湯。日帰り入浴・足湯", "icon": "sun" },
+      { "href": "/category/kanko/takarazuka-onsen-guide", "label": "宝塚温泉ガイド", "sub": "宝塚駅近くの歴史ある街なか温泉", "icon": "sun" },
+      { "href": "/category/kanko/aiaipark-guide", "label": "あいあいパークガイド", "sub": "植木のまち山本の園芸拠点。入場無料", "icon": "flame" },
+      { "href": "/category/kanko/dahlia-en-guide", "label": "宝塚ダリア園ガイド", "sub": "約300種10万本のダリア。花摘み体験も", "icon": "flame" },
+      { "href": "/livecam", "label": "武庫川ライブカメラ", "sub": "河川の様子をリアルタイムで確認できます", "icon": "videoCamera" }
     ]
   }
 }

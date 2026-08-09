@@ -84,7 +84,7 @@
         "<strong>郵便物の転送：</strong>日本郵便の<a href=\"https://www.post.japanpost.jp/service/receive/relocation/\" target=\"_blank\" rel=\"noopener\">「e転居」</a>を使えば、スマホ・パソコンから届出でき、届出日から1年間、旧住所宛の郵便物を新住所へ無料で転送してもらえます。ポスト投函・郵便局窓口でも申込み可能です",
         "<strong>国民健康保険・国民年金：</strong>転入時は<a href=\"https://www.city.takarazuka.hyogo.jp/1060679/1060696/kokuho/1029717/1044087/1000501.html\" target=\"_blank\" rel=\"noopener\">国民健康保険の加入届</a>（国民健康保険課）が必要な場合があります。海外からの転入に伴う国民年金の手続きは<a href=\"https://www.city.takarazuka.hyogo.jp/1060679/1060696/1000080/1060553.html\" target=\"_blank\" rel=\"noopener\">窓口サービス課 年金窓口</a>でご確認ください",
         "<strong>介護保険：</strong>40歳以上の方などは<a href=\"https://www.city.takarazuka.hyogo.jp/1060682/1060703/1008580/1000265.html\" target=\"_blank\" rel=\"noopener\">介護保険</a>（介護保険課）の住所変更手続きが必要な場合があります",
-        "<strong>児童手当・小中学校の転校：</strong>お子さんがいる場合は<a href=\"https://www.city.takarazuka.hyogo.jp/1060680/1060699/1061569/1000197.html\" target=\"_blank\" rel=\"noopener\">児童手当</a>（子育て応援課）の届出と、<a href=\"https://www.city.takarazuka.hyogo.jp/1060680/1060699/kyoikuiinkai/1045390/1047592.html\" target=\"_blank\" rel=\"noopener\">小中学校の転校手続き</a>（学事課）が必要です。校区の確認は<a href=\"/category/kyoiku/guide.html\">学校情報ガイド</a>もあわせてご覧ください",
+        "<strong>児童手当・小中学校の転校：</strong>お子さんがいる場合は<a href=\"https://www.city.takarazuka.hyogo.jp/1060680/1060699/1061569/1000197.html\" target=\"_blank\" rel=\"noopener\">児童手当</a>（子育て応援課）の届出と、<a href=\"https://www.city.takarazuka.hyogo.jp/1060680/1060699/kyoikuiinkai/1045390/1047592.html\" target=\"_blank\" rel=\"noopener\">小中学校の転校手続き</a>（学事課）が必要です。校区の確認は<a href=\"/category/kyoiku/guide\">学校情報ガイド</a>もあわせてご覧ください",
         "<strong>そのほか：</strong>飼い犬の登録内容変更、軽自動車・バイクの登録住所変更などが必要な場合があります。担当窓口が分からない場合は、宝塚市コールセンター（電話：0797-71-1141、平日9時〜17時）にお問い合わせください"
       ],
       "notes": ["上記は転入時にあわせて確認したい主な手続きの一例です。世帯状況により必要な手続きは異なるため、詳細は各担当窓口にご確認ください。"]
@@ -100,13 +100,13 @@
     { "q": "水道の使用開始・中止はどうすればいいですか？", "a": "宝塚市上下水道局のお客さまセンター（0797-73-3988、平日9時〜17時）への電話、または兵庫県電子申請システム（e-ひょうご）でのオンライン申込みができます。集合住宅の場合はメーターの蓋の色によって手続き先が異なるため、まずメーターをご確認ください。" }
   ],
   "relatedLinks": [
-    { "href": "/category/kurashi.html", "label": "行政・くらしの記事一覧を見る" },
-    { "href": "/category/kurashi/gomi-guide.html", "label": "ゴミ出し完全ガイドを見る" },
-    { "href": "/category/kosodate/guide.html", "label": "子育て支援まとめを見る" },
-    { "href": "/category/kyoiku/guide.html", "label": "学校情報ガイドを見る" },
-    { "href": "/category/kurashi/koreisha-guide.html", "label": "高齢者向け介護・見守りサービスガイドを見る" },
-    { "href": "/category/bosai/guide.html", "label": "防災ガイドを見る" },
-    { "href": "/category/shigikai/zaisei-watch.html", "label": "財政ウォッチ（財政状況の解説）を見る" }
+    { "href": "/category/kurashi", "label": "行政・くらしの記事一覧を見る" },
+    { "href": "/category/kurashi/gomi-guide", "label": "ゴミ出し完全ガイドを見る" },
+    { "href": "/category/kosodate/guide", "label": "子育て支援まとめを見る" },
+    { "href": "/category/kyoiku/guide", "label": "学校情報ガイドを見る" },
+    { "href": "/category/kurashi/koreisha-guide", "label": "高齢者向け介護・見守りサービスガイドを見る" },
+    { "href": "/category/bosai/guide", "label": "防災ガイドを見る" },
+    { "href": "/category/shigikai/zaisei-watch", "label": "財政ウォッチ（財政状況の解説）を見る" }
   ],
   "sourceUrl": "https://www.city.takarazuka.hyogo.jp/kurashi/madoguchi/index.html",
   "sourceLabel": "宝塚市公式サイト「窓口サービス」"

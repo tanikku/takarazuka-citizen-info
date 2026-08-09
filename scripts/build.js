@@ -53,10 +53,10 @@ const HOMEPAGE_FEATURE_SCORES = new Set(["S", "A"]);
 
 // サイト自体のお知らせ（新機能追加等）。公式ニュース記事とは別枠で「今日の宝塚トピック」に一時的に表示する。untilを過ぎると自動的に消える
 const SITE_NOTICES = [
-  { text: "「吹奏楽コンクールガイド」を追加しました", href: "/category/kyoiku/suisougaku-guide.html", until: "2026-07-19" },
-  { text: "「宝塚おでかけガイド」を追加しました（手塚治虫記念館・中山寺・清荒神清澄寺など）", href: "/category/kanko.html", until: "2026-07-30" },
-  { text: "サイト内検索を追加しました。ページ上部の検索窓からキーワードで探せます", href: "/search.html", until: "2026-08-06" },
-  { text: "おでかけガイドに6ページ追加（宝塚北SA・武田尾温泉・宝塚温泉・廃線ハイキング・あいあいパーク・ダリア園）", href: "/category/kanko.html", until: "2026-08-07" },
+  { text: "「吹奏楽コンクールガイド」を追加しました", href: "/category/kyoiku/suisougaku-guide", until: "2026-07-19" },
+  { text: "「宝塚おでかけガイド」を追加しました（手塚治虫記念館・中山寺・清荒神清澄寺など）", href: "/category/kanko", until: "2026-07-30" },
+  { text: "サイト内検索を追加しました。ページ上部の検索窓からキーワードで探せます", href: "/search", until: "2026-08-06" },
+  { text: "おでかけガイドに6ページ追加（宝塚北SA・武田尾温泉・宝塚温泉・廃線ハイキング・あいあいパーク・ダリア園）", href: "/category/kanko", until: "2026-08-07" },
 ];
 
 function loadArticles() {
@@ -265,25 +265,25 @@ function buildSitemap(publishedArticles, categoryPageKeys, giinWithArticles, gui
   const today = todayDateKey();
   const entries = [
     { loc: `${SITE_URL}/`, lastmod: today },
-    ...[...categoryPageKeys].map((key) => ({ loc: `${SITE_URL}/category/${key}.html`, lastmod: today })),
-    { loc: `${SITE_URL}/livecam.html`, lastmod: today },
+    ...[...categoryPageKeys].map((key) => ({ loc: `${SITE_URL}/category/${key}`, lastmod: today })),
+    { loc: `${SITE_URL}/livecam`, lastmod: today },
     { loc: `${SITE_URL}/mukogawa/`, lastmod: today },
     { loc: `${SITE_URL}/events/`, lastmod: today },
     { loc: `${SITE_URL}/ranking/`, lastmod: today },
-    { loc: `${SITE_URL}/search.html`, lastmod: today },
-    { loc: `${SITE_URL}/category/shigikai/guide.html`, lastmod: today },
-    { loc: `${SITE_URL}/privacy.html`, lastmod: today },
-    { loc: `${SITE_URL}/about.html`, lastmod: today },
-    { loc: `${SITE_URL}/ad-policy.html`, lastmod: today },
-    { loc: `${SITE_URL}/contact.html`, lastmod: today },
-    ...guides.map((g) => ({ loc: `${SITE_URL}/category/${g.categoryKey}/${g.slug}.html`, lastmod: g.updatedAt })),
-    ...(gianSessions.length > 0 ? [{ loc: `${SITE_URL}/category/shigikai/gian.html`, lastmod: today }] : []),
-    ...(zaiseiPeriods.length > 0 ? [{ loc: `${SITE_URL}/category/shigikai/zaisei-watch.html`, lastmod: zaiseiPeriods[0].publishedDate }] : []),
-    ...(suisougakuYears.length > 0 ? [{ loc: `${SITE_URL}/category/kyoiku/suisougaku-guide.html`, lastmod: today }] : []),
+    { loc: `${SITE_URL}/search`, lastmod: today },
+    { loc: `${SITE_URL}/category/shigikai/guide`, lastmod: today },
+    { loc: `${SITE_URL}/privacy`, lastmod: today },
+    { loc: `${SITE_URL}/about`, lastmod: today },
+    { loc: `${SITE_URL}/ad-policy`, lastmod: today },
+    { loc: `${SITE_URL}/contact`, lastmod: today },
+    ...guides.map((g) => ({ loc: `${SITE_URL}/category/${g.categoryKey}/${g.slug}`, lastmod: g.updatedAt })),
+    ...(gianSessions.length > 0 ? [{ loc: `${SITE_URL}/category/shigikai/gian`, lastmod: today }] : []),
+    ...(zaiseiPeriods.length > 0 ? [{ loc: `${SITE_URL}/category/shigikai/zaisei-watch`, lastmod: zaiseiPeriods[0].publishedDate }] : []),
+    ...(suisougakuYears.length > 0 ? [{ loc: `${SITE_URL}/category/kyoiku/suisougaku-guide`, lastmod: today }] : []),
     ...(giinWithArticles.length > 0 ? [{ loc: `${SITE_URL}/giin/`, lastmod: today }] : []),
-    ...giinWithArticles.map((giin) => ({ loc: `${SITE_URL}/giin/${giin.slug}.html`, lastmod: today })),
+    ...giinWithArticles.map((giin) => ({ loc: `${SITE_URL}/giin/${giin.slug}`, lastmod: today })),
     ...publishedArticles.map((article) => ({
-      loc: `${SITE_URL}/articles/${article.slug}.html`,
+      loc: `${SITE_URL}/articles/${article.slug}`,
       lastmod: article.publishedAt,
     })),
   ];
@@ -309,7 +309,7 @@ function buildSearchIndex({ publishedArticles, categorySections, guides, gianSes
       description: article.summary ?? "",
       category: article.category,
       keywords: "",
-      url: `/articles/${article.slug}.html`,
+      url: `/articles/${article.slug}`,
     });
   }
 
@@ -323,7 +323,7 @@ function buildSearchIndex({ publishedArticles, categorySections, guides, gianSes
       description: guide.lead ?? "",
       category: guide.category?.label ?? "",
       keywords,
-      url: `/category/${guide.categoryKey}/${guide.slug}.html`,
+      url: `/category/${guide.categoryKey}/${guide.slug}`,
     });
   }
 
@@ -333,7 +333,7 @@ function buildSearchIndex({ publishedArticles, categorySections, guides, gianSes
       description: `宝塚市の「${section.label}」に関する記事一覧です。`,
       category: section.label,
       keywords: "",
-      url: `/category/${section.key}.html`,
+      url: `/category/${section.key}`,
     });
   }
 
@@ -343,7 +343,7 @@ function buildSearchIndex({ publishedArticles, categorySections, guides, gianSes
       description: "宝塚市議会で審議された議案の採決結果（可決・否決等）と、市民生活への影響をご案内します。",
       category: "市議会",
       keywords: "議決 賛否 議員",
-      url: "/category/shigikai/gian.html",
+      url: "/category/shigikai/gian",
     });
   }
   if (zaiseiPeriods.length > 0) {
@@ -352,7 +352,7 @@ function buildSearchIndex({ publishedArticles, categorySections, guides, gianSes
       description: "宝塚市が毎年6月・12月に公表する「財政状況」をもとに、主要な財政指標を市民向けに整理して紹介するページです。",
       category: "市議会",
       keywords: "予算 市税収入 市債残高 基金残高",
-      url: "/category/shigikai/zaisei-watch.html",
+      url: "/category/shigikai/zaisei-watch",
     });
   }
   if (suisougakuYears.length > 0) {
@@ -361,7 +361,7 @@ function buildSearchIndex({ publishedArticles, categorySections, guides, gianSes
       description: "宝塚市内の中学校・高校が出場する吹奏楽コンクールの大会情報・結果をまとめたガイドページです。",
       category: "教育",
       keywords: "西阪神地区大会 県大会 中学校 高校",
-      url: "/category/kyoiku/suisougaku-guide.html",
+      url: "/category/kyoiku/suisougaku-guide",
     });
   }
   entries.push({
@@ -369,7 +369,7 @@ function buildSearchIndex({ publishedArticles, categorySections, guides, gianSes
     description: "宝塚市議会のしくみをわかりやすく解説。本会議と委員会の違い、定例会・臨時会の違いなどを紹介します。",
     category: "市議会",
     keywords: "",
-    url: "/category/shigikai/guide.html",
+    url: "/category/shigikai/guide",
   });
 
   if (giinWithArticles.length > 0) {
@@ -386,7 +386,7 @@ function buildSearchIndex({ publishedArticles, categorySections, guides, gianSes
         description: `${giin.name}議員の市議会会議録に基づく公開発言を時系列で整理したページです。`,
         category: "市議会",
         keywords: "",
-        url: `/giin/${giin.slug}.html`,
+        url: `/giin/${giin.slug}`,
       });
     }
   }
@@ -397,7 +397,7 @@ function buildSearchIndex({ publishedArticles, categorySections, guides, gianSes
       description: "武庫川（武田尾・生瀬）と大堀川・波豆川のライブカメラをまとめてリンク。水位基準もあわせて確認できます。",
       category: "防災",
       keywords: "河川監視カメラ 水位",
-      url: "/livecam.html",
+      url: "/livecam",
     },
     {
       title: "武庫川防災情報",
@@ -425,14 +425,14 @@ function buildSearchIndex({ publishedArticles, categorySections, guides, gianSes
       description: "Takarazuka Todayのサイト名・目的・編集方針・運営体制について説明します。",
       category: "",
       keywords: "",
-      url: "/about.html",
+      url: "/about",
     },
     {
       title: "お問い合わせ",
       description: "Takarazuka Todayへのお問い合わせはこちらから。記事内容の訂正依頼・情報提供・PR・広告掲載のご相談を受け付けています。",
       category: "",
       keywords: "",
-      url: "/contact.html",
+      url: "/contact",
     },
   );
 

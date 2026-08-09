@@ -67,9 +67,9 @@
     { "q": "収集日を忘れてしまった場合は？", "a": "<a href=\"https://www.city.takarazuka.hyogo.jp/cleancenter/household_garbage/1049789.html\" target=\"_blank\" rel=\"noopener\">アプリ「さんあ～る」</a>や<a href=\"https://www.city.takarazuka.hyogo.jp/shisei/1008927/1031437.html\" target=\"_blank\" rel=\"noopener\">LINE公式アカウント</a>に登録すると、収集日の通知を受け取れます。" }
   ],
   "relatedLinks": [
-    { "href": "/category/kurashi.html", "label": "行政・くらしの記事一覧を見る" },
-    { "href": "/category/bosai.html", "label": "防犯・防災の記事一覧を見る" },
-    { "href": "/category/kurashi/gyousei-tetsuzuki-guide.html", "label": "行政手続きガイドを見る" }
+    { "href": "/category/kurashi", "label": "行政・くらしの記事一覧を見る" },
+    { "href": "/category/bosai", "label": "防犯・防災の記事一覧を見る" },
+    { "href": "/category/kurashi/gyousei-tetsuzuki-guide", "label": "行政手続きガイドを見る" }
   ],
   "sourceUrl": "https://www.city.takarazuka.hyogo.jp/cleancenter/household_garbage/1002043.html",
   "sourceLabel": "宝塚市公式サイト「ごみの出し方」"

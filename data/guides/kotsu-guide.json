@@ -58,10 +58,10 @@
     { "q": "宝塚市にシェアサイクルはある？", "a": "「HELLO CYCLING」が市内16カ所（令和8年4月時点）のサイクルポートで利用できます。アプリで予約し、電動アシスト付き自転車を借りられます。詳細は<a href=\"https://www.city.takarazuka.hyogo.jp/1060685/1060715/1017015/1063005.html\" target=\"_blank\" rel=\"noopener\">宝塚市シェアサイクル事業</a>をご確認ください。" }
   ],
   "relatedLinks": [
-    { "href": "/category/kurashi.html", "label": "行政・くらしの記事一覧を見る" },
-    { "href": "/category/kanko/hanshin-keibajo-guide.html", "label": "阪神競馬場ガイドを見る" },
-    { "href": "/category/kurashi/kyoyo-shisetsu-guide.html", "label": "図書館・公民館・スポーツセンターガイドを見る" },
-    { "href": "/category/kurashi/koreisha-guide.html", "label": "高齢者向け介護・見守りサービスガイドを見る" }
+    { "href": "/category/kurashi", "label": "行政・くらしの記事一覧を見る" },
+    { "href": "/category/kanko/hanshin-keibajo-guide", "label": "阪神競馬場ガイドを見る" },
+    { "href": "/category/kurashi/kyoyo-shisetsu-guide", "label": "図書館・公民館・スポーツセンターガイドを見る" },
+    { "href": "/category/kurashi/koreisha-guide", "label": "高齢者向け介護・見守りサービスガイドを見る" }
   ],
   "sourceUrl": "https://www.city.takarazuka.hyogo.jp/1060685/1060715/1017015/index.html",
   "sourceLabel": "宝塚市公式サイト「公共交通」"

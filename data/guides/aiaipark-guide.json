@@ -79,9 +79,9 @@
       "id": "around",
       "heading": "周辺スポット",
       "items": [
-        "<strong>中山寺：</strong>阪急で2駅（中山観音駅）。安産祈願で有名な古刹です（<a href=\"/category/kanko/nakayamadera-guide.html\">中山寺ガイド</a>）",
+        "<strong>中山寺：</strong>阪急で2駅（中山観音駅）。安産祈願で有名な古刹です（<a href=\"/category/kanko/nakayamadera-guide\">中山寺ガイド</a>）",
         "<strong>あいあいパーク周辺の山本地区：</strong>植木・園芸店が点在する「植木のまち」の散策が楽しめます",
-        "<strong>宝塚ダリア園：</strong>同じ「花のまち宝塚」の名所。市北部の上佐曽利地区にあります（<a href=\"/category/kanko/dahlia-en-guide.html\">宝塚ダリア園ガイド</a>）"
+        "<strong>宝塚ダリア園：</strong>同じ「花のまち宝塚」の名所。市北部の上佐曽利地区にあります（<a href=\"/category/kanko/dahlia-en-guide\">宝塚ダリア園ガイド</a>）"
       ]
     }
   ],
@@ -94,10 +94,10 @@
     { "q": "山本地区はなぜ植木で有名なのですか？", "a": "山本地区は江戸時代から続く植木産業の集積地で、「日本三大植木産地」のひとつに数えられます。接ぎ木技術発祥の地とも伝えられています。" }
   ],
   "relatedLinks": [
-    { "href": "/category/kanko.html", "label": "文化・観光の記事一覧を見る" },
-    { "href": "/category/kanko/dahlia-en-guide.html", "label": "宝塚ダリア園ガイドを見る" },
-    { "href": "/category/kanko/nakayamadera-guide.html", "label": "中山寺ガイドを見る" },
-    { "href": "/category/kurashi/kotsu-guide.html", "label": "交通ガイドを見る" },
+    { "href": "/category/kanko", "label": "文化・観光の記事一覧を見る" },
+    { "href": "/category/kanko/dahlia-en-guide", "label": "宝塚ダリア園ガイドを見る" },
+    { "href": "/category/kanko/nakayamadera-guide", "label": "中山寺ガイドを見る" },
+    { "href": "/category/kurashi/kotsu-guide", "label": "交通ガイドを見る" },
     { "href": "https://www.aiaipark.co.jp/", "label": "あいあいパーク公式サイトを見る" }
   ],
   "sourceUrl": "https://www.aiaipark.co.jp/",

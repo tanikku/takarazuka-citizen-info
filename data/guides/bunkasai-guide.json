@@ -31,7 +31,7 @@
       "items": [
         "<strong>宝塚市内の公立高校（4校）</strong>：宝塚 ／ 宝塚北 ／ 宝塚西 ／ 宝塚東",
         "<strong>私立高校（近隣含む）</strong>：雲雀丘学園高校（川西市）／ 仁川学院高校（西宮市）／ 小林聖心女子学院高校（宝塚市塔の町）",
-        "各校の詳細は<a href=\"/category/kyoiku/open-school-guide.html\">オープンスクールガイド</a>でも紹介しています"
+        "各校の詳細は<a href=\"/category/kyoiku/open-school-guide\">オープンスクールガイド</a>でも紹介しています"
       ]
     },
     {
@@ -64,7 +64,7 @@
       "icon": "camera",
       "items": [
         "クラス展示・模擬店（学校により飲食物の提供がない場合もあります）",
-        "吹奏楽部・軽音楽部などによるステージ発表（吹奏楽部の活動は<a href=\"/category/kyoiku/suisougaku-guide.html\">吹奏楽コンクールガイド</a>でも紹介しています）",
+        "吹奏楽部・軽音楽部などによるステージ発表（吹奏楽部の活動は<a href=\"/category/kyoiku/suisougaku-guide\">吹奏楽コンクールガイド</a>でも紹介しています）",
         "文化部の作品展示（美術部・書道部・写真部など）",
         "生徒会・実行委員会による企画イベント"
       ]
@@ -88,12 +88,12 @@
     { "q": "雨天の場合はどうなりますか？", "a": "荒天時は日程変更・中止となる場合があります。開催状況は各校公式サイト・SNS等でご確認ください。" }
   ],
   "relatedLinks": [
-    { "href": "/category/kyoiku/suisougaku-guide.html", "label": "吹奏楽コンクールガイドを見る" },
-    { "href": "/category/kyoiku/open-school-guide.html", "label": "オープンスクールガイドを見る" },
-    { "href": "/category/kyoiku/guide.html", "label": "学校情報ガイドを見る" },
-    { "href": "/category/kurashi/school-admission-guide.html", "label": "学区・高校受験ガイドを見る" },
-    { "href": "/category/kyoiku/nenkan-event-guide.html", "label": "学校年間イベントガイドを見る" },
-    { "href": "/category/kyoiku.html", "label": "教育の記事一覧を見る" }
+    { "href": "/category/kyoiku/suisougaku-guide", "label": "吹奏楽コンクールガイドを見る" },
+    { "href": "/category/kyoiku/open-school-guide", "label": "オープンスクールガイドを見る" },
+    { "href": "/category/kyoiku/guide", "label": "学校情報ガイドを見る" },
+    { "href": "/category/kurashi/school-admission-guide", "label": "学区・高校受験ガイドを見る" },
+    { "href": "/category/kyoiku/nenkan-event-guide", "label": "学校年間イベントガイドを見る" },
+    { "href": "/category/kyoiku", "label": "教育の記事一覧を見る" }
   ],
   "sourceUrl": "https://www.hyogo-c.ed.jp/~koko-bo/HYOGO/",
   "sourceLabel": "兵庫県公立高校検索サイト"

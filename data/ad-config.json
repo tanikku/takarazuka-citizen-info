@@ -10,7 +10,7 @@
   "adsenseClientId": "",
   "adsTxt": "",
   "excludedCategories": ["防災", "防犯"],
-  "excludedPaths": ["/livecam.html", "/mukogawa/", "/category/bosai.html", "/category/bohan.html", "/category/bosai/guide.html"],
+  "excludedPaths": ["/livecam", "/mukogawa/", "/category/bosai", "/category/bohan", "/category/bosai/guide"],
   "slots": {
     "articleBottom": "",
     "beforeRelated": "",

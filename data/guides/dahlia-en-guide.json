@@ -87,9 +87,9 @@
       "id": "around",
       "heading": "周辺スポット",
       "items": [
-        "<strong>宝塚北サービスエリア：</strong>宝塚北スマートICのそば。一般道からも利用できます（<a href=\"/category/kanko/takarazuka-kita-sa-guide.html\">宝塚北サービスエリアガイド</a>）",
-        "<strong>武田尾温泉・廃線ハイキング：</strong>バスの起点となる武田尾駅周辺で楽しめます（<a href=\"/category/kanko/takedao-onsen-guide.html\">武田尾温泉ガイド</a>・<a href=\"/category/kanko/haisen-hiking-guide.html\">武田尾廃線ハイキングガイド</a>）",
-        "<strong>あいあいパーク：</strong>同じ「花のまち宝塚」の園芸拠点。市南部の山本地区にあります（<a href=\"/category/kanko/aiaipark-guide.html\">あいあいパークガイド</a>）"
+        "<strong>宝塚北サービスエリア：</strong>宝塚北スマートICのそば。一般道からも利用できます（<a href=\"/category/kanko/takarazuka-kita-sa-guide\">宝塚北サービスエリアガイド</a>）",
+        "<strong>武田尾温泉・廃線ハイキング：</strong>バスの起点となる武田尾駅周辺で楽しめます（<a href=\"/category/kanko/takedao-onsen-guide\">武田尾温泉ガイド</a>・<a href=\"/category/kanko/haisen-hiking-guide\">武田尾廃線ハイキングガイド</a>）",
+        "<strong>あいあいパーク：</strong>同じ「花のまち宝塚」の園芸拠点。市南部の山本地区にあります（<a href=\"/category/kanko/aiaipark-guide\">あいあいパークガイド</a>）"
       ]
     }
   ],
@@ -102,9 +102,9 @@
     { "q": "所要時間はどのくらいですか？", "a": "観賞・花摘みあわせて1〜2時間程度が目安です。" }
   ],
   "relatedLinks": [
-    { "href": "/category/kanko.html", "label": "文化・観光の記事一覧を見る" },
-    { "href": "/category/kanko/takarazuka-kita-sa-guide.html", "label": "宝塚北サービスエリアガイドを見る" },
-    { "href": "/category/kanko/aiaipark-guide.html", "label": "あいあいパークガイドを見る" },
+    { "href": "/category/kanko", "label": "文化・観光の記事一覧を見る" },
+    { "href": "/category/kanko/takarazuka-kita-sa-guide", "label": "宝塚北サービスエリアガイドを見る" },
+    { "href": "/category/kanko/aiaipark-guide", "label": "あいあいパークガイドを見る" },
     { "href": "/events/", "label": "イベント情報を見る" },
     { "href": "https://dahlia-takarazuka.jp/", "label": "宝塚ダリア園公式サイトを見る" }
   ],

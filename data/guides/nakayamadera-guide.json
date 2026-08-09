@@ -108,10 +108,10 @@
     { "q": "予約は必要ですか？", "a": "安産祈祷・安産特別祈祷は当日受付で、予約は不要です。ただし同日に複数グループでの合同祈祷となる場合があります。" }
   ],
   "relatedLinks": [
-    { "href": "/category/kanko.html", "label": "文化・観光の記事一覧を見る" },
-    { "href": "/category/kanko/kiyoshikojin-guide.html", "label": "清荒神清澄寺ガイドを見る" },
-    { "href": "/category/kanko/aiaipark-guide.html", "label": "あいあいパークガイドを見る（阪急で2駅の山本地区）" },
-    { "href": "/category/kosodate/guide.html", "label": "子育て支援まとめを見る" },
+    { "href": "/category/kanko", "label": "文化・観光の記事一覧を見る" },
+    { "href": "/category/kanko/kiyoshikojin-guide", "label": "清荒神清澄寺ガイドを見る" },
+    { "href": "/category/kanko/aiaipark-guide", "label": "あいあいパークガイドを見る（阪急で2駅の山本地区）" },
+    { "href": "/category/kosodate/guide", "label": "子育て支援まとめを見る" },
     { "href": "https://www.nakayamadera.or.jp/", "label": "中山寺公式サイトを見る" }
   ],
   "sourceUrl": "https://www.nakayamadera.or.jp/",

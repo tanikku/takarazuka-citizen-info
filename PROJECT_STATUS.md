@@ -1,6 +1,6 @@
 # PROJECT STATUS
 
-**最終更新日**: 2026-08-09
+**最終更新日**: 2026-08-10（正規URL仕様を拡張子なしへ全面変更）
 **現在のフェーズ**: フェーズ22（宝塚おでかけガイド拡充フェーズ①）
 
 ---
@@ -23,7 +23,7 @@
 
 | 項目 | 状況 |
 |---|---|
-| Cloudflare Pagesの308リダイレクト（`.html`→拡張子なし） | 調査済み（2026-07）。コード側問題なし。経過観察中（詳細は[[DECISIONS.md]]「Cloudflare Pages URL調査（フェーズ12.8、2026-07）」参照） |
+| 正規URL仕様 | **2026-08-10、`.html`付きから拡張子なしへ全面変更**（canonical・内部リンク・sitemap・search-index・recommendations・ranking等すべて統一、残存0件）。実HTMLファイル名・Cloudflare Pages側の設定は無変更。`data/ranking.json`は既存の順位・タイトルを変更せず一度限りのmigrationでpathのみ更新、以後は修正済み`fetch-ranking.js`が拡張子なしURLで自動生成する（詳細は[[DECISIONS.md]]「正規URL仕様を`.html`付きから拡張子なしへ全面変更（2026-08-10）」参照） |
 
 ---
 

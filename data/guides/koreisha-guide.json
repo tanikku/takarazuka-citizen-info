@@ -57,10 +57,10 @@
     { "q": "一人暮らしの高齢者向けの見守りサービスはある？", "a": "緊急通報システム（ボタンで相談センターに連絡できる装置の給付）があります。対象や料金など詳細は<a href=\"https://www.city.takarazuka.hyogo.jp/kenkofukushi/koreisha/1049450/1049526.html\" target=\"_blank\" rel=\"noopener\">緊急通報システムの給付</a>をご確認ください。" }
   ],
   "relatedLinks": [
-    { "href": "/category/kurashi.html", "label": "行政・くらしの記事一覧を見る" },
-    { "href": "/category/kurashi/gyousei-tetsuzuki-guide.html", "label": "行政手続きガイドを見る" },
-    { "href": "/category/kurashi/kotsu-guide.html", "label": "交通ガイドを見る" },
-    { "href": "/category/bosai/guide.html", "label": "防災ガイドを見る" }
+    { "href": "/category/kurashi", "label": "行政・くらしの記事一覧を見る" },
+    { "href": "/category/kurashi/gyousei-tetsuzuki-guide", "label": "行政手続きガイドを見る" },
+    { "href": "/category/kurashi/kotsu-guide", "label": "交通ガイドを見る" },
+    { "href": "/category/bosai/guide", "label": "防災ガイドを見る" }
   ],
   "sourceUrl": "https://www.city.takarazuka.hyogo.jp/1060682/1060703/index.html",
   "sourceLabel": "宝塚市公式サイト「介護保険」"

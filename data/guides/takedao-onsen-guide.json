@@ -76,9 +76,9 @@
       "id": "around",
       "heading": "周辺スポット",
       "items": [
-        "<strong>JR福知山線廃線敷ハイキング：</strong>武田尾駅はハイキングコースのゴール地点です。ハイキングの後に温泉で汗を流すコースが人気です（<a href=\"/category/kanko/haisen-hiking-guide.html\">武田尾廃線ハイキングガイド</a>）",
-        "<strong>宝塚ダリア園：</strong>武田尾駅から阪急バスで約25分の上佐曽利地区にあります（<a href=\"/category/kanko/dahlia-en-guide.html\">宝塚ダリア園ガイド</a>）",
-        "<strong>宝塚北サービスエリア：</strong>車なら一般道からも利用できます（<a href=\"/category/kanko/takarazuka-kita-sa-guide.html\">宝塚北サービスエリアガイド</a>）"
+        "<strong>JR福知山線廃線敷ハイキング：</strong>武田尾駅はハイキングコースのゴール地点です。ハイキングの後に温泉で汗を流すコースが人気です（<a href=\"/category/kanko/haisen-hiking-guide\">武田尾廃線ハイキングガイド</a>）",
+        "<strong>宝塚ダリア園：</strong>武田尾駅から阪急バスで約25分の上佐曽利地区にあります（<a href=\"/category/kanko/dahlia-en-guide\">宝塚ダリア園ガイド</a>）",
+        "<strong>宝塚北サービスエリア：</strong>車なら一般道からも利用できます（<a href=\"/category/kanko/takarazuka-kita-sa-guide\">宝塚北サービスエリアガイド</a>）"
       ]
     }
   ],
@@ -91,10 +91,10 @@
     { "q": "廃線ハイキングと一緒に楽しめますか？", "a": "はい。JR福知山線廃線敷ハイキングのゴールが武田尾駅のため、ハイキング後に温泉に立ち寄るコースが定番です。" }
   ],
   "relatedLinks": [
-    { "href": "/category/kanko.html", "label": "文化・観光の記事一覧を見る" },
-    { "href": "/category/kanko/haisen-hiking-guide.html", "label": "武田尾廃線ハイキングガイドを見る" },
-    { "href": "/category/kanko/takarazuka-onsen-guide.html", "label": "宝塚温泉ガイドを見る" },
-    { "href": "/livecam.html", "label": "武庫川ライブカメラを見る" },
+    { "href": "/category/kanko", "label": "文化・観光の記事一覧を見る" },
+    { "href": "/category/kanko/haisen-hiking-guide", "label": "武田尾廃線ハイキングガイドを見る" },
+    { "href": "/category/kanko/takarazuka-onsen-guide", "label": "宝塚温泉ガイドを見る" },
+    { "href": "/livecam", "label": "武庫川ライブカメラを見る" },
     { "href": "https://kanko-takarazuka.jp/special/onsen/", "label": "宝塚市国際観光協会「宝塚の温泉」を見る" }
   ],
   "sourceUrl": "https://kanko-takarazuka.jp/special/onsen/",

@@ -3,6 +3,41 @@
 このファイルは「なぜそう決めたか」を将来読んでも分かるように残すための記録。
 現在のルールは[[PROJECT_RULES.md]]、実装状況は[[PROJECT_STATUS.md]]を参照。
 
+## 正規URL仕様を`.html`付きから拡張子なしへ全面変更（2026-08-10）
+
+### 経緯
+[[Cloudflare Pages URL調査（フェーズ12.8、2026-07）]]では、Search Console「URL検査」で3ページを確認した結果Googleの正規URL判定がページごとに割れていた（livecam＝拡張子なしを選択、高齢者ガイド・阪神競馬場ガイド＝宣言通り`.html`付きを選択）ため、「拡張子なし統一」の仮説は棄却され、`.html`付きURLをcanonical・内部リンク・sitemapの正規形とする既存仕様を維持する判断を下した。
+
+その後、以下の新しい実測事実が積み重なった。
+- 2026-08-09のSearch Console確認で「ページにリダイレクトがあります」が28件→92件に悪化し、検証ステータスで「失敗しました」46件を確認（[[Search Console]]セクション参照）
+- 吹奏楽コンクールガイドが`.html`版・拡張子なし版の両方で個別にインデックスされ、実際のクリックが分散している実例を確認
+- `scripts/fetch-ranking.js`が既に「Cloudflare Web AnalyticsのRUMデータ上のrequestPathは拡張子なしの場合がある」とコメントで明記しており、実アクセスの生データは拡張子なしが実体であることが分かっていた
+- 2026-08-10、Search Console「URL検査」を再実施し、ライブカメラ・吹奏楽コンクールガイドともにGoogleが選択した正規URLが拡張子なし版であることを確認（高齢者ガイド・阪神競馬場ガイドについては今回未確認）
+
+これらの新しい実測事実に基づき、正規URL仕様を`.html`付きから拡張子なしへ全面的に変更する判断を下した。**フェーズ12.7〜12.8時点の判断が誤りだったわけではなく、当時得られなかったデータ（検証失敗の実例・RUM実測・再度のURL検査結果）が新たに揃ったことによる判断の更新である。**
+
+### 変更内容
+以下をすべて拡張子なしURLへ統一した（部分適用はしていない）。
+
+- `scripts/templates.js`：canonicalUrl構築（9箇所）・`categoryPath()`（1関数、内部リンク・親カテゴリBreadcrumbの多くがここを経由）・ハードコードされた内部リンク（`href="..."`属性形式・`href: "..."`オブジェクトプロパティ形式・JS文字列内のエスケープ済み`href=\"...\"`形式・`action="/search.html"`等、当初の見積もり38箇所では捕捉できていなかったパターンを含む）・`adsAllowedFor()`へ渡す`pathname`（2箇所）・`recommendedPagesPanel()`の`currentPath`比較
+- `scripts/build.js`：`SITE_NOTICES`のhref・`buildSitemap()`・`buildSearchIndex()`
+- `scripts/fetch-ranking.js`：`resolvePage()`が拡張子なしのrequestPathを`.html`付きに変換していた処理を廃止し、拡張子なしをそのまま正規パスとして扱うよう変更（実ファイル読み込み用の`file`パスは`.html`付きのまま維持）
+- `data/recommendations.json`：自サイト向けhref43箇所
+- `data/ad-config.json`：`excludedPaths`5件（`templates.js`側の`pathname`と完全一致することを確認済み）
+- `data/guides/*.json`（24ファイル）：`relatedLinks`の`href`フィールドに加え、`sections[].items[]`内のHTML文字列に埋め込まれた`href="...html"`形式のリンクも発見・修正した。**当初の変更対象一覧（テンプレート38箇所＋canonicalUrl15箇所＋sitemap）には含まれておらず、実装時の再監査で判明した**
+- `data/ranking.json`：一度限りのmigration（詳細は後述）
+
+### 変更しなかったもの
+- 実HTMLファイル名（`.html`のまま。`writeFile()`の出力パスは無変更）
+- Cloudflare Pages側の設定・既存の`.html`→拡張子なし308リダイレクト
+- `photos.json`内の宝塚市公式サイト等の外部URL、`robots.txt`のsitemap.xml参照
+
+### `data/ranking.json`の一度限りのmigration
+`scripts/fetch-ranking.js`修正後に`npm run fetch:ranking`で再生成を試みたが、実行環境でCloudflare Web Analyticsのデータが取得できず（対象期間0件）既存ファイルは上書きされなかった。認証情報を新たに用意する対応は取らず、**既存の順位・タイトル・生成日時は一切変更せず、`path`フィールドの`.html`のみを拡張子なしへ置換する一度限りのデータmigration**として対応した（`data/ranking.json`の10件、diff確認済みでURL以外の差分なし）。以後、`fetch:ranking`が再実行されれば修正済みロジックにより拡張子なしURLで自動生成される。
+
+### 検証結果
+`npm run build`後、canonical・og:url・JSON-LD `url`・BreadcrumbList `item`・内部リンク・sitemap.xml・search-index.json・recommendations由来リンク・ranking由来リンクの自サイト`.html`残存件数は**すべて0件**。広告除外判定（`adsAllowedFor()`）を防災・防犯カテゴリ・excludedPaths全件で個別テストし、変更前と同じtrue/false判定を維持していることを確認。「あなたへのおすすめ」パネルの自己除外ロジック、人気記事ランキングの順位・内容も正常動作を確認。内部リンク3,040件を監査しリンク切れ0件。
+
 ## 広報たからづか活用フローの新設と記事内比較表機能の追加（2026-07-29）
 
 ### 背景

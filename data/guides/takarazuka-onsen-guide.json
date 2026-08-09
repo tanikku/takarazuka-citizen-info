@@ -77,10 +77,10 @@
       "id": "around",
       "heading": "周辺スポット",
       "items": [
-        "<strong>宝塚大劇場：</strong>徒歩約5〜10分。観劇とセットで楽しめます（<a href=\"/category/kanko/takarazuka-kageki-guide.html\">宝塚歌劇ガイド</a>）",
-        "<strong>手塚治虫記念館：</strong>宝塚大橋を渡って徒歩圏内です（<a href=\"/category/kanko/tezuka-museum-guide.html\">手塚治虫記念館ガイド</a>）",
+        "<strong>宝塚大劇場：</strong>徒歩約5〜10分。観劇とセットで楽しめます（<a href=\"/category/kanko/takarazuka-kageki-guide\">宝塚歌劇ガイド</a>）",
+        "<strong>手塚治虫記念館：</strong>宝塚大橋を渡って徒歩圏内です（<a href=\"/category/kanko/tezuka-museum-guide\">手塚治虫記念館ガイド</a>）",
         "<strong>花のみち：</strong>宝塚駅から大劇場へ続く桜並木の遊歩道です",
-        "<strong>武田尾温泉：</strong>同じ宝塚市内の渓谷の温泉。JRで2駅の小旅行が楽しめます（<a href=\"/category/kanko/takedao-onsen-guide.html\">武田尾温泉ガイド</a>）"
+        "<strong>武田尾温泉：</strong>同じ宝塚市内の渓谷の温泉。JRで2駅の小旅行が楽しめます（<a href=\"/category/kanko/takedao-onsen-guide\">武田尾温泉ガイド</a>）"
       ]
     }
   ],
@@ -93,10 +93,10 @@
     { "q": "宝塚温泉の歴史は古いのですか？", "a": "起源は鎌倉時代と伝えられ、明治時代に温泉場として整備されました。大正時代の宝塚少女歌劇の誕生とともに温泉街として発展した、宝塚の街の原点ともいえる温泉です。" }
   ],
   "relatedLinks": [
-    { "href": "/category/kanko.html", "label": "文化・観光の記事一覧を見る" },
-    { "href": "/category/kanko/takarazuka-kageki-guide.html", "label": "宝塚歌劇ガイドを見る" },
-    { "href": "/category/kanko/tezuka-museum-guide.html", "label": "手塚治虫記念館ガイドを見る" },
-    { "href": "/category/kanko/takedao-onsen-guide.html", "label": "武田尾温泉ガイドを見る" },
+    { "href": "/category/kanko", "label": "文化・観光の記事一覧を見る" },
+    { "href": "/category/kanko/takarazuka-kageki-guide", "label": "宝塚歌劇ガイドを見る" },
+    { "href": "/category/kanko/tezuka-museum-guide", "label": "手塚治虫記念館ガイドを見る" },
+    { "href": "/category/kanko/takedao-onsen-guide", "label": "武田尾温泉ガイドを見る" },
     { "href": "https://kanko-takarazuka.jp/special/onsen/", "label": "宝塚市国際観光協会「宝塚の温泉」を見る" }
   ],
   "sourceUrl": "https://kanko-takarazuka.jp/special/onsen/",
