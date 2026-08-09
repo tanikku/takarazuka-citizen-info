@@ -11,8 +11,8 @@
   ],
   "takarazukaSchools": {
     "juniorHigh": [
-      { "name": "宝塚市立中山五月台中学校", "division": "S部門", "type": "public", "results": [{ "division": "S部門", "award": "金", "advanced": true, "best": true }] },
-      { "name": "宝塚市立高司中学校", "division": "S部門", "type": "public", "results": [{ "division": "S部門", "award": "金", "advanced": true }] },
+      { "name": "宝塚市立中山五月台中学校", "division": "S部門", "type": "public", "results": [{ "division": "S部門（地区大会）", "award": "金", "advanced": true, "best": true }, { "division": "S部門（県大会）", "award": "金", "advanced": true }] },
+      { "name": "宝塚市立高司中学校", "division": "S部門", "type": "public", "results": [{ "division": "S部門（地区大会）", "award": "金", "advanced": true }, { "division": "S部門（県大会）", "award": "銅", "advanced": false }] },
       { "name": "宝塚市立安倉中学校", "division": "S部門", "type": "public", "results": [{ "division": "S部門", "award": "銀", "advanced": false }] },
       { "name": "宝塚市立西谷中学校", "division": "S部門", "type": "public", "results": [{ "division": "S部門", "award": "銀", "advanced": false }] },
       { "name": "宝塚市立南ひばりガ丘中学校", "division": "F部門・A部門", "type": "public", "results": [{ "division": "F部門", "award": "銀" }, { "division": "A部門", "award": "銀", "advanced": false }] },
@@ -23,7 +23,7 @@
       { "name": "宝塚市立光ガ丘中学校", "division": "A部門", "type": "public", "results": [{ "division": "A部門", "award": "銀", "advanced": false }] },
       { "name": "宝塚市立長尾中学校", "division": "A部門", "type": "public", "results": [{ "division": "A部門", "award": "銀", "advanced": false }] },
       { "name": "宝塚市立宝塚中学校", "division": "A部門", "type": "public", "results": [{ "division": "A部門", "award": "銀", "advanced": false }] },
-      { "name": "雲雀丘学園中学校", "division": "S部門", "type": "private", "results": [{ "division": "S部門", "award": "金", "advanced": true }] }
+      { "name": "雲雀丘学園中学校", "division": "S部門", "type": "private", "results": [{ "division": "S部門（地区大会）", "award": "金", "advanced": true }, { "division": "S部門（県大会）", "award": "銀", "advanced": false }] }
     ],
     "highSchool": [
       { "name": "県立宝塚東高等学校", "division": "S部門", "type": "public", "results": [{ "division": "S部門", "award": "銀", "advanced": false }] },
@@ -35,7 +35,7 @@
   },
   "results": {
     "announced": true,
-    "note": "西阪神地区大会の全日程（7月18日・19日・25日・26日）の結果が発表されました。中学生S部門では、宝塚市立中山五月台中学校・宝塚市立高司中学校・雲雀丘学園中学校の3校が地区代表に選ばれ、県大会（兵庫県吹奏楽コンクール）に出場します。高等学校S部門では宝塚市内の学校（宝塚東高等学校・宝塚高等学校）の地区代表選出はありませんでした。7月25日・26日開催の中学生A部門・高等学校A部門では、宝塚市内の出場校（中学生：南ひばりガ丘・御殿山・山手台・宝梅・宝塚第一・光ガ丘・長尾・宝塚の8校、高等学校：宝塚北・宝塚西・雲雀丘学園の3校）はいずれも地区代表には選ばれませんでした（宝塚市立宝梅中学校は金賞を受賞）。中学生F部門では宝塚市立御殿山中学校・宝塚市立南ひばりガ丘中学校が出場しました（F部門・C部門は上位大会への出場対象外です）。",
+    "note": "西阪神地区大会の全日程（7月18日・19日・25日・26日）の結果が発表されました。中学生S部門では、宝塚市立中山五月台中学校・宝塚市立高司中学校・雲雀丘学園中学校の3校が地区代表に選ばれ、県大会（兵庫県吹奏楽コンクール）に出場します。高等学校S部門では宝塚市内の学校（宝塚東高等学校・宝塚高等学校）の地区代表選出はありませんでした。7月25日・26日開催の中学生A部門・高等学校A部門では、宝塚市内の出場校（中学生：南ひばりガ丘・御殿山・山手台・宝梅・宝塚第一・光ガ丘・長尾・宝塚の8校、高等学校：宝塚北・宝塚西・雲雀丘学園の3校）はいずれも地区代表には選ばれませんでした（宝塚市立宝梅中学校は金賞を受賞）。中学生F部門では宝塚市立御殿山中学校・宝塚市立南ひばりガ丘中学校が出場しました（F部門・C部門は上位大会への出場対象外です）。8月8日開催の県大会（中学生S部門）では、宝塚市立中山五月台中学校が金賞を受賞し関西大会（8月20日〜29日）への代表に選出されました。宝塚市立高司中学校は銅賞、雲雀丘学園中学校は銀賞で、いずれも代表選出はありませんでした。",
     "officialResultsUrl": "https://nhsuiren.com/"
   },
   "districtResults": {
