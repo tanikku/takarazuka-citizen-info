@@ -40,6 +40,7 @@
       { "href": "/category/kurashi/kitsuen-guide", "label": "喫煙所ガイド", "sub": "公共喫煙所の場所・利用時間", "icon": "building" }
     ],
     "kosodate": [
+      { "href": "/category/kosodate/boshitecho-guide", "label": "母子健康手帳・妊娠届ガイド", "sub": "交付窓口・郵送/電子申請・妊婦健診助成", "icon": "child" },
       { "href": "/category/kosodate/guide", "label": "子育て支援まとめ", "sub": "保育園・幼稚園・児童館情報", "icon": "child" },
       { "href": "/category/kyoiku/guide", "label": "学校情報ガイド", "sub": "校区確認・転入学手続きをまとめました", "icon": "book" },
       { "href": "/category/kurashi/school-admission-guide", "label": "学区・高校受験ガイド", "sub": "学区制度・周辺高校一覧", "icon": "book" }
