@@ -23,7 +23,7 @@
 
 | 項目 | 状況 |
 |---|---|
-| 正規URL仕様 | **2026-08-10、`.html`付きから拡張子なしへ全面変更**（canonical・内部リンク・sitemap・search-index・recommendations・ranking等すべて統一、残存0件）。実HTMLファイル名・Cloudflare Pages側の設定は無変更。`data/ranking.json`は既存の順位・タイトルを変更せず一度限りのmigrationでpathのみ更新、以後は修正済み`fetch-ranking.js`が拡張子なしURLで自動生成する（詳細は[[DECISIONS.md]]「正規URL仕様を`.html`付きから拡張子なしへ全面変更（2026-08-10）」参照） |
+| 正規URL仕様 | **2026-08-10、`.html`付きから拡張子なしへ全面変更・commit `1a23e63`で本番反映確認済み。クローズ**（canonical・内部リンク・sitemap・search-index・recommendations・ranking等すべて統一、本番残存0件）。実HTMLファイル名・Cloudflare Pages側の設定は無変更。`data/ranking.json`は既存の順位・タイトルを変更せず一度限りのmigrationでpathのみ更新、以後は修正済み`fetch-ranking.js`が拡張子なしURLで自動生成する（詳細は[[DECISIONS.md]]「正規URL仕様を`.html`付きから拡張子なしへ全面変更（2026-08-10）」参照） |
 
 ---
 

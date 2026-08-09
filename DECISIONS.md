@@ -35,8 +35,16 @@
 ### `data/ranking.json`の一度限りのmigration
 `scripts/fetch-ranking.js`修正後に`npm run fetch:ranking`で再生成を試みたが、実行環境でCloudflare Web Analyticsのデータが取得できず（対象期間0件）既存ファイルは上書きされなかった。認証情報を新たに用意する対応は取らず、**既存の順位・タイトル・生成日時は一切変更せず、`path`フィールドの`.html`のみを拡張子なしへ置換する一度限りのデータmigration**として対応した（`data/ranking.json`の10件、diff確認済みでURL以外の差分なし）。以後、`fetch:ranking`が再実行されれば修正済みロジックにより拡張子なしURLで自動生成される。
 
-### 検証結果
+### 検証結果（ローカルビルド）
 `npm run build`後、canonical・og:url・JSON-LD `url`・BreadcrumbList `item`・内部リンク・sitemap.xml・search-index.json・recommendations由来リンク・ranking由来リンクの自サイト`.html`残存件数は**すべて0件**。広告除外判定（`adsAllowedFor()`）を防災・防犯カテゴリ・excludedPaths全件で個別テストし、変更前と同じtrue/false判定を維持していることを確認。「あなたへのおすすめ」パネルの自己除外ロジック、人気記事ランキングの順位・内容も正常動作を確認。内部リンク3,040件を監査しリンク切れ0件。
+
+### commit・本番反映
+2026-08-10、commit `1a23e63`（`fix(seo): unify canonical URLs without html extensions`）としてmainへpush。Cloudflare Pagesの自動ビルドで本番反映を確認した。本番`https://takarazuka-today.jp`で代表5ページ（ライブカメラ・吹奏楽コンクールガイド・宝塚歌劇ガイド・ニュース記事1件・About）を実測し、拡張子なしURL→200、`.html`付きURL→308→拡張子なしURL→200（リダイレクト1回のみ、チェーンなし）を確認。canonical・og:url・JSON-LD・BreadcrumbListは全て拡張子なし、本番sitemap.xml（150件）・search-index.json（146件）の`.html`残存はいずれも0件。サイト内検索・ランキング・おすすめリンクも本番で正常動作を確認した。
+
+### クローズ後の扱い
+- Search Console「ページにリダイレクトがあります」92件・検証失敗46件は**変更前の基準値**として記録し、次回確認（目安2026年9月上旬）でGoogleの再クロールによる推移を確認する。`.html`URL自体は今後も308で残り続けるため、旧URLが履歴として当面表示され続けること自体は異常ではない
+- ライブカメラの検索表示回数急減（2クエリ合計555回→80回）は、**このURL正規化とは別案件として扱う**。同時にtitle等へ手を加えると原因分析が難しくなるため、当面変更せず観察のみ行う
+- この時点でURL正規化対応はクローズとする
 
 ## 広報たからづか活用フローの新設と記事内比較表機能の追加（2026-07-29）
 
