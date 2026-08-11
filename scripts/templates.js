@@ -1480,20 +1480,22 @@ const SUISOUGAKU_FAQ = [
 
 function suisougakuStagePanel(iconName, title, stage) {
   const venuesHtml = stage.yearInfo.venues.map((v) => `<li>${escapeHtml(v)}</li>`).join("\n");
+  const hasResults = Array.isArray(stage.takarazukaSchedule) && stage.takarazukaSchedule.some((s) => s.result);
   const scheduleHtml =
     Array.isArray(stage.takarazukaSchedule) && stage.takarazukaSchedule.length > 0
-      ? `<p class="guide-q">宝塚市関係校の出演スケジュール</p>
+      ? `<p class="guide-q">宝塚市関係校の${hasResults ? "出演スケジュール・結果" : "出演スケジュール"}</p>
 <table class="data-table" style="width:100%;border-collapse:collapse;font-size:0.9rem;">
 <thead><tr style="background:var(--color-surface-2,#f5f5f5);">
 <th style="padding:0.5rem;text-align:left;border-bottom:1px solid var(--color-border,#ddd);">学校名</th>
 <th style="padding:0.5rem;text-align:right;border-bottom:1px solid var(--color-border,#ddd);">出演順</th>
 <th style="padding:0.5rem;text-align:right;border-bottom:1px solid var(--color-border,#ddd);">演奏予定時刻</th>
+${hasResults ? `<th style="padding:0.5rem;text-align:right;border-bottom:1px solid var(--color-border,#ddd);">賞</th><th style="padding:0.5rem;text-align:right;border-bottom:1px solid var(--color-border,#ddd);">関西大会代表</th>` : ""}
 </tr></thead>
 <tbody>
 ${stage.takarazukaSchedule
   .map(
     (s) =>
-      `<tr><td style="padding:0.5rem;border-bottom:1px solid var(--color-border,#ddd);">${escapeHtml(s.name)}</td><td style="padding:0.5rem;text-align:right;border-bottom:1px solid var(--color-border,#ddd);">${escapeHtml(s.order)}</td><td style="padding:0.5rem;text-align:right;border-bottom:1px solid var(--color-border,#ddd);">${escapeHtml(s.time)}</td></tr>`
+      `<tr><td style="padding:0.5rem;border-bottom:1px solid var(--color-border,#ddd);">${escapeHtml(s.name)}</td><td style="padding:0.5rem;text-align:right;border-bottom:1px solid var(--color-border,#ddd);">${escapeHtml(s.order)}</td><td style="padding:0.5rem;text-align:right;border-bottom:1px solid var(--color-border,#ddd);">${escapeHtml(s.time)}</td>${hasResults ? `<td style="padding:0.5rem;text-align:right;border-bottom:1px solid var(--color-border,#ddd);">${escapeHtml(s.result ?? "結果待ち")}</td><td style="padding:0.5rem;text-align:right;border-bottom:1px solid var(--color-border,#ddd);">${escapeHtml(s.advanced ?? "－")}</td>` : ""}</tr>`
   )
   .join("\n")}
 </tbody>
