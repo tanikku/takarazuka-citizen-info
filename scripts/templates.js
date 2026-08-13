@@ -369,6 +369,9 @@ const PHOTO_KEYWORDS = [
   { keyword: "花火", file: "001015579_kankouhanabi1-1.jpg", title: "宝塚観光花火大会" },
   { keyword: "文化創造館", file: "001015682_takarazukabunkasouzoukan2009.jpg", title: "宝塚文化創造館" },
   { keyword: "ダリア", file: "001015680_daria2015.jpg", title: "宝塚ダリア園" },
+  { keyword: "平和の鐘", file: "001015682_heiwa.jpg", title: "末広中央公園 平和の鐘" },
+  { keyword: "市役所駐車場", file: "001015578_shiyakusyob.jpg", title: "宝塚市役所" },
+  { keyword: "花のみち", file: "001015578_hananomichi_1.jpg", title: "花のみち" },
 ];
 
 function findPhotoForText(text) {
