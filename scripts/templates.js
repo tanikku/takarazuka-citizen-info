@@ -1290,6 +1290,69 @@ function formatIndicatorDiff(current, previous) {
   return `${sign}${formatYen(diff)}`;
 }
 
+function zaiseiChartGroup({ title, note, color, items, y0 }) {
+  const barAreaX = 130;
+  const barAreaW = 165;
+  const barH = 26;
+  const barGap = 14;
+  const parts = [];
+  let y = y0;
+  parts.push(`<text x="20" y="${y + 4}" font-size="12.5" font-weight="bold" fill="currentColor">${escapeHtml(title)}</text>`);
+  y += 16;
+  const max = Math.max(...items.map((i) => i.value));
+  for (const item of items) {
+    const w = Math.max(4, (item.value / max) * barAreaW);
+    parts.push(`<text x="20" y="${y + barH / 2 + 4}" font-size="11" fill="currentColor">${escapeHtml(item.label)}</text>`);
+    parts.push(`<rect x="${barAreaX}" y="${y}" width="${barAreaW}" height="${barH}" rx="4" fill="var(--surface)" stroke="currentColor" stroke-width="1" opacity="0.25"/>`);
+    parts.push(`<rect x="${barAreaX}" y="${y}" width="${w}" height="${barH}" rx="4" fill="${color}"/>`);
+    parts.push(`<text x="372" y="${y + barH / 2 + 4}" font-size="11" font-weight="bold" fill="currentColor" text-anchor="end">${escapeHtml(item.valueLabel)}</text>`);
+    y += barH + barGap;
+  }
+  parts.push(`<text x="20" y="${y - barGap + barH + 12}" font-size="9.5" fill="currentColor" opacity="0.7">${escapeHtml(note)}</text>`);
+  return { html: parts.join(""), endY: y - barGap + barH + 22 };
+}
+
+function zaiseiBillionLabel(yen) {
+  return `${(yen / 1e8).toLocaleString("ja-JP", { minimumFractionDigits: 1, maximumFractionDigits: 1 })}億円`;
+}
+
+function zaiseiChartSvg(current) {
+  const byKey = (key) => current.indicators.find((i) => i.key === key);
+  const budget = byKey("general-account-budget");
+  const tax = byKey("tax-revenue");
+  const bond = byKey("bond-balance");
+  const fund = byKey("fund-balance");
+  if (!budget || !tax || !bond || !fund) return "";
+
+  let y = 8;
+  const group1 = zaiseiChartGroup({
+    title: "① 年間の規模（フロー）",
+    note: "1年間に動くお金の規模を示す指標です。一般会計予算総額と市税収入（予算）を並べています",
+    color: "#3f7fb0",
+    y0: y + 10,
+    items: [
+      { label: budget.label, value: budget.value, valueLabel: zaiseiBillionLabel(budget.value) },
+      { label: tax.label, value: tax.value, valueLabel: zaiseiBillionLabel(tax.value) },
+    ],
+  });
+  y = group1.endY + 6;
+  const dividerY = y;
+  y += 20;
+  const group2 = zaiseiChartGroup({
+    title: "② 現在の残高（ストック）",
+    note: "ある時点での市債と基金の残高です。性質の異なる指標のため、単純な差額で財政状況を判断することはできません",
+    color: "#c8102e",
+    y0: y,
+    items: [
+      { label: bond.label, value: bond.value, valueLabel: zaiseiBillionLabel(bond.value) },
+      { label: fund.label, value: fund.value, valueLabel: zaiseiBillionLabel(fund.value) },
+    ],
+  });
+  const totalH = group2.endY - 4;
+
+  return `<div class="guide-map-wrap" style="background:var(--surface);padding:8px;"><svg viewBox="0 0 380 ${totalH}" style="width:100%;height:auto;display:block" role="img" aria-label="宝塚市財政の主要指標グラフ：①年間の規模（フロー）は${escapeHtml(budget.label)}${zaiseiBillionLabel(budget.value)}・${escapeHtml(tax.label)}${zaiseiBillionLabel(tax.value)}、②現在の残高（ストック）は${escapeHtml(bond.label)}${zaiseiBillionLabel(bond.value)}・${escapeHtml(fund.label)}${zaiseiBillionLabel(fund.value)}。フローとストックは性質が異なるため別グラフで比較しています">${group1.html}<line x1="20" y1="${dividerY}" x2="360" y2="${dividerY}" stroke="currentColor" stroke-width="1" opacity="0.2" stroke-dasharray="3,3"/>${group2.html}</svg><p class="guide-map-caption">主要指標のうち金額4項目を、フロー（年間の規模）とストック（現在の残高）に分けてグラフ化しています。</p></div>`;
+}
+
 function zaiseiIndicatorRows(current, previous) {
   return current.indicators
     .map((ind) => {
@@ -1340,6 +1403,7 @@ export function zaiseiWatchPage(periods, siteUrl) {
 
   const highlightsHtml = current.highlights.map((h) => `<li>${escapeHtml(h)}</li>`).join("\n");
   const indicatorRows = zaiseiIndicatorRows(current, previous);
+  const chartSvg = zaiseiChartSvg(current);
   const termsHtml = ZAISEI_TERMS.map((t) => `<p class="guide-q">${escapeHtml(t.term)}</p><p>${escapeHtml(t.desc)}</p>`).join("\n");
   const historyRows = periods
     .map((p, i) => `<tr><td>${escapeHtml(p.publishedLabel)}</td><td>${escapeHtml(p.coverageLabel)}</td><td>${i === 0 ? "今回" : ""}</td></tr>`)
@@ -1364,6 +1428,7 @@ ${highlightsHtml}
 
 <div class="panel">
 <p class="panel-title">${icon("building")}主要指標</p>
+${chartSvg}
 <div class="table-scroll">
 <table class="zaisei-table">
 <thead><tr><th>項目</th><th>今回</th><th>前回</th><th>増減</th></tr></thead>
