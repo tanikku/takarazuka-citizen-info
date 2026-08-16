@@ -6,13 +6,34 @@
   "lead": "宝塚市公式サイトの情報をもとに、ハザードマップの見方・避難所一覧・警戒レベルごとの避難情報・土砂災害警戒区域・防災行政無線（すみれ防災スピーカー）・非常持ち出し品など事前の備えをまとめました。最新情報は出典元の公式サイトでご確認ください。",
   "updatedAt": "2026-07-18",
   "toc": [
-    { "id": "hazard", "label": "ハザードマップ" },
-    { "id": "hinanjo", "label": "避難所" },
-    { "id": "level", "label": "警戒レベルと避難情報" },
-    { "id": "dosha", "label": "土砂災害警戒区域" },
-    { "id": "musen", "label": "防災行政無線（すみれ防災スピーカー）" },
-    { "id": "sonae", "label": "事前の備え・非常持ち出し品" },
-    { "id": "info", "label": "緊急情報の受け取り方" }
+    {
+      "id": "hazard",
+      "label": "ハザードマップ"
+    },
+    {
+      "id": "hinanjo",
+      "label": "避難所"
+    },
+    {
+      "id": "level",
+      "label": "警戒レベルと避難情報"
+    },
+    {
+      "id": "dosha",
+      "label": "土砂災害警戒区域"
+    },
+    {
+      "id": "musen",
+      "label": "防災行政無線（すみれ防災スピーカー）"
+    },
+    {
+      "id": "sonae",
+      "label": "事前の備え・非常持ち出し品"
+    },
+    {
+      "id": "info",
+      "label": "緊急情報の受け取り方"
+    }
   ],
   "sections": [
     {
@@ -34,6 +55,7 @@
       "id": "level",
       "heading": "警戒レベルと避難情報（洪水・大雨時など）",
       "items": [
+        "<div class=\"guide-map-wrap\" style=\"background:var(--surface);padding:8px;\"><svg viewBox=\"0 0 380 336\" style=\"width:100%;height:auto;display:block\" role=\"img\" aria-label=\"警戒レベルと避難情報の図：レベル1・2は気象庁等が発表し防災情報の確認段階、レベル3高齢者等避難とレベル4避難指示は宝塚市が発令、レベル5緊急安全確保は災害がすでに発生・切迫した状況\"><rect x=\"70\" y=\"8\" width=\"240\" height=\"30\" rx=\"7\" fill=\"var(--surface)\" stroke=\"currentColor\" stroke-width=\"2\"/><text x=\"190\" y=\"28\" font-size=\"12.5\" font-weight=\"bold\" fill=\"currentColor\" text-anchor=\"middle\">警戒レベルは5段階</text><text x=\"190\" y=\"48\" font-size=\"9.5\" fill=\"currentColor\" text-anchor=\"middle\" opacity=\"0.7\">レベルが上がるほど危険度が高まります</text><rect x=\"20\" y=\"60\" width=\"340\" height=\"58\" rx=\"8\" fill=\"var(--surface)\" stroke=\"currentColor\" stroke-width=\"2\"/><circle cx=\"48\" cy=\"81\" r=\"16\" fill=\"var(--surface)\" stroke=\"currentColor\" stroke-width=\"2.2\"/><text x=\"48\" y=\"86\" font-size=\"14\" font-weight=\"bold\" fill=\"currentColor\" text-anchor=\"middle\">1</text><circle cx=\"78\" cy=\"81\" r=\"16\" fill=\"#f2c40c\"/><text x=\"78\" y=\"86\" font-size=\"14\" font-weight=\"bold\" fill=\"#222\" text-anchor=\"middle\">2</text><text x=\"94\" y=\"80\" font-size=\"12.5\" font-weight=\"bold\" fill=\"currentColor\">レベル1・2</text><text x=\"94\" y=\"96\" font-size=\"10.5\" fill=\"currentColor\" opacity=\"0.85\">防災情報の確認・避難への心構えを始める段階</text><text x=\"348\" y=\"76\" font-size=\"9.5\" fill=\"currentColor\" opacity=\"0.6\" text-anchor=\"end\">気象庁等が発表</text><line x1=\"40\" y1=\"124\" x2=\"40\" y2=\"132\" stroke=\"currentColor\" stroke-width=\"1.6\"/><path d=\"M35,128 L40,134 L45,128\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><rect x=\"20\" y=\"138\" width=\"340\" height=\"50\" rx=\"8\" fill=\"var(--surface)\" stroke=\"#e0322a\" stroke-width=\"2\"/><circle cx=\"48\" cy=\"163\" r=\"16\" fill=\"#e0322a\"/><text x=\"48\" y=\"168\" font-size=\"14\" font-weight=\"bold\" fill=\"#fff\" text-anchor=\"middle\">3</text><text x=\"64\" y=\"158\" font-size=\"12.5\" font-weight=\"bold\" fill=\"currentColor\">レベル3「高齢者等避難」</text><text x=\"64\" y=\"174\" font-size=\"10.5\" fill=\"currentColor\" opacity=\"0.85\">高齢者や避難に時間がかかる方は避難</text><text x=\"348\" y=\"154\" font-size=\"9.5\" fill=\"currentColor\" opacity=\"0.6\" text-anchor=\"end\">宝塚市が発令</text><line x1=\"40\" y1=\"194\" x2=\"40\" y2=\"202\" stroke=\"currentColor\" stroke-width=\"1.6\"/><path d=\"M35,198 L40,204 L45,198\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><rect x=\"20\" y=\"208\" width=\"340\" height=\"50\" rx=\"8\" fill=\"var(--surface)\" stroke=\"#7b3f9d\" stroke-width=\"2\"/><circle cx=\"48\" cy=\"233\" r=\"16\" fill=\"#7b3f9d\"/><text x=\"48\" y=\"238\" font-size=\"14\" font-weight=\"bold\" fill=\"#fff\" text-anchor=\"middle\">4</text><text x=\"64\" y=\"228\" font-size=\"12.5\" font-weight=\"bold\" fill=\"currentColor\">レベル4「避難指示」</text><text x=\"64\" y=\"244\" font-size=\"10.5\" fill=\"currentColor\" opacity=\"0.85\">対象地域の方は速やかに避難</text><text x=\"348\" y=\"224\" font-size=\"9.5\" fill=\"currentColor\" opacity=\"0.6\" text-anchor=\"end\">宝塚市が発令</text><line x1=\"40\" y1=\"264\" x2=\"40\" y2=\"272\" stroke=\"currentColor\" stroke-width=\"1.6\"/><path d=\"M35,268 L40,274 L45,268\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><rect x=\"20\" y=\"278\" width=\"340\" height=\"50\" rx=\"8\" fill=\"var(--surface)\" stroke=\"#8a1030\" stroke-width=\"2\"/><circle cx=\"48\" cy=\"303\" r=\"16\" fill=\"var(--surface)\" stroke=\"#8a1030\" stroke-width=\"2.2\"/><text x=\"48\" y=\"308\" font-size=\"14\" font-weight=\"bold\" fill=\"currentColor\" text-anchor=\"middle\">5</text><text x=\"64\" y=\"298\" font-size=\"12.5\" font-weight=\"bold\" fill=\"currentColor\">レベル5「緊急安全確保」</text><text x=\"64\" y=\"314\" font-size=\"10.5\" fill=\"currentColor\" opacity=\"0.85\">災害がすでに発生・切迫した状況</text></svg><p class=\"guide-map-caption\">警戒レベル1〜5の段階と、発令元・とるべき行動の目安です。レベル3・4は宝塚市が発令します。</p></div>",
         "避難情報は5段階の「警戒レベル」で発令されます。<strong>レベル3「高齢者等避難」</strong>では高齢者や避難に時間がかかる方は避難を、<strong>レベル4「避難指示」</strong>では対象地域の方は速やかに避難を、<strong>レベル5「緊急安全確保」</strong>は災害がすでに発生・切迫した状況です",
         "市が発令するレベル3・4が出たら避難を開始するタイミングです（<a href=\"https://www.city.takarazuka.hyogo.jp/1013056/1013225/1029166/1029168.html\" target=\"_blank\" rel=\"noopener\">5段階の警戒レベルを用いた避難情報の発令</a>）",
         "レベル1・2は気象庁等が発表する注意情報で、防災情報の確認や心構えを始める段階です",
@@ -78,18 +100,48 @@
     }
   ],
   "faq": [
-    { "q": "自分の避難所はどこで確認できる？", "a": "<a href=\"https://www.city.takarazuka.hyogo.jp/1013056/1001456/1002647/1001112.html\" target=\"_blank\" rel=\"noopener\">宝塚市避難所・避難地等一覧</a>（公式サイト）で、お住まいの地域の指定緊急避難場所を確認できます。" },
-    { "q": "ハザードマップはどう見ればいい？", "a": "<a href=\"https://www2.city.takarazuka.hyogo.jp/hazardmap/index.html\" target=\"_blank\" rel=\"noopener\">web版たからづか防災マップ</a>で住所を検索すると、水害・土砂災害・活断層など災害リスク別に確認できます。" },
-    { "q": "避難はいつ始めればいい？", "a": "市から警戒レベル3「高齢者等避難」が出たら高齢者など避難に時間がかかる方は避難を、警戒レベル4「避難指示」が出たら対象地域の方は速やかに避難してください。詳細は<a href=\"https://www.city.takarazuka.hyogo.jp/1013056/1013225/1029166/1029168.html\" target=\"_blank\" rel=\"noopener\">5段階の警戒レベルを用いた避難情報の発令</a>をご確認ください。" },
-    { "q": "自宅が土砂災害警戒区域かどうか知りたい", "a": "<a href=\"https://www2.city.takarazuka.hyogo.jp/hazardmap/index.html\" target=\"_blank\" rel=\"noopener\">web版たからづか防災マップ</a>で住所を入力すると確認できます。詳細は宝塚市都市安全部公園河川課（0797-77-2021）にお問い合わせください。" },
-    { "q": "すみれ防災スピーカーの放送が聞き取れない場合は？", "a": "スマートフォンアプリ「Cosmo Cast（コスモキャスト）」や、FM宝塚（83.5MHz）で同じ内容を確認できます。" }
+    {
+      "q": "自分の避難所はどこで確認できる？",
+      "a": "<a href=\"https://www.city.takarazuka.hyogo.jp/1013056/1001456/1002647/1001112.html\" target=\"_blank\" rel=\"noopener\">宝塚市避難所・避難地等一覧</a>（公式サイト）で、お住まいの地域の指定緊急避難場所を確認できます。"
+    },
+    {
+      "q": "ハザードマップはどう見ればいい？",
+      "a": "<a href=\"https://www2.city.takarazuka.hyogo.jp/hazardmap/index.html\" target=\"_blank\" rel=\"noopener\">web版たからづか防災マップ</a>で住所を検索すると、水害・土砂災害・活断層など災害リスク別に確認できます。"
+    },
+    {
+      "q": "避難はいつ始めればいい？",
+      "a": "市から警戒レベル3「高齢者等避難」が出たら高齢者など避難に時間がかかる方は避難を、警戒レベル4「避難指示」が出たら対象地域の方は速やかに避難してください。詳細は<a href=\"https://www.city.takarazuka.hyogo.jp/1013056/1013225/1029166/1029168.html\" target=\"_blank\" rel=\"noopener\">5段階の警戒レベルを用いた避難情報の発令</a>をご確認ください。"
+    },
+    {
+      "q": "自宅が土砂災害警戒区域かどうか知りたい",
+      "a": "<a href=\"https://www2.city.takarazuka.hyogo.jp/hazardmap/index.html\" target=\"_blank\" rel=\"noopener\">web版たからづか防災マップ</a>で住所を入力すると確認できます。詳細は宝塚市都市安全部公園河川課（0797-77-2021）にお問い合わせください。"
+    },
+    {
+      "q": "すみれ防災スピーカーの放送が聞き取れない場合は？",
+      "a": "スマートフォンアプリ「Cosmo Cast（コスモキャスト）」や、FM宝塚（83.5MHz）で同じ内容を確認できます。"
+    }
   ],
   "relatedLinks": [
-    { "href": "/livecam", "label": "武庫川ライブカメラ・河川水位情報を見る" },
-    { "href": "/category/bosai", "label": "防犯・防災の記事一覧を見る" },
-    { "href": "/mukogawa/", "label": "武庫川防災情報を見る" },
-    { "href": "/category/kurashi/gyousei-tetsuzuki-guide", "label": "行政手続きガイドを見る" },
-    { "href": "/category/kurashi/koreisha-guide", "label": "高齢者向け介護・見守りサービスガイドを見る" }
+    {
+      "href": "/livecam",
+      "label": "武庫川ライブカメラ・河川水位情報を見る"
+    },
+    {
+      "href": "/category/bosai",
+      "label": "防犯・防災の記事一覧を見る"
+    },
+    {
+      "href": "/mukogawa/",
+      "label": "武庫川防災情報を見る"
+    },
+    {
+      "href": "/category/kurashi/gyousei-tetsuzuki-guide",
+      "label": "行政手続きガイドを見る"
+    },
+    {
+      "href": "/category/kurashi/koreisha-guide",
+      "label": "高齢者向け介護・見守りサービスガイドを見る"
+    }
   ],
   "sourceUrl": "https://www.city.takarazuka.hyogo.jp/1013056/index.html",
   "sourceLabel": "宝塚市公式サイト「防災のページ」"
