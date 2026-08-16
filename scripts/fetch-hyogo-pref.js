@@ -13,6 +13,22 @@ const LIST_URL = "https://web.pref.hyogo.lg.jp/pref/cate3_650.html";
 const BASE_URL = "https://web.pref.hyogo.lg.jp";
 const SOURCE_NAME = "兵庫県公式サイト";
 
+// 宝塚市が属さない県民局・県民センターの地域限定発表を除外する
+// （本庁部局＝県全域が対象の発表はdepartmentにこれらの語を含まないため除外対象外）
+const EXCLUDE_REGION_KEYWORDS = [
+  "東播磨県民局",
+  "北播磨県民局",
+  "西播磨県民局",
+  "中播磨県民センター",
+  "但馬県民局",
+  "神戸県民センター",
+  "阪神南県民センター",
+];
+
+function isExcludedRegion(department) {
+  return EXCLUDE_REGION_KEYWORDS.some((keyword) => department.includes(keyword));
+}
+
 function extractDate(href) {
   const match = href.match(/(\d{4})(\d{2})(\d{2})/);
   if (!match) return "";
@@ -45,6 +61,11 @@ async function main() {
 
     const link = href.startsWith("http") ? href : `${BASE_URL}${href}`;
     const department = $(el).find(".idx_list_r").text().trim();
+    if (isExcludedRegion(department)) {
+      skippedCount += 1;
+      return;
+    }
+
     const filePath = path.join(PENDING_DIR, `pref_${slugify(link)}.json`);
     if (fs.existsSync(filePath)) return;
 

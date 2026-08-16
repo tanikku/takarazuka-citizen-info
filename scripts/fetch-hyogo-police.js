@@ -14,6 +14,16 @@ const LIST_URL = "https://www.police.pref.hyogo.lg.jp/";
 const BASE_URL = "https://www.police.pref.hyogo.lg.jp/";
 const SOURCE_NAME = "兵庫県警察";
 
+// 交通取締・防犯・統計等の公共性が高い情報は除外しない。
+// 採用広報・内部管理・音楽隊等のイベント広報のみを除外対象とする。
+const EXCLUDE_CATEGORIES = ["職員採用", "採用情報", "TV放送"];
+const EXCLUDE_TITLE_KEYWORDS = ["音楽隊", "広報紙", "ワークライフバランス", "匿名加工情報"];
+
+function isExcluded(category, title) {
+  if (EXCLUDE_CATEGORIES.includes(category)) return true;
+  return EXCLUDE_TITLE_KEYWORDS.some((keyword) => title.includes(keyword));
+}
+
 function slugify(link) {
   return crypto.createHash("sha1").update(link).digest("base64url").slice(0, 16);
 }
@@ -37,6 +47,11 @@ async function main() {
     const title = anchor.text().trim();
 
     if (!href || !title) {
+      skippedCount += 1;
+      return;
+    }
+
+    if (isExcluded(category, title)) {
       skippedCount += 1;
       return;
     }
