@@ -1,0 +1,314 @@
+{
+  "_comment": [
+    "人間が「記事化しない」と判断した候補の記録。fetch-*.js はここに載っているURLを再取得しない。",
+    "permanent:true は今後も対象外（審議会・入札・単発終了イベント等）。",
+    "permanent:false + expiresAt を設定すると、期限後は再取得の対象に戻る（temporary運用）。",
+    "登録・削除は npm run reject:pending -- <pendingファイル名またはslug> [理由] で行う（手動でのJSON直接編集も可）。"
+  ],
+  "entries": [
+    {
+      "url": "https://www.city.takarazuka.hyogo.jp/1060680/1060699/kyoikuiinkai/1002552/1046773/1046781/1051686.html",
+      "title": "2026（令和8）年度 宝同協定期総会 開催について",
+      "rejectedAt": "2026-08-17",
+      "reason": "単発の団体総会開催告知、記事化対象外（2026-08-16に一度削除済みだったが翌日の自動取得で復活したため今回rejected台帳へ登録）",
+      "source": "宝塚市公式サイト",
+      "permanent": true
+    },
+    {
+      "url": "https://www.city.takarazuka.hyogo.jp/1060687/1060720/1061626/soshiki/1001489/1001506/1001923.html",
+      "title": "消費生活センター",
+      "rejectedAt": "2026-08-17",
+      "reason": "評価ページ・常設サービス案内（消費生活センター、newsではない）",
+      "source": "宝塚市公式サイト",
+      "permanent": true
+    },
+    {
+      "url": "https://www.city.takarazuka.hyogo.jp/1060687/mayor/1060246/1064012.html",
+      "title": "令和8年7月「市民と市長の対話ひろば」開催結果",
+      "rejectedAt": "2026-08-17",
+      "reason": "単発告知で価値消失（市民と市長の対話ひろば7月開催結果、差別化性低い）",
+      "source": "宝塚市公式サイト",
+      "permanent": true
+    },
+    {
+      "url": "https://www.city.takarazuka.hyogo.jp/event/1000038/1061698/1061933/1064007.html",
+      "title": "歯科保健相談",
+      "rejectedAt": "2026-08-17",
+      "reason": "評価ページ・常設サービス案内（歯科保健相談）",
+      "source": "宝塚市公式サイト",
+      "permanent": true
+    },
+    {
+      "url": "https://www.city.takarazuka.hyogo.jp/event/1000039/1061699/1061797/1061381.html",
+      "title": "ママに寄り添う託児のあるマルシェ　第3回mama no jikan",
+      "rejectedAt": "2026-08-17",
+      "reason": "開催済み・単発告知で価値消失（マルシェmama no jikan）",
+      "source": "宝塚市公式サイト",
+      "permanent": true
+    },
+    {
+      "url": "https://www.city.takarazuka.hyogo.jp/1060685/1060715/1061674/1056208/1056028.html",
+      "title": "TAKARAZUKA　Exchanger（お洋服の交換会）",
+      "rejectedAt": "2026-08-17",
+      "reason": "重複（お洋服の交換会＠文化芸術センターと同一イベント、別候補JRfoOchm7Wr6gxCIで検討中）",
+      "source": "宝塚市公式サイト",
+      "permanent": true
+    },
+    {
+      "url": "https://www.city.takarazuka.hyogo.jp/1060687/gikai/gikaikoho/1000987.html",
+      "title": "議会報「かけはし」",
+      "rejectedAt": "2026-08-17",
+      "reason": "評価ページ・定期発行物案内（議会報かけはし）",
+      "source": "宝塚市公式サイト",
+      "permanent": true
+    },
+    {
+      "url": "https://www.city.takarazuka.hyogo.jp/1060680/1060699/kyoikuiinkai/1002552/1046773/1063985.html",
+      "title": "心のふれあう市民のつどい",
+      "rejectedAt": "2026-08-17",
+      "reason": "開催済み・単発告知で価値消失（心のふれあう市民のつどい）",
+      "source": "宝塚市公式サイト",
+      "permanent": true
+    },
+    {
+      "url": "https://www.city.takarazuka.hyogo.jp/1060682/1060702/kenshin/1000610.html",
+      "title": "がん撲滅キャンペーン2026に参加しています",
+      "rejectedAt": "2026-08-17",
+      "reason": "開催済み・単発告知で価値消失（がん撲滅キャンペーン2026）",
+      "source": "宝塚市公式サイト",
+      "permanent": true
+    },
+    {
+      "url": "https://www.city.takarazuka.hyogo.jp/1060681/1061587/1002665/1009705/1009779.html",
+      "title": "図書室だよりのお知らせ",
+      "rejectedAt": "2026-08-17",
+      "reason": "評価ページ・常設サービス案内（図書室だより）",
+      "source": "宝塚市公式サイト",
+      "permanent": true
+    },
+    {
+      "url": "https://www.city.takarazuka.hyogo.jp/1060684/1060712/1009617/1001083.html",
+      "title": "宝塚市就労チャレンジプログラム",
+      "rejectedAt": "2026-08-17",
+      "reason": "評価ページ・常設プログラム案内（就労チャレンジプログラム）",
+      "source": "宝塚市公式サイト",
+      "permanent": true
+    },
+    {
+      "url": "https://www.city.takarazuka.hyogo.jp/event/1000043/1061701/1061815/1063674.html",
+      "title": "令和8年8月「市民と市長の対話ひろば～もりりんと語ろう、宝塚市の未来～」",
+      "rejectedAt": "2026-08-17",
+      "reason": "単発告知で価値消失（市民と市長の対話ひろば8月開催案内）",
+      "source": "宝塚市公式サイト",
+      "permanent": true
+    },
+    {
+      "url": "https://www.city.takarazuka.hyogo.jp/1060680/1060698/1061552/1061560/gakkoshisetsu/1000105/1036222/1036224.html",
+      "title": "令和8年度「たからづか私立保育園就職フェア」",
+      "rejectedAt": "2026-08-17",
+      "reason": "開催済み（私立保育園就職フェア、6/13・8/8とも終了確認済み）",
+      "source": "宝塚市公式サイト",
+      "permanent": true
+    },
+    {
+      "url": "https://www.city.takarazuka.hyogo.jp/1060687/gikai/gikaikoho/1010354.html",
+      "title": "意見交換会",
+      "rejectedAt": "2026-08-17",
+      "reason": "単発・曖昧な告知で価値消失（意見交換会）",
+      "source": "宝塚市公式サイト",
+      "permanent": true
+    },
+    {
+      "url": "https://www.city.takarazuka.hyogo.jp/1060681/1061587/1030351/1011185.html",
+      "title": "宝塚市立男女共同参画センター",
+      "rejectedAt": "2026-08-17",
+      "reason": "評価ページ・常設サービス案内（男女共同参画センター）",
+      "source": "宝塚市公式サイト",
+      "permanent": true
+    },
+    {
+      "url": "https://www.city.takarazuka.hyogo.jp/event/1000038/1061698/1061931/1043177.html",
+      "title": "「薬と健康の週間」講演会を開催します",
+      "rejectedAt": "2026-08-17",
+      "reason": "開催済み・単発告知で価値消失（薬と健康の週間講演会）",
+      "source": "宝塚市公式サイト",
+      "permanent": true
+    },
+    {
+      "url": "https://www.city.takarazuka.hyogo.jp/1060682/1060707/1061594/1050483.html",
+      "title": "市民活動やボランティア活動を始めたい方・すでに始めている方へ（相談会の案内）",
+      "rejectedAt": "2026-08-17",
+      "reason": "開催済み・単発告知で価値消失（市民活動・ボランティア相談会）",
+      "source": "宝塚市公式サイト",
+      "permanent": true
+    },
+    {
+      "url": "https://www.city.takarazuka.hyogo.jp/1060680/1060698/1061552/1061560/1009372/1000571.html",
+      "title": "出前児童館事業",
+      "rejectedAt": "2026-08-17",
+      "reason": "評価ページ・常設プログラム案内（出前児童館事業）",
+      "source": "宝塚市公式サイト",
+      "permanent": true
+    },
+    {
+      "url": "https://www.city.takarazuka.hyogo.jp/1060680/1060699/kyoikuiinkai/1002552/1046773/1046781/1056854.html",
+      "title": "2026年度ハーとんじんけん作品賞について",
+      "rejectedAt": "2026-08-17",
+      "reason": "単発告知で価値消失（ハーとんじんけん作品賞）",
+      "source": "宝塚市公式サイト",
+      "permanent": true
+    },
+    {
+      "url": "https://www.city.takarazuka.hyogo.jp/1060680/1060699/1061570/1043412.html",
+      "title": "中高生タイム",
+      "rejectedAt": "2026-08-17",
+      "reason": "評価ページ・常設プログラム案内（中高生タイム）",
+      "source": "宝塚市公式サイト",
+      "permanent": true
+    },
+    {
+      "url": "https://www.city.takarazuka.hyogo.jp/1060679/1060695/1000077/1063988.html",
+      "title": "令和8年9月のeLTAX更改に伴うサービス停止等について",
+      "rejectedAt": "2026-08-17",
+      "reason": "対象が限定的（eLTAX更改、事業者向け技術情報）で市民向け記事化対象外",
+      "source": "宝塚市公式サイト",
+      "permanent": true
+    },
+    {
+      "url": "https://www.city.takarazuka.hyogo.jp/event/1000041/1061700/1061827/1063867.html",
+      "title": "宝塚サマーライブ2026",
+      "rejectedAt": "2026-08-17",
+      "reason": "開催済み・単発告知で価値消失（宝塚サマーライブ2026）",
+      "source": "宝塚市公式サイト",
+      "permanent": true
+    },
+    {
+      "url": "https://www.city.takarazuka.hyogo.jp/1060678/1060689/1039321/1046014.html",
+      "title": "兵庫県立消費生活総合センター主催の消費生活講座が開催されます",
+      "rejectedAt": "2026-08-17",
+      "reason": "開催済み・単発告知で価値消失（消費生活講座）",
+      "source": "宝塚市公式サイト",
+      "permanent": true
+    },
+    {
+      "url": "https://www.city.takarazuka.hyogo.jp/1060682/1060702/1061588/1061592/1049873.html",
+      "title": "宝塚市フレイル予防＿シニアの健活プロジェクト@TAKARAZUKA（宝塚市高齢者の保健事業と介護予防の一体的実施事業）",
+      "rejectedAt": "2026-08-17",
+      "reason": "評価ページ・常設プログラム案内（フレイル予防シニア健活プロジェクト）",
+      "source": "宝塚市公式サイト",
+      "permanent": true
+    },
+    {
+      "url": "https://www.city.takarazuka.hyogo.jp/1060678/1060691/1028025/1049233.html",
+      "title": "「相続・空き家対策セミナー」＆個別相談会",
+      "rejectedAt": "2026-08-17",
+      "reason": "開催済み・単発告知で価値消失（相続・空き家対策セミナー）",
+      "source": "宝塚市公式サイト",
+      "permanent": true
+    },
+    {
+      "url": "https://www.city.takarazuka.hyogo.jp/1060679/1060693/1045353.html",
+      "title": "窓口サービス課の現在の混雑状況",
+      "rejectedAt": "2026-08-17",
+      "reason": "評価ページ・ライブ状況案内（窓口混雑状況、newsではない）",
+      "source": "宝塚市公式サイト",
+      "permanent": true
+    },
+    {
+      "url": "https://www.city.takarazuka.hyogo.jp/1060685/1060715/1061612/1009486/1062644.html",
+      "title": "【NEXCO西日本実施】中国自動車道宝塚料金所のETC専用料金所としての運用開始について",
+      "rejectedAt": "2026-08-17",
+      "reason": "鮮度喪失（ETC専用化、2026-03-17運用開始済みで既に5か月経過）",
+      "source": "宝塚市公式サイト",
+      "permanent": true
+    },
+    {
+      "url": "https://www.city.takarazuka.hyogo.jp/1060687/1060728/1000076/1064034.html",
+      "title": "ガバメントクラウドファンディングについて",
+      "rejectedAt": "2026-08-17",
+      "reason": "評価ページ・制度紹介（ガバメントクラウドファンディング、newsではない）",
+      "source": "宝塚市公式サイト",
+      "permanent": true
+    },
+    {
+      "url": "https://www.city.takarazuka.hyogo.jp/1060682/1060702/1061588/kenko/1060668.html",
+      "title": "大人の体力測定会",
+      "rejectedAt": "2026-08-17",
+      "reason": "開催済み・単発告知で価値消失（大人の体力測定会）",
+      "source": "宝塚市公式サイト",
+      "permanent": true
+    },
+    {
+      "url": "https://www.city.takarazuka.hyogo.jp/1060687/1060720/1061626/soshiki/1001495/1001509/1058390.html",
+      "title": "わくわく保護者会",
+      "rejectedAt": "2026-08-17",
+      "reason": "開催済み・単発告知で価値消失（わくわく保護者会）",
+      "source": "宝塚市公式サイト",
+      "permanent": true
+    },
+    {
+      "url": "https://www.city.takarazuka.hyogo.jp/1060682/1060702/1061588/1017522/1027884/1027919.html",
+      "title": "市が主催する主な取組",
+      "rejectedAt": "2026-08-17",
+      "reason": "評価ページ・常設案内（市が主催する主な取組、newsではない）",
+      "source": "宝塚市公式サイト",
+      "permanent": true
+    },
+    {
+      "url": "https://www.city.takarazuka.hyogo.jp/1060680/1060698/1061552/1061560/1009340.html",
+      "title": "子ども家庭支援センター・きらきらひろば",
+      "rejectedAt": "2026-08-17",
+      "reason": "評価ページ・常設プログラム案内（きらきらひろば）",
+      "source": "宝塚市公式サイト",
+      "permanent": true
+    },
+    {
+      "url": "https://www.city.takarazuka.hyogo.jp/1060680/1060698/1061552/1061560/1009372/1009353.html",
+      "title": "じどうかんだより",
+      "rejectedAt": "2026-08-17",
+      "reason": "評価ページ・常設ニュースレター案内（じどうかんだより）",
+      "source": "宝塚市公式サイト",
+      "permanent": true
+    },
+    {
+      "url": "https://www.city.takarazuka.hyogo.jp/1060685/1060714/1063945.html",
+      "title": "たばこのポイ捨ては絶対にやめましょう",
+      "rejectedAt": "2026-08-17",
+      "reason": "評価ページ・啓発常設案内（たばこポイ捨て）",
+      "source": "宝塚市公式サイト",
+      "permanent": true
+    },
+    {
+      "url": "https://www.city.takarazuka.hyogo.jp/1060685/1060715/1061674/1056208/1053249.html",
+      "title": "まちを楽しくするまちづくり",
+      "rejectedAt": "2026-08-17",
+      "reason": "評価ページ・常設ハブページ（まちを楽しくするまちづくり、WebFetch確認済み・newsではない）",
+      "source": "宝塚市公式サイト",
+      "permanent": true
+    },
+    {
+      "url": "https://www.city.takarazuka.hyogo.jp/1060687/1060723/1000130/1062931/1063980.html",
+      "title": "広報たからづか　No.1350　令和8(2026)8月号",
+      "rejectedAt": "2026-08-17",
+      "reason": "評価ページ・定期発行物案内（広報たからづか8月号）",
+      "source": "宝塚市公式サイト",
+      "permanent": true
+    },
+    {
+      "url": "https://www.city.takarazuka.hyogo.jp/event/1000039/1061699/1061798/1063866.html",
+      "title": "「かけっこ体操」と「レッツダンスレッスン」にチャレンジ！を開催します",
+      "rejectedAt": "2026-08-17",
+      "reason": "開催済み・単発告知で価値消失（かけっこ体操レッツダンス）",
+      "source": "宝塚市公式サイト",
+      "permanent": true
+    },
+    {
+      "url": "https://www.city.takarazuka.hyogo.jp/1060678/1060691/1008342/1064059.html",
+      "title": "令和8年熊本地震による被災者への市営住宅の提供について",
+      "rejectedAt": "2026-08-17",
+      "reason": "既存記事kumamoto-jishin-shien-2026.jsonと同一内容の重複告知（URLは別ページ、意味的重複）",
+      "source": "宝塚市公式サイト",
+      "permanent": true
+    }
+  ]
+}

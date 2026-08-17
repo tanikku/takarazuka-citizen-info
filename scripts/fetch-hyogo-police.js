@@ -3,6 +3,7 @@ import crypto from "node:crypto";
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { loadRejectedUrlSet, isRejectedUrl } from "./lib/pending-shared.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const PENDING_DIR = path.join(__dirname, "..", "data", "pending");
@@ -34,9 +35,11 @@ async function main() {
   const $ = cheerio.load(html);
 
   fs.mkdirSync(PENDING_DIR, { recursive: true });
+  const rejectedUrls = loadRejectedUrlSet();
 
   let savedCount = 0;
   let skippedCount = 0;
+  let rejectedSkipped = 0;
 
   $("#shintyaku dl.new dt").each((_, dt) => {
     const dateText = $(dt).clone().children().remove().end().text().trim(); // 例: 2026/06/18
@@ -57,6 +60,12 @@ async function main() {
     }
 
     const link = href.startsWith("http") ? href : new URL(href, BASE_URL).toString();
+
+    if (isRejectedUrl(link, rejectedUrls)) {
+      rejectedSkipped += 1;
+      return;
+    }
+
     const pubDate = dateText.replaceAll("/", "-");
     const filePath = path.join(PENDING_DIR, `police_${slugify(link)}.json`);
     if (fs.existsSync(filePath)) return;
@@ -78,7 +87,7 @@ async function main() {
     savedCount += 1;
   });
 
-  console.log(`兵庫県警察 新着情報: 新規候補保存 ${savedCount}件 / スキップ ${skippedCount}件`);
+  console.log(`兵庫県警察 新着情報: 新規候補保存 ${savedCount}件 / スキップ ${skippedCount}件 / 却下済み再取得防止 ${rejectedSkipped}件`);
   console.log(`保存先: ${PENDING_DIR}`);
 }
 

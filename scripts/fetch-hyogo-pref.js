@@ -3,6 +3,7 @@ import crypto from "node:crypto";
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { loadRejectedUrlSet, isRejectedUrl } from "./lib/pending-shared.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const PENDING_DIR = path.join(__dirname, "..", "data", "pending");
@@ -46,9 +47,11 @@ async function main() {
   const $ = cheerio.load(html);
 
   fs.mkdirSync(PENDING_DIR, { recursive: true });
+  const rejectedUrls = loadRejectedUrlSet();
 
   let savedCount = 0;
   let skippedCount = 0;
+  let rejectedSkipped = 0;
 
   $("ul.idx_list > li").each((_, el) => {
     const anchor = $(el).find("a").first();
@@ -63,6 +66,11 @@ async function main() {
     const department = $(el).find(".idx_list_r").text().trim();
     if (isExcludedRegion(department)) {
       skippedCount += 1;
+      return;
+    }
+
+    if (isRejectedUrl(link, rejectedUrls)) {
+      rejectedSkipped += 1;
       return;
     }
 
@@ -86,7 +94,7 @@ async function main() {
     savedCount += 1;
   });
 
-  console.log(`兵庫県記者発表: 新規候補保存 ${savedCount}件 / スキップ ${skippedCount}件`);
+  console.log(`兵庫県記者発表: 新規候補保存 ${savedCount}件 / スキップ ${skippedCount}件 / 却下済み再取得防止 ${rejectedSkipped}件`);
   console.log(`保存先: ${PENDING_DIR}`);
 }
 

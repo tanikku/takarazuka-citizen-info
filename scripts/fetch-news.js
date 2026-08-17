@@ -3,6 +3,7 @@ import crypto from "node:crypto";
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { loadRejectedUrlSet, isRejectedUrl } from "./lib/pending-shared.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const PENDING_DIR = path.join(__dirname, "..", "data", "pending");
@@ -41,9 +42,11 @@ async function main() {
   const feed = await parser.parseURL(RSS_URL);
 
   fs.mkdirSync(PENDING_DIR, { recursive: true });
+  const rejectedUrls = loadRejectedUrlSet();
 
   let savedCount = 0;
   let skippedCount = 0;
+  let rejectedSkipped = 0;
 
   for (const item of feed.items) {
     const title = item.title ?? "";
@@ -51,6 +54,11 @@ async function main() {
 
     if (!link || isExcluded(title)) {
       skippedCount += 1;
+      continue;
+    }
+
+    if (isRejectedUrl(link, rejectedUrls)) {
+      rejectedSkipped += 1;
       continue;
     }
 
@@ -77,7 +85,7 @@ async function main() {
   }
 
   console.log(
-    `取得: ${feed.items.length}件 / 新規候補保存: ${savedCount}件 / 除外: ${skippedCount}件`,
+    `取得: ${feed.items.length}件 / 新規候補保存: ${savedCount}件 / 除外: ${skippedCount}件 / 却下済み再取得防止: ${rejectedSkipped}件`,
   );
   console.log(`保存先: ${PENDING_DIR}`);
 }
