@@ -309,6 +309,14 @@
       "reason": "既存記事kumamoto-jishin-shien-2026.jsonと同一内容の重複告知（URLは別ページ、意味的重複）",
       "source": "宝塚市公式サイト",
       "permanent": true
+    },
+    {
+      "url": "https://www.city.takarazuka.hyogo.jp/1060686/1060717/1061621/1063953.html",
+      "title": "女性の防犯対策",
+      "rejectedAt": "2026-08-17",
+      "reason": "宝塚市独自の事件対応・具体的施策の記載がなく、兵庫県警察の一般的な防犯啓発リンク集にとどまる常設ページ。日付に紐づくニュース性がないため対象外",
+      "source": "宝塚市公式サイト",
+      "permanent": true
     }
   ]
 }

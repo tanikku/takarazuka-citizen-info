@@ -169,11 +169,16 @@
   - 要約作成・承認・公開（promote）の自動化（人間レビュー必須の方針）
   - ヘッドレスブラウザ（puppeteer等）の導入
 
-### 候補記事の却下判断の永続化（`data/rejected.json`、2026-08-17導入）
-- pending候補を「記事化しない」と判断したら、単に`data/pending/`から削除するのではなく、`npm run reject:pending -- <ファイル名またはslug> [理由]`でrejected台帳に記録してから削除する（`data/pending/*.json`を直接`rm`すると、翌日以降の自動取得で再取得されてしまう）
+### 候補記事pendingの3層ライフサイクル（`data/pending/` → `keep:true` → `data/rejected.json`）
+候補記事は以下の3状態のいずれかで管理する。
+
+1. **通常pending**：未レビューの候補。`clean-pending.js`が公開済み重複・60日超過等で自動整理する
+2. **`keep:true`付きpending**：自動整理からの保護のみを意味する。**「自動監視」ではない**。fetchスクリプトはURLのハッシュファイルが存在する限り再取得しない仕様のため（`keep`フィールド自体は参照していない）、公式サイト側で同一URLの内容が更新されても自動では検知できない。そのため`keep:true`の候補は、**「最新にして」等の通常レビュー時に人間が個別にsource URLを再確認**し、前回確認時から内容・開催日・重要情報が変わっていないか確認する運用とする（2026-08-17時点の対象・理由は[[DECISIONS.md]]参照）
+3. **`data/rejected.json`**：人間が「取得対象から外す」と判断した候補の永続化。`permanent: true`（デフォルト）は原則恒久的に対象外、`permanent: false`＋`expiresAt`は期限までのみ対象外で期限後は再取得対象に戻る。**「rejected＝永久に対象外」ではない**
+- pending候補を却下判断したら、単に`data/pending/`から削除するのではなく、`npm run reject:pending -- <ファイル名またはslug> [理由]`でrejected台帳に記録してから削除する（`data/pending/*.json`を直接`rm`すると、翌日以降の自動取得で再取得されてしまう）
 - fetch-news.js／fetch-hyogo-pref.js／fetch-hyogo-police.jsは、保存前にrejected台帳のURLと照合し、該当する候補を再取得しない
-- `permanent: true`（デフォルト）は今後も対象外。`permanent: false`＋`expiresAt`を設定すると期限後は再取得対象に戻る（時期尚早な募集・再開催の可能性があるイベント等）
 - URL正規化は前後空白・末尾スラッシュの除去のみ。アンカー（`#`）・クエリパラメータは変更しない（同一ページ内の別告知をアンカーで区別しているサイトがあるため、過剰な正規化は禁止）
+- 宝塚市公式サイトには、同一URLを維持したまま本文だけを更新するページが一定数存在する（月次イベントの開催日更新、複数アラートを随時追加する集約ページ等）。`data/articles/`でも同一`sourceUrl`を複数記事が共有するケースが確認済み（詳細は[[DECISIONS.md]]参照）
 
 ## 依存ライブラリ（許可済み）
 - `rss-parser`：RSS解析
