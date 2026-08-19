@@ -317,6 +317,38 @@
       "reason": "宝塚市独自の事件対応・具体的施策の記載がなく、兵庫県警察の一般的な防犯啓発リンク集にとどまる常設ページ。日付に紐づくニュース性がないため対象外",
       "source": "宝塚市公式サイト",
       "permanent": true
+    },
+    {
+      "url": "https://www.city.takarazuka.hyogo.jp/1060685/1060714/1061608/1063795.html",
+      "title": "第2次生物多様たからづか戦略（案）に対するパブリック・コメントの結果公表について",
+      "rejectedAt": "2026-08-19",
+      "reason": "パブリック・コメント結果公表、事務手続き的な報告で市民アクション不要",
+      "source": "宝塚市公式サイト",
+      "permanent": true
+    },
+    {
+      "url": "https://www.city.takarazuka.hyogo.jp/1060685/1060714/1063796.html",
+      "title": "第4次宝塚市環境基本計画（案）に対するパブリック・コメントの結果公表について",
+      "rejectedAt": "2026-08-19",
+      "reason": "パブリック・コメント結果公表、事務手続き的な報告で市民アクション不要",
+      "source": "宝塚市公式サイト",
+      "permanent": true
+    },
+    {
+      "url": "https://www.city.takarazuka.hyogo.jp/1060685/1060714/1061609/1011303/1064101.html",
+      "title": "【事業者向け】「省エネ診断」やってみませんか？",
+      "rejectedAt": "2026-08-19",
+      "reason": "事業者向け情報（省エネ診断）で市民向け記事化対象外",
+      "source": "宝塚市公式サイト",
+      "permanent": true
+    },
+    {
+      "url": "https://www.police.pref.hyogo.lg.jp/seikatu/boryoku/index5.htm",
+      "title": "暴力団対策(ふるさと納税) 更新",
+      "rejectedAt": "2026-08-19",
+      "reason": "宝塚市固有の言及なし、令和5年度から続く常設制度紹介ページの更新のみ",
+      "source": "兵庫県警察",
+      "permanent": true
     }
   ]
 }
