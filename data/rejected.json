@@ -357,6 +357,46 @@
       "reason": "マンション管理計画認定の登録一覧更新。該当マンション住民以外への実益が薄く、市の優先テーマにも該当しない",
       "source": "宝塚市公式サイト",
       "permanent": true
+    },
+    {
+      "url": "https://www.city.takarazuka.hyogo.jp/event/1000043/1061701/1061819/1063894.html",
+      "title": "たからづか市民環境フォーラム2026環境学習・研究内容を発表してくれる方・グループ大募集です！",
+      "rejectedAt": "2026-08-21",
+      "reason": "発表者・グループ募集の告知、事務的で市民一般への実益が薄い",
+      "source": "宝塚市公式サイト",
+      "permanent": true
+    },
+    {
+      "url": "https://www.city.takarazuka.hyogo.jp/event/1000043/1061701/1061816/1064050.html",
+      "title": "たからづか未来世代　環境フォトコンテスト",
+      "rejectedAt": "2026-08-21",
+      "reason": "写真コンテスト応募募集、市の優先テーマに該当せず",
+      "source": "宝塚市公式サイト",
+      "permanent": true
+    },
+    {
+      "url": "https://www.city.takarazuka.hyogo.jp/event/1000043/1061701/1061817/1063854.html",
+      "title": "アップサイクルワークショップ～陶器の端材を使って作るオリジナルトレイ",
+      "rejectedAt": "2026-08-21",
+      "reason": "単発ワークショップ告知、差別化性低い",
+      "source": "宝塚市公式サイト",
+      "permanent": true
+    },
+    {
+      "url": "https://www.city.takarazuka.hyogo.jp/1060682/1060705/1021420/1016395.html",
+      "title": "令和8年度（2026年度）宝塚市手話奉仕員養成講座（初級秋コース）の受講者募集",
+      "rejectedAt": "2026-08-21",
+      "reason": "手話奉仕員養成講座（初級秋コース）募集、評価ページ・常設プログラム類似で記事化対象外",
+      "source": "宝塚市公式サイト",
+      "permanent": true
+    },
+    {
+      "url": "https://www.city.takarazuka.hyogo.jp/1060682/1060705/1021420/1015078.html",
+      "title": "令和8年度（2026年度）宝塚市手話奉仕員養成講座（中級秋コース）受講者募集",
+      "rejectedAt": "2026-08-21",
+      "reason": "手話奉仕員養成講座（中級秋コース）募集、同上",
+      "source": "宝塚市公式サイト",
+      "permanent": true
     }
   ]
 }
