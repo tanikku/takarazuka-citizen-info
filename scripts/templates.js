@@ -1546,7 +1546,7 @@ const SUISOUGAKU_FAQ = [
   },
 ];
 
-function suisougakuStagePanel(iconName, title, stage) {
+function suisougakuStagePanel(iconName, title, stage, advancedLabel = "上位大会代表") {
   const venuesHtml = stage.yearInfo.venues.map((v) => `<li>${escapeHtml(v)}</li>`).join("\n");
   const hasResults = Array.isArray(stage.takarazukaSchedule) && stage.takarazukaSchedule.some((s) => s.result);
   const scheduleHtml =
@@ -1557,13 +1557,13 @@ function suisougakuStagePanel(iconName, title, stage) {
 <th style="padding:0.5rem;text-align:left;border-bottom:1px solid var(--color-border,#ddd);">学校名</th>
 <th style="padding:0.5rem;text-align:right;border-bottom:1px solid var(--color-border,#ddd);">出演順</th>
 <th style="padding:0.5rem;text-align:right;border-bottom:1px solid var(--color-border,#ddd);">演奏予定時刻</th>
-${hasResults ? `<th style="padding:0.5rem;text-align:right;border-bottom:1px solid var(--color-border,#ddd);">賞</th><th style="padding:0.5rem;text-align:right;border-bottom:1px solid var(--color-border,#ddd);">関西大会代表</th>` : ""}
+${hasResults ? `<th style="padding:0.5rem;text-align:right;border-bottom:1px solid var(--color-border,#ddd);">賞</th><th style="padding:0.5rem;text-align:right;border-bottom:1px solid var(--color-border,#ddd);">${escapeHtml(advancedLabel)}</th>` : ""}
 </tr></thead>
 <tbody>
 ${stage.takarazukaSchedule
   .map(
     (s) =>
-      `<tr><td style="padding:0.5rem;border-bottom:1px solid var(--color-border,#ddd);">${escapeHtml(s.name)}</td><td style="padding:0.5rem;text-align:right;border-bottom:1px solid var(--color-border,#ddd);">${escapeHtml(s.order)}</td><td style="padding:0.5rem;text-align:right;border-bottom:1px solid var(--color-border,#ddd);">${escapeHtml(s.time)}</td>${hasResults ? `<td style="padding:0.5rem;text-align:right;border-bottom:1px solid var(--color-border,#ddd);">${escapeHtml(s.result ?? "結果待ち")}</td><td style="padding:0.5rem;text-align:right;border-bottom:1px solid var(--color-border,#ddd);">${escapeHtml(s.advanced ?? "－")}</td>` : ""}</tr>`
+      `<tr><td style="padding:0.5rem;border-bottom:1px solid var(--color-border,#ddd);">${escapeHtml(s.name)}</td><td style="padding:0.5rem;text-align:right;border-bottom:1px solid var(--color-border,#ddd);">${escapeHtml(s.order ?? "－")}</td><td style="padding:0.5rem;text-align:right;border-bottom:1px solid var(--color-border,#ddd);">${escapeHtml(s.time ?? "－")}</td>${hasResults ? `<td style="padding:0.5rem;text-align:right;border-bottom:1px solid var(--color-border,#ddd);">${escapeHtml(s.result ?? "結果待ち")}</td><td style="padding:0.5rem;text-align:right;border-bottom:1px solid var(--color-border,#ddd);">${escapeHtml(s.advanced ?? "－")}</td>` : ""}</tr>`
   )
   .join("\n")}
 </tbody>
@@ -1685,9 +1685,9 @@ ${districtResultsHtml}
 <p class="today-source">出典：${escapeHtml(current.organizerName)}公式サイト掲載の公式タイムテーブル・審査結果（PDF）。年度・部門により出場校は変動します。</p>
 </div>
 
-${suisougakuStagePanel("building", "兵庫県大会", current.higherStages.prefectural)}
+${suisougakuStagePanel("building", "兵庫県大会", current.higherStages.prefectural, "関西大会代表")}
 
-${suisougakuStagePanel("building", "関西大会", current.higherStages.kansai)}
+${suisougakuStagePanel("building", "関西大会", current.higherStages.kansai, "全国大会代表")}
 
 ${suisougakuStagePanel("shield", "全国大会", current.higherStages.national)}
 
