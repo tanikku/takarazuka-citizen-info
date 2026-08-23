@@ -1569,6 +1569,9 @@ ${stage.takarazukaSchedule
 </tbody>
 </table>`
       : "";
+  const resultLinksHtml = Array.isArray(stage.resultLinks)
+    ? stage.resultLinks.map((l) => `<p class="panel-note"><a href="${escapeHtml(l.url)}" target="_blank" rel="noopener">→ ${escapeHtml(l.label)}</a></p>`).join("\n")
+    : "";
   return `<div class="panel">
 <p class="panel-title">${icon(iconName)}${escapeHtml(title)}</p>
 <p><strong>${escapeHtml(stage.name)}</strong></p>
@@ -1581,6 +1584,7 @@ ${venuesHtml}
 ${scheduleHtml}
 <p class="today-source">主催：${escapeHtml(stage.organizerName)}</p>
 <p class="panel-note"><a href="${escapeHtml(stage.officialUrl)}" target="_blank" rel="noopener">→ ${escapeHtml(stage.organizerName)}公式サイトを見る</a></p>
+${resultLinksHtml}
 </div>`;
 }
 
