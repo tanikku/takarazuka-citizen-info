@@ -229,10 +229,11 @@
       },
       "takarazukaSchedule": [
         { "name": "宝塚市立中山五月台中学校（中学生の部・小編成・8/22）", "result": "金賞", "advanced": "－（この部門に全国大会なし）" },
-        { "name": "宝塚市吹奏楽団（職場・一般の部・8/23）", "result": null, "advanced": null }
+        { "name": "宝塚市吹奏楽団（職場・一般の部・8/23）", "result": "金賞", "advanced": "－（代表3団体に選出されず）" }
       ],
       "resultLinks": [
-        { "label": "審査結果（中学生の部・小編成）PDFを直接見る", "url": "https://docs.wixstatic.com/ugd/0aa9bc_311d6b0e4acd4c9994ce092c2df1ff3c.pdf" }
+        { "label": "審査結果（中学生の部・小編成）PDFを直接見る", "url": "https://docs.wixstatic.com/ugd/0aa9bc_311d6b0e4acd4c9994ce092c2df1ff3c.pdf" },
+        { "label": "審査結果（職場・一般の部）PDFを直接見る", "url": "https://5b953a17-d6bb-45b6-b20b-7734f8fcd865.usrfiles.com/ugd/0aa9bc_dd982049cde142468c356af9e0f0cd7a.pdf" }
       ]
     },
     "national": {
