@@ -3,5 +3,6 @@
   "link": "https://www.police.pref.hyogo.lg.jp/shokai/kosokutai/index3.htm",
   "pubDate": "2026-07-29",
   "category": "各種統計",
-  "sourceName": "兵庫県警察"
+  "sourceName": "兵庫県警察",
+  "keep": true
 }

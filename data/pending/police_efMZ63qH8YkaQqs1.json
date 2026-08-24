@@ -3,5 +3,6 @@
   "link": "https://www.police.pref.hyogo.lg.jp/traffic/violation/jyouho/index.htm",
   "pubDate": "2026-08-07",
   "category": "交通取締情報",
-  "sourceName": "兵庫県警察"
+  "sourceName": "兵庫県警察",
+  "keep": true
 }

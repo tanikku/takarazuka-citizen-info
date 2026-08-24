@@ -3,5 +3,6 @@
   "link": "https://www.police.pref.hyogo.lg.jp/seikatu/shonen/index.htm",
   "pubDate": "2026-06-25",
   "category": "各種統計",
-  "sourceName": "兵庫県警察"
+  "sourceName": "兵庫県警察",
+  "keep": true
 }

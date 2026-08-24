@@ -397,6 +397,1148 @@
       "reason": "手話奉仕員養成講座（中級秋コース）募集、同上",
       "source": "宝塚市公式サイト",
       "permanent": true
+    },
+    {
+      "url": "https://www.city.takarazuka.hyogo.jp/1060685/1060715/1017015/1063932.html",
+      "title": "北部地域(西谷地域)における移動手段導入のための試験運行の実施について",
+      "rejectedAt": "2026-08-24",
+      "reason": "既に記事化済み(nishitani-idoshudan-shiken-2026)",
+      "source": "宝塚市公式サイト",
+      "permanent": true
+    },
+    {
+      "url": "https://www.city.takarazuka.hyogo.jp/1013056/1013222/1025907/1025914/1046150.html",
+      "title": "8月26日 午前11時　Jアラート全国一斉情報伝達試験を実施します",
+      "rejectedAt": "2026-08-24",
+      "reason": "既に記事化済み(j-alert-shiken-2026)",
+      "source": "宝塚市公式サイト",
+      "permanent": true
+    },
+    {
+      "url": "https://www.city.takarazuka.hyogo.jp/1013056/1013222/1025907/1025911/1039612.html",
+      "title": "「令和8年度大阪880万人訓練」実施に伴うエリアメール・緊急速報メールの受信について",
+      "rejectedAt": "2026-08-24",
+      "reason": "既に記事化済み(osaka880man-kunren-2026)",
+      "source": "宝塚市公式サイト",
+      "permanent": true
+    },
+    {
+      "url": "https://www.city.takarazuka.hyogo.jp/1060680/1060698/1061553/1061984.html",
+      "title": "妊婦RSウイルス（母子免疫ワクチン）定期接種を実施します",
+      "rejectedAt": "2026-08-24",
+      "reason": "既に記事化済み-rs-virus-vaccine-2026",
+      "source": "宝塚市公式サイト",
+      "permanent": true
+    },
+    {
+      "url": "https://www.city.takarazuka.hyogo.jp/1060684/1060711/1061602/1017467/1045252/1062192.html",
+      "title": "宝塚植木まつりについて",
+      "rejectedAt": "2026-08-24",
+      "reason": "既に記事化済み-ueki-matsuri-2026aki",
+      "source": "宝塚市公式サイト",
+      "permanent": true
+    },
+    {
+      "url": "https://www.city.takarazuka.hyogo.jp/event/1000039/1061699/1061802/1062169.html",
+      "title": "宝塚ユース保健室（子ども・若者の健康相談）を開設しています",
+      "rejectedAt": "2026-08-24",
+      "reason": "既に記事化済み-youth-hokenroom-2026",
+      "source": "宝塚市公式サイト",
+      "permanent": true
+    },
+    {
+      "url": "https://web.pref.hyogo.lg.jp/ks16/press/20251203.html",
+      "title": "公募型一般競争入札「揖保川浄化センター A系1・2系水処理ゲート設備改築工事その1」の実施",
+      "rejectedAt": "2026-08-24",
+      "reason": "終了した個別入札公告案件のためpermanent-reject",
+      "source": "兵庫県公式サイト",
+      "permanent": true
+    },
+    {
+      "url": "https://web.pref.hyogo.lg.jp/hnk01/press/20260224.html",
+      "title": "SNSコンテンツ制作及びプレスリリースサービスを活用したパブリシティ獲得業務委託にかかる公募型プロポーザルの実施",
+      "rejectedAt": "2026-08-24",
+      "reason": "終了した個別プロポーザル案件のためpermanent-reject",
+      "source": "兵庫県公式サイト",
+      "permanent": true
+    },
+    {
+      "url": "https://web.pref.hyogo.lg.jp/ks16/press/20260119_2.html",
+      "title": "公募型一般競争入札「加古川上流浄化センター 沈砂池除塵設備他機械設備改築工事」の実施",
+      "rejectedAt": "2026-08-24",
+      "reason": "終了した個別入札公告案件のためpermanent-reject",
+      "source": "兵庫県公式サイト",
+      "permanent": true
+    },
+    {
+      "url": "https://web.pref.hyogo.lg.jp/hnk09/press/20251215.html",
+      "title": "青野ダム管理支援業務に係る公募型プロポーザルの実施について",
+      "rejectedAt": "2026-08-24",
+      "reason": "終了した個別プロポーザル案件のためpermanent-reject",
+      "source": "兵庫県公式サイト",
+      "permanent": true
+    },
+    {
+      "url": "https://web.pref.hyogo.lg.jp/ks16/press/20260120.html",
+      "title": "公募型一般競争入札「揖保川浄化センター Ａ系水処理棟受変電設備他改築工事」の実施",
+      "rejectedAt": "2026-08-24",
+      "reason": "終了した個別入札公告案件のためpermanent-reject",
+      "source": "兵庫県公式サイト",
+      "permanent": true
+    },
+    {
+      "url": "https://web.pref.hyogo.lg.jp/ks16/press/20260129.html",
+      "title": "公募型一般競争入札「兵庫東流域下水汚泥広域処理場　No.1-3濃縮機他機械設備改築工事（その2）」の実施",
+      "rejectedAt": "2026-08-24",
+      "reason": "終了した個別入札公告案件のためpermanent-reject",
+      "source": "兵庫県公式サイト",
+      "permanent": true
+    },
+    {
+      "url": "https://web.pref.hyogo.lg.jp/ks29/press/20260518.html",
+      "title": "「住宅耐震化に係るプッシュ型意識啓発の実現に向けたモデル事業」業務委託に係る公募型プロポーザルの実施",
+      "rejectedAt": "2026-08-24",
+      "reason": "終了した個別プロポーザル案件のためpermanent-reject",
+      "source": "兵庫県公式サイト",
+      "permanent": true
+    },
+    {
+      "url": "https://web.pref.hyogo.lg.jp/ks16/press/20260120_2.html",
+      "title": "公募型一般競争入札「揖保川浄化センター Ａ系沈砂池ゲート機械設備改築工事」の実施",
+      "rejectedAt": "2026-08-24",
+      "reason": "終了した個別入札公告案件のためpermanent-reject",
+      "source": "兵庫県公式サイト",
+      "permanent": true
+    },
+    {
+      "url": "https://web.pref.hyogo.lg.jp/hnk02/press/20260731-2.html",
+      "title": "令和8年度「ひょうご北摂フィールド活動コネクトセミナー」実施業務企画提案コンペの実施",
+      "rejectedAt": "2026-08-24",
+      "reason": "終了した個別プロポーザル案件のためpermanent-reject",
+      "source": "兵庫県公式サイト",
+      "permanent": true
+    },
+    {
+      "url": "https://web.pref.hyogo.lg.jp/ks16/press/20260204.html",
+      "title": "公募型一般競争入札「加古川下流浄化センター 1系5号池反応タンク他 機械設備改築工事」の実施",
+      "rejectedAt": "2026-08-24",
+      "reason": "終了した個別入札公告案件のためpermanent-reject",
+      "source": "兵庫県公式サイト",
+      "permanent": true
+    },
+    {
+      "url": "https://web.pref.hyogo.lg.jp/hnk02/press/20260731localzebra.html",
+      "title": "令和８年度「ローカル・ゼブラ創出支援セミナー」実施業務企画提案コンペの実施",
+      "rejectedAt": "2026-08-24",
+      "reason": "終了した個別プロポーザル案件のためpermanent-reject",
+      "source": "兵庫県公式サイト",
+      "permanent": true
+    },
+    {
+      "url": "https://web.pref.hyogo.lg.jp/ks16/press/20260109.html",
+      "title": "公募型一般競争入札「武庫川上流流域下水道事業 武庫川上流浄化センター 3系最初沈殿池機械設備改築工事」の実施",
+      "rejectedAt": "2026-08-24",
+      "reason": "終了した個別入札公告案件のためpermanent-reject",
+      "source": "兵庫県公式サイト",
+      "permanent": true
+    },
+    {
+      "url": "https://web.pref.hyogo.lg.jp/ks16/press/20250825.html",
+      "title": "条件付一般競争入札「武庫川下流浄化センター運転管理業務等包括委託」、「武庫川上流浄化センター運転管理業務等包括委託」、「揖保川浄化センター運転管理業務等包括委託」の実施",
+      "rejectedAt": "2026-08-24",
+      "reason": "終了した個別入札公告案件のためpermanent-reject",
+      "source": "兵庫県公式サイト",
+      "permanent": true
+    },
+    {
+      "url": "https://web.pref.hyogo.lg.jp/kf05/press/20260722.html",
+      "title": "「養護老人ホームの措置費改定等支援事業運営業務」に係るプロポーザルの実施",
+      "rejectedAt": "2026-08-24",
+      "reason": "終了した個別プロポーザル案件のためpermanent-reject",
+      "source": "兵庫県公式サイト",
+      "permanent": true
+    },
+    {
+      "url": "https://web.pref.hyogo.lg.jp/ks16/press/20251223.html",
+      "title": "公募型一般競争入札「兵庫東流域下水汚泥広域処理場　No.1-3濃縮機他電気設備改築工事（その2）」の実施",
+      "rejectedAt": "2026-08-24",
+      "reason": "終了した個別入札公告案件のためpermanent-reject",
+      "source": "兵庫県公式サイト",
+      "permanent": true
+    },
+    {
+      "url": "https://web.pref.hyogo.lg.jp/kf08/press/20260622.html",
+      "title": "「若年層・働き盛り層に向けた自殺予防に係る啓発業務」企画提案コンペの実施",
+      "rejectedAt": "2026-08-24",
+      "reason": "終了した個別プロポーザル案件のためpermanent-reject",
+      "source": "兵庫県公式サイト",
+      "permanent": true
+    },
+    {
+      "url": "https://web.pref.hyogo.lg.jp/ks16/press/20260326.html",
+      "title": "公募型一般競争入札「猪名川流域下水道 右岸第2幹線 神津大橋東伏越ゲート（No.3）改築工事」の実施",
+      "rejectedAt": "2026-08-24",
+      "reason": "終了した個別入札公告案件のためpermanent-reject",
+      "source": "兵庫県公式サイト",
+      "permanent": true
+    },
+    {
+      "url": "https://web.pref.hyogo.lg.jp/kf03/press/20260213.html",
+      "title": "兵庫県高校生向けヤングケアラー実態調査業務（令和8年度）の企画提案を募集します",
+      "rejectedAt": "2026-08-24",
+      "reason": "終了した個別プロポーザル案件のためpermanent-reject",
+      "source": "兵庫県公式サイト",
+      "permanent": true
+    },
+    {
+      "url": "https://web.pref.hyogo.lg.jp/sr05/press/20260127-2.html",
+      "title": "「ひょうご仕事と生活センター事業」企業支援業務委託にかかる企画提案の募集",
+      "rejectedAt": "2026-08-24",
+      "reason": "終了した個別プロポーザル案件のためpermanent-reject",
+      "source": "兵庫県公式サイト",
+      "permanent": true
+    },
+    {
+      "url": "https://web.pref.hyogo.lg.jp/ks16/press/20250821.html",
+      "title": "公募型一般競争入札（事後審査型）「加古川下流浄化センター　2系流入ゲート他　電気設備改築工事」の実施",
+      "rejectedAt": "2026-08-24",
+      "reason": "終了した個別入札公告案件のためpermanent-reject",
+      "source": "兵庫県公式サイト",
+      "permanent": true
+    },
+    {
+      "url": "https://web.pref.hyogo.lg.jp/hnk02/20260806.html",
+      "title": "阪神北インバウンド向け体験コンテンツ磨き上げ・発掘業務企画提案コンペの実施について",
+      "rejectedAt": "2026-08-24",
+      "reason": "終了した個別プロポーザル案件のためpermanent-reject",
+      "source": "兵庫県公式サイト",
+      "permanent": true
+    },
+    {
+      "url": "https://web.pref.hyogo.lg.jp/ks16/press/20260119.html",
+      "title": "公募型一般競争入札「加古川上流浄化センター 水処理中央監視設備更新工事」の実施",
+      "rejectedAt": "2026-08-24",
+      "reason": "終了した個別入札公告案件のためpermanent-reject",
+      "source": "兵庫県公式サイト",
+      "permanent": true
+    },
+    {
+      "url": "https://web.pref.hyogo.lg.jp/kf05/ss_proposal_2026.html",
+      "title": "介護事業所等及び介護施設等サービス継続支援事業運営業務プロポーザルの実施",
+      "rejectedAt": "2026-08-24",
+      "reason": "TEMPORARY_1YEAR_単発企画で日付なしURLのため要再確認",
+      "source": "兵庫県公式サイト",
+      "permanent": false,
+      "expiresAt": "2027-08-24"
+    },
+    {
+      "url": "https://web.pref.hyogo.lg.jp/kf05/r7renkeikyoutei/r7renkeikyoutei.html",
+      "title": "公民連携による外国人介護人材の活躍に向けた取組に関する連携協定の実施",
+      "rejectedAt": "2026-08-24",
+      "reason": "TEMPORARY_1YEAR_単発協定で日付なしURLのため要再確認",
+      "source": "兵庫県公式サイト",
+      "permanent": false,
+      "expiresAt": "2027-08-24"
+    },
+    {
+      "url": "https://web.pref.hyogo.lg.jp/hnk02/press/enghp.html",
+      "title": "「VISIT HANSHIN」英語版ウェブサイト構築業務企画提案コンペの実施について",
+      "rejectedAt": "2026-08-24",
+      "reason": "TEMPORARY_1YEAR_単発企画で日付なしURLのため要再確認",
+      "source": "兵庫県公式サイト",
+      "permanent": false,
+      "expiresAt": "2027-08-24"
+    },
+    {
+      "url": "https://web.pref.hyogo.lg.jp/hnk02/sweden_famtrip.html",
+      "title": "阪神北にインバウンドを！スウェーデンの旅行会社による視察旅行を行いました！",
+      "rejectedAt": "2026-08-24",
+      "reason": "TEMPORARY_1YEAR_日付なしURLのため要再確認",
+      "source": "兵庫県公式サイト",
+      "permanent": false,
+      "expiresAt": "2027-08-24"
+    },
+    {
+      "url": "https://web.pref.hyogo.lg.jp/hnk02/savvy_nukizuri.html",
+      "title": "”ひょうご北摂旅”が有名雑誌「SAVVY」別冊に！宝塚北SAなどで無料配布します！",
+      "rejectedAt": "2026-08-24",
+      "reason": "TEMPORARY_1YEAR_日付なしURLのため要再確認",
+      "source": "兵庫県公式サイト",
+      "permanent": false,
+      "expiresAt": "2027-08-24"
+    },
+    {
+      "url": "https://web.pref.hyogo.lg.jp/kf12/r7dv_kishahappyo.html",
+      "title": "令和7年度県内におけるDV相談等の状況",
+      "rejectedAt": "2026-08-24",
+      "reason": "TEMPORARY_1YEAR_日付なしURLのため要再確認",
+      "source": "兵庫県公式サイト",
+      "permanent": false,
+      "expiresAt": "2027-08-24"
+    },
+    {
+      "url": "https://web.pref.hyogo.lg.jp/hnk02/press/webpromotion.html",
+      "title": "阪神北インバウンド向けWebプロモーション業務企画提案コンペの実施",
+      "rejectedAt": "2026-08-24",
+      "reason": "TEMPORARY_1YEAR_日付なしURLのため要再確認",
+      "source": "兵庫県公式サイト",
+      "permanent": false,
+      "expiresAt": "2027-08-24"
+    },
+    {
+      "url": "https://web.pref.hyogo.lg.jp/nk14/kitosyoku.html",
+      "title": "「木と食の循環を考えるマーケット」を開催！",
+      "rejectedAt": "2026-08-24",
+      "reason": "TEMPORARY_1YEAR_日付なしURLのため要再確認",
+      "source": "兵庫県公式サイト",
+      "permanent": false,
+      "expiresAt": "2027-08-24"
+    },
+    {
+      "url": "https://web.pref.hyogo.lg.jp/hnk02/savvybessatu.html",
+      "title": "”深呼吸したくなる自然体験の旅”特集が有名雑誌「SAVVY」別冊に！夏休みを前に、宝塚北SAなどで無料配布します！",
+      "rejectedAt": "2026-08-24",
+      "reason": "TEMPORARY_1YEAR_日付なしURLのため要再確認",
+      "source": "兵庫県公式サイト",
+      "permanent": false,
+      "expiresAt": "2027-08-24"
+    },
+    {
+      "url": "https://web.pref.hyogo.lg.jp/kk07/kolabo2026boshu.html",
+      "title": "「ひょうご地域創生フェス2026『カケルDAY』」の出展募集",
+      "rejectedAt": "2026-08-24",
+      "reason": "TEMPORARY_1YEAR_日付なしURLのため要再確認",
+      "source": "兵庫県公式サイト",
+      "permanent": false,
+      "expiresAt": "2027-08-24"
+    },
+    {
+      "url": "https://web.pref.hyogo.lg.jp/kf03/yc/kyoutei.html",
+      "title": "～民間介護事業者との連携によるヤングケアラー支援の新しい展開～（株）チャーム・ケア・コーポレーションとのヤングケアラー支援協定の締結",
+      "rejectedAt": "2026-08-24",
+      "reason": "TEMPORARY_1YEAR_日付なしURLのため要再確認",
+      "source": "兵庫県公式サイト",
+      "permanent": false,
+      "expiresAt": "2027-08-24"
+    },
+    {
+      "url": "https://web.pref.hyogo.lg.jp/nk14/mokuzai/paburikku.html",
+      "title": "「県産木材の利用促進等に関する指針（案）」の策定及びパブリック・コメントの実施",
+      "rejectedAt": "2026-08-24",
+      "reason": "TEMPORARY_1YEAR_日付なしURLのため要再確認",
+      "source": "兵庫県公式サイト",
+      "permanent": false,
+      "expiresAt": "2027-08-24"
+    },
+    {
+      "url": "https://web.pref.hyogo.lg.jp/kf03/hoyousou.html",
+      "title": "浜坂温泉保養荘の利活用に関するサウンディング型市場調査の実施",
+      "rejectedAt": "2026-08-24",
+      "reason": "TEMPORARY_1YEAR_日付なしURLのため要再確認",
+      "source": "兵庫県公式サイト",
+      "permanent": false,
+      "expiresAt": "2027-08-24"
+    },
+    {
+      "url": "https://web.pref.hyogo.lg.jp/hnk02/hyogo-hokusetsu_savvy.html",
+      "title": "京阪神からのプチトリップ！”ひょうご北摂旅”が有名雑誌「SAVVY」に4P掲載！",
+      "rejectedAt": "2026-08-24",
+      "reason": "TEMPORARY_1YEAR_日付なしURLのため要再確認",
+      "source": "兵庫県公式サイト",
+      "permanent": false,
+      "expiresAt": "2027-08-24"
+    },
+    {
+      "url": "https://web.pref.hyogo.lg.jp/nk12/flower_center/50th_anniversary2.html",
+      "title": "温室喫茶等の営業再開および開園50周年記念イベントの開催（県立フラワーセンター）",
+      "rejectedAt": "2026-08-24",
+      "reason": "TEMPORARY_1YEAR_日付なしURLのため要再確認",
+      "source": "兵庫県公式サイト",
+      "permanent": false,
+      "expiresAt": "2027-08-24"
+    },
+    {
+      "url": "https://web.pref.hyogo.lg.jp/hnk02/resmiryokuippaifair.html",
+      "title": "「ひょうご北摂」特産品販売会の成果・バイヤー商談で　約３０商品が継続販売、今後も大阪で購入が可能に！",
+      "rejectedAt": "2026-08-24",
+      "reason": "TEMPORARY_1YEAR_日付なしURLのため要再確認",
+      "source": "兵庫県公式サイト",
+      "permanent": false,
+      "expiresAt": "2027-08-24"
+    },
+    {
+      "url": "https://web.pref.hyogo.lg.jp/ks18/press/hyogotech_parking2025.html",
+      "title": "車いす使用者利用駐車区画の適正利用の推進に向けた実証実験の開始",
+      "rejectedAt": "2026-08-24",
+      "reason": "TEMPORARY_1YEAR_日付なしURLのため要再確認",
+      "source": "兵庫県公式サイト",
+      "permanent": false,
+      "expiresAt": "2027-08-24"
+    },
+    {
+      "url": "https://web.pref.hyogo.lg.jp/nk14/kitosyokunojyunkansp.html",
+      "title": "10月25日（土曜日）10時00分～15時00分　須磨海岸にて「木と食の循環を考えるスペシャルマーケット」を開催！",
+      "rejectedAt": "2026-08-24",
+      "reason": "TEMPORARY_1YEAR_日付なしURLのため要再確認",
+      "source": "兵庫県公式サイト",
+      "permanent": false,
+      "expiresAt": "2027-08-24"
+    },
+    {
+      "url": "https://web.pref.hyogo.lg.jp/nk14/rinmu/sokusinkyouteir7.html",
+      "title": "（一社）兵庫県建築士事務所協会との建築物木材利用促進協定の締結",
+      "rejectedAt": "2026-08-24",
+      "reason": "TEMPORARY_1YEAR_日付なしURLのため要再確認",
+      "source": "兵庫県公式サイト",
+      "permanent": false,
+      "expiresAt": "2027-08-24"
+    },
+    {
+      "url": "https://web.pref.hyogo.lg.jp/kk35/r7maronie.html",
+      "title": "令和7年度マロニエ賞表彰式の開催",
+      "rejectedAt": "2026-08-24",
+      "reason": "TEMPORARY_1YEAR_日付なしURLのため要再確認",
+      "source": "兵庫県公式サイト",
+      "permanent": false,
+      "expiresAt": "2027-08-24"
+    },
+    {
+      "url": "https://www.police.pref.hyogo.lg.jp/traffic/safety/pdf_data/kosaten07.pdf",
+      "title": "交通安全関係　兵庫県下の地区別交通事故多発交差点（令和７年中） 掲載",
+      "rejectedAt": "2026-08-24",
+      "reason": "TEMPORARY_1YEAR_PDF個別文書で号数命名規則不明のため要再確認",
+      "source": "兵庫県警察",
+      "permanent": false,
+      "expiresAt": "2027-08-24"
+    },
+    {
+      "url": "https://www.police.pref.hyogo.lg.jp/seikatu/shonen/supocen/R08_02.pdf",
+      "title": "少年サポートセンターだより　掲載",
+      "rejectedAt": "2026-08-24",
+      "reason": "TEMPORARY_1YEAR_PDF個別文書で号数命名規則不明のため要再確認",
+      "source": "兵庫県警察",
+      "permanent": false,
+      "expiresAt": "2027-08-24"
+    },
+    {
+      "url": "https://www.police.pref.hyogo.lg.jp/traffic/safety/pdf_data/monthly_event.pdf",
+      "title": "交通安全関係／7月イベント情報について 掲載",
+      "rejectedAt": "2026-08-24",
+      "reason": "TEMPORARY_1YEAR_PDF個別文書で号数命名規則不明のため要再確認",
+      "source": "兵庫県警察",
+      "permanent": false,
+      "expiresAt": "2027-08-24"
+    },
+    {
+      "url": "https://www.police.pref.hyogo.lg.jp/news/pdf_files/kinzokukaiuke.pdf",
+      "title": "金属くず買受業を営む皆様へ！令和８年６月１日、金属盗対策法が施行されます （PDF:5.5MB） 掲載",
+      "rejectedAt": "2026-08-24",
+      "reason": "TEMPORARY_1YEAR_PDF個別文書で号数命名規則不明のため要再確認",
+      "source": "兵庫県警察",
+      "permanent": false,
+      "expiresAt": "2027-08-24"
+    },
+    {
+      "url": "https://www.city.takarazuka.hyogo.jp/event/1000043/1061701/1061815/1063207.html",
+      "title": "第2回ECO講座　地球温暖化防止講演会を開催しました",
+      "rejectedAt": "2026-08-24",
+      "reason": "TEMPORARY_1YEAR_単発開催報告のため要再確認",
+      "source": "宝塚市公式サイト",
+      "permanent": false,
+      "expiresAt": "2027-08-24"
+    },
+    {
+      "url": "https://web.pref.hyogo.lg.jp/hnk08/20250805.html",
+      "title": "夏の味覚、阪神産黒大豆枝豆　好評販売中！",
+      "rejectedAt": "2026-08-24",
+      "reason": "TEMPORARY_1YEAR_県広報一般",
+      "source": "兵庫県公式サイト",
+      "permanent": false,
+      "expiresAt": "2027-08-24"
+    },
+    {
+      "url": "https://web.pref.hyogo.lg.jp/nk20/20260316.html",
+      "title": "多木化学株式会社及び公益財団法人多木文化振興会からの「生物多様性ひょうご基金」への寄付金受領及び感謝状贈呈式を執り行います",
+      "rejectedAt": "2026-08-24",
+      "reason": "TEMPORARY_1YEAR_県広報一般",
+      "source": "兵庫県公式サイト",
+      "permanent": false,
+      "expiresAt": "2027-08-24"
+    },
+    {
+      "url": "https://web.pref.hyogo.lg.jp/kk62/press/20260227.html",
+      "title": "HYOGO with SPORTSのロゴ入りビーチサンダル 株式会社TSUKUMOとのコラボ商品が返礼品に登場！",
+      "rejectedAt": "2026-08-24",
+      "reason": "TEMPORARY_1YEAR_県広報一般",
+      "source": "兵庫県公式サイト",
+      "permanent": false,
+      "expiresAt": "2027-08-24"
+    },
+    {
+      "url": "https://web.pref.hyogo.lg.jp/kf08/20260406.html",
+      "title": "令和8年度「こころとくらしの法律相談室」を実施します！",
+      "rejectedAt": "2026-08-24",
+      "reason": "TEMPORARY_1YEAR_県広報一般",
+      "source": "兵庫県公式サイト",
+      "permanent": false,
+      "expiresAt": "2027-08-24"
+    },
+    {
+      "url": "https://web.pref.hyogo.lg.jp/kk62/20260421.html",
+      "title": "神戸ストークス プレーオフ小中高生無料招待企画「頂」を目指し挑み続ける勇姿を、子どもたちへ！",
+      "rejectedAt": "2026-08-24",
+      "reason": "TEMPORARY_1YEAR_県広報一般",
+      "source": "兵庫県公式サイト",
+      "permanent": false,
+      "expiresAt": "2027-08-24"
+    },
+    {
+      "url": "https://web.pref.hyogo.lg.jp/hnk02/press/20250715.html",
+      "title": "皿池湿原を訪ねるエコバスツアー",
+      "rejectedAt": "2026-08-24",
+      "reason": "TEMPORARY_1YEAR_県広報一般",
+      "source": "兵庫県公式サイト",
+      "permanent": false,
+      "expiresAt": "2027-08-24"
+    },
+    {
+      "url": "https://web.pref.hyogo.lg.jp/nk09/20250826.html",
+      "title": "ひょうごの「農」を次世代の担い手へつなぐ「令和7年度農政懇談会」を開催",
+      "rejectedAt": "2026-08-24",
+      "reason": "TEMPORARY_1YEAR_県広報一般",
+      "source": "兵庫県公式サイト",
+      "permanent": false,
+      "expiresAt": "2027-08-24"
+    },
+    {
+      "url": "https://web.pref.hyogo.lg.jp/hnk02/press/20260127.html",
+      "title": "課題をビジネスに変える、次の一手～ローカル・ゼブラ創出支援セミナー参加者募集～",
+      "rejectedAt": "2026-08-24",
+      "reason": "TEMPORARY_1YEAR_県広報一般",
+      "source": "兵庫県公式サイト",
+      "permanent": false,
+      "expiresAt": "2027-08-24"
+    },
+    {
+      "url": "https://web.pref.hyogo.lg.jp/hnk02/20260313.html",
+      "title": "令和8年度「阪神北☆夢づくり応援事業」参加団体募集",
+      "rejectedAt": "2026-08-24",
+      "reason": "TEMPORARY_1YEAR_県広報一般",
+      "source": "兵庫県公式サイト",
+      "permanent": false,
+      "expiresAt": "2027-08-24"
+    },
+    {
+      "url": "https://web.pref.hyogo.lg.jp/hnk09/press/20260327.html",
+      "title": "宅地建物取引業者に対する監督処分",
+      "rejectedAt": "2026-08-24",
+      "reason": "TEMPORARY_1YEAR_県広報一般",
+      "source": "兵庫県公式サイト",
+      "permanent": false,
+      "expiresAt": "2027-08-24"
+    },
+    {
+      "url": "https://web.pref.hyogo.lg.jp/hnk07/press/20260515.html",
+      "title": "令和8年度持続可能なまちの農業取組支援事業の募集について",
+      "rejectedAt": "2026-08-24",
+      "reason": "TEMPORARY_1YEAR_県広報一般",
+      "source": "兵庫県公式サイト",
+      "permanent": false,
+      "expiresAt": "2027-08-24"
+    },
+    {
+      "url": "https://web.pref.hyogo.lg.jp/kk62/20260824kobestorks.html",
+      "title": "神戸ストークスホームゲーム 小中高生を無料招待 「B.PREMIER」開幕！スポーツの感動をその目で！",
+      "rejectedAt": "2026-08-24",
+      "reason": "TEMPORARY_1YEAR_県広報一般",
+      "source": "兵庫県公式サイト",
+      "permanent": false,
+      "expiresAt": "2027-08-24"
+    },
+    {
+      "url": "https://web.pref.hyogo.lg.jp/nk19/press/20260608.html",
+      "title": "令和8年度ひょうご脱炭素経営スクール受講事業者の募集",
+      "rejectedAt": "2026-08-24",
+      "reason": "TEMPORARY_1YEAR_県広報一般",
+      "source": "兵庫県公式サイト",
+      "permanent": false,
+      "expiresAt": "2027-08-24"
+    },
+    {
+      "url": "https://web.pref.hyogo.lg.jp/sr05/press/20050924.html",
+      "title": "2025年度「労働問題講演会」の開催",
+      "rejectedAt": "2026-08-24",
+      "reason": "TEMPORARY_1YEAR_調査対象-URL日付とpubDateに不一致あり要監視",
+      "source": "兵庫県公式サイト",
+      "permanent": false,
+      "expiresAt": "2027-08-24"
+    },
+    {
+      "url": "https://web.pref.hyogo.lg.jp/bk04/20260905.html",
+      "title": "第9回兵庫県立がんセンター地域公開講座の開催",
+      "rejectedAt": "2026-08-24",
+      "reason": "TEMPORARY_1YEAR_県広報一般",
+      "source": "兵庫県公式サイト",
+      "permanent": false,
+      "expiresAt": "2027-08-24"
+    },
+    {
+      "url": "https://web.pref.hyogo.lg.jp/kf17/press/20251125.html",
+      "title": "第9回兵庫県健康づくりチャレンジ企業アワードの実施及び募集",
+      "rejectedAt": "2026-08-24",
+      "reason": "TEMPORARY_1YEAR_県広報一般",
+      "source": "兵庫県公式サイト",
+      "permanent": false,
+      "expiresAt": "2027-08-24"
+    },
+    {
+      "url": "https://web.pref.hyogo.lg.jp/kk57/press/20251127.html",
+      "title": "令和７年度HYOGOヒューマンライツ作品コンテストの入賞者が決定しました",
+      "rejectedAt": "2026-08-24",
+      "reason": "TEMPORARY_1YEAR_県広報一般",
+      "source": "兵庫県公式サイト",
+      "permanent": false,
+      "expiresAt": "2027-08-24"
+    },
+    {
+      "url": "https://web.pref.hyogo.lg.jp/hnk08/20250728.html",
+      "title": "【8/1(土)、8/2(日)】女性農業者グループ「グローバル・レディ・さんだ」による黒大豆枝豆さやもぎ体験を実施！",
+      "rejectedAt": "2026-08-24",
+      "reason": "TEMPORARY_1YEAR_県広報一般",
+      "source": "兵庫県公式サイト",
+      "permanent": false,
+      "expiresAt": "2027-08-24"
+    },
+    {
+      "url": "https://web.pref.hyogo.lg.jp/kk62/20250327-1.html",
+      "title": "兵庫県発の新たなスポーツメディア紙「HYOGOwithSPORTS」創刊決定",
+      "rejectedAt": "2026-08-24",
+      "reason": "TEMPORARY_1YEAR_県広報一般",
+      "source": "兵庫県公式サイト",
+      "permanent": false,
+      "expiresAt": "2027-08-24"
+    },
+    {
+      "url": "https://web.pref.hyogo.lg.jp/ji01/20251223.html",
+      "title": "兵庫県職員ガイダンスの開催",
+      "rejectedAt": "2026-08-24",
+      "reason": "TEMPORARY_1YEAR_県広報一般",
+      "source": "兵庫県公式サイト",
+      "permanent": false,
+      "expiresAt": "2027-08-24"
+    },
+    {
+      "url": "https://web.pref.hyogo.lg.jp/kk62/press/20251029.html",
+      "title": "神戸ストークスキャラバン2025 in西宮・相生 元選手と現役チアリーダーが教える！バスケ&チア教室開催",
+      "rejectedAt": "2026-08-24",
+      "reason": "TEMPORARY_1YEAR_県広報一般",
+      "source": "兵庫県公式サイト",
+      "permanent": false,
+      "expiresAt": "2027-08-24"
+    },
+    {
+      "url": "https://web.pref.hyogo.lg.jp/kf08/press/20250825.html",
+      "title": "自殺予防週間（9月10日～16日）を踏まえた主な取組",
+      "rejectedAt": "2026-08-24",
+      "reason": "TEMPORARY_1YEAR_県広報一般",
+      "source": "兵庫県公式サイト",
+      "permanent": false,
+      "expiresAt": "2027-08-24"
+    },
+    {
+      "url": "https://web.pref.hyogo.lg.jp/ks01/press/20260701.html",
+      "title": "令和8年度土木部インターンシップ＆現場見学会の参加者募集（大学生等）",
+      "rejectedAt": "2026-08-24",
+      "reason": "TEMPORARY_1YEAR_県広報一般",
+      "source": "兵庫県公式サイト",
+      "permanent": false,
+      "expiresAt": "2027-08-24"
+    },
+    {
+      "url": "https://web.pref.hyogo.lg.jp/hnk09/press/20260619.html",
+      "title": "「県道三田西インター線バイパス」の整備効果～地域の皆様に多く利用いただき、利便性と安全性の向上に貢献しています～",
+      "rejectedAt": "2026-08-24",
+      "reason": "TEMPORARY_1YEAR_県広報一般",
+      "source": "兵庫県公式サイト",
+      "permanent": false,
+      "expiresAt": "2027-08-24"
+    },
+    {
+      "url": "https://web.pref.hyogo.lg.jp/hnk01/press/20260212.html",
+      "title": "2026（令和8）年度阪神北県民局主要施策について",
+      "rejectedAt": "2026-08-24",
+      "reason": "TEMPORARY_1YEAR_県広報一般",
+      "source": "兵庫県公式サイト",
+      "permanent": false,
+      "expiresAt": "2027-08-24"
+    },
+    {
+      "url": "https://web.pref.hyogo.lg.jp/sr05/press/20260127.html",
+      "title": "令和7年度兵庫県政労使会議の開催",
+      "rejectedAt": "2026-08-24",
+      "reason": "TEMPORARY_1YEAR_県広報一般",
+      "source": "兵庫県公式サイト",
+      "permanent": false,
+      "expiresAt": "2027-08-24"
+    },
+    {
+      "url": "https://web.pref.hyogo.lg.jp/kk11/press/20260213.html",
+      "title": "令和7年度学校保健統計調査結果",
+      "rejectedAt": "2026-08-24",
+      "reason": "TEMPORARY_1YEAR_県広報一般",
+      "source": "兵庫県公式サイト",
+      "permanent": false,
+      "expiresAt": "2027-08-24"
+    },
+    {
+      "url": "https://web.pref.hyogo.lg.jp/nk20/20251120.html",
+      "title": "ひょうご生物多様性シンポジウムの参加者募集",
+      "rejectedAt": "2026-08-24",
+      "reason": "TEMPORARY_1YEAR_県広報一般",
+      "source": "兵庫県公式サイト",
+      "permanent": false,
+      "expiresAt": "2027-08-24"
+    },
+    {
+      "url": "https://web.pref.hyogo.lg.jp/kk62/press/20250808.html",
+      "title": "神戸ストークスの開幕戦に小中高生を無料招待 子ども達に“特別な体験”を！",
+      "rejectedAt": "2026-08-24",
+      "reason": "TEMPORARY_1YEAR_県広報一般",
+      "source": "兵庫県公式サイト",
+      "permanent": false,
+      "expiresAt": "2027-08-24"
+    },
+    {
+      "url": "https://web.pref.hyogo.lg.jp/kk62/press/20260312.html",
+      "title": "神戸ストークスホームゲーム 小中高生無料招待企画 心が動く瞬間を スポーツを通して子どもたちへ！",
+      "rejectedAt": "2026-08-24",
+      "reason": "TEMPORARY_1YEAR_県広報一般",
+      "source": "兵庫県公式サイト",
+      "permanent": false,
+      "expiresAt": "2027-08-24"
+    },
+    {
+      "url": "https://web.pref.hyogo.lg.jp/nk19/press/20250829.html",
+      "title": "第7回ひょうごユースecoフォーラム参加団体募集！",
+      "rejectedAt": "2026-08-24",
+      "reason": "TEMPORARY_1YEAR_県広報一般",
+      "source": "兵庫県公式サイト",
+      "permanent": false,
+      "expiresAt": "2027-08-24"
+    },
+    {
+      "url": "https://web.pref.hyogo.lg.jp/nk19/press/20260109.html",
+      "title": "脱炭素社会の推進に関する包括連携協定シンポジウム「ひょうごから進める脱炭素社会」の開催",
+      "rejectedAt": "2026-08-24",
+      "reason": "TEMPORARY_1YEAR_県広報一般",
+      "source": "兵庫県公式サイト",
+      "permanent": false,
+      "expiresAt": "2027-08-24"
+    },
+    {
+      "url": "https://web.pref.hyogo.lg.jp/hnk02/20260203.html",
+      "title": "地域活動「編集会議」2025～これからの地域活動の「つくりかた」～参加者募集",
+      "rejectedAt": "2026-08-24",
+      "reason": "TEMPORARY_1YEAR_県広報一般",
+      "source": "兵庫県公式サイト",
+      "permanent": false,
+      "expiresAt": "2027-08-24"
+    },
+    {
+      "url": "https://web.pref.hyogo.lg.jp/nk19/press/20260622.html",
+      "title": "脱炭素経営セミナー「ひょうご脱炭素経営スクール公開講座」参加者募集",
+      "rejectedAt": "2026-08-24",
+      "reason": "TEMPORARY_1YEAR_県広報一般",
+      "source": "兵庫県公式サイト",
+      "permanent": false,
+      "expiresAt": "2027-08-24"
+    },
+    {
+      "url": "https://web.pref.hyogo.lg.jp/kf05/press/20260331.html",
+      "title": "自立支援・重度化防止普及推進に係る先進的・好事例の取組",
+      "rejectedAt": "2026-08-24",
+      "reason": "TEMPORARY_1YEAR_県広報一般",
+      "source": "兵庫県公式サイト",
+      "permanent": false,
+      "expiresAt": "2027-08-24"
+    },
+    {
+      "url": "https://web.pref.hyogo.lg.jp/nk13/press/20260528.html",
+      "title": "本県における野生イノシシでの豚熱感染確認（234頭目）",
+      "rejectedAt": "2026-08-24",
+      "reason": "TEMPORARY_1YEAR_県広報一般",
+      "source": "兵庫県公式サイト",
+      "permanent": false,
+      "expiresAt": "2027-08-24"
+    },
+    {
+      "url": "https://web.pref.hyogo.lg.jp/ks29/press/20250826.html",
+      "title": "第２回耐震改修促進計画改定検討会の開催",
+      "rejectedAt": "2026-08-24",
+      "reason": "TEMPORARY_1YEAR_県広報一般",
+      "source": "兵庫県公式サイト",
+      "permanent": false,
+      "expiresAt": "2027-08-24"
+    },
+    {
+      "url": "https://web.pref.hyogo.lg.jp/hnk02/press/20260623.html",
+      "title": "「SAVVY」2026年8月号”やっぱり気持ちいい街、北摂”が発行されました！お洒落なカフェ・雑貨・夏のリフレッシュ旅などの情報が満載！",
+      "rejectedAt": "2026-08-24",
+      "reason": "TEMPORARY_1YEAR_県広報一般",
+      "source": "兵庫県公式サイト",
+      "permanent": false,
+      "expiresAt": "2027-08-24"
+    },
+    {
+      "url": "https://web.pref.hyogo.lg.jp/sr05/press/20260729.html",
+      "title": "ひょうご科学塾in西宮（小中学生対象）の参加者募集",
+      "rejectedAt": "2026-08-24",
+      "reason": "TEMPORARY_1YEAR_県広報一般",
+      "source": "兵庫県公式サイト",
+      "permanent": false,
+      "expiresAt": "2027-08-24"
+    },
+    {
+      "url": "https://web.pref.hyogo.lg.jp/kk62/press/20260205.html",
+      "title": "兵庫県スポーツ賞特別賞・優秀賞の受賞者発表",
+      "rejectedAt": "2026-08-24",
+      "reason": "TEMPORARY_1YEAR_県広報一般",
+      "source": "兵庫県公式サイト",
+      "permanent": false,
+      "expiresAt": "2027-08-24"
+    },
+    {
+      "url": "https://web.pref.hyogo.lg.jp/nk25/press/20250929.html",
+      "title": "家庭系廃食用油回収モデル実証事業",
+      "rejectedAt": "2026-08-24",
+      "reason": "TEMPORARY_1YEAR_県広報一般",
+      "source": "兵庫県公式サイト",
+      "permanent": false,
+      "expiresAt": "2027-08-24"
+    },
+    {
+      "url": "https://web.pref.hyogo.lg.jp/hnk02/20270327.html",
+      "title": "外国人インフルエンサーによる「ひょうご北摂プチ旅」体験動画を初発信！",
+      "rejectedAt": "2026-08-24",
+      "reason": "TEMPORARY_1YEAR_pubDateが未来日付のため要確認",
+      "source": "兵庫県公式サイト",
+      "permanent": false,
+      "expiresAt": "2027-08-24"
+    },
+    {
+      "url": "https://web.pref.hyogo.lg.jp/hnk02/20251222.html",
+      "title": "阪神地域みらいづくりシンポジウム～未来へのタネをまく、わたしたちの「まちづくり」～の開催について",
+      "rejectedAt": "2026-08-24",
+      "reason": "TEMPORARY_1YEAR_県広報一般",
+      "source": "兵庫県公式サイト",
+      "permanent": false,
+      "expiresAt": "2027-08-24"
+    },
+    {
+      "url": "https://web.pref.hyogo.lg.jp/hnk02/20260610.html",
+      "title": "令和8年度「阪神北☆夢づくり応援事業」に係る補助団体の決定について",
+      "rejectedAt": "2026-08-24",
+      "reason": "TEMPORARY_1YEAR_県広報一般",
+      "source": "兵庫県公式サイト",
+      "permanent": false,
+      "expiresAt": "2027-08-24"
+    },
+    {
+      "url": "https://web.pref.hyogo.lg.jp/hnk07/20260805.html",
+      "title": "令和8年度持続可能なまちの農業取組支援事業の追加募集について",
+      "rejectedAt": "2026-08-24",
+      "reason": "TEMPORARY_1YEAR_県広報一般",
+      "source": "兵庫県公式サイト",
+      "permanent": false,
+      "expiresAt": "2027-08-24"
+    },
+    {
+      "url": "https://web.pref.hyogo.lg.jp/hnk08/press/20260702.html",
+      "title": "兵庫県産黒大豆枝豆「六甲黒ゆたか」の販売が始まります！",
+      "rejectedAt": "2026-08-24",
+      "reason": "TEMPORARY_1YEAR_県広報一般",
+      "source": "兵庫県公式サイト",
+      "permanent": false,
+      "expiresAt": "2027-08-24"
+    },
+    {
+      "url": "https://web.pref.hyogo.lg.jp/hnk01/press/20251205.html",
+      "title": "令和7年度「ひょうご安全の日」阪神北地域のつどいの実施",
+      "rejectedAt": "2026-08-24",
+      "reason": "TEMPORARY_1YEAR_県広報一般",
+      "source": "兵庫県公式サイト",
+      "permanent": false,
+      "expiresAt": "2027-08-24"
+    },
+    {
+      "url": "https://web.pref.hyogo.lg.jp/nk25/press/20260514srp1.html",
+      "title": "スポーツウェア・リボーン・プロジェクト",
+      "rejectedAt": "2026-08-24",
+      "reason": "TEMPORARY_1YEAR_県広報一般",
+      "source": "兵庫県公式サイト",
+      "permanent": false,
+      "expiresAt": "2027-08-24"
+    },
+    {
+      "url": "https://web.pref.hyogo.lg.jp/hnk02/press/20260219.html",
+      "title": "阪神北の旅を海外に初発信！インバウンド向け動画が公開20日間で75万回超え！",
+      "rejectedAt": "2026-08-24",
+      "reason": "TEMPORARY_1YEAR_県広報一般",
+      "source": "兵庫県公式サイト",
+      "permanent": false,
+      "expiresAt": "2027-08-24"
+    },
+    {
+      "url": "https://web.pref.hyogo.lg.jp/kk57/press/20260408.html",
+      "title": "令和8年度HYOGOヒューマンライツ作品コンテストの公募",
+      "rejectedAt": "2026-08-24",
+      "reason": "TEMPORARY_1YEAR_県広報一般",
+      "source": "兵庫県公式サイト",
+      "permanent": false,
+      "expiresAt": "2027-08-24"
+    },
+    {
+      "url": "https://web.pref.hyogo.lg.jp/nk12/press/20260220.html",
+      "title": "第36回兵庫県花き品評会の開催",
+      "rejectedAt": "2026-08-24",
+      "reason": "TEMPORARY_1YEAR_県広報一般",
+      "source": "兵庫県公式サイト",
+      "permanent": false,
+      "expiresAt": "2027-08-24"
+    },
+    {
+      "url": "https://web.pref.hyogo.lg.jp/bk07/20260602.html",
+      "title": "「10周年フェスひょうごこども感謝の日」の開催",
+      "rejectedAt": "2026-08-24",
+      "reason": "TEMPORARY_1YEAR_県広報一般",
+      "source": "兵庫県公式サイト",
+      "permanent": false,
+      "expiresAt": "2027-08-24"
+    },
+    {
+      "url": "https://web.pref.hyogo.lg.jp/sr18/press/20251201.html",
+      "title": "県立神戸高等技術専門学院令和8年4月生募集及び見学会の開催",
+      "rejectedAt": "2026-08-24",
+      "reason": "TEMPORARY_1YEAR_県広報一般",
+      "source": "兵庫県公式サイト",
+      "permanent": false,
+      "expiresAt": "2027-08-24"
+    },
+    {
+      "url": "https://web.pref.hyogo.lg.jp/kk62/press/20260303.html",
+      "title": "神戸ストークスキャラバン2026 in神戸 元選手と現役チアリーダーが教える！バスケ&チア教室開催",
+      "rejectedAt": "2026-08-24",
+      "reason": "TEMPORARY_1YEAR_県広報一般",
+      "source": "兵庫県公式サイト",
+      "permanent": false,
+      "expiresAt": "2027-08-24"
+    },
+    {
+      "url": "https://web.pref.hyogo.lg.jp/nk20/press/20251217-3.html",
+      "title": "森林動物研究センターシンポジウム「野生動物の保全と管理の最前線」",
+      "rejectedAt": "2026-08-24",
+      "reason": "TEMPORARY_1YEAR_県広報一般",
+      "source": "兵庫県公式サイト",
+      "permanent": false,
+      "expiresAt": "2027-08-24"
+    },
+    {
+      "url": "https://web.pref.hyogo.lg.jp/nk06/20260114.html",
+      "title": "令和7年度お米・ごはん推進フォーラムの開催",
+      "rejectedAt": "2026-08-24",
+      "reason": "TEMPORARY_1YEAR_県広報一般",
+      "source": "兵庫県公式サイト",
+      "permanent": false,
+      "expiresAt": "2027-08-24"
+    },
+    {
+      "url": "https://web.pref.hyogo.lg.jp/kk62/press/20260206.html",
+      "title": "神戸ストークスホームゲーム 小中高生を無料招待 スポーツの感動を、記憶に残る一日に！",
+      "rejectedAt": "2026-08-24",
+      "reason": "TEMPORARY_1YEAR_県広報一般",
+      "source": "兵庫県公式サイト",
+      "permanent": false,
+      "expiresAt": "2027-08-24"
+    },
+    {
+      "url": "https://web.pref.hyogo.lg.jp/hnk02/20260224.html",
+      "title": "令和8年度「阪神北地域活動補助制度説明会」の開催について",
+      "rejectedAt": "2026-08-24",
+      "reason": "TEMPORARY_1YEAR_県広報一般",
+      "source": "兵庫県公式サイト",
+      "permanent": false,
+      "expiresAt": "2027-08-24"
+    },
+    {
+      "url": "https://web.pref.hyogo.lg.jp/bk04/20260725.html",
+      "title": "第8回兵庫県立がんセンター地域公開講座の開催",
+      "rejectedAt": "2026-08-24",
+      "reason": "TEMPORARY_1YEAR_県広報一般",
+      "source": "兵庫県公式サイト",
+      "permanent": false,
+      "expiresAt": "2027-08-24"
+    },
+    {
+      "url": "https://web.pref.hyogo.lg.jp/hnk02/press/20260527.html",
+      "title": "令和８年度「ひょうご北摂魅力いっぱいフェア」開催業務企画提案コンペの実施",
+      "rejectedAt": "2026-08-24",
+      "reason": "TEMPORARY_1YEAR_県広報一般",
+      "source": "兵庫県公式サイト",
+      "permanent": false,
+      "expiresAt": "2027-08-24"
+    },
+    {
+      "url": "https://web.pref.hyogo.lg.jp/hnk02/20260611.html",
+      "title": "廃棄物の処理及び清掃に関する法律に基づく行政処分について",
+      "rejectedAt": "2026-08-24",
+      "reason": "TEMPORARY_1YEAR_県広報一般",
+      "source": "兵庫県公式サイト",
+      "permanent": false,
+      "expiresAt": "2027-08-24"
+    },
+    {
+      "url": "https://web.pref.hyogo.lg.jp/ks21/20251217.html",
+      "title": "第72回兵庫県国土利用計画審議会の開催",
+      "rejectedAt": "2026-08-24",
+      "reason": "TEMPORARY_1YEAR_県広報一般",
+      "source": "兵庫県公式サイト",
+      "permanent": false,
+      "expiresAt": "2027-08-24"
+    },
+    {
+      "url": "https://web.pref.hyogo.lg.jp/kk65/20260227.html",
+      "title": "兵庫県立広域防災センター消防学校第91期初任教育「入校式」の実施",
+      "rejectedAt": "2026-08-24",
+      "reason": "TEMPORARY_1YEAR_県広報一般",
+      "source": "兵庫県公式サイト",
+      "permanent": false,
+      "expiresAt": "2027-08-24"
+    },
+    {
+      "url": "https://web.pref.hyogo.lg.jp/kk62/press/20251018.html",
+      "title": "カヌーの聖地から県内最高峰の氷ノ山を目指す林道ライド ｢しそう 氷ノ山SEA TO SUMMIT 2025｣参加者募集",
+      "rejectedAt": "2026-08-24",
+      "reason": "TEMPORARY_1YEAR_県広報一般",
+      "source": "兵庫県公式サイト",
+      "permanent": false,
+      "expiresAt": "2027-08-24"
+    },
+    {
+      "url": "https://web.pref.hyogo.lg.jp/kk67/20260513.html",
+      "title": "ワールドマスターズゲームズ2027関西“大会1年前イベント”の開催",
+      "rejectedAt": "2026-08-24",
+      "reason": "TEMPORARY_1YEAR_県広報一般",
+      "source": "兵庫県公式サイト",
+      "permanent": false,
+      "expiresAt": "2027-08-24"
+    },
+    {
+      "url": "https://web.pref.hyogo.lg.jp/kk62/press/20250903.html",
+      "title": "大阪・関西万博で体験する“未来型ライブビューイング” IOWNとFEEL TECH®を組み合わせた世界初イベント",
+      "rejectedAt": "2026-08-24",
+      "reason": "TEMPORARY_1YEAR_県広報一般",
+      "source": "兵庫県公式サイト",
+      "permanent": false,
+      "expiresAt": "2027-08-24"
+    },
+    {
+      "url": "https://web.pref.hyogo.lg.jp/kk62/press/20250829.html",
+      "title": "元なでしこリーガーが、地域と向き合う。兵庫県庁で、次のキャリアが始まる。",
+      "rejectedAt": "2026-08-24",
+      "reason": "TEMPORARY_1YEAR_県広報一般",
+      "source": "兵庫県公式サイト",
+      "permanent": false,
+      "expiresAt": "2027-08-24"
+    },
+    {
+      "url": "https://web.pref.hyogo.lg.jp/nk20/20251024.html",
+      "title": "イオンリテール株式会社及び株式会社フジからの「生物多様性ひょうご基金」への寄付金受領及び感謝状贈呈式を執り行います",
+      "rejectedAt": "2026-08-24",
+      "reason": "TEMPORARY_1YEAR_県広報一般",
+      "source": "兵庫県公式サイト",
+      "permanent": false,
+      "expiresAt": "2027-08-24"
+    },
+    {
+      "url": "https://web.pref.hyogo.lg.jp/kf08/press/20260806.html",
+      "title": "令和8年度熊本地震被災地への兵庫県災害派遣精神医療チーム「ひょうごDPAT」の派遣について",
+      "rejectedAt": "2026-08-24",
+      "reason": "TEMPORARY_1YEAR_県広報一般",
+      "source": "兵庫県公式サイト",
+      "permanent": false,
+      "expiresAt": "2027-08-24"
+    },
+    {
+      "url": "https://web.pref.hyogo.lg.jp/kk25/20251201teijitouroku/20251201.html",
+      "title": "令和7年12月1日現在の選挙人名簿登録者数及び在外選挙人名簿登録者数",
+      "rejectedAt": "2026-08-24",
+      "reason": "TEMPORARY_1YEAR_県広報一般",
+      "source": "兵庫県公式サイト",
+      "permanent": false,
+      "expiresAt": "2027-08-24"
+    },
+    {
+      "url": "https://web.pref.hyogo.lg.jp/kk62/press/20250922.html",
+      "title": "神戸ストークスホームゲーム 小中高生を無料招待 子ども達に“心に残る瞬間”を！",
+      "rejectedAt": "2026-08-24",
+      "reason": "TEMPORARY_1YEAR_県広報一般",
+      "source": "兵庫県公式サイト",
+      "permanent": false,
+      "expiresAt": "2027-08-24"
+    },
+    {
+      "url": "https://web.pref.hyogo.lg.jp/hnk02/20260313-2.html",
+      "title": "ひょうご北摂プチ旅インスタ動画 累計再生回数が100万回突破目前！",
+      "rejectedAt": "2026-08-24",
+      "reason": "TEMPORARY_1YEAR_県広報一般",
+      "source": "兵庫県公式サイト",
+      "permanent": false,
+      "expiresAt": "2027-08-24"
+    },
+    {
+      "url": "https://web.pref.hyogo.lg.jp/kf08/press/20260228.html",
+      "title": "自殺対策強化月間（3月1日～31日）を踏まえた主な取組",
+      "rejectedAt": "2026-08-24",
+      "reason": "TEMPORARY_1YEAR_県広報一般",
+      "source": "兵庫県公式サイト",
+      "permanent": false,
+      "expiresAt": "2027-08-24"
+    },
+    {
+      "url": "https://web.pref.hyogo.lg.jp/kf03/20260122.html",
+      "title": "兵庫県ヤングケアラー・若者ケアラー支援シネマフォーラム＠姫路の開催",
+      "rejectedAt": "2026-08-24",
+      "reason": "TEMPORARY_1YEAR_県広報一般",
+      "source": "兵庫県公式サイト",
+      "permanent": false,
+      "expiresAt": "2027-08-24"
+    },
+    {
+      "url": "https://web.pref.hyogo.lg.jp/kk62/press/20251027.html",
+      "title": "神戸ストークスホームゲーム 小中高生を無料招待 子ども達の心に、スポーツの感動を！",
+      "rejectedAt": "2026-08-24",
+      "reason": "TEMPORARY_1YEAR_県広報一般",
+      "source": "兵庫県公式サイト",
+      "permanent": false,
+      "expiresAt": "2027-08-24"
+    },
+    {
+      "url": "https://web.pref.hyogo.lg.jp/kk05/press/20250808.html",
+      "title": "令和8年度国の予算編成等に対する提案",
+      "rejectedAt": "2026-08-24",
+      "reason": "TEMPORARY_1YEAR_県広報一般",
+      "source": "兵庫県公式サイト",
+      "permanent": false,
+      "expiresAt": "2027-08-24"
+    },
+    {
+      "url": "https://web.pref.hyogo.lg.jp/nk19/press/20251114.html",
+      "title": "ひょうご環境体験館指定管理者候補者の選定",
+      "rejectedAt": "2026-08-24",
+      "reason": "TEMPORARY_1YEAR_県広報一般",
+      "source": "兵庫県公式サイト",
+      "permanent": false,
+      "expiresAt": "2027-08-24"
     }
   ]
 }

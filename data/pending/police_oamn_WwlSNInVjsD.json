@@ -3,5 +3,6 @@
   "link": "https://www.police.pref.hyogo.lg.jp/kouhou/index.htm#bou_news",
   "pubDate": "2026-08-06",
   "category": "ニュース",
-  "sourceName": "兵庫県警察"
+  "sourceName": "兵庫県警察",
+  "keep": true
 }
