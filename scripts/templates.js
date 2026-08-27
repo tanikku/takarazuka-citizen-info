@@ -2056,17 +2056,20 @@ ${contentHtml}
 
 export function privacyPage(siteUrl) {
   const contentHtml = `
-<p class="updated-at">最終更新日：2026年6月25日</p>
+<p class="updated-at">最終更新日：2026年8月28日</p>
 <p>「Takarazuka Today（宝塚Today）」（以下「本サイト」）における、個人情報および利用者情報の取り扱いについて説明します。</p>
 
 <p class="guide-q">アクセス解析について</p>
-<p>本サイトでは、Cloudflare Web Analyticsを利用してアクセス状況を解析しています。Cloudflare Web Analyticsは、Cookieを使用せず、個人を特定する情報を収集しない方式のアクセス解析サービスです。</p>
+<p>本サイトでは、Cloudflare Web Analyticsを利用してアクセス状況を解析しています。Cloudflare Web Analyticsは、Cookieを使用せず、個人を特定する情報を収集しない方式のアクセス解析サービスです。Google Analytics等、Cookieを用いるアクセス解析サービスは現時点で導入していません。</p>
 
 <p class="guide-q">Cookie・localStorageについて</p>
-<p>本サイトでは、ダークモード表示設定を保存するために、お使いの端末のlocalStorageを利用しています。この情報は、利用者を識別または追跡する目的では使用していません。現時点で、本サイトは第三者配信広告を表示していません。</p>
+<p>本サイトでは、ダークモード表示設定を保存するために、お使いの端末のlocalStorageを利用しています。この情報は、利用者を識別または追跡する目的では使用していません。</p>
 
-<p class="guide-q">将来の広告配信について</p>
-<p>本サイトは将来、Google AdSenseなどの第三者配信事業者による広告を導入する可能性があります。広告を導入した場合、第三者配信事業者が利用者の興味に応じた広告を表示するためにCookieを使用することがあります。広告を導入する際は、本ページを更新し、必要な情報を追加します。</p>
+<p class="guide-q">Google AdSense（第三者配信広告）について</p>
+<p>本ページの最終更新時点（2026年8月28日）では、本サイトに広告は表示されておらず、広告配信に伴うCookieの発行も行われていません。本サイトは今後、Google AdSenseを含む第三者配信事業者による広告の掲載を予定しています。</p>
+<p>広告の表示を開始した場合、Googleを含む第三者配信事業者は、利用者が本サイトや他のウェブサイトを訪問した際の履歴に基づいて広告を配信するために、Cookieその他の技術を使用することがあります。これにより、利用者の興味・関心に応じた広告（パーソナライズ広告）が表示される場合があります。</p>
+<p>利用者は、Googleの<a href="https://adssettings.google.com/" target="_blank" rel="noopener">広告設定</a>ページから、Googleによるパーソナライズ広告の表示を無効にできます。Google以外の第三者配信事業者についても、<a href="https://optout.aboutads.info/" target="_blank" rel="noopener">www.aboutads.info</a>から一括してオプトアウトを設定できる場合があります。</p>
+<p>本サイトで実際に広告配信を開始する場合は、開始時点で本ページを更新し、その旨と当時点の実装内容を明記します。</p>
 
 <p class="guide-q">外部サイトへのリンクについて</p>
 <p>本サイトの記事には、宝塚市、兵庫県、兵庫県警察などの出典元サイトへの外部リンクが含まれます。リンク先サイトにおける個人情報の取り扱いについては、本サイトは関与せず、各リンク先サイトのプライバシーポリシーが適用されます。</p>
@@ -2190,6 +2193,7 @@ const CONTACT_CATEGORIES = ["記事内容の訂正・削除依頼", "情報提�
 export function contactPage(siteUrl, turnstileSiteKey) {
   const contentHtml = turnstileSiteKey
     ? `
+<noscript><style>#contact-form{display:none}</style><p class="contact-form-status">お問い合わせフォームの送信にはJavaScriptが必要です。ブラウザの設定でJavaScriptを有効にしてから、再度このページを開いてください。</p></noscript>
 <form id="contact-form" class="contact-form">
   <label>お名前または団体名 <span class="req">必須</span>
     <input type="text" name="name" required maxlength="100">
