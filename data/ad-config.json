@@ -6,8 +6,8 @@
     "広告表示はenabledで制御します。adsTxtとは独立しています（審査中は enabled:true + adsenseClientId 設定でスニペットのみ出力し、slotsを空にしておけば広告ユニットは表示されません）。",
     "excludedCategories/excludedPathsに該当するページは、enabledがtrueでも広告・スニペットを一切出力しません。"
   ],
-  "enabled": false,
-  "adsenseClientId": "",
+  "enabled": true,
+  "adsenseClientId": "ca-pub-1166196957838822",
   "adsTxt": "",
   "excludedCategories": ["防災", "防犯"],
   "excludedPaths": ["/livecam", "/mukogawa/", "/category/bosai", "/category/bohan", "/category/bosai/guide"],
