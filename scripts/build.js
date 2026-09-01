@@ -521,6 +521,28 @@ function main() {
   writeFile("ad-policy.html", adPolicyPage(SITE_URL));
   writeFile("contact.html", contactPage(SITE_URL, process.env.TURNSTILE_SITE_KEY));
 
+  // Koqentra（旧AutoOps）Website Watcher のE2E fixture。宝塚Todayのコンテンツではないため
+  // sitemap・検索インデックス・ナビ・おすすめ等の導線には一切載せず、この1ファイルだけを出力する。
+  // 監視対象URLは拡張子なしの /autoops-e2e（.html付きはCloudflare Pagesが308で正規化するため）。
+  writeFile(
+    "autoops-e2e.html",
+    `<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="robots" content="noindex,nofollow">
+  <title>Koqentra E2E Test</title>
+</head>
+<body>
+  <main>
+    <h1>Koqentra Website Watch E2E Test</h1>
+    <p>テスト状態: VERSION 1</p>
+  </main>
+</body>
+</html>
+`
+  );
+
   const giinWithArticles = giinList.filter(
     (giin) => publishedArticles.filter((a) => (a.giin ?? []).includes(giin.slug)).length > 0,
   );
