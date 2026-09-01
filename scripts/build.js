@@ -543,6 +543,29 @@ function main() {
 `
   );
 
+  // Koqentra Custom Domain移行後のEmail Notification E2E用fixture（回帰テスト専用資産）。
+  // 上の autoops-e2e とは別URLの独立した固定ページで、sitemap・検索インデックス・ナビ等の
+  // 導線には一切載せない。監視対象URLは拡張子なしの /koqentra-e2e。
+  // バージョンを変える場合は、下のHTML本文の該当行1箇所だけを書き換える。
+  writeFile(
+    "koqentra-e2e.html",
+    `<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="robots" content="noindex,nofollow">
+  <title>Koqentra E2E Test</title>
+</head>
+<body>
+  <main>
+    <h1>Koqentra Website Watch E2E Test</h1>
+    <p>テスト状態: VERSION 1</p>
+  </main>
+</body>
+</html>
+`
+  );
+
   const giinWithArticles = giinList.filter(
     (giin) => publishedArticles.filter((a) => (a.giin ?? []).includes(giin.slug)).length > 0,
   );
