@@ -57,6 +57,7 @@ const SITE_NOTICES = [
   { text: "「宝塚おでかけガイド」を追加しました（手塚治虫記念館・中山寺・清荒神清澄寺など）", href: "/category/kanko", until: "2026-07-30" },
   { text: "サイト内検索を追加しました。ページ上部の検索窓からキーワードで探せます", href: "/search", until: "2026-08-06" },
   { text: "おでかけガイドに6ページ追加（宝塚北SA・武田尾温泉・宝塚温泉・廃線ハイキング・あいあいパーク・ダリア園）", href: "/category/kanko", until: "2026-08-07" },
+  { text: "市議会「議案採決一覧」に令和8年第3回定例会（9月）を追加しました。9月1日議決分を掲載中で、会期中に順次更新します", href: "/category/shigikai/gian", until: "2026-09-15" },
 ];
 
 function loadArticles() {
