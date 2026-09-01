@@ -1,0 +1,28 @@
+{
+  "sourceVersion": 1,
+  "sessionName": "令和8年第3回定例会",
+  "sessionTerm": "2026-09-01〜2026-10-07",
+  "sourceUrl": "https://www.city.takarazuka.hyogo.jp/1060687/gikai/katsudo/1000795/1041633/1041639.html",
+  "sourceLabel": "宝塚市議会「市長提出議案」「議員提出議案等」（令和8年第3回定例会）",
+  "updatedAt": "2026-09-01",
+  "bills": [
+    {
+      "billNumber": "報告第5号",
+      "title": "専決処分した事件の承認を求めることについて（損害賠償の額の決定について）",
+      "result": "承認",
+      "resultDetail": "全会一致",
+      "decidedAt": "2026-09-01",
+      "committee": "－",
+      "citizenImpact": "市が専決処分で決めた損害賠償の額が、議会で承認されました。"
+    },
+    {
+      "billNumber": "議案第90号",
+      "title": "宝塚市教育委員会委員の任命につき同意を求めることについて",
+      "result": "同意",
+      "resultDetail": "全会一致",
+      "decidedAt": "2026-09-01",
+      "committee": "－",
+      "citizenImpact": "宝塚市教育委員会の委員の任命に、議会が同意しました。"
+    }
+  ]
+}
