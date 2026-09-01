@@ -536,7 +536,7 @@ function main() {
 <body>
   <main>
     <h1>Koqentra Website Watch E2E Test</h1>
-    <p>テスト状態: VERSION 1</p>
+    <p>テスト状態: VERSION 2</p>
   </main>
 </body>
 </html>
