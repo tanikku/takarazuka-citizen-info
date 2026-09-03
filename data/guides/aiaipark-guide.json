@@ -36,9 +36,9 @@
         "<strong>見本庭園：</strong>英国風庭園などの見本ガーデンを無料で見学できます。ガーデニングの参考になります",
         "<strong>カフェ・レストラン：</strong>建物内にライブラリーカフェ等があり、買い物の合間に休憩できます",
         "<strong>園芸教室・緑の相談：</strong>寄せ植え教室などの各種園芸教室や、園芸の困りごとを相談できる「緑の相談」が開催されています",
-        "<strong>ガーデングッズ・雑貨：</strong>ガーデニング雑貨や生活雑貨の販売もあります"
-      ],
-      "notes": ["教室の開催日程・申込方法は<a href=\"https://www.aiaipark.co.jp/\" target=\"_blank\" rel=\"noopener\">公式サイト</a>でご確認ください。"]
+        "<strong>ガーデングッズ・雑貨：</strong>ガーデニング雑貨や生活雑貨の販売もあります",
+        "教室の開催日程・申込方法は<a href=\"https://www.aiaipark.co.jp/\" target=\"_blank\" rel=\"noopener\">公式サイト</a>でご確認ください。"
+      ]
     },
     {
       "id": "access",
@@ -62,9 +62,9 @@
       "heading": "営業時間・入場料",
       "items": [
         "営業時間：10:00〜17:30",
-        "<strong>入場無料</strong>です（ショップでの買い物・カフェ・教室は各自負担）"
-      ],
-      "notes": ["定休日・臨時休業は時期により異なります。<a href=\"https://www.aiaipark.co.jp/\" target=\"_blank\" rel=\"noopener\">公式サイト</a>でご確認ください。"]
+        "<strong>入場無料</strong>です（ショップでの買い物・カフェ・教室は各自負担）",
+        "定休日・臨時休業は時期により異なります。<a href=\"https://www.aiaipark.co.jp/\" target=\"_blank\" rel=\"noopener\">公式サイト</a>でご確認ください。"
+      ]
     },
     {
       "id": "family",

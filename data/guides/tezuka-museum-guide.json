@@ -36,9 +36,9 @@
       "items": [
         "所在地：〒665-0844　兵庫県宝塚市武庫川町7-65",
         "JR・阪急「宝塚駅」から：花のみちを徒歩約10分",
-        "阪急「宝塚南口駅」から：宝塚大橋を渡り徒歩約7分"
-      ],
-      "notes": ["詳しいアクセスマップは<a href=\"https://www.city.takarazuka.hyogo.jp/tezuka/4000018/4000038.html\" target=\"_blank\" rel=\"noopener\">公式サイト「交通アクセス」</a>でご確認ください。"]
+        "阪急「宝塚南口駅」から：宝塚大橋を渡り徒歩約7分",
+        "詳しいアクセスマップは<a href=\"https://www.city.takarazuka.hyogo.jp/tezuka/4000018/4000038.html\" target=\"_blank\" rel=\"noopener\">公式サイト「交通アクセス」</a>でご確認ください。"
+      ]
     },
     {
       "id": "parking",
@@ -46,18 +46,18 @@
       "items": [
         "<strong>自家用車：</strong>宝塚文化創造館駐車場（入館時に1時間無料券を配布）、または宝塚大劇場北駐車場（20分200円、1日最大1,200円）が利用できます",
         "<strong>バス：</strong>宝塚市立文化芸術センター駐車場（要事前予約、1日2,000円）が利用できます",
-        "<strong>自転車・バイク：</strong>宝塚市立文化芸術センター駐輪場が利用できます"
-      ],
-      "notes": ["最新の駐車場情報・料金は<a href=\"https://www.city.takarazuka.hyogo.jp/tezuka/4000018/4000038.html\" target=\"_blank\" rel=\"noopener\">公式サイト「交通アクセス」</a>でご確認ください。"]
+        "<strong>自転車・バイク：</strong>宝塚市立文化芸術センター駐輪場が利用できます",
+        "最新の駐車場情報・料金は<a href=\"https://www.city.takarazuka.hyogo.jp/tezuka/4000018/4000038.html\" target=\"_blank\" rel=\"noopener\">公式サイト「交通アクセス」</a>でご確認ください。"
+      ]
     },
     {
       "id": "hours",
       "heading": "開館時間（概要）",
       "items": [
         "開館時間：9:30〜17:00（入館は16:30まで）",
-        "休館日：原則毎週月曜日（月曜が祝日の場合の扱いや、館内整備等による連続休館期間もあります）"
-      ],
-      "notes": ["休館日は年によって変動するため、来館前に必ず<a href=\"https://www.city.takarazuka.hyogo.jp/tezuka/4000018/4000024.html\" target=\"_blank\" rel=\"noopener\">公式サイトの開館日カレンダー</a>でご確認ください。"]
+        "休館日：原則毎週月曜日（月曜が祝日の場合の扱いや、館内整備等による連続休館期間もあります）",
+        "休館日は年によって変動するため、来館前に必ず<a href=\"https://www.city.takarazuka.hyogo.jp/tezuka/4000018/4000024.html\" target=\"_blank\" rel=\"noopener\">公式サイトの開館日カレンダー</a>でご確認ください。"
+      ]
     },
     {
       "id": "nyukan",
@@ -75,9 +75,9 @@
       "items": [
         "<strong>1階：</strong>「リボンの騎士」の王宮をモチーフにしたエントランスホール、40本の展示カプセルで手塚治虫の生涯を時系列で紹介する常設展示室、月替わりで作品を上映する「アトムビジョン」",
         "<strong>2階：</strong>年3回入れ替わる企画展示室、約2000冊の書籍（外国語版・点字書籍を含む）が閲覧できるライブラリー、「ジャングル大帝」休憩コーナー",
-        "<strong>G階（グランドフロア）：</strong>「手塚治虫昆虫日記の宝塚」をテーマにしたジオラマ、アニメ制作の初歩を体験できる「アニメ工房」"
-      ],
-      "notes": ["各フロアの詳細は<a href=\"https://www.city.takarazuka.hyogo.jp/tezuka/4000014.html\" target=\"_blank\" rel=\"noopener\">公式サイト「館内フロアガイド」</a>でご確認ください。"]
+        "<strong>G階（グランドフロア）：</strong>「手塚治虫昆虫日記の宝塚」をテーマにしたジオラマ、アニメ制作の初歩を体験できる「アニメ工房」",
+        "各フロアの詳細は<a href=\"https://www.city.takarazuka.hyogo.jp/tezuka/4000014.html\" target=\"_blank\" rel=\"noopener\">公式サイト「館内フロアガイド」</a>でご確認ください。"
+      ]
     },
     {
       "id": "kikakuten",

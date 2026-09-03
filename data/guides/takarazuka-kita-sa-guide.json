@@ -39,9 +39,9 @@
         "<strong>ショッピング：</strong>宝塚土産・手塚治虫キャラクターグッズ・兵庫の特産品などを扱う売店があります（<a href=\"https://www.takarazukakita-sa.jp/shopping/index.php\" target=\"_blank\" rel=\"noopener\">公式サイト「ショッピング」</a>）",
         "<strong>手塚治虫キャラクターのオブジェ：</strong>館内外にリボンの騎士などのオブジェがあり、記念撮影スポットになっています",
         "<strong>ドッグラン：</strong>ノーリードで利用できるドッグランがあり、屋外テラス席では愛犬と一緒に過ごせます（<a href=\"https://www.w-holdings.co.jp/sapa/01070/facility/\" target=\"_blank\" rel=\"noopener\">NEXCO西日本のSA・PA情報サイト</a>）",
-        "館内の設備配置は<a href=\"https://www.takarazukakita-sa.jp/guide/\" target=\"_blank\" rel=\"noopener\">公式サイト「施設ガイド」</a>でご確認ください"
-      ],
-      "notes": ["出店店舗は入れ替わることがあります。最新の店舗情報は<a href=\"https://www.takarazukakita-sa.jp/\" target=\"_blank\" rel=\"noopener\">公式サイト</a>でご確認ください。"]
+        "館内の設備配置は<a href=\"https://www.takarazukakita-sa.jp/guide/\" target=\"_blank\" rel=\"noopener\">公式サイト「施設ガイド」</a>でご確認ください",
+        "出店店舗は入れ替わることがあります。最新の店舗情報は<a href=\"https://www.takarazukakita-sa.jp/\" target=\"_blank\" rel=\"noopener\">公式サイト</a>でご確認ください。"
+      ]
     },
     {
       "id": "access",
@@ -77,9 +77,9 @@
       "items": [
         "フードコートの一部（めん処 つる庵・西谷食堂 花ぐるま）とショッピングコーナーは24時間営業です",
         "ベーカリー・カフェ等の飲食店舗は店舗ごとに営業時間が異なります",
-        "トイレ・自動販売機は24時間利用できます"
-      ],
-      "notes": ["各店舗の営業時間は変更される場合があります。<a href=\"https://www.w-holdings.co.jp/sapa/01070/facility/\" target=\"_blank\" rel=\"noopener\">NEXCO西日本のSA・PA情報サイト</a>で最新情報をご確認ください。"]
+        "トイレ・自動販売機は24時間利用できます",
+        "各店舗の営業時間は変更される場合があります。<a href=\"https://www.w-holdings.co.jp/sapa/01070/facility/\" target=\"_blank\" rel=\"noopener\">NEXCO西日本のSA・PA情報サイト</a>で最新情報をご確認ください。"
+      ]
     },
     {
       "id": "family",
@@ -87,9 +87,9 @@
       "items": [
         "ベビーコーナー（授乳・おむつ替え）が設置されています",
         "障がい者用駐車区画（7台）・障がい者用トイレが整備されています",
-        "手塚治虫キャラクターのオブジェなど、子どもが楽しめる撮影スポットがあります"
-      ],
-      "notes": ["設備の詳細は<a href=\"https://www.w-holdings.co.jp/sapa/01070/facility/\" target=\"_blank\" rel=\"noopener\">NEXCO西日本のサービス・配置MAP</a>でご確認ください。"]
+        "手塚治虫キャラクターのオブジェなど、子どもが楽しめる撮影スポットがあります",
+        "設備の詳細は<a href=\"https://www.w-holdings.co.jp/sapa/01070/facility/\" target=\"_blank\" rel=\"noopener\">NEXCO西日本のサービス・配置MAP</a>でご確認ください。"
+      ]
     },
     {
       "id": "around",

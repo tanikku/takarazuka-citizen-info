@@ -73,18 +73,18 @@
       "items": [
         "所在地：〒665-8588　兵庫県宝塚市中山寺2丁目11-1",
         "阪急宝塚線「中山観音」駅から：下車すぐ",
-        "JR宝塚線「中山寺」駅から：徒歩約10分"
-      ],
-      "notes": ["詳細は<a href=\"https://www.nakayamadera.or.jp/about/access.html\" target=\"_blank\" rel=\"noopener\">公式サイト「アクセス」</a>でご確認ください。"]
+        "JR宝塚線「中山寺」駅から：徒歩約10分",
+        "詳細は<a href=\"https://www.nakayamadera.or.jp/about/access.html\" target=\"_blank\" rel=\"noopener\">公式サイト「アクセス」</a>でご確認ください。"
+      ]
     },
     {
       "id": "parking",
       "heading": "駐車場",
       "items": [
         "中山寺には専用駐車場はありません。周辺の民間駐車場をご利用ください",
-        "境内にはエスカレーター・エレベーターが設置されており（稼働時間9時〜16時半）、可能な限りのバリアフリーを目指していますが、境内地すべてが車いす等でアクセスできるわけではありません"
-      ],
-      "notes": ["最新情報は<a href=\"https://www.nakayamadera.or.jp/about/access.html\" target=\"_blank\" rel=\"noopener\">公式サイト「アクセス」</a>または電話（0797-87-0024、9時〜16時半）でご確認ください。"]
+        "境内にはエスカレーター・エレベーターが設置されており（稼働時間9時〜16時半）、可能な限りのバリアフリーを目指していますが、境内地すべてが車いす等でアクセスできるわけではありません",
+        "最新情報は<a href=\"https://www.nakayamadera.or.jp/about/access.html\" target=\"_blank\" rel=\"noopener\">公式サイト「アクセス」</a>または電話（0797-87-0024、9時〜16時半）でご確認ください。"
+      ]
     },
     {
       "id": "keidai",
@@ -93,9 +93,9 @@
         "<strong>本堂：</strong>本尊の千手観音菩薩をまつる中心的な堂宇です",
         "<strong>山門：</strong>境内の入口にあたる門です",
         "<strong>五重塔：</strong>平成29年（2017年）に落慶した再建事業による塔です",
-        "<strong>奥之院：</strong>本堂から離れた山中にあります"
-      ],
-      "notes": ["境内の詳細な見どころは<a href=\"https://www.nakayamadera.or.jp/\" target=\"_blank\" rel=\"noopener\">中山寺公式サイト</a>でご確認ください。"]
+        "<strong>奥之院：</strong>本堂から離れた山中にあります",
+        "境内の詳細な見どころは<a href=\"https://www.nakayamadera.or.jp/\" target=\"_blank\" rel=\"noopener\">中山寺公式サイト</a>でご確認ください。"
+      ]
     }
   ],
   "faq": [
