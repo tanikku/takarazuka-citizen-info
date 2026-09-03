@@ -4,7 +4,7 @@
   "title": "宝塚市子育て支援まとめ",
   "cardSummary": "手当・保育・医療費助成などをまとめました",
   "lead": "宝塚市公式サイトの情報をもとに、児童手当の申請方法・保育園や幼稚園の入園手続き・児童館の利用案内・予防接種・医療費助成・ひとり親家庭支援など子育てに関する制度をまとめました。最新情報は出典元の公式サイトでご確認ください。",
-  "updatedAt": "2026-07-18",
+  "updatedAt": "2026-09-04",
   "toc": [
     { "id": "boshitecho", "label": "妊娠届・母子健康手帳" },
     { "id": "teate", "label": "児童手当" },
@@ -105,7 +105,8 @@
     { "href": "/category/kyoiku", "label": "教育の記事一覧を見る" },
     { "href": "/category/kurashi/school-admission-guide", "label": "学区・高校受験ガイドを見る" },
     { "href": "/category/kurashi/gyousei-tetsuzuki-guide", "label": "行政手続きガイドを見る" },
-    { "href": "/category/kurashi/kyoyo-shisetsu-guide", "label": "図書館・公民館・スポーツセンターガイドを見る" }
+    { "href": "/category/kurashi/kyoyo-shisetsu-guide", "label": "図書館・公民館・スポーツセンターガイドを見る" },
+    { "href": "/articles/kodomo-sodan-madoguchi-2026", "label": "子ども・若者向け相談窓口まとめを見る" }
   ],
   "sourceUrl": "https://www.city.takarazuka.hyogo.jp/1060680/1060698/1061551/index.html",
   "sourceLabel": "宝塚市公式サイト「子育て支援」"
