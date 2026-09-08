@@ -223,7 +223,7 @@ ${popularContentStrip(new URL(canonicalUrl).pathname)}
 <footer class="site-footer">
 <p>本サイトに掲載する記事は、公開情報の要約と出典リンクのみで構成しています。詳細・正式な内容は出典元をご確認ください。</p>
 <p>写真提供：<a href="https://www.city.takarazuka.hyogo.jp/1014984/1015575/" target="_blank" rel="noopener">宝塚市オープンデータ</a>（<a href="https://creativecommons.org/licenses/by/4.0/deed.ja" target="_blank" rel="noopener">CC BY 4.0</a>）</p>
-<p>公式X：<a href="https://x.com/TakaTodayJP" target="_blank" rel="noopener">@TakaTodayJP</a></p>
+<p>公式X：<a href="https://x.com/TakaTodayJP" target="_blank" rel="noopener">@TakaTodayJP</a>　公式Facebook：<a href="https://www.facebook.com/takarazukatoday" target="_blank" rel="noopener">宝塚Today</a></p>
 <p class="footer-contact"><a href="/contact">${icon("mail")}お問い合わせ</a></p>
 <p class="footer-links"><a href="/privacy">プライバシーポリシー</a>　<a href="/about">運営者情報</a>　<a href="/ad-policy">PR・広告掲載ポリシー</a></p>
 </footer>
