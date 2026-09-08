@@ -20,6 +20,7 @@ import {
   aboutPage,
   adPolicyPage,
   contactPage,
+  notFoundPage,
   searchPage,
   CATEGORIES,
   AD_CONFIG,
@@ -520,6 +521,8 @@ function main() {
   writeFile("about.html", aboutPage(SITE_URL));
   writeFile("ad-policy.html", adPolicyPage(SITE_URL));
   writeFile("contact.html", contactPage(SITE_URL, process.env.TURNSTILE_SITE_KEY));
+  // 未マッチURL用。Cloudflare Pagesがルート直下の404.htmlをHTTP 404で自動配信する（sitemap・検索インデックスには載せない）
+  writeFile("404.html", notFoundPage(SITE_URL));
 
   // Koqentra（旧AutoOps）Website Watcher のE2E fixture。宝塚Todayのコンテンツではないため
   // sitemap・検索インデックス・ナビ・おすすめ等の導線には一切載せず、この1ファイルだけを出力する。

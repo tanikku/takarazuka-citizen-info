@@ -170,7 +170,7 @@ function quickAccessPanel() {
   return `<div class="quick-access">${items}</div>`;
 }
 
-export function layout({ title, description, bodyHtml, canonicalUrl, ogType = "website", structuredData = null, extraScripts = [], ogImage = null, adsAllowed = true }) {
+export function layout({ title, description, bodyHtml, canonicalUrl, ogType = "website", structuredData = null, extraScripts = [], ogImage = null, adsAllowed = true, noindex = false }) {
   const dataList = Array.isArray(structuredData) ? structuredData : structuredData ? [structuredData] : [];
   const jsonLdScript = dataList
     .map((data) => `<script type="application/ld+json">${JSON.stringify(data)}</script>`)
@@ -190,13 +190,16 @@ export function layout({ title, description, bodyHtml, canonicalUrl, ogType = "w
       ? `<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${escapeHtml(AD_CONFIG.adsenseClientId)}" crossorigin="anonymous"></script>`
       : "";
 
+  // 404ページなど検索結果に載せないページ向け。指定時のみrobotsメタを出力する
+  const robotsMeta = noindex ? '<meta name="robots" content="noindex">' : "";
+
   return `<!DOCTYPE html>
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>${escapeHtml(title)}</title>
-<meta name="description" content="${escapeHtml(description)}">
+<meta name="description" content="${escapeHtml(description)}">${robotsMeta}
 <meta name="google-site-verification" content="j8M7gv2ziexoZ_pW1ZVdNS8gzpJV4qRiq27tLKtyIpw">
 <link rel="canonical" href="${escapeHtml(canonicalUrl)}">
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
@@ -221,7 +224,7 @@ ${bodyHtml}
 ${popularContentStrip(new URL(canonicalUrl).pathname)}
 </main>
 <footer class="site-footer">
-<p>本サイトに掲載する記事は、公開情報の要約と出典リンクのみで構成しています。詳細・正式な内容は出典元をご確認ください。</p>
+<p>宝塚Todayは、宝塚市や兵庫県などの公式情報をもとに、地域のニュースや暮らしに役立つ情報を整理してお届けしています。詳細・正式な内容は各ページの出典元をご確認ください。</p>
 <p>写真提供：<a href="https://www.city.takarazuka.hyogo.jp/1014984/1015575/" target="_blank" rel="noopener">宝塚市オープンデータ</a>（<a href="https://creativecommons.org/licenses/by/4.0/deed.ja" target="_blank" rel="noopener">CC BY 4.0</a>）</p>
 <p>公式X：<a href="https://x.com/TakaTodayJP" target="_blank" rel="noopener">@TakaTodayJP</a>　公式Facebook：<a href="https://www.facebook.com/takarazukatoday" target="_blank" rel="noopener">宝塚Today</a></p>
 <p class="footer-contact"><a href="/contact">${icon("mail")}お問い合わせ</a></p>
@@ -2103,7 +2106,7 @@ export function aboutPage(siteUrl) {
 <p>宝塚市、兵庫県、兵庫県警察などが公開する情報を、宝塚市にお住まいの方や宝塚市に関わりのある方に向けて、分かりやすく整理してお届けすることを目的としています。</p>
 
 <p class="guide-q">編集方針</p>
-<p>行政・くらしの情報、防犯・防災情報、市議会の動き、イベント情報などを扱います。記事は公開情報の要約と出典リンクを中心に構成し、原文の転載は行いません。事実に基づく内容を扱い、推測や誇張した表現は避けます。市議会に関する記事では、議員、会派、議案などへの政治的な評価や優劣判断は行わず、公開情報をもとにした事実ベースの要約を行います。PR記事や広告掲載枠については、通常記事と区別できるよう「PR」「広告」などの表記を行います。</p>
+<p>行政・くらしの情報、防犯・防災情報、市議会の動き、イベント情報などを扱います。宝塚市や兵庫県などが公開する一次情報を主な情報源とし、地域ニュースの要点整理に加え、複数の公式情報をまとめたガイドや比較・一覧情報などを掲載しています。原文の転載は行わず、詳細・正式な内容を確認できるよう出典を明記します。事実に基づく内容を扱い、推測や誇張した表現は避けます。市議会に関する記事では、議員、会派、議案などへの政治的な評価や優劣判断は行わず、公開情報をもとにした事実ベースの要約を行います。PR記事や広告掲載枠については、通常記事と区別できるよう「PR」「広告」などの表記を行います。</p>
 
 <p class="guide-q">情報源</p>
 <p>宝塚市公式サイト、兵庫県公式サイト、兵庫県警察、宝塚市議会公式サイト・会議録、各種公式PDF資料などの一次情報を情報源としています。記事・ガイドページには出典元へのリンクを必ず明記しています。最新かつ正確な情報は、各出典元の公式サイトでご確認ください。</p>
@@ -2186,6 +2189,32 @@ export function adPolicyPage(siteUrl) {
     panelIcon: "shield",
     contentHtml,
     siteUrl,
+  });
+}
+
+// Cloudflare Pagesは公開ルート直下の404.htmlを、未マッチURLに対してHTTP 404で自動的に返す。
+// このページが無い場合はindex.htmlが200で返る（ソフト404）ため、404.htmlの生成自体が是正手段になる。
+// noindexを付け、sitemap・検索インデックス・ナビ導線には載せない。
+export function notFoundPage(siteUrl) {
+  const bodyHtml = `<nav class="breadcrumb"><a href="/">トップ</a> &gt; ページが見つかりません</nav>
+<div class="page-content">
+<div class="panel">
+<p class="panel-title">${icon("search")}ページが見つかりません</p>
+<p>お探しのページは見つかりませんでした。URLが変更されたか、掲載期間が終了した可能性があります。</p>
+<p>お探しの情報は、トップページまたはサイト内検索からお探しください。</p>
+<ul class="related-links">
+<li><a href="/">トップページ</a></li>
+<li><a href="/search">サイト内検索</a></li>
+</ul>
+</div>
+</div>`;
+
+  return layout({
+    title: "ページが見つかりません｜Takarazuka Today",
+    description: "お探しのページは見つかりませんでした。トップページまたはサイト内検索からお探しください。",
+    bodyHtml,
+    canonicalUrl: `${siteUrl}/404`,
+    noindex: true,
   });
 }
 
