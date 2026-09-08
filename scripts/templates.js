@@ -243,16 +243,18 @@ function findCategory(label) {
   return CATEGORIES.find((c) => c.label === label);
 }
 
-export function articlePage(article, siteUrl, giinList = []) {
+export function articlePage(article, siteUrl, giinList = [], articlesBySlug = new Map()) {
   const findGiinName = (slug) => giinList.find((g) => g.slug === slug)?.name;
+  // description は検索結果・OGP用の短い概要。未設定の記事は従来どおり summary を使う
+  const metaDescription = article.description ?? article.summary;
   const canonicalUrl = `${siteUrl}/articles/${article.slug}`;
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "NewsArticle",
     headline: article.title,
     datePublished: article.publishedAt,
-    dateModified: article.publishedAt,
-    description: article.summary,
+    dateModified: article.updatedAt ?? article.publishedAt,
+    description: metaDescription,
     url: canonicalUrl,
     author: { "@type": "Organization", name: "Takarazuka Today編集部" },
     publisher: { "@type": "Organization", name: "Takarazuka Today｜今日の宝塚を、3分で。" },
@@ -298,6 +300,7 @@ ${icon("user")}
           .map(
             (t) => `<div class="panel" style="margin:1rem 0;">
 <p class="panel-title">${escapeHtml(t.title)}</p>
+<div class="table-scroll">
 <table class="data-table" style="width:100%;border-collapse:collapse;font-size:0.9rem;">
 <thead><tr style="background:var(--color-surface-2,#f5f5f5);">
 ${t.headers.map((h, i) => `<th style="padding:0.5rem;text-align:${i === 0 ? "left" : "right"};border-bottom:1px solid var(--color-border,#ddd);">${escapeHtml(h)}</th>`).join("\n")}
@@ -311,26 +314,70 @@ ${t.rows
   .join("\n")}
 </tbody>
 </table>
+</div>
 ${t.sourceUrl ? `<p class="panel-note">出典：<a href="${escapeHtml(t.sourceUrl)}" target="_blank" rel="noopener">${escapeHtml(t.sourceLabel ?? "宝塚市公式サイト")}</a></p>` : ""}
 </div>`
           )
           .join("\n")
       : "";
 
+  // 構造化本文。sections未定義の記事（既存117件）は空文字となり、従来と同一のHTMLになる。
+  // 全テキストはescapeし、生HTMLは受け付けない（ガイドのitemsのようなraw HTML方式は記事に持ち込まない）
+  const sectionsHtml =
+    Array.isArray(article.sections) && article.sections.length > 0
+      ? "\n" +
+        article.sections
+          .map(
+            (s) => `<section class="article-section">
+<h2>${escapeHtml(s.heading)}</h2>
+${(s.paragraphs ?? []).map((p) => `<p>${escapeHtml(p)}</p>`).join("\n")}
+${(s.items ?? []).length > 0 ? `<ul>${(s.items ?? []).map((item) => `<li>${escapeHtml(item)}</li>`).join("\n")}</ul>` : ""}
+</section>`
+          )
+          .join("\n")
+      : "";
+
+  // 記事全体の追加出典。主出典(sourceUrl/sourceName)とは別枠で表示する
+  const additionalSourcesHtml =
+    Array.isArray(article.sources) && article.sources.length > 0
+      ? `\n<p class="article-source">追加出典：${article.sources
+          .map((s) => `<a href="${escapeHtml(s.url)}" rel="noopener" target="_blank">${escapeHtml(s.label)}</a>`)
+          .join("、")}</p>`
+      : "";
+
+  // 関連記事。参照先のtitleはbuild時に記事データから解決する（存在確認はvalidatorが行う）
+  const relatedArticlesHtml =
+    Array.isArray(article.relatedArticles) && article.relatedArticles.length > 0
+      ? `\n<div class="panel" style="margin:1rem 0;">
+<p class="panel-title">${icon("newspaper")}関連記事</p>
+<ul class="related-links">
+${article.relatedArticles
+  .map((slug) => {
+    const label = articlesBySlug.get(slug)?.title ?? slug;
+    return `<li><a href="/articles/${escapeHtml(slug)}">${escapeHtml(label)}</a></li>`;
+  })
+  .join("\n")}
+</ul>
+</div>`
+      : "";
+
+  // 更新日。updatedAt未設定の記事は公開日のみ表示（従来と同一）
+  const updatedAtHtml = article.updatedAt ? `（${escapeHtml(article.updatedAt)}更新）` : "";
+
   const bodyHtml = `<nav class="breadcrumb breadcrumb-article"><a href="/">トップ</a> &gt; ${categoryMeta ? `<a href="${categoryPath(categoryMeta.key)}">${escapeHtml(categoryMeta.label)}</a>` : escapeHtml(article.category)}</nav>
 <article class="article-detail">
 <p class="category-tag">${sourceBadge(article.sourceName)}${categoryMeta ? icon(categoryMeta.icon) : icon("newspaper")}${escapeHtml(article.category)}</p>
 <h1>${escapeHtml(article.title)}</h1>
-<p class="article-meta">${escapeHtml(article.publishedAt)}</p>
+<p class="article-meta">${escapeHtml(article.publishedAt)}${updatedAtHtml}</p>
 ${aiEditorialBadge}
 ${keyPointsBox}
-<p class="article-summary">${escapeHtml(article.summary)}</p>
+<p class="article-summary">${escapeHtml(article.summary)}</p>${sectionsHtml}
 ${comparisonTablesHtml}
 ${giinLinkBox}
 ${shigikaiDisclosure}
 ${adSlot("articleBottom", adsAllowed)}
 <p class="article-source">出典：<a href="${escapeHtml(article.sourceUrl)}" rel="noopener" target="_blank">${escapeHtml(article.sourceName)}</a>${article.sourceUnavailable ? "（掲載終了）" : ""}</p>
-${article.sourceUnavailable ? `<p class="empty-state" style="font-size:0.85rem;">※ 出典ページは掲載終了しています（期間限定のお知らせのため）。本文は掲載当時の公式発表内容を要約したものです。</p>` : ""}
+${article.sourceUnavailable ? `<p class="empty-state" style="font-size:0.85rem;">※ 出典ページは掲載終了しています（期間限定のお知らせのため）。本文は掲載当時の公式発表内容を要約したものです。</p>` : ""}${additionalSourcesHtml}${relatedArticlesHtml}
 <p class="x-follow-note">公式X：<a href="https://x.com/TakaTodayJP" target="_blank" rel="noopener">@TakaTodayJP</a><br>最新の更新情報や防災情報をお届けしています。</p>
 <p class="back-link"><a href="/">${icon("newspaper")}トップへ戻る</a></p>
 </article>
@@ -339,7 +386,7 @@ ${recommendedPagesPanel(categoryMeta?.key ?? "", `/articles/${article.slug}`)}`;
 
   return layout({
     title: `${article.title}｜Takarazuka Today`,
-    description: article.summary,
+    description: metaDescription,
     bodyHtml,
     canonicalUrl,
     ogType: "article",

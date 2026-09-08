@@ -25,6 +25,7 @@ import {
   CATEGORIES,
   AD_CONFIG,
 } from "./templates.js";
+import { validateArticles, PUBLISHABLE_SCORES } from "./lib/article-schema.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.join(__dirname, "..");
@@ -49,7 +50,8 @@ const SITE_URL = "https://takarazuka-today.jp";
 const RANKING_READY_THRESHOLD = 5;
 
 // 記事価値スコアによる公開範囲: S/A=通常公開, B=一覧のみ, C=非公開（収集のみ）
-const PUBLISHABLE_SCORES = new Set(["S", "A", "B"]);
+// 公開対象スコア(S/A/B)は scripts/lib/article-schema.js を唯一の定義元とし、ここでは再定義しない
+// （validator・publishableSlugsOf・build公開判定・promote・relatedArticles参照可否が同じルールを共有する）
 const HOMEPAGE_FEATURE_SCORES = new Set(["S", "A"]);
 
 // サイト自体のお知らせ（新機能追加等）。公式ニュース記事とは別枠で「今日の宝塚トピック」に一時的に表示する。untilを過ぎると自動的に消える
@@ -286,7 +288,7 @@ function buildSitemap(publishedArticles, categoryPageKeys, giinWithArticles, gui
     ...giinWithArticles.map((giin) => ({ loc: `${SITE_URL}/giin/${giin.slug}`, lastmod: today })),
     ...publishedArticles.map((article) => ({
       loc: `${SITE_URL}/articles/${article.slug}`,
-      lastmod: article.publishedAt,
+      lastmod: article.updatedAt ?? article.publishedAt,
     })),
   ];
 
@@ -308,7 +310,7 @@ function buildSearchIndex({ publishedArticles, categorySections, guides, gianSes
   for (const article of publishedArticles) {
     entries.push({
       title: article.title,
-      description: article.summary ?? "",
+      description: article.description ?? article.summary ?? "",
       category: article.category,
       keywords: "",
       url: `/articles/${article.slug}`,
@@ -445,6 +447,13 @@ function main() {
   fs.rmSync(PUBLIC_DIR, { recursive: true, force: true });
 
   const allArticles = loadArticles();
+  // 記事JSONを直接編集した場合の不正schemaをここで検出する（read-only。データは書き換えない）
+  const articleValidation = validateArticles(allArticles);
+  for (const warning of articleValidation.warnings) console.warn(`記事データ警告: ${warning}`);
+  if (articleValidation.errors.length > 0) {
+    for (const error of articleValidation.errors) console.error(`記事データエラー: ${error}`);
+    throw new Error(`記事データに ${articleValidation.errors.length} 件のエラーがあります。ビルドを中止しました。`);
+  }
   const skippedCount = allArticles.length - allArticles.filter((a) => PUBLISHABLE_SCORES.has(a.valueScore)).length;
 
   // C評価（非公開）は完全に除外。記事詳細ページもサイトマップにも含めない
@@ -492,8 +501,11 @@ function main() {
     }),
   );
 
+  // 関連記事のtitle解決用。C評価（非公開）は記事ページが生成されないため、公開記事だけを対象にする
+  // （validateArticles の参照先チェックと同じ集合を使う）
+  const articlesBySlug = new Map(publishedArticles.map((a) => [a.slug, a]));
   for (const article of publishedArticles) {
-    writeFile(`articles/${article.slug}.html`, articlePage(article, SITE_URL, giinList));
+    writeFile(`articles/${article.slug}.html`, articlePage(article, SITE_URL, giinList, articlesBySlug));
   }
 
   for (const section of categorySections) {

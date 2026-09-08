@@ -8,6 +8,7 @@
     "fetch:police": "node scripts/fetch-hyogo-police.js",
     "fetch:all": "npm run fetch:news && npm run fetch:pref && npm run fetch:police",
     "build": "node scripts/build.js",
+    "test": "node --test scripts/lib/*.test.js",
     "preview": "node scripts/preview-server.js",
     "review": "node scripts/build-review.js",
     "review:serve": "node scripts/preview-server.js review 8788",

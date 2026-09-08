@@ -76,6 +76,16 @@
 - **ガイド記事**：FAQ・関連リンク（relatedLinks）・公式サイトへの出典リンクを必須要素として維持する（guidePage()テンプレートの標準構成）
 - **ガイドデータの`notes`はプレーンテキスト専用**：`notes`はテンプレートで`escapeHtml()`されるため、HTMLタグ（特に`<a>`）を書くとリンクにならず生のタグが表示される。リンクを含む補足文は、raw HTMLを扱う同一セクションの`items`に記述する。`notes`側の`escapeHtml()`は維持する（2026-09-03に8ガイド22箇所の表示崩れを修正して判明）
 
+## 記事スキーマのルール（2026-09-09追加、フェーズ2B）
+記事の任意フィールド（`description` / `sections` / `updatedAt` / `relatedArticles` / `sources`）は、`scripts/lib/article-schema.js` が `npm run promote` と `npm run build` の両方で検証する。既存記事はすべて未定義のままで正常に表示される。
+- **`summary` の意味は変更しない**：従来どおり記事本文であり、必須。短縮・meta専用化はしない
+- **`description` は検索結果・OGP用の短い概要**：未設定なら `summary` が使われる。記事ページの本文には表示しない
+- **`sections` は任意**：情報が無いのに水増しして追加しない。文字数の下限は設けない
+- **`sections` はプレーンテキスト専用**：`heading` / `paragraphs` / `items` はすべて `escapeHtml()` される。ガイドの `items` のようなraw HTMLは記事に持ち込まない。見出しのみ・中身0件のsectionは作成しない
+- **`updatedAt` は内容を変更したときのみ更新する**：日付だけの更新はしない。公開順（トップ・カテゴリー・イベント）のソートには使わず、`publishedAt` のままとする
+- **`relatedArticles` は最大3件**：記事slugで参照し、存在しないslugはビルドを失敗させる。相互リンクの自動生成はしない
+- **出典の3層を使い分ける**：`sourceUrl`/`sourceName` は主出典（必須・従来どおり）、`sources[]` は記事全体の追加出典、`comparisonTables[].sourceUrl` はその表固有の出典
+
 ## 広告掲載の除外ルール（2026-07-24追加、フェーズ21）
 - 広告のON/OFF・除外対象は`data/ad-config.json`で一元管理する（現在は`enabled: false`＝広告なし）
 - **広告を表示しないページ**：防災カテゴリ・防犯カテゴリの全ページ（避難情報・災害情報・被害者が存在しうる事件事故を含むため）、ライブカメラ、武庫川防災情報
