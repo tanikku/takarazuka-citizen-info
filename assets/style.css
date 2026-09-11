@@ -1525,6 +1525,13 @@ html[data-theme="dark"] .note-box {
   font-size: 1.02rem;
 }
 
+/* 記事の構造化本文（sections）の見出し。専用指定がないとブラウザ既定の1.5em＝24pxとなり、
+   .article-detail h1（1.5rem＝24px）と同じ大きさになって見出し階層が表現できないため指定する */
+.article-section h2 {
+  font-size: 1.05rem;
+  margin: 20px 0 8px;
+}
+
 .article-source {
   margin-top: 24px;
   font-size: 0.9rem;
