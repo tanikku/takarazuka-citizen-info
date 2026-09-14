@@ -1,19 +1,19 @@
 {
-  "reportDatetime": "2026-09-14T05:00:00+09:00",
+  "reportDatetime": "2026-09-15T05:00:00+09:00",
   "areaLabel": "神戸（阪神地域代表地点）",
-  "weatherLabel": "くもり",
-  "weatherEmoji": "☁️",
-  "forecastDate": "2026-09-14",
-  "tempMin": "31",
-  "tempMax": "31",
+  "weatherLabel": "雨",
+  "weatherEmoji": "🌧️",
+  "forecastDate": "2026-09-15",
+  "tempMin": "27",
+  "tempMax": "27",
   "popBlocks": [
     {
       "label": "6〜12時",
-      "pop": "20"
+      "pop": "70"
     },
     {
       "label": "12〜18時",
-      "pop": "50"
+      "pop": "80"
     },
     {
       "label": "18〜0時",
