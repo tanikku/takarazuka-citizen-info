@@ -1571,6 +1571,22 @@
       "reason": "記事化済み（draft: hanshinkita-sdgs-reuse-2026）",
       "source": "兵庫県公式サイト",
       "permanent": true
+    },
+    {
+      "url": "https://www.city.takarazuka.hyogo.jp/event/1000038/1061698/1061931/1064273.html",
+      "title": "歯科保健相談",
+      "rejectedAt": "2026-09-19",
+      "reason": "公開済み記事 shika-hoken-jigyou-2026aki に統合済み（sources[]に収録）",
+      "source": "宝塚市公式サイト",
+      "permanent": true
+    },
+    {
+      "url": "https://www.city.takarazuka.hyogo.jp/event/1000038/1061698/1061930/1064275.html",
+      "title": "市民歯の健康講座",
+      "rejectedAt": "2026-09-19",
+      "reason": "公開済み記事 shika-hoken-jigyou-2026aki に統合済み（sources[]に収録）",
+      "source": "宝塚市公式サイト",
+      "permanent": true
     }
   ]
 }

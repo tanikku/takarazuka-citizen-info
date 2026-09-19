@@ -4,7 +4,7 @@
   "sessionTerm": "2026-09-01〜2026-10-07",
   "sourceUrl": "https://www.city.takarazuka.hyogo.jp/1060687/gikai/katsudo/1000795/1041633/1041639.html",
   "sourceLabel": "宝塚市議会「市長提出議案」「議員提出議案等」（令和8年第3回定例会）",
-  "updatedAt": "2026-09-01",
+  "updatedAt": "2026-09-19",
   "bills": [
     {
       "billNumber": "報告第5号",
@@ -14,6 +14,15 @@
       "decidedAt": "2026-09-01",
       "committee": "－",
       "citizenImpact": "市が専決処分で決めた損害賠償の額が、議会で承認されました。"
+    },
+    {
+      "billNumber": "議案第79号",
+      "title": "工事請負契約（武庫川新橋耐震補強工事(その1)）の変更契約の締結について",
+      "result": "可決",
+      "resultDetail": "全会一致",
+      "decidedAt": "2026-09-16",
+      "committee": "産業建設常任委員会",
+      "citizenImpact": "武庫川新橋の耐震補強工事（その1）について、市が結んでいる工事請負契約を変更することが議決されました。"
     },
     {
       "billNumber": "議案第90号",
