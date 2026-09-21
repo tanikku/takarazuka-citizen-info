@@ -526,9 +526,21 @@ function categoryPanel(categoryPageKeys) {
 </div>`;
 }
 
+// ranking.jsonは取得時点のデータなので、公開終了した記事のURLが残っていることがある。
+// 記事URLだけを現在の公開記事と突き合わせ、該当しないものは描画しない（404へのリンクを防ぐ）。
+// /livecam・カテゴリー・ガイド等の記事以外のURLは判定対象外としてそのまま残す（誤除外を避けるため）。
+function visibleRankingEntries(ranking, publishedArticles) {
+  const publishedSlugs = new Set(publishedArticles.map((a) => a.slug));
+  return ranking.top.filter((entry) => {
+    const matched = /^\/articles\/([^/?#]+)/.exec(entry.path ?? "");
+    if (!matched) return true;
+    return publishedSlugs.has(matched[1].replace(/\.html$/, ""));
+  });
+}
+
 function rankingOrRecentPanel(ranking, recentArticles, limit = 5, showMoreLink = true) {
   if (ranking) {
-    const items = ranking.top
+    const items = visibleRankingEntries(ranking, recentArticles)
       .slice(0, limit)
       .map(
         (entry, i) => `<li class="ranking-item">
