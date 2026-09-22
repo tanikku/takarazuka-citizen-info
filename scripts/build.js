@@ -13,7 +13,6 @@ import {
   zaiseiWatchPage,
   suisougakuGuidePage,
   guidePage,
-  mukogawaBosaiPage,
   giinPage,
   giinIndexPage,
   privacyPage,
@@ -271,10 +270,8 @@ function buildSitemap(publishedArticles, categoryPageKeys, giinWithArticles, gui
     { loc: `${SITE_URL}/`, lastmod: today },
     ...[...categoryPageKeys].map((key) => ({ loc: `${SITE_URL}/category/${key}`, lastmod: today })),
     { loc: `${SITE_URL}/livecam`, lastmod: today },
-    { loc: `${SITE_URL}/mukogawa/`, lastmod: today },
     { loc: `${SITE_URL}/events/`, lastmod: today },
     { loc: `${SITE_URL}/ranking/`, lastmod: today },
-    { loc: `${SITE_URL}/search`, lastmod: today },
     { loc: `${SITE_URL}/category/shigikai/guide`, lastmod: today },
     { loc: `${SITE_URL}/privacy`, lastmod: today },
     { loc: `${SITE_URL}/about`, lastmod: today },
@@ -404,13 +401,6 @@ function buildSearchIndex({ publishedArticles, categorySections, guides, gianSes
       url: "/livecam",
     },
     {
-      title: "武庫川防災情報",
-      description: "武庫川のライブカメラ・水位・雨量情報を確認できる公式ページへの案内です。",
-      category: "防災",
-      keywords: "",
-      url: "/mukogawa/",
-    },
-    {
       title: "イベントカレンダー",
       description: "宝塚市内で開催されるイベントの今日・今週末・今月の予定一覧です。",
       category: "イベント",
@@ -518,7 +508,6 @@ function main() {
     writeFile(`category/${guide.categoryKey}/${guide.slug}.html`, guidePage(guide, SITE_URL));
   }
   writeFile("livecam.html", livecamPage(SITE_URL));
-  writeFile("mukogawa/index.html", mukogawaBosaiPage(SITE_URL));
   writeFile("category/shigikai/guide.html", gikaiGuidePage(SITE_URL));
   if (gianSessions.length > 0) {
     writeFile("category/shigikai/gian.html", gianResultPage(gianSessions, gikaiVoteIndex, SITE_URL));
@@ -599,6 +588,10 @@ function main() {
 
   writeFile("sitemap.xml", buildSitemap(publishedArticles, categoryPageKeys, giinWithArticles, guides, gianSessions, zaiseiPeriods, suisougakuYears));
   writeFile("robots.txt", `User-agent: *\nAllow: /\nSitemap: ${SITE_URL}/sitemap.xml\n`);
+
+  // 公開終了した /mukogawa/ は、上位互換の /livecam へCloudflare Pages標準の_redirectsで恒久転送する（フェーズE-2）。
+  // 末尾スラッシュの有無どちらでも受けられるよう2行とも明示する。
+  writeFile("_redirects", "/mukogawa /livecam 301\n/mukogawa/ /livecam 301\n");
 
   // AdSense導入準備（フェーズ21）：data/ad-config.jsonのadsTxtに内容を設定するとads.txtが出力される。未設定の間は生成しない
   if (AD_CONFIG.adsTxt) {

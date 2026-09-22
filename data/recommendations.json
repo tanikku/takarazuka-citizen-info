@@ -17,7 +17,6 @@
     ],
     "bosai": [
       { "href": "/livecam", "label": "武庫川ライブカメラ", "sub": "河川の様子をリアルタイムで確認できます", "icon": "videoCamera" },
-      { "href": "/mukogawa/", "label": "武庫川防災情報", "sub": "水位・雨量の確認先まとめ", "icon": "shield" },
       { "href": "/category/bosai/guide", "label": "防災ガイド", "sub": "警戒レベル・避難場所・非常持ち出し品", "icon": "shield" }
     ],
     "bohan": [

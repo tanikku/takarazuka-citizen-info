@@ -160,7 +160,7 @@ const QUICK_ACCESS_ITEMS = [
   { href: "/category/bohan", icon: "shield", label: "防犯" },
   { href: "/events/", icon: "calendar", label: "イベント" },
   { href: "/#photo", icon: "camera", label: "フォト" },
-  { href: "/mukogawa/", icon: "videoCamera", label: "武庫川防災" },
+  { href: "/livecam", icon: "videoCamera", label: "武庫川・水位情報" },
 ];
 
 function quickAccessPanel() {
@@ -1007,7 +1007,6 @@ ${faqHtml}
 <p class="panel-title">${icon("shield")}防災の備えも確認しよう</p>
 <ul class="related-links">
 <li><a href="/category/bosai/guide">防災ガイド（避難場所・ハザードマップ・非常持ち出し品）</a></li>
-<li><a href="/mukogawa/">武庫川防災情報</a></li>
 <li><a href="/category/bosai">防犯・防災の記事一覧</a></li>
 </ul>
 </div>
@@ -1139,6 +1138,8 @@ ${icon("search")}
     canonicalUrl,
     structuredData: breadcrumbLd,
     extraScripts: ["/js/search.js"],
+    adsAllowed: adsAllowedFor({ pathname: "/search" }),
+    noindex: true,
   });
 }
 
@@ -1213,6 +1214,7 @@ ${items || '<p class="empty-state">まだ発言記録がありません</p>'}
     bodyHtml,
     canonicalUrl,
     structuredData: breadcrumbLd,
+    adsAllowed: adsAllowedFor({ pathname: `/giin/${giin.slug}` }),
   });
 }
 
@@ -1255,6 +1257,7 @@ ${items || '<p class="empty-state">まだ掲載がありません</p>'}
     bodyHtml,
     canonicalUrl,
     structuredData: breadcrumbLd,
+    adsAllowed: adsAllowedFor({ pathname: "/giin/" }),
   });
 }
 
@@ -2052,39 +2055,6 @@ ${recommendedPagesPanel(guide.categoryKey, canonicalUrl.replace(siteUrl, ""))}
   });
 }
 
-export function mukogawaBosaiPage(siteUrl) {
-  const canonicalUrl = `${siteUrl}/mukogawa/`;
-
-  const bodyHtml = `<nav class="breadcrumb"><a href="/">トップ</a> &gt; 武庫川防災情報</nav>
-<div class="page-content">
-<div class="panel">
-<p class="panel-title">${icon("videoCamera")}武庫川防災情報</p>
-<p>武庫川のライブカメラ・水位・雨量の最新情報は、下記の公式ページでご確認いただけます。</p>
-<p class="panel-note"><a href="/livecam">宝塚市内のライブカメラ一覧を見る →</a></p>
-<p class="panel-note"><a href="https://www.river.go.jp/kawabou/" target="_blank" rel="noopener">国土交通省「川の防災情報」で水位・雨量を見る →</a></p>
-<p class="panel-note"><a href="/category/bosai/guide">防災ガイド（避難場所・ハザードマップ・非常持ち出し品）を見る →</a></p>
-</div>
-${recommendedPagesPanel("bosai", canonicalUrl.replace(siteUrl, ""))}
-</div>`;
-
-  const breadcrumbLd = {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    itemListElement: [
-      { "@type": "ListItem", position: 1, name: "トップ", item: `${siteUrl}/` },
-      { "@type": "ListItem", position: 2, name: "武庫川防災情報", item: canonicalUrl },
-    ],
-  };
-
-  return layout({
-    title: "武庫川防災情報｜Takarazuka Today",
-    description: "武庫川のライブカメラ・水位・雨量情報を確認できる公式ページへの案内です。",
-    bodyHtml,
-    canonicalUrl,
-    structuredData: breadcrumbLd,
-    adsAllowed: false,
-  });
-}
 
 // フェーズ7：収益化の土台整備として追加した運営系の固定ページ共通レイアウト
 function staticInfoPage({ slug, breadcrumbLabel, title, description, panelTitle, panelIcon, contentHtml, siteUrl }) {
