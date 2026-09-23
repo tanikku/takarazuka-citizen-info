@@ -110,8 +110,28 @@ function header() {
 </header>`;
 }
 
+// 運営系の固定ページ（運営者情報・プライバシー・広告ポリシー）の項目見出し。
+// 見出しとしての意味を持たせつつ、既存の .guide-q（font-weight:700）の見え方を保つため
+// h2の既定サイズ（1.5em）を打ち消して本文と同じ1remにそろえる。
+function staticSectionHeading(text) {
+  return `<h2 class="guide-q" style="font-size:1rem;">${escapeHtml(text)}</h2>`;
+}
+
 function dateBar(dateLabel) {
-  return `<div class="date-bar">${icon("calendar")}<span>${escapeHtml(dateLabel)}</span><span class="site-lead-sep">|</span><span class="site-lead">宝塚市の防災・行政・市議会・暮らしの情報をまとめる地域情報サイト</span></div>`;
+  return `<div class="date-bar">${icon("calendar")}<span>${escapeHtml(dateLabel)}</span><span class="site-lead-sep">|</span><span class="site-lead">宝塚市の暮らし・防災・市議会・イベント情報を公式発表からまとめる地域情報サイト</span></div>`;
+}
+
+// トップの<main>内でサイトの位置づけを示すブロック。
+// フッターまで読まなくても「何のサイトか」が分かるようにし、ページ唯一のh1を持たせる。
+function siteIntroPanel() {
+  return `<div class="page-intro">
+<div class="panel">
+<h1 class="panel-title">${icon("newspaper")}宝塚市の暮らし・行政・防災・イベント情報</h1>
+<p>Takarazuka Todayは、宝塚市や兵庫県などの公式発表をもとに、暮らしに必要な情報を市民向けに整理してお届けする地域情報サイトです。</p>
+<p>日々のニュースのほか、防災・防犯、子育て・教育、市議会、イベント、文化・観光などの情報を扱い、複数の公式情報をまとめたガイドや比較・一覧も掲載しています。</p>
+<p class="panel-note">制度の詳細や申請方法は、各ページの出典リンクから公式情報をご確認いただけます。</p>
+</div>
+</div>`;
 }
 
 function weatherPanel(weather) {
@@ -170,6 +190,11 @@ function quickAccessPanel() {
   return `<div class="quick-access">${items}</div>`;
 }
 
+// フッターの著作権表記に使う年。ビルド時点の日本時間で判定する（build.jsのtodayDateKeyと同じ方式）。
+function siteYear() {
+  return new Date().toLocaleDateString("en-CA", { timeZone: "Asia/Tokyo" }).slice(0, 4);
+}
+
 export function layout({ title, description, bodyHtml, canonicalUrl, ogType = "website", structuredData = null, extraScripts = [], ogImage = null, adsAllowed = true, noindex = false }) {
   const dataList = Array.isArray(structuredData) ? structuredData : structuredData ? [structuredData] : [];
   const jsonLdScript = dataList
@@ -225,10 +250,12 @@ ${popularContentStrip(new URL(canonicalUrl).pathname)}
 </main>
 <footer class="site-footer">
 <p>宝塚Todayは、宝塚市や兵庫県などの公式情報をもとに、地域のニュースや暮らしに役立つ情報を整理してお届けしています。詳細・正式な内容は各ページの出典元をご確認ください。</p>
+<p>本サイトは宝塚市の公式サイトではありません。個人が運営する地域情報サイトです。</p>
 <p>写真提供：<a href="https://www.city.takarazuka.hyogo.jp/1014984/1015575/" target="_blank" rel="noopener">宝塚市オープンデータ</a>（<a href="https://creativecommons.org/licenses/by/4.0/deed.ja" target="_blank" rel="noopener">CC BY 4.0</a>）</p>
 <p>公式X：<a href="https://x.com/TakaTodayJP" target="_blank" rel="noopener">@TakaTodayJP</a>　公式Facebook：<a href="https://www.facebook.com/takarazukatoday" target="_blank" rel="noopener">宝塚Today</a></p>
 <p class="footer-contact"><a href="/contact">${icon("mail")}お問い合わせ</a></p>
 <p class="footer-links"><a href="/privacy">プライバシーポリシー</a>　<a href="/about">運営者情報</a>　<a href="/ad-policy">PR・広告掲載ポリシー</a></p>
+<p class="footer-copyright">&copy; ${siteYear()} Takarazuka Today</p>
 </footer>
 ${jsonLdScript}
 <script src="/js/theme.js" defer></script>
@@ -633,6 +660,7 @@ export function indexPage({ topArticles, todayArticles, categoryPageKeys, publis
   const bodyHtml = `${dateBar(dateLabel)}
 ${searchBoxPanel()}
 ${quickAccessPanel()}
+${siteIntroPanel()}
 <div class="weather-standalone-row">${weatherPanel(weather)}${contactCtaPanel()}</div>
 ${todayRow(todayArticles, photoOfDay, categoryPageKeys, activeNotices)}
 <div class="grid-2">
@@ -654,7 +682,7 @@ ${todayRow(todayArticles, photoOfDay, categoryPageKeys, activeNotices)}
     "@type": "WebSite",
     name: "Takarazuka Today｜今日の宝塚を、3分で。",
     url: `${siteUrl}/`,
-    description: "宝塚市の防災・行政・市議会・暮らしの情報をわかりやすくまとめる地域情報サイト",
+    description: "宝塚市の暮らし・子育て・教育・防災・防犯・市議会・イベントの情報を、市や県の公式発表をもとに整理してお届けする地域情報サイトです。暮らしのガイドや比較・一覧もまとめています。",
     potentialAction: {
       "@type": "SearchAction",
       target: {
@@ -667,7 +695,7 @@ ${todayRow(todayArticles, photoOfDay, categoryPageKeys, activeNotices)}
 
   return layout({
     title: "Takarazuka Today｜今日の宝塚を、3分で。",
-    description: "宝塚市の防災・行政・市議会・暮らしの情報をわかりやすくまとめる地域情報サイト",
+    description: "宝塚市の暮らし・子育て・教育・防災・防犯・市議会・イベントの情報を、市や県の公式発表をもとに整理してお届けする地域情報サイトです。暮らしのガイドや比較・一覧もまとめています。",
     bodyHtml,
     canonicalUrl: `${siteUrl}/`,
     structuredData,
@@ -2180,7 +2208,7 @@ function staticInfoPage({ slug, breadcrumbLabel, title, description, panelTitle,
   const bodyHtml = `<nav class="breadcrumb"><a href="/">トップ</a> &gt; ${escapeHtml(breadcrumbLabel)}</nav>
 <div class="page-content">
 <div class="panel">
-<p class="panel-title">${icon(panelIcon)}${escapeHtml(panelTitle)}</p>
+<h1 class="panel-title">${icon(panelIcon)}${escapeHtml(panelTitle)}</h1>
 ${contentHtml}
 </div>
 </div>`;
@@ -2208,26 +2236,26 @@ export function privacyPage(siteUrl) {
 <p class="updated-at">最終更新日：2026年8月28日</p>
 <p>「Takarazuka Today（宝塚Today）」（以下「本サイト」）における、個人情報および利用者情報の取り扱いについて説明します。</p>
 
-<p class="guide-q">アクセス解析について</p>
+${staticSectionHeading("アクセス解析について")}
 <p>本サイトでは、Cloudflare Web Analyticsを利用してアクセス状況を解析しています。Cloudflare Web Analyticsは、Cookieを使用せず、個人を特定する情報を収集しない方式のアクセス解析サービスです。Google Analytics等、Cookieを用いるアクセス解析サービスは現時点で導入していません。</p>
 
-<p class="guide-q">Cookie・localStorageについて</p>
+${staticSectionHeading("Cookie・localStorageについて")}
 <p>本サイトでは、ダークモード表示設定を保存するために、お使いの端末のlocalStorageを利用しています。この情報は、利用者を識別または追跡する目的では使用していません。</p>
 
-<p class="guide-q">Google AdSense（第三者配信広告）について</p>
+${staticSectionHeading("Google AdSense（第三者配信広告）について")}
 <p>本サイトは、Google AdSenseへの掲載審査に必要な基礎スクリプトを設置していますが、本ページの最終更新時点（2026年8月28日）では広告ユニットは設置しておらず、広告は表示されていません。</p>
 <p>Google公式のCookie利用に関する説明によれば、Cookieは広告の表示・クリックなど、Googleサーバーへの呼び出しを伴う操作の際に送信されるとされています。本サイトでは広告ユニットを表示していないため、通常はこれに該当する動作は発生しませんが、広告配信ネットワークに関する技術的な通信の性質上、Cookie等の送信が完全に発生しないことを保証するものではありません。</p>
 <p>今後、広告の表示を開始した場合、Googleを含む第三者配信事業者は、利用者が本サイトや他のウェブサイトを訪問した際の履歴に基づいて広告を配信するために、Cookieその他の技術を使用することがあります。これにより、利用者の興味・関心に応じた広告（パーソナライズ広告）が表示される場合があります。</p>
 <p>利用者は、Googleの<a href="https://adssettings.google.com/" target="_blank" rel="noopener">広告設定</a>ページから、Googleによるパーソナライズ広告の表示を無効にできます。Google以外の第三者配信事業者についても、<a href="https://optout.aboutads.info/" target="_blank" rel="noopener">www.aboutads.info</a>から一括してオプトアウトを設定できる場合があります。</p>
 <p>本サイトで実際に広告配信を開始する場合は、開始時点で本ページを更新し、その旨と当時点の実装内容を明記します。</p>
 
-<p class="guide-q">外部サイトへのリンクについて</p>
+${staticSectionHeading("外部サイトへのリンクについて")}
 <p>本サイトの記事には、宝塚市、兵庫県、兵庫県警察などの出典元サイトへの外部リンクが含まれます。リンク先サイトにおける個人情報の取り扱いについては、本サイトは関与せず、各リンク先サイトのプライバシーポリシーが適用されます。</p>
 
-<p class="guide-q">お問い合わせ情報の取り扱いについて</p>
+${staticSectionHeading("お問い合わせ情報の取り扱いについて")}
 <p>お問い合わせフォームなどを通じて提供された情報は、お問い合わせへの対応および必要な確認のために利用します。取得した情報を、本人の同意なく第三者へ提供することはありません。ただし、法令に基づく場合を除きます。</p>
 
-<p class="guide-q">本ポリシーの変更について</p>
+${staticSectionHeading("本ポリシーの変更について")}
 <p>本ポリシーは、必要に応じて予告なく変更することがあります。変更後の内容は、本ページに掲載した時点から適用されます。</p>
 `;
 
@@ -2245,34 +2273,37 @@ export function privacyPage(siteUrl) {
 
 export function aboutPage(siteUrl) {
   const contentHtml = `
-<p class="guide-q">サイト名</p>
+<p>本サイトは宝塚市の公式サイトではありません。宝塚市に関する情報を個人が整理してお届けしている地域情報サイトです。制度・手続きの正式な内容は、各ページの出典元（宝塚市公式サイトなど）でご確認ください。</p>
+
+${staticSectionHeading("サイト名")}
 <p>Takarazuka Today（宝塚Today）</p>
 
-<p class="guide-q">目的</p>
+${staticSectionHeading("目的")}
 <p>宝塚市、兵庫県、兵庫県警察などが公開する情報を、宝塚市にお住まいの方や宝塚市に関わりのある方に向けて、分かりやすく整理してお届けすることを目的としています。</p>
 
-<p class="guide-q">編集方針</p>
+${staticSectionHeading("編集方針")}
 <p>行政・くらしの情報、防犯・防災情報、市議会の動き、イベント情報などを扱います。宝塚市や兵庫県などが公開する一次情報を主な情報源とし、地域ニュースの要点整理に加え、複数の公式情報をまとめたガイドや比較・一覧情報などを掲載しています。原文の転載は行わず、詳細・正式な内容を確認できるよう出典を明記します。事実に基づく内容を扱い、推測や誇張した表現は避けます。市議会に関する記事では、議員、会派、議案などへの政治的な評価や優劣判断は行わず、公開情報をもとにした事実ベースの要約を行います。PR記事や広告掲載枠については、通常記事と区別できるよう「PR」「広告」などの表記を行います。</p>
+<p>掲載期間が終了し、継続して読む価値が失われた情報は、公開を終了する場合があります。また、出典元のページが削除・差し替えされた場合や、原典で確認できない記述が判明した場合は、出典の差し替え、本文の修正、または公開終了を行います。内容を更新した記事・ガイドには、更新日を表示しています。</p>
 
-<p class="guide-q">情報源</p>
+${staticSectionHeading("情報源")}
 <p>宝塚市公式サイト、兵庫県公式サイト、兵庫県警察、宝塚市議会公式サイト・会議録、各種公式PDF資料などの一次情報を情報源としています。記事・ガイドページには出典元へのリンクを必ず明記しています。最新かつ正確な情報は、各出典元の公式サイトでご確認ください。</p>
 
-<p class="guide-q">引用ポリシー</p>
+${staticSectionHeading("引用ポリシー")}
 <p>出典元の文章をそのまま転載することはせず、内容を要約・言い換えたうえで掲載しています。図表・データを参照する場合も、独自にまとめ直した形で掲載し、出典を明記します。</p>
 
-<p class="guide-q">AI利用方針</p>
+${staticSectionHeading("AI利用方針")}
 <p>本サイトは、記事の要約作成やガイドページの整理に生成AI（Claude／Anthropic社）を活用しています。AIが生成した内容は、公開前に必ず運営者が内容を確認しています。市議会に関する記事では、AIによる政治的評価や賛否の判断は行わない方針とし、生成過程を「AI要約・編集確認済」等のバッジで明記しています。完全自動での記事公開は行わず、人によるレビューを経て掲載しています。</p>
 
-<p class="guide-q">運営体制</p>
-<p>本サイトは個人により運営しています。運営者個人の氏名、所在地、電話番号については、プライバシー保護の観点から公開していません。</p>
+${staticSectionHeading("運営体制")}
+<p>本サイトは個人により運営しています。運営者個人の氏名、所在地、電話番号については、プライバシー保護の観点から公開していません。記事では、サイト上の編集名義として「Takarazuka Today編集部」を使用しています。</p>
 
-<p class="guide-q">更新方針</p>
+${staticSectionHeading("更新方針")}
 <p>原則として平日は毎日更新しています。災害・緊急情報は確認でき次第更新します。常設ガイドページは年数回を目安に内容を見直し、実際に確認した内容のみを反映しています（内容の変更を伴わない日付のみの更新は行いません）。</p>
 
-<p class="guide-q">免責事項</p>
+${staticSectionHeading("免責事項")}
 <p>本サイトの内容は、情報提供を目的としたものであり、内容の完全性・正確性・最新性を保証するものではありません。掲載情報を利用したことにより生じたいかなる損害についても、本サイトは責任を負いかねます。制度・手続き等の詳細は、必ず各出典元の公式情報をご確認ください。</p>
 
-<p class="guide-q">内容の誤りについて</p>
+${staticSectionHeading("内容の誤りについて")}
 <p>記事内容に誤りや古い情報が含まれている場合は、<a href="/contact">お問い合わせページ</a>からご連絡ください。確認のうえ、必要に応じて訂正、追記、または掲載内容の見直しを行います。</p>
 `;
 
@@ -2292,25 +2323,29 @@ export function adPolicyPage(siteUrl) {
   const contentHtml = `
 <p>本サイト「Takarazuka Today（宝塚Today）」では、掲載する情報を以下のように区別しています。</p>
 
-<p class="guide-q">現在の広告掲載について</p>
+${staticSectionHeading("現在の広告掲載について")}
 <p>現在、本サイトでは広告の募集は行っておりません。将来的には、地域の企業・店舗の皆様に向けた広告掲載枠を設けることを予定しています。これは地域経済の活性化に貢献することを目的とした取り組みで、開始時期・掲載条件が決まり次第、本ページでお知らせします。掲載にご関心をお持ちの場合は、<a href="/contact">お問い合わせページ</a>からご連絡ください。</p>
 
-<p class="guide-q">通常記事</p>
+${staticSectionHeading("第三者配信広告について")}
+<p>本サイトでは、Google AdSenseなどの第三者配信広告を利用する場合があります。広告配信にともなうCookieの取り扱いや、パーソナライズ広告を無効にする方法については、<a href="/privacy">プライバシーポリシー</a>をご確認ください。</p>
+<p>第三者配信広告は、広告配信事業者の仕組みによって自動的に表示されるもので、上記の地域企業・店舗向けの広告掲載枠とは別のものです。第三者配信広告の表示によって、記事・ガイドの編集内容が変わることはありません。</p>
+
+${staticSectionHeading("通常記事")}
 <p>宝塚市、兵庫県、兵庫県警察などの公的機関が公開している情報をもとに、編集部が独自に要約・整理した記事です。通常記事は、広告主や第三者からの依頼によって内容が左右されることはありません。</p>
 
-<p class="guide-q">店舗・団体提供情報</p>
+${staticSectionHeading("店舗・団体提供情報")}
 <p>店舗、企業、団体などから提供された情報をもとに掲載する情報です。掲載の可否は編集部が判断します。情報提供をいただいた場合でも、掲載を保証するものではありません。内容に誤りがないか確認するため、必要に応じて提供元へ確認を行う場合があります。</p>
 
-<p class="guide-q">PR記事・広告掲載枠</p>
+${staticSectionHeading("PR記事・広告掲載枠")}
 <p>対価を受けて掲載する記事または広告枠です。PR記事・広告掲載枠には、<span class="badge-ai-editorial" style="background:#c8102e;">PR</span> ・ <span class="badge-ai-editorial" style="background:#c8102e;">広告</span> などの表記を付け、通常記事と区別します。また、必要に応じて広告主・提供者の名称を明記します。</p>
 
-<p class="guide-q">編集の独立性について</p>
+${staticSectionHeading("編集の独立性について")}
 <p>有料掲載であっても、事実と異なる内容、根拠のない表現、誇張した表現は掲載しません。広告主・提供者には、事実誤認がないか確認を依頼する場合がありますが、掲載内容の最終判断は編集部が行います。</p>
 
-<p class="guide-q">防災・緊急情報との分離</p>
+${staticSectionHeading("防災・緊急情報との分離")}
 <p>避難情報、気象警報、防災情報、緊急のお知らせなどには、広告・PR要素を混在させません。</p>
 
-<p class="guide-q">掲載をお断りする内容</p>
+${staticSectionHeading("掲載をお断りする内容")}
 <p>以下に該当する、またはそのおそれがある内容は掲載をお断りします。</p>
 <div class="rule-card">虚偽または誤認を招く内容</div>
 <div class="rule-card">根拠のない効果・実績・比較表現</div>
@@ -2319,10 +2354,10 @@ export function adPolicyPage(siteUrl) {
 <div class="rule-card">第三者の権利を侵害する内容</div>
 <div class="rule-card">本サイトの編集方針に合わない内容</div>
 
-<p class="guide-q">掲載可否の決定</p>
+${staticSectionHeading("掲載可否の決定")}
 <p>掲載の可否は、本サイト編集部の判断により決定します。掲載をお断りする場合、理由を個別にお伝えできない場合があります。</p>
 
-<p class="guide-q">お問い合わせ</p>
+${staticSectionHeading("お問い合わせ")}
 <p>掲載情報の提供、PR記事、広告掲載に関するお問い合わせは、<a href="/contact">お問い合わせページ</a>からご連絡ください。</p>
 `;
 
@@ -2345,7 +2380,7 @@ export function notFoundPage(siteUrl) {
   const bodyHtml = `<nav class="breadcrumb"><a href="/">トップ</a> &gt; ページが見つかりません</nav>
 <div class="page-content">
 <div class="panel">
-<p class="panel-title">${icon("search")}ページが見つかりません</p>
+<h1 class="panel-title">${icon("search")}ページが見つかりません</h1>
 <p>お探しのページは見つかりませんでした。URLが変更されたか、掲載期間が終了した可能性があります。</p>
 <p>お探しの情報は、トップページまたはサイト内検索からお探しください。</p>
 <ul class="related-links">
