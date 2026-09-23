@@ -1264,25 +1264,152 @@ ${items || '<p class="empty-state">まだ掲載がありません</p>'}
 export function gikaiGuidePage(siteUrl) {
   const canonicalUrl = `${siteUrl}/category/shigikai/guide`;
 
+  // 制度説明はすべて宝塚市議会の公式ページで確認できる内容に限定する（フェーズE-3）。
+  // 定例会の月は市の公表表記（3月・6月・9月・12月）を主表記とし、
+  // 実際の会期が前月に開会する点は data/gikai-gian と同じ公式「議案等一覧・審議結果」を根拠に補足する。
+  const SRC = {
+    towa: "https://www.city.takarazuka.hyogo.jp/1060687/gikai/youkoso/1000840.html",
+    gaiyo: "https://www.city.takarazuka.hyogo.jp/1060687/gikai/youkoso/1000841.html",
+    bouchou: "https://www.city.takarazuka.hyogo.jp/1060687/gikai/annai/1000845.html",
+    kaigiroku: "https://www.city.takarazuka.hyogo.jp/1060687/gikai/katsudo/1000849.html",
+    chukei: "https://www.city.takarazuka.hyogo.jp/1060687/gikai/gikaikoho/1022175.html",
+    seigan: "https://www.city.takarazuka.hyogo.jp/1060687/gikai/minnanogikai/1000990.html",
+    gian: "https://www.city.takarazuka.hyogo.jp/1060687/gikai/katsudo/1000795/index.html",
+  };
+
+  const TOC = [
+    { id: "yakuwari", label: "市議会は何を決めるところ？" },
+    { id: "honkaigi", label: "本会議と委員会の違い" },
+    { id: "teireikai", label: "定例会と臨時会" },
+    { id: "rule", label: "会議はどう決まる？" },
+    { id: "bouchou", label: "傍聴・中継・会議録を見る" },
+    { id: "seigan", label: "市民が意見を出す方法" },
+    { id: "watch", label: "Takarazuka Todayで議会を見る" },
+  ];
+
+  const FAQ = [
+    {
+      q: "市議会は何をするところ？",
+      a: "市民が選挙で選んだ議員で構成される議決機関で、市の条例を設けたり予算を定めたりします。議員の条例定数は26人です。",
+    },
+    {
+      q: "「本会議」と「委員会」はどう違う？",
+      a: "本会議は議案などを審議し、議会の最終意思を決める会議です。委員会は効率的・専門的に審議を進めるための下審査機関で、議会運営委員会・常任委員会・特別委員会などがあります。議案は原則として所管する委員会に審査を委ね、審査後に本会議で委員長の報告を受けて採決します。",
+    },
+    {
+      q: "定例会・臨時会とは？",
+      a: "定例会は概ね3月・6月・9月・12月の年4回開かれる通常の議会です。臨時会は定例会以外の閉会中に必要があるときに開かれます。なお定例会は「3月定例会」などと呼ばれますが、実際の会期は前月から始まる場合があります。",
+    },
+  ];
+
+  const WATCH_ROWS = [
+    ["条例・予算・議案がどう決まったか", '<a href="/category/shigikai/gian">議案採決一覧</a>'],
+    ["市の財政状況", '<a href="/category/shigikai/zaisei-watch">財政ウォッチ</a>'],
+    ["議員ごとの発言", '<a href="/giin/">議員活動サマリー</a>'],
+    ["会議ごとの要点", `<a href="${categoryPath("shigikai")}">市議会ウォッチ（記事一覧）</a>`],
+    [
+      "発言の一字一句・公式記録",
+      `<a href="${SRC.kaigiroku}" target="_blank" rel="noopener">宝塚市議会 会議録の検索（公式）</a>`,
+    ],
+  ];
+
+  const tocHtml = `<div class="toc">
+<p class="toc-title">${icon("newspaper")}目次</p>
+<ol>${TOC.map((t) => `<li><a href="#${t.id}">${escapeHtml(t.label)}</a></li>`).join("\n")}</ol>
+</div>`;
+
+  const watchTableHtml = `<div class="table-scroll">
+<table class="data-table" style="width:100%;border-collapse:collapse;font-size:0.9rem;">
+<thead><tr style="background:var(--color-surface-2,#f5f5f5);">
+<th style="padding:0.5rem;text-align:left;border-bottom:1px solid var(--color-border,#ddd);">知りたいこと</th>
+<th style="padding:0.5rem;text-align:left;border-bottom:1px solid var(--color-border,#ddd);">見るページ</th>
+</tr></thead>
+<tbody>
+${WATCH_ROWS.map(
+  (row) =>
+    `<tr><td style="padding:0.5rem;text-align:left;border-bottom:1px solid var(--color-border,#ddd);">${escapeHtml(row[0])}</td><td style="padding:0.5rem;text-align:left;border-bottom:1px solid var(--color-border,#ddd);">${row[1]}</td></tr>`,
+).join("\n")}
+</tbody>
+</table>
+</div>`;
+
+  const faqHtml = `<section class="guide-section" id="faq">
+<h2>${icon("bell")}よくある質問</h2>
+${FAQ.map((f) => `<div class="faq-item">
+<div class="faq-q">${escapeHtml(f.q)}</div>
+<div class="faq-a">${escapeHtml(f.a)}</div>
+</div>`).join("\n")}
+</section>`;
+
   const bodyHtml = `<nav class="breadcrumb"><a href="/">トップ</a> &gt; <a href="${categoryPath("shigikai")}">市議会</a> &gt; 市議会のしくみ</nav>
 <div class="page-content">
-<div class="panel">
-<p class="panel-title">${icon("building")}宝塚市議会のしくみ</p>
-<p class="guide-q">Q. 市議会は何をするところ？</p>
-<p>市の予算・条例・重要な計画などを審議し、可決・否決を決める機関です。市民が選んだ議員（定数26）によって構成されます。</p>
-<p class="guide-q">Q.「本会議」と「委員会」はどう違う？</p>
-<p><strong>本会議</strong>は議員全員が出席し、議案の提案・採決を行う公式な会議です。<strong>委員会</strong>（総務常任委員会・文教生活常任委員会など）は、本会議で各分野ごとに詳しく審査するための小グループの会議です。委員会での審査結果は、後日本会議で報告・採決されます。</p>
-<p class="guide-q">Q. 定例会・臨時会とは？</p>
-<p><strong>定例会</strong>は年4回（おおむね2月・5月・9月・11月）開かれる通常の議会です。<strong>臨時会</strong>は緊急の議案がある場合に開かれます。</p>
+<h1>宝塚市議会のしくみ・市議会ウォッチの見方</h1>
+<p class="lead">宝塚市議会が何を決めているのか、会議はどう進むのか、そして市民が傍聴・視聴・意見提出するにはどうすればよいのかを、宝塚市議会の公式ページをもとに整理しました。あわせて、Takarazuka Today のどのページで何が分かるかもまとめています。</p>
+${tocHtml}
+
+<section class="guide-section" id="yakuwari">
+<h2>${icon("building")}市議会は何を決めるところ？</h2>
+<div class="rule-card">市議会は、市民が選挙で選んだ議員で構成される<strong>議決機関</strong>です。市長は執行機関にあたり、両者は車の両輪のようにともに市政に関わります。</div>
+<div class="rule-card">基本的な権限は<strong>議決権</strong>で、市の条例を設けたり、予算を定めたりします。このほかに、予算を除く議案の提出権、副市長や教育委員などの選任についての同意権、市の事務に対する検査権、請願・陳情の受理権などがあります。</div>
+<div class="rule-card">議員の<strong>条例定数は26人</strong>です。議長と副議長は、議員の中から議会の選挙によって選ばれます。</div>
+</section>
+
+<section class="guide-section" id="honkaigi">
+<h2>${icon("building")}本会議と委員会の違い</h2>
+<div class="rule-card"><strong>本会議</strong>は、議案などを審議し、議会の最終意思を決める会議です。市長が議案の提案理由を説明したり、議員が議案や市の一般事務について質問したり、意見を述べたりするのもこの会議です。</div>
+<div class="rule-card"><strong>委員会</strong>は、効率的・専門的に審議を進めるために置かれた本会議の下審査機関です。<strong>議会運営委員会・常任委員会・特別委員会</strong>などがあります。</div>
+<div class="rule-card">議案が決まるまでの流れは次のとおりです。<br>議案の提出 → 本会議で提出者が説明 → 原則として所管する委員会へ審査を委ねる（付託） → 委員会で審査 → 本会議で委員長が審査の経過と結果を報告 → 出席議員の多数決で最終意思を決定</div>
+</section>
+
+<section class="guide-section" id="teireikai">
+<h2>${icon("calendar")}定例会と臨時会</h2>
+<div class="rule-card">議会（本会議）はいつでも開かれているわけではなく、定期的または臨時的に、ある一定期間だけ開かれます。</div>
+<div class="rule-card"><strong>定例会</strong>は、宝塚市では概ね<strong>3月・6月・9月・12月の年4回</strong>、定期的に開かれます。<strong>臨時会</strong>は、定例会以外の閉会中に必要があるときに開かれます。</div>
+<div class="rule-card">定例会は「3月定例会」「6月定例会」のように呼ばれますが、<strong>実際の会期は前月から始まる場合があります</strong>。たとえば2026年の第1回定例会（3月）は2月13日に、第2回定例会（6月）は5月22日に開会しました（<a href="${SRC.gian}" target="_blank" rel="noopener">宝塚市議会「議案等一覧・審議結果」</a>）。傍聴や視聴を予定する場合は、実際の会期をご確認ください。</div>
+</section>
+
+<section class="guide-section" id="rule">
+<h2>${icon("book")}会議はどう決まる？</h2>
+<div class="rule-card"><strong>議事公開の原則</strong>：会議の模様は市民などに公開されます。傍聴や報道ができるのはこの原則によるものです。</div>
+<div class="rule-card"><strong>定足数の原則</strong>：議員定数の半数以上（宝塚市議会の場合は<strong>13人</strong>）が出席しないと会議を開くことができません。</div>
+<div class="rule-card"><strong>過半数議決の原則</strong>：原則として、会議に出席している議員（議長を除く）の2分の1を超える数で、賛成または反対を決めます。</div>
+</section>
+
+<section class="guide-section" id="bouchou">
+<h2>${icon("user")}傍聴・中継・会議録を見る</h2>
+<div class="rule-card"><strong>傍聴する</strong><br>本会議・委員会はいずれも一般に公開されており、どなたでも傍聴できます。会議時間は会議規則で午前9時から午後5時30分までと定められていますが、<strong>午前9時30分から始まるのが通例</strong>です。</div>
+<div class="rule-card"><strong>本会議の傍聴</strong>：市庁舎5階の本会議場前で傍聴人受付簿に記入して受け付けます。傍聴席は<strong>84席</strong>（うち車椅子席2席）で、補助犬の同伴も可能です。</div>
+<div class="rule-card"><strong>委員会の傍聴</strong>：議会事務局で受け付けます。傍聴席は<strong>10席程度</strong>で、満席の場合は音声のみを流す別室に案内される場合があります。</div>
+<div class="rule-card">手話通訳者や要約筆記者の介助を希望する場合は、議会事務局総務課へファクス（0797-74-6902）または窓口へ申し出てください。本会議場には<strong>磁気ループ席26席</strong>が用意されています。</div>
+<div class="rule-card"><strong>中継・録画で見る</strong><br>本会議と委員会審査はライブ中継が行われ、<strong>録画配信は約1週間後</strong>に公開されます。ただし<strong>議会中継の映像・音声は公式記録ではありません</strong>。</div>
+<div class="rule-card"><strong>会議録で確認する</strong><br>公式な記録は会議録です。会議録は<strong>会議終了から約3カ月後をめどに掲載</strong>されます。早く内容を知りたいときは中継・録画、公式な記録を確認したいときは会議録、という使い分けになります。</div>
+</section>
+
+<section class="guide-section" id="seigan">
+<h2>${icon("mail")}市民が意見を出す方法</h2>
+<div class="rule-card">市の行政について意見や要望があるときは、市議会に請願や陳情をすることができます。<strong>議員の紹介があるものが「請願」、ないものが「陳情」</strong>として扱われます。</div>
+<div class="rule-card">提出された請願・陳情は市議会で審査され、内容が妥当であり市の施策に反映すべきと判断された場合は「<strong>採択</strong>」、そうでない場合は「<strong>不採択</strong>」となります。審査結果は提出者へ後日通知されます。</div>
+<div class="rule-card">提出方法の詳細は、<a href="${SRC.seigan}" target="_blank" rel="noopener">宝塚市議会「請願・陳情の方法」</a>でご確認ください。</div>
+</section>
+
+<section class="guide-section" id="watch">
+<h2>${icon("newspaper")}Takarazuka Todayで議会を見る</h2>
+<p class="panel-note">知りたいことから、見るページを選べます。</p>
+${watchTableHtml}
+<div class="rule-card">市議会ウォッチの各記事の冒頭にある「今回のポイント」欄では、その日の会議のうち<strong>市民生活に関係する内容</strong>だけを整理して紹介しています。詳しい審議の経過を知りたい場合は、記事末尾の出典リンクから会議録本文（公式）をご確認ください。</div>
+<div class="rule-card">本サイトの要約は<strong>事実の整理のみ</strong>を目的とし、議員や議案への評価・賛否の表明は行いません。</div>
+<div class="related-links">
+<a href="${categoryPath("shigikai")}">市議会ウォッチ一覧を見る →</a>
+<a href="/category/shigikai/gian">議案採決一覧を見る →</a>
+<a href="/category/shigikai/zaisei-watch">財政ウォッチを見る →</a>
+<a href="/giin/">議員活動サマリー一覧を見る →</a>
 </div>
-<div class="panel">
-<p class="panel-title">${icon("newspaper")}「市議会ウォッチ」の見方</p>
-<p>各記事の冒頭にある「今回のポイント」欄では、その日の会議のうち<strong>市民生活に関係する内容</strong>だけを整理して紹介しています。詳しい審議の経過を知りたい場合は、記事末尾の出典リンクから会議録本文（公式）をご確認ください。</p>
-<p>本サイトの要約は<strong>事実の整理のみ</strong>を目的とし、議員や議案への評価・賛否の表明は行いません。</p>
-<p class="panel-note"><a href="${categoryPath("shigikai")}">→ 市議会ウォッチ一覧へ</a></p>
-<p class="panel-note"><a href="/giin/">→ 議員活動サマリー一覧へ</a></p>
-<p class="panel-note"><a href="/category/shigikai/zaisei-watch">→ 財政ウォッチ（財政状況の解説）へ</a></p>
-</div>
+</section>
+
+${faqHtml}
+
+<p class="source-note">出典：<a href="${SRC.towa}" target="_blank" rel="noopener">宝塚市議会「市議会とは」</a>（情報は要約です。最新情報は出典元をご確認ください）</p>
+<p class="article-source">追加出典：<a href="${SRC.gaiyo}" target="_blank" rel="noopener">宝塚市議会の概要</a>／<a href="${SRC.bouchou}" target="_blank" rel="noopener">本会議・委員会等の傍聴</a>／<a href="${SRC.kaigiroku}" target="_blank" rel="noopener">会議録の検索</a>／<a href="${SRC.chukei}" target="_blank" rel="noopener">議会中継・録画配信</a>／<a href="${SRC.seigan}" target="_blank" rel="noopener">請願・陳情の方法</a>／<a href="${SRC.gian}" target="_blank" rel="noopener">議案等一覧・審議結果</a>（いずれも宝塚市公式サイト）</p>
 ${recommendedPagesPanel("shigikai", canonicalUrl.replace(siteUrl, ""))}
 </div>`;
 
@@ -1296,31 +1423,21 @@ ${recommendedPagesPanel("shigikai", canonicalUrl.replace(siteUrl, ""))}
     ],
   };
 
+  // FAQPageの質問・回答は、上の「よくある質問」セクションで実際に表示している内容と同一にする
   const faqLd = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
-    mainEntity: [
-      {
-        "@type": "Question",
-        name: "市議会は何をするところ？",
-        acceptedAnswer: { "@type": "Answer", text: "市の予算・条例・重要な計画などを審議し、可決・否決を決める機関です。市民が選んだ議員（定数26）によって構成されます。" },
-      },
-      {
-        "@type": "Question",
-        name: "「本会議」と「委員会」はどう違う？",
-        acceptedAnswer: { "@type": "Answer", text: "本会議は議員全員が出席し、議案の提案・採決を行う公式な会議です。委員会（総務常任委員会・文教生活常任委員会など）は、本会議で各分野ごとに詳しく審査するための小グループの会議です。委員会での審査結果は、後日本会議で報告・採決されます。" },
-      },
-      {
-        "@type": "Question",
-        name: "定例会・臨時会とは？",
-        acceptedAnswer: { "@type": "Answer", text: "定例会は年4回（おおむね2月・5月・9月・11月）開かれる通常の議会です。臨時会は緊急の議案がある場合に開かれます。" },
-      },
-    ],
+    mainEntity: FAQ.map((f) => ({
+      "@type": "Question",
+      name: f.q,
+      acceptedAnswer: { "@type": "Answer", text: f.a },
+    })),
   };
 
   return layout({
     title: "宝塚市議会のしくみ・市議会ウォッチの見方｜Takarazuka Today",
-    description: "宝塚市議会のしくみをわかりやすく解説。本会議と委員会（総務常任委員会・文教生活常任委員会など）の違い、定例会・臨時会の違い、本サイト「市議会ウォッチ」の見方や議員活動サマリー・財政ウォッチとの関係もあわせて紹介します。",
+    description:
+      "宝塚市議会のしくみを公式情報をもとに解説。本会議と委員会の違い、定例会（概ね3月・6月・9月・12月）と臨時会、傍聴・議会中継・会議録の見方、請願と陳情の違いをまとめ、議案採決一覧・財政ウォッチ・議員活動サマリーへの見方もあわせて紹介します。",
     bodyHtml,
     canonicalUrl,
     structuredData: [breadcrumbLd, faqLd],
