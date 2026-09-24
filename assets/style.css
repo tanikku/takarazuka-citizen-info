@@ -139,6 +139,9 @@ html[data-theme="dark"] .theme-icon-moon { display: block; }
 .site-lead {
   font-size: 0.8rem;
   color: var(--text-sub);
+  /* トップではこの要素がh1。h1既定の太字・上下marginを打ち消して日付バーの見た目を保つ */
+  margin: 0;
+  font-weight: inherit;
 }
 
 @media (max-width: 600px) {

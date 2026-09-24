@@ -117,22 +117,12 @@ function staticSectionHeading(text) {
   return `<h2 class="guide-q" style="font-size:1rem;">${escapeHtml(text)}</h2>`;
 }
 
+// トップページ唯一のh1。日付バー内の説明文をそのまま見出しにするため、
+// .site-lead 側でh1既定の太字・上下marginを打ち消して見た目を変えない。
 function dateBar(dateLabel) {
-  return `<div class="date-bar">${icon("calendar")}<span>${escapeHtml(dateLabel)}</span><span class="site-lead-sep">|</span><span class="site-lead">宝塚市の暮らし・防災・市議会・イベント情報を公式発表からまとめる地域情報サイト</span></div>`;
+  return `<div class="date-bar">${icon("calendar")}<span>${escapeHtml(dateLabel)}</span><span class="site-lead-sep">|</span><h1 class="site-lead">宝塚市の暮らしに役立つ地域情報</h1></div>`;
 }
 
-// トップの<main>内でサイトの位置づけを示すブロック。
-// フッターまで読まなくても「何のサイトか」が分かるようにし、ページ唯一のh1を持たせる。
-function siteIntroPanel() {
-  return `<div class="page-intro">
-<div class="panel">
-<h1 class="panel-title">${icon("newspaper")}宝塚市の暮らし・行政・防災・イベント情報</h1>
-<p>Takarazuka Todayは、宝塚市や兵庫県などの公式発表をもとに、暮らしに必要な情報を市民向けに整理してお届けする地域情報サイトです。</p>
-<p>日々のニュースのほか、防災・防犯、子育て・教育、市議会、イベント、文化・観光などの情報を扱い、複数の公式情報をまとめたガイドや比較・一覧も掲載しています。</p>
-<p class="panel-note">制度の詳細や申請方法は、各ページの出典リンクから公式情報をご確認いただけます。</p>
-</div>
-</div>`;
-}
 
 function weatherPanel(weather) {
   if (!weather) {
@@ -660,7 +650,6 @@ export function indexPage({ topArticles, todayArticles, categoryPageKeys, publis
   const bodyHtml = `${dateBar(dateLabel)}
 ${searchBoxPanel()}
 ${quickAccessPanel()}
-${siteIntroPanel()}
 <div class="weather-standalone-row">${weatherPanel(weather)}${contactCtaPanel()}</div>
 ${todayRow(todayArticles, photoOfDay, categoryPageKeys, activeNotices)}
 <div class="grid-2">
