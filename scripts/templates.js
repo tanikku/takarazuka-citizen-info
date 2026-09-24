@@ -251,7 +251,7 @@ ${popularContentStrip(new URL(canonicalUrl).pathname)}
 <footer class="site-footer">
 <p>宝塚Todayは、宝塚市や兵庫県などの公式情報をもとに、地域のニュースや暮らしに役立つ情報を整理してお届けしています。詳細・正式な内容は各ページの出典元をご確認ください。</p>
 <p>本サイトは宝塚市の公式サイトではありません。個人が運営する地域情報サイトです。</p>
-<p>写真提供：<a href="https://www.city.takarazuka.hyogo.jp/1014984/1015575/" target="_blank" rel="noopener">宝塚市オープンデータ</a>（<a href="https://creativecommons.org/licenses/by/4.0/deed.ja" target="_blank" rel="noopener">CC BY 4.0</a>）</p>
+<p>写真提供：<a href="https://www.city.takarazuka.hyogo.jp/1060687/1060729/1014984/1015575/index.html" target="_blank" rel="noopener">宝塚市オープンデータ</a>（<a href="https://creativecommons.org/licenses/by/4.0/deed.ja" target="_blank" rel="noopener">CC BY 4.0</a>）</p>
 <p>公式X：<a href="https://x.com/TakaTodayJP" target="_blank" rel="noopener">@TakaTodayJP</a>　公式Facebook：<a href="https://www.facebook.com/takarazukatoday" target="_blank" rel="noopener">宝塚Today</a></p>
 <p class="footer-contact"><a href="/contact">${icon("mail")}お問い合わせ</a></p>
 <p class="footer-links"><a href="/privacy">プライバシーポリシー</a>　<a href="/about">運営者情報</a>　<a href="/ad-policy">PR・広告掲載ポリシー</a></p>
