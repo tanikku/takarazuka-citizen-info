@@ -1587,6 +1587,46 @@
       "reason": "公開済み記事 shika-hoken-jigyou-2026aki に統合済み（sources[]に収録）",
       "source": "宝塚市公式サイト",
       "permanent": true
+    },
+    {
+      "url": "https://www.city.takarazuka.hyogo.jp/event/1000039/1061699/1061799/1043045.html",
+      "title": "こもたのひろば～あつまれ！0・1・2才さん！～",
+      "rejectedAt": "2026-09-24",
+      "reason": "開催までの残存期間が短く、終了後に継続的な情報価値が残らない一過性イベントのため記事化見送り",
+      "source": "宝塚市公式サイト",
+      "permanent": true
+    },
+    {
+      "url": "https://www.city.takarazuka.hyogo.jp/event/1000039/1061699/1061798/1011763.html",
+      "title": "1歳児きらきら子育て講座（3回連続講座）",
+      "rejectedAt": "2026-09-24",
+      "reason": "全日程・申込締切とも終了済み（原典にも申込終了と明記）。中止告知も過去情報のため記事化見送り",
+      "source": "宝塚市公式サイト",
+      "permanent": true
+    },
+    {
+      "url": "https://www.city.takarazuka.hyogo.jp/1060682/1060702/1061588/1061592/1060437.html",
+      "title": "宝塚市フレイル予防カレンダーを贈ろうキャンペーン",
+      "rejectedAt": "2026-09-24",
+      "reason": "実施期間2026-07-01〜2026-08-31が終了済み。期間限定PR動画も公開終了のため記事化見送り",
+      "source": "宝塚市公式サイト",
+      "permanent": true
+    },
+    {
+      "url": "https://www.city.takarazuka.hyogo.jp/1013056/1013225/1011510/1023161/1064018/1064020.html",
+      "title": "令和8年（2026年）熊本地震への支援活動について",
+      "rejectedAt": "2026-09-24",
+      "reason": "既存記事 kumamoto-jishin-shien-2026 でカバー済み（ID 1064020は同記事の補助sourceに収録）。新記事化すると重複するため見送り",
+      "source": "宝塚市公式サイト",
+      "permanent": true
+    },
+    {
+      "url": "https://www.city.takarazuka.hyogo.jp/1060687/1060720/profile/1061640/1018132.html",
+      "title": "宝塚市大使やすみりえの「川柳日和り」",
+      "rejectedAt": "2026-09-24",
+      "reason": "同一URLでお題・締切が定期的に上書きされるrolling source。過去に同URLの記事を公開終了済みで、再記事化は原典差替えによる不整合を再発させるため見送り",
+      "source": "宝塚市公式サイト",
+      "permanent": true
     }
   ]
 }
