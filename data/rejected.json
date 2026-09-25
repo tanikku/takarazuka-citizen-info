@@ -1627,6 +1627,70 @@
       "reason": "同一URLでお題・締切が定期的に上書きされるrolling source。過去に同URLの記事を公開終了済みで、再記事化は原典差替えによる不整合を再発させるため見送り",
       "source": "宝塚市公式サイト",
       "permanent": true
+    },
+    {
+      "url": "https://www.city.takarazuka.hyogo.jp/1060680/1060698/1061551/1026447.html",
+      "title": "令和8年度（2026年度）兵庫県子育て支援員研修に係る受講者を募集します（「フォローアップ研修」）",
+      "rejectedAt": "2026-09-25",
+      "reason": "対象が限定的な短期募集で、締切後の継続価値が低い",
+      "source": "宝塚市公式サイト",
+      "permanent": true
+    },
+    {
+      "url": "https://www.city.takarazuka.hyogo.jp/1060683/1060708/1062145/1051358/1062447.html",
+      "title": "宝塚音楽回廊inSAKASEGAWA 逆瀬川おとまちバル",
+      "rejectedAt": "2026-09-25",
+      "reason": "1日限りの単発イベントで、終了後の継続価値が低い",
+      "source": "宝塚市公式サイト",
+      "permanent": true
+    },
+    {
+      "url": "https://www.city.takarazuka.hyogo.jp/1060686/1060716/1008153/1008508/1027496/1057016.html",
+      "title": "令和8年度防火啓発ポスターコンクール応募作品の展示会を開催します！",
+      "rejectedAt": "2026-09-25",
+      "reason": "期間限定展示で、終了後の継続価値が低い",
+      "source": "宝塚市公式サイト",
+      "permanent": true
+    },
+    {
+      "url": "https://www.city.takarazuka.hyogo.jp/1060680/1060698/1061551/1000569.html",
+      "title": "令和8年度（2026年度）子育て支援活動に取り組む団体に助成します",
+      "rejectedAt": "2026-09-25",
+      "reason": "対象団体が限定された短期募集で、現在のサイト方針では単独記事化しない",
+      "source": "宝塚市公式サイト",
+      "permanent": true
+    },
+    {
+      "url": "https://www.city.takarazuka.hyogo.jp/1060684/1060711/1061602/1045248/1060430.html",
+      "title": "文化芸術センター周辺にて「ダリア装飾 in ジャパンコーヒーフェスティバル」を開催します",
+      "rejectedAt": "2026-09-25",
+      "reason": "既存コーヒーフェス記事への付加情報としての価値はあるが、単独記事にするほどの独立価値は低い",
+      "source": "宝塚市公式サイト",
+      "permanent": true
+    },
+    {
+      "url": "https://www.city.takarazuka.hyogo.jp/1060684/1060711/1061602/1045248/1061000.html",
+      "title": "アピアさかせがわ1・2名店会にて「秋のダリアフェス」を開催します",
+      "rejectedAt": "2026-09-25",
+      "reason": "商業施設の短期販促イベントで、継続価値が低い",
+      "source": "宝塚市公式サイト",
+      "permanent": true
+    },
+    {
+      "url": "https://www.city.takarazuka.hyogo.jp/senkan/senkankeihatsu/1021770.html",
+      "title": "令和8年度市民教養講座を開催します",
+      "rejectedAt": "2026-09-25",
+      "reason": "単発講座で、終了後の継続価値が低い",
+      "source": "宝塚市公式サイト",
+      "permanent": true
+    },
+    {
+      "url": "https://www.city.takarazuka.hyogo.jp/1060683/1060708/1062145/1051358/1060490.html",
+      "title": "宝塚歌謡選手権",
+      "rejectedAt": "2026-09-25",
+      "reason": "民間主催の有料イベントで、現在のサイト方針では単独記事化の優先度が低い",
+      "source": "宝塚市公式サイト",
+      "permanent": true
     }
   ]
 }
