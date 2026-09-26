@@ -1691,6 +1691,86 @@
       "reason": "民間主催の有料イベントで、現在のサイト方針では単独記事化の優先度が低い",
       "source": "宝塚市公式サイト",
       "permanent": true
+    },
+    {
+      "url": "https://www.city.takarazuka.hyogo.jp/event/1000038/1061698/1061931/1064294.html",
+      "title": "宝塚里山マルシェ",
+      "rejectedAt": "2026-09-26",
+      "reason": "1日限りの単発イベントで、終了後の継続価値が低いため",
+      "source": "宝塚市公式サイト",
+      "permanent": true
+    },
+    {
+      "url": "https://www.city.takarazuka.hyogo.jp/1060683/1060710/1061600/1064282.html",
+      "title": "日本女子オープンゴルフ選手権競技に山本智亜紗選手が出場します",
+      "rejectedAt": "2026-09-26",
+      "reason": "地域性はあるが、4日間の単発イベントで、終了後の継続価値が低いため",
+      "source": "宝塚市公式サイト",
+      "permanent": true
+    },
+    {
+      "url": "https://www.city.takarazuka.hyogo.jp/event/1000039/1061699/1061797/1011488.html",
+      "title": "【9月7日(月曜日)まで募集中】新米ママ・パパのふれあいタイム(2回連続講座)【場所：西公民館】",
+      "rejectedAt": "2026-09-26",
+      "reason": "開催・申込とも終了済み。原典にも申込終了と明記されているため",
+      "source": "宝塚市公式サイト",
+      "permanent": true
+    },
+    {
+      "url": "https://www.city.takarazuka.hyogo.jp/event/1000039/1061699/1061795/1011463.html",
+      "title": "新米ママ・パパのふれあいタイム（2回連続講座）【場所：くらんど人権文化センター】　",
+      "rejectedAt": "2026-09-26",
+      "reason": "対象・定員が限定された短期講座で、終了後の継続価値が低い。同一page IDを使い回すrolling sourceでもあるため、単独記事化しない",
+      "source": "宝塚市公式サイト",
+      "permanent": true
+    },
+    {
+      "url": "https://www.city.takarazuka.hyogo.jp/event/1000039/1061699/1061795/1011493.html",
+      "title": "新米ママ・パパのふれあいタイム(2回連続講座)【山本山手子ども館】",
+      "rejectedAt": "2026-09-26",
+      "reason": "対象・定員が限定された短期講座で、終了後の継続価値が低い。同一page IDを使い回すrolling sourceでもあるため、単独記事化しない",
+      "source": "宝塚市公式サイト",
+      "permanent": true
+    },
+    {
+      "url": "https://www.city.takarazuka.hyogo.jp/event/1000039/1061699/1061795/1011559.html",
+      "title": "親子ふれあい講座～イヤイヤ期をうまくのりこえよう～(4回連続講座)【安倉児童館】",
+      "rejectedAt": "2026-09-26",
+      "reason": "期間限定・少人数の連続講座で、終了後の継続価値が低いため",
+      "source": "宝塚市公式サイト",
+      "permanent": true
+    },
+    {
+      "url": "https://www.city.takarazuka.hyogo.jp/event/1000039/1061699/1061795/1026337.html",
+      "title": "もぐもぐかみかみタイム(2回連続講座)",
+      "rejectedAt": "2026-09-26",
+      "reason": "対象・定員が限定された短期講座で、終了後の継続価値が低いため",
+      "source": "宝塚市公式サイト",
+      "permanent": true
+    },
+    {
+      "url": "https://www.city.takarazuka.hyogo.jp/event/1000039/1061699/1061795/1064280.html",
+      "title": "お母さんのための骨盤ケア～産後ママの骨盤体操～",
+      "rejectedAt": "2026-09-26",
+      "reason": "1日限りの短期講座で、対象・定員も限定され、終了後の継続価値が低いため",
+      "source": "宝塚市公式サイト",
+      "permanent": true
+    },
+    {
+      "url": "https://www.city.takarazuka.hyogo.jp/event/1000039/1061699/1061796/1064287.html",
+      "title": "10月里親月間2026「地域で子どもを育てる」",
+      "rejectedAt": "2026-09-26",
+      "reason": "1日限りの単発イベントで、終了後の継続価値が低いため",
+      "source": "宝塚市公式サイト",
+      "permanent": true
+    },
+    {
+      "url": "https://www.city.takarazuka.hyogo.jp/event/1000043/1061701/1061817/1064047.html",
+      "title": "知って守ろう！消費生活講座　自分と大切な人を守るために",
+      "rejectedAt": "2026-09-26",
+      "reason": "短期の講座告知で、終了後の継続価値が低いため",
+      "source": "宝塚市公式サイト",
+      "permanent": true
     }
   ]
 }
