@@ -1,0 +1,118 @@
+{
+  "slug": "sakasegawa-1",
+  "name": "逆瀬川1丁目",
+  "fullName": "宝塚市逆瀬川1丁目",
+  "district": {
+    "slug": "sakasegawa",
+    "name": "逆瀬川"
+  },
+  "verifiedAt": "2026-10-02",
+  "garbage": {
+    "status": "verified",
+    "verifiedAt": "2026-10-02",
+    "sourceName": "宝塚市公式サイト「地区04」",
+    "sourceUrl": "https://www.city.takarazuka.hyogo.jp/cleancenter/household_garbage/1007880/1007884.html",
+    "area": "04",
+    "schedule": [
+      { "type": "燃やすごみ", "days": "月曜日・木曜日" },
+      { "type": "プラスチック類", "days": "水曜日" },
+      { "type": "かん・びん", "days": "第2・第4火曜日" },
+      { "type": "紙・布", "days": "第2・第4金曜日" },
+      { "type": "ペットボトル", "days": "第1・第3火曜日" },
+      { "type": "小型不燃ごみ", "days": "第1・第3金曜日" }
+    ],
+    "calendar": {
+      "sourceName": "宝塚市「ごみの日カレンダー」（町名別）",
+      "sourceUrl": "https://www2.city.takarazuka.hyogo.jp/gomi/gomi_m_t042.html"
+    }
+  },
+  "schools": {
+    "status": "verified",
+    "verifiedAt": "2026-10-02",
+    "sourceName": "宝塚市立小学校及び中学校の指定に関する規則",
+    "sourceUrl": "https://www2.city.takarazuka.hyogo.jp/reiki_int/reiki_honbun/k316RG00000269.html",
+    "elementary": "宝塚市立末広小学校",
+    "juniorHigh": "宝塚市立宝梅中学校"
+  },
+  "polling": {
+    "status": "verified",
+    "verifiedAt": "2026-10-02",
+    "sourceName": "宝塚市選挙管理委員会「第46投票区投票所（宝塚市役所本庁舎1階）」",
+    "sourceUrl": "https://www.city.takarazuka.hyogo.jp/senkan/tohyojo/1004669/1004714.html",
+    "pollingDistrict": "第46投票区",
+    "coverage": "逆瀬川1丁目全域",
+    "place": "宝塚市役所本庁舎1階"
+  },
+  "nursery": {
+    "status": "verified",
+    "verifiedAt": "2026-10-02",
+    "sourceName": "宝塚市公式サイト「逆瀬川保育所」",
+    "sourceUrl": "https://www.city.takarazuka.hyogo.jp/1060680/1060698/1061552/1061560/gakkoshisetsu/1000105/1040834/1023304/1009110/1009165.html",
+    "name": "宝塚市立逆瀬川保育所",
+    "address": "宝塚市逆瀬川1丁目7番11号",
+    "openingHours": "7:00〜19:00",
+    "parking": "なし"
+  },
+  "babyStations": {
+    "status": "verified",
+    "verifiedAt": "2026-10-02",
+    "sourceName": "宝塚市公式サイト「赤ちゃんの駅 第2ブロック（西山・末広・宝塚第一・逆瀬台小学校区）」",
+    "sourceUrl": "https://www.city.takarazuka.hyogo.jp/1060680/1060698/1061552/1009331/1004461.html",
+    "facilities": [
+      { "name": "宝塚市立逆瀬川保育所", "availableHours": "月〜土曜日 9:00〜17:00" }
+    ]
+  },
+  "aedStations": {
+    "status": "verified",
+    "verifiedAt": "2026-10-02",
+    "sourceName": "宝塚市 まちかど救急ステーション",
+    "sourceUrl": "https://www.city.takarazuka.hyogo.jp/1060686/1060716/1008153/1011278/1057271/1000432.html",
+    "facilities": [
+      { "name": "アピア1 インフォメーション", "address": "逆瀬川1丁目1番" },
+      { "name": "宝塚市立逆瀬川保育所", "address": "逆瀬川1丁目7番11号" }
+    ]
+  },
+  "parks": {
+    "status": "verified",
+    "verifiedAt": "2026-10-02",
+    "sourceName": "宝塚市都市公園条例",
+    "sourceUrl": "https://www2.city.takarazuka.hyogo.jp/reiki_int/reiki_honbun/k316RG00000525.html",
+    "parks": [
+      { "name": "逆瀬川1丁目公園", "address": "逆瀬川1丁目12番4" },
+      { "name": "逆瀬川1丁目第2公園", "address": "逆瀬川1丁目2番5" }
+    ]
+  },
+  "shops": {
+    "status": "verified",
+    "verifiedAt": "2026-10-02",
+    "sourceName": "宝塚市公式サイト「粗大ごみ処理券販売所」（店舗の存在確認に使用）",
+    "sourceUrl": "https://www.city.takarazuka.hyogo.jp/cleancenter/household_garbage/1002045.html",
+    "category": "食品スーパー",
+    "shops": [
+      { "name": "いかりスーパーマーケット逆瀬川店" }
+    ]
+  },
+  "disasterPlan": {
+    "status": "verified",
+    "verifiedAt": "2026-10-02",
+    "sourceName": "コミュニティ末広 地区防災計画（本編・PDF）",
+    "sourceUrl": "https://www.city.takarazuka.hyogo.jp/_res/projects/default_project/_page_/001/017/635/r7chiikibousaikeikakkuhonpen.pdf",
+    "community": "コミュニティ末広地区"
+  },
+  "shelters": {
+    "status": "verified",
+    "verifiedAt": "2026-10-02",
+    "sourceName": "宝塚市公式サイト「宝塚市避難所・避難地等一覧」",
+    "sourceUrl": "https://www.city.takarazuka.hyogo.jp/1013056/1001456/1002647/1001112.html",
+    "facilities": [
+      { "name": "末広小学校", "type": "指定避難所", "flood": "開設対象外", "landslide": "開設対象" },
+      { "name": "伊孑志会館", "type": "予備避難所", "flood": "開設対象", "landslide": "開設対象" }
+    ]
+  },
+  "hazardMap": {
+    "status": "verified",
+    "verifiedAt": "2026-10-02",
+    "sourceName": "宝塚市公式サイト「たからづか防災マップ」",
+    "sourceUrl": "https://www.city.takarazuka.hyogo.jp/1013056/1001456/1009171/hazardmap.html"
+  }
+}

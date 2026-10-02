@@ -614,6 +614,7 @@ function guideNavPanel() {
   return `<div class="panel guide-nav-panel">
 <p class="panel-title">${icon("newspaper")}くらしガイド</p>
 <div class="guide-nav">${items}</div>
+<p class="panel-note"><a href="/area/">まちカルテ — 町丁目ごとの生活情報 →</a></p>
 </div>`;
 }
 
