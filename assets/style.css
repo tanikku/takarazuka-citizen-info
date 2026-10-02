@@ -1535,51 +1535,70 @@ html[data-theme="dark"] .note-box {
   margin: 20px 0 8px;
 }
 
-/* 一般質問一覧（sections[].questions）。議員ごとの区切りと「件名」「主な質問」の区別だけを付け、全員同じ見た目にする */
-.question-entry {
-  padding: 12px 0;
-  border-top: 1px solid var(--border);
+/* 一般質問一覧（sections[].questions）。1議員を「時刻＋議員名／件名／主な質問」の3段に収め、
+   議員の切れ目は下線で示す。全員同じ見た目にし、特定の議員だけ強調しない */
+.article-section--questions h2 {
+  font-size: 1.05rem;
+  font-weight: 700;
+  margin: 28px 0 4px;
+  padding: 2px 0 2px 10px;
+  border-left: 3px solid var(--text-sub);
 }
 
-.question-entry:first-child {
-  border-top: none;
-  padding-top: 4px;
+.question-list {
+  margin: 0;
+}
+
+.question-entry {
+  padding: 10px 0 14px;
+  border-bottom: 1px solid var(--border);
+}
+
+.question-entry:last-child {
+  border-bottom: none;
+}
+
+.question-entry p {
+  margin: 0;
+}
+
+.question-head {
+  line-height: 1.4;
 }
 
 .question-time {
-  margin: 0;
+  margin-right: 8px;
   font-size: 0.8rem;
   color: var(--text-sub);
+  font-variant-numeric: tabular-nums;
 }
 
 .question-member {
-  margin: 2px 0 6px;
   font-size: 1.05rem;
   font-weight: 700;
+  white-space: nowrap;
+}
+
+.question-entry .question-titles {
+  margin-top: 6px;
+  font-size: 0.95rem;
+  line-height: 1.55;
+  overflow-wrap: anywhere;
+}
+
+.question-title {
+  display: block;
+}
+
+.question-entry .question-summary {
+  margin-top: 4px;
+  font-size: 0.9rem;
+  line-height: 1.6;
+  overflow-wrap: anywhere;
 }
 
 .question-label {
-  margin: 8px 0 2px;
-  font-size: 0.78rem;
-  font-weight: 700;
-  color: var(--text-sub);
-}
-
-.question-titles {
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-.question-titles li {
-  margin: 2px 0;
-  overflow-wrap: anywhere;
-}
-
-.question-summary {
-  margin: 0;
-  font-size: 0.92rem;
-  overflow-wrap: anywhere;
+  font-weight: 600;
 }
 
 .article-source {
