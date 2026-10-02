@@ -84,8 +84,8 @@ export const CATEGORIES = [
 
 export const SHIGIKAI_CATEGORY = CATEGORIES.find((c) => c.key === "shigikai");
 
-// 市議会カテゴリーは会議録を手動確認のうえAI要約・人間レビューを行う運用のため、ページ上部に明記する
-const SHIGIKAI_DISCLOSURE = `<div class="disclosure-box">本ページの会議要約は、宝塚市議会会議録検索システムの公開情報を基に、人間が内容を確認しながらAIが要約を作成しています。事実のみを記載し、議員の評価・政治的意見・優劣判断は一切行いません。</div>`;
+// 市議会カテゴリーは市議会の公式情報をもとにAI要約・人間レビューを行う運用のため、ページ上部に明記する（特定の資料に限定しない文言にする）
+const SHIGIKAI_DISCLOSURE = `<div class="disclosure-box">本ページの内容は、宝塚市議会が公開している公式情報をもとに、AIを用いて整理・要約し、公開前に人間が内容を確認しています。使用した資料は各ページの「出典」をご確認ください。事実のみを記載し、議員の評価・政治的意見・優劣判断は一切行いません。</div>`;
 
 export function categoryPath(key) {
   return `/category/${key}`;
@@ -699,7 +699,7 @@ function gikaiRow(article) {
 <div class="headline-thumb">${thumbHtml(photo, "building")}</div>
 <div>
   <p class="headline-title"><span class="badge-ai-editorial">AI要約・編集確認済</span>${escapeHtml(article.title)}</p>
-  <p class="headline-meta">${escapeHtml(article.meetingType ?? "")}・${escapeHtml(article.meetingDate ?? article.publishedAt)}・出典：宝塚市議会会議録検索システム</p>
+  <p class="headline-meta">${escapeHtml(article.meetingType ?? "")}・${escapeHtml(article.meetingDate ?? article.publishedAt)}・出典：${escapeHtml(article.sourceName)}</p>
 </div>
 </a>`;
 }
@@ -1202,7 +1202,7 @@ export function giinPage(giin, relatedArticles, siteUrl) {
   const bodyHtml = `<nav class="breadcrumb"><a href="/">トップ</a> &gt; <a href="${categoryPath("shigikai")}">市議会</a> &gt; ${escapeHtml(giin.name)}議員</nav>
 <div class="page-content">
 <div class="panel">
-${SHIGIKAI_DISCLOSURE.replace("本ページの会議要約は、", "このページは議員本人の公開発言（市議会会議録）を時系列で整理したものです。活動量のスコア化・ランキング・優劣評価は行いません。<br><br>本ページの会議要約は、")}
+${SHIGIKAI_DISCLOSURE.replace("本ページの内容は、", "このページは議員本人の公開発言（宝塚市議会の公式情報）を時系列で整理したものです。活動量のスコア化・ランキング・優劣評価は行いません。<br><br>本ページの内容は、")}
 <div class="giin-card">
 <div class="giin-avatar">${icon("user")}</div>
 <div>
@@ -1253,7 +1253,7 @@ export function giinIndexPage(giinList, siteUrl) {
 <div class="page-content">
 <div class="panel">
 <p class="panel-title">${icon("user")}議員活動サマリー一覧</p>
-${SHIGIKAI_DISCLOSURE.replace("本ページの会議要約は、", "このページは議員本人の公開発言（市議会会議録）を時系列で整理したものです。活動量のスコア化・ランキング・優劣評価は行いません。<br><br>本ページの会議要約は、")}
+${SHIGIKAI_DISCLOSURE.replace("本ページの内容は、", "このページは議員本人の公開発言（宝塚市議会の公式情報）を時系列で整理したものです。活動量のスコア化・ランキング・優劣評価は行いません。<br><br>本ページの内容は、")}
 ${items || '<p class="empty-state">まだ掲載がありません</p>'}
 </div>
 </div>`;
