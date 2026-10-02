@@ -1819,6 +1819,22 @@
       "reason": "事業者向けの入札情報で、市民向けの情報ではないため",
       "source": "兵庫県公式サイト",
       "permanent": true
+    },
+    {
+      "url": "https://www.city.takarazuka.hyogo.jp/1060681/1000113/1028466/1016327.html",
+      "title": "平和映画会",
+      "rejectedAt": "2026-10-02",
+      "reason": "2026年8月25日の終了済みイベントで原典も404。同一URLの再利用監視を続ける理由がないため",
+      "source": "宝塚市公式サイト",
+      "permanent": true
+    },
+    {
+      "url": "https://www.city.takarazuka.hyogo.jp/1060681/1000113/1028466/1016338.html",
+      "title": "平和の黙とうと「平和の鐘」打鐘のご案内",
+      "rejectedAt": "2026-10-02",
+      "reason": "2026年8月の終了済み行事の案内で原典も404。同一URLの再利用監視を続ける理由がないため",
+      "source": "宝塚市公式サイト",
+      "permanent": true
     }
   ]
 }
