@@ -870,6 +870,18 @@ html[data-theme="dark"] .point-box-title {
   display: block;
 }
 
+/* まちカルテのトップ（/area/）のバナー。文字入り画像なのでトリミングせず全体を表示する */
+.machi-karte-banner {
+  margin: 10px 0 12px;
+}
+
+.machi-karte-banner img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+}
+
 .photo-credit {
   font-size: 0.7rem;
   color: var(--text-sub);

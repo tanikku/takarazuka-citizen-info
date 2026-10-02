@@ -12,6 +12,7 @@ const AREAS_DIR = path.join(ROOT, "data", "areas");
 const PUBLIC_DIR = path.join(ROOT, "public");
 const SITE_URL = "https://takarazuka-today.jp";
 const AREA_ROOT_PATH = "/area/";
+const BANNER_FILE = "machi-karte-banner-1200x630.webp";
 
 const STATUSES = ["verified", "needs_review", "expired"];
 // 出典・確認日を持つ情報ブロック。公開してよいのは status が verified のものだけ
@@ -337,6 +338,7 @@ function areaIndexPage(districts) {
   const bodyHtml = `${breadcrumbNav(crumbs)}
 <div class="page-content">
 <h1>まちカルテ｜宝塚市の町丁目別 生活情報</h1>
+<div class="machi-karte-banner"><img src="/img/${BANNER_FILE}" alt="宝塚Today まちカルテ。宝塚市の町丁目別の生活情報をまとめた案内バナー" width="1200" height="630"></div>
 <p class="lead">お住まいの町丁目のごみ収集日、学校区、投票所、子育て施設、AED、公園、防災・避難所などを1ページで確認できます。掲載している町丁目は順次追加します。</p>
 <div class="disclosure-box">${escapeHtml(DATA_POLICY)}</div>
 ${districts
@@ -396,6 +398,8 @@ function main() {
   }
   const districts = [...districtMap.values()];
 
+  fs.mkdirSync(path.join(PUBLIC_DIR, "img"), { recursive: true });
+  fs.copyFileSync(path.join(ROOT, "assets", BANNER_FILE), path.join(PUBLIC_DIR, "img", BANNER_FILE));
   writePublic(AREA_ROOT_PATH, areaIndexPage(districts));
   const sitemapEntries = [];
   const searchEntries = [
