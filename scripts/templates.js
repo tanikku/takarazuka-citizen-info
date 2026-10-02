@@ -348,7 +348,7 @@ ${t.sourceUrl ? `<p class="panel-note">出典：<a href="${escapeHtml(t.sourceUr
             (s) => `<section class="article-section">
 <h2>${escapeHtml(s.heading)}</h2>
 ${(s.paragraphs ?? []).map((p) => `<p>${escapeHtml(p)}</p>`).join("\n")}
-${(s.items ?? []).length > 0 ? `<ul>${(s.items ?? []).map((item) => `<li>${escapeHtml(item)}</li>`).join("\n")}</ul>` : ""}
+${(s.items ?? []).length > 0 ? `<ul>${(s.items ?? []).map((item) => `<li>${escapeHtml(item)}</li>`).join("\n")}</ul>` : ""}${Array.isArray(s.questions) ? questionListHtml(s.questions) : ""}
 </section>`
           )
           .join("\n")
@@ -691,6 +691,25 @@ ${todayRow(todayArticles, photoOfDay, categoryPageKeys, activeNotices)}
     extraScripts: ["/js/search.js"],
     ogImage: "/img/header-banner.png",
   });
+}
+
+// 一般質問一覧（sections[].questions）。全議員を同じ書式で並べ、件名が複数ある場合だけ丸数字を付ける
+const CIRCLED_NUMBERS = "①②③④⑤⑥⑦⑧⑨⑩";
+function questionListHtml(questions) {
+  const entries = questions.map((q) => {
+    const titles = q.titles
+      .map((t, i) => `<li>${q.titles.length > 1 ? CIRCLED_NUMBERS[i] ?? "" : ""}「${escapeHtml(t)}」</li>`)
+      .join("");
+    return `<div class="question-entry">
+<p class="question-time">${escapeHtml(q.time)}</p>
+<p class="question-member">${escapeHtml(q.member)} 議員</p>
+<p class="question-label">件名</p>
+<ul class="question-titles">${titles}</ul>
+<p class="question-label">主な質問</p>
+<p class="question-summary">${escapeHtml(q.summary)}</p>
+</div>`;
+  });
+  return `\n<div class="question-list">\n${entries.join("\n")}\n</div>`;
 }
 
 function gikaiRow(article) {

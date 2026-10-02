@@ -54,6 +54,29 @@ function validateStringArray(value, label, errors) {
   });
 }
 
+// 一般質問一覧用の questions。1件ごとに予定時刻・議員名・件名（1件以上）・主な質問を必須とする
+function validateQuestions(questions, label, errors) {
+  if (!Array.isArray(questions) || questions.length === 0) {
+    errors.push(`${label} は1件以上の配列である必要があります`);
+    return;
+  }
+  questions.forEach((q, i) => {
+    const at = `${label}[${i}]`;
+    if (!q || typeof q !== "object" || Array.isArray(q)) {
+      errors.push(`${at} はオブジェクトである必要があります`);
+      return;
+    }
+    for (const key of ["time", "member", "summary"]) {
+      if (!isNonEmptyString(q[key])) errors.push(`${at}.${key} が空です`);
+    }
+    if (!Array.isArray(q.titles) || q.titles.length === 0) {
+      errors.push(`${at}.titles は1件以上の配列である必要があります`);
+    } else {
+      validateStringArray(q.titles, `${at}.titles`, errors);
+    }
+  });
+}
+
 function validateSections(sections, errors) {
   if (!Array.isArray(sections)) {
     errors.push("sections は配列である必要があります");
@@ -73,13 +96,15 @@ function validateSections(sections, errors) {
 
     const hasParagraphs = s.paragraphs !== undefined;
     const hasItems = s.items !== undefined;
+    const hasQuestions = s.questions !== undefined;
     // 見出しだけのsection・中身が0件のsectionを禁止する
-    if (!hasParagraphs && !hasItems) {
-      errors.push(`${at} に paragraphs も items もありません（見出しのみのsectionは作成できません）`);
+    if (!hasParagraphs && !hasItems && !hasQuestions) {
+      errors.push(`${at} に paragraphs も items も questions もありません（見出しのみのsectionは作成できません）`);
       return;
     }
     if (hasParagraphs) validateStringArray(s.paragraphs, `${at}.paragraphs`, errors);
     if (hasItems) validateStringArray(s.items, `${at}.items`, errors);
+    if (hasQuestions) validateQuestions(s.questions, `${at}.questions`, errors);
   });
 }
 

@@ -85,6 +85,23 @@ test("見出しのみのsectionはFAILする", () => {
   assert.ok(errors.some((e) => e.includes("見出しのみ")));
 });
 
+test("questions（一般質問一覧）だけのsectionはPASSする", () => {
+  const errors = errorsOf(
+    extendedArticle({
+      sections: [{ heading: "9月28日の質問者", questions: [{ time: "9時30分", member: "宝塚 太郎", titles: ["件名1", "件名2"], summary: "主な質問の要約" }] }],
+    })
+  );
+  assert.deepEqual(errors, []);
+});
+
+test("questionsの件名が空・議員名が空だとFAILする", () => {
+  const errors = errorsOf(
+    extendedArticle({ sections: [{ heading: "質問者", questions: [{ time: "9時30分", member: " ", titles: [], summary: "要約" }] }] })
+  );
+  assert.ok(errors.some((e) => e.includes("member")));
+  assert.ok(errors.some((e) => e.includes("titles")));
+});
+
 test("headingが空のsectionはFAILする", () => {
   const errors = errorsOf(extendedArticle({ sections: [{ heading: "  ", paragraphs: ["本文"] }] }));
   assert.ok(errors.some((e) => e.includes("heading")));

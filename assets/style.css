@@ -1535,6 +1535,53 @@ html[data-theme="dark"] .note-box {
   margin: 20px 0 8px;
 }
 
+/* 一般質問一覧（sections[].questions）。議員ごとの区切りと「件名」「主な質問」の区別だけを付け、全員同じ見た目にする */
+.question-entry {
+  padding: 12px 0;
+  border-top: 1px solid var(--border);
+}
+
+.question-entry:first-child {
+  border-top: none;
+  padding-top: 4px;
+}
+
+.question-time {
+  margin: 0;
+  font-size: 0.8rem;
+  color: var(--text-sub);
+}
+
+.question-member {
+  margin: 2px 0 6px;
+  font-size: 1.05rem;
+  font-weight: 700;
+}
+
+.question-label {
+  margin: 8px 0 2px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--text-sub);
+}
+
+.question-titles {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.question-titles li {
+  margin: 2px 0;
+  overflow-wrap: anywhere;
+}
+
+.question-summary {
+  margin: 0;
+  font-size: 0.92rem;
+  overflow-wrap: anywhere;
+}
+
 .article-source {
   margin-top: 24px;
   font-size: 0.9rem;
