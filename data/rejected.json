@@ -1771,6 +1771,54 @@
       "reason": "短期の講座告知で、終了後の継続価値が低いため",
       "source": "宝塚市公式サイト",
       "permanent": true
+    },
+    {
+      "url": "https://www.city.takarazuka.hyogo.jp/1060684/1060712/1009617/1045294/1059112.html",
+      "title": "（10/22）シニアワークフェア",
+      "rejectedAt": "2026-10-01",
+      "reason": "10/22の1日限りの面接会で、終了後の継続価値が低いため",
+      "source": "宝塚市公式サイト",
+      "permanent": true
+    },
+    {
+      "url": "https://www.city.takarazuka.hyogo.jp/1060686/1060716/1008153/1057273/1013314.html",
+      "title": "救急車の適正利用にご協力を",
+      "rejectedAt": "2026-10-01",
+      "reason": "常設の啓発ページの更新で、宝塚市固有の新しい情報がないため",
+      "source": "宝塚市公式サイト",
+      "permanent": true
+    },
+    {
+      "url": "https://www.city.takarazuka.hyogo.jp/1060680/1060698/1061552/1061559/1000570.html",
+      "title": "宝塚子育て・子育ちガイド「たからばこ」",
+      "rejectedAt": "2026-10-01",
+      "reason": "更新内容は次版の広告掲載事業者募集で、市民向けの新しい情報ではないため",
+      "source": "宝塚市公式サイト",
+      "permanent": true
+    },
+    {
+      "url": "https://www.city.takarazuka.hyogo.jp/1060687/1060730/1063406/1064308.html",
+      "title": "164_国民健康保険税関連通知",
+      "rejectedAt": "2026-10-01",
+      "reason": "公示送達のページで、記事化の対象外のため",
+      "source": "宝塚市公式サイト",
+      "permanent": true
+    },
+    {
+      "url": "https://web.pref.hyogo.lg.jp/bk04/20261107.html",
+      "title": "第16回ひょうご県民がんフォーラム",
+      "rejectedAt": "2026-10-01",
+      "reason": "神戸市会場の県全域向け行事で、宝塚市との具体的な関係がないため",
+      "source": "兵庫県公式サイト",
+      "permanent": true
+    },
+    {
+      "url": "https://web.pref.hyogo.lg.jp/ks16/press/20260929.html",
+      "title": "公募型一般競争入札「武庫川上流浄化センター 3系最初沈殿池電気設備改築工事」の実施",
+      "rejectedAt": "2026-10-01",
+      "reason": "事業者向けの入札情報で、市民向けの情報ではないため",
+      "source": "兵庫県公式サイト",
+      "permanent": true
     }
   ]
 }
