@@ -1835,6 +1835,23 @@
       "reason": "2026年8月の終了済み行事の案内で原典も404。同一URLの再利用監視を続ける理由がないため",
       "source": "宝塚市公式サイト",
       "permanent": true
+    },
+    {
+      "url": "https://www.city.takarazuka.hyogo.jp/event/1000039/1061699/1061796/1064136.html",
+      "title": "ハロウィン防災イベント",
+      "rejectedAt": "2026-10-02",
+      "reason": "2026年10月31日の1日限りの民間主催イベント（市は後援）で、終了後の継続価値が低いため",
+      "source": "宝塚市公式サイト",
+      "permanent": true
+    },
+    {
+      "url": "https://www.city.takarazuka.hyogo.jp/1060680/1060699/kyoikuiinkai/1061793/1062635.html",
+      "title": "市立小中学校外校舎空調更新等整備事業",
+      "rejectedAt": "2026-10-02",
+      "reason": "TEMPORARY_1YEAR_現時点はプロポーザル審査講評・事業者選定の公表で、市民向けの具体的な工事内容・時期が確認できないため要再確認",
+      "source": "宝塚市公式サイト",
+      "permanent": false,
+      "expiresAt": "2027-10-02"
     }
   ]
 }
