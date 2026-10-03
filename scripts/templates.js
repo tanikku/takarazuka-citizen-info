@@ -901,8 +901,8 @@ const ODEKAKE_GUIDE_CARDS = [
   { href: "/category/kanko/takarazuka-kita-sa-guide", photo: "/photos/takarazuka-kita-sa.jpg", label: "宝塚北サービスエリアガイド", sub: "西日本最大級SA。一般道からの利用方法も" },
   { href: "/category/kanko/haisen-hiking-guide", photo: "/photos/001015680_takedaomomizi2013.jpg", label: "武田尾廃線ハイキングガイド", sub: "トンネルと鉄橋を歩く人気コース" },
   { href: "/category/kanko/tezuka-museum-guide", photo: "/photos/001015682_tezukakinenkan2015.jpg", label: "手塚治虫記念館ガイド", sub: "アクセス・入館案内・館内のみどころ" },
-  { href: "/category/kanko/nakayamadera-guide", photo: "/photos/nakayamadera.jpg", label: "中山寺ガイド", sub: "安産祈願・戌の日・アクセス" },
-  { href: "/category/kanko/kiyoshikojin-guide", photo: "/photos/kiyoshikojin.jpg", label: "清荒神清澄寺ガイド", sub: "境内案内・参道商店街・アクセス" },
+  { href: "/category/kanko/nakayamadera-guide", photo: "/photos/nakayamadera-gate-20261003-1200x630.webp", label: "中山寺ガイド", sub: "安産祈願・戌の日・アクセス" },
+  { href: "/category/kanko/kiyoshikojin-guide", photo: "/photos/kiyoshikojin-gate-20261003-1200x630.webp", label: "清荒神清澄寺ガイド", sub: "境内案内・参道商店街・アクセス" },
   { href: "/category/kanko/takedao-onsen-guide", photo: "/photos/001015680_takedao2b.jpg", label: "武田尾温泉ガイド", sub: "武庫川渓谷の秘湯。日帰り入浴・足湯" },
   { href: "/category/kanko/takarazuka-onsen-guide", photo: "/photos/001015682_mukogawa.jpg", label: "宝塚温泉ガイド", sub: "宝塚駅近くの歴史ある街なか温泉" },
   { href: "/category/kanko/aiaipark-guide", photo: "/photos/001015682_aiaipark2011.jpg", label: "あいあいパークガイド", sub: "植木のまち山本の園芸拠点。入場無料" },
@@ -2109,6 +2109,15 @@ ${recommendedPagesPanel("shigikai", canonicalUrl.replace(siteUrl, ""))}
   });
 }
 
+// ガイド本文の1要素。文字列は従来どおりrule-card、オブジェクトは現地取材写真（photo）と小見出し（subheading）
+function guideItemHtml(item) {
+  if (typeof item === "string") return `<div class="rule-card">${item}</div>`;
+  if (item.subheading) return `<h3 class="guide-subheading">${escapeHtml(item.subheading)}</h3>`;
+  const p = item.photo;
+  const portraitClass = p.height > p.width ? " guide-photo--portrait" : "";
+  return `<figure class="guide-photo${portraitClass}"><img src="${escapeHtml(p.src)}" width="${p.width}" height="${p.height}" alt="${escapeHtml(p.alt)}" loading="lazy" decoding="async"><figcaption>${escapeHtml(p.caption)}</figcaption></figure>`;
+}
+
 // 検索流入向けの常設ガイドページ（ごみ出し・子育て支援・防災・学校情報など）
 // ニュース記事ではなく評価性のない常設リファレンス情報のため、記事スキーマとは別に専用ページとして実装する
 export function guidePage(guide, siteUrl) {
@@ -2124,7 +2133,7 @@ export function guidePage(guide, siteUrl) {
     .map(
       (s) => `<section class="guide-section" id="${escapeHtml(s.id)}">
 <h2>${icon(s.icon ?? guide.category.icon)}${escapeHtml(s.heading)}</h2>
-${s.items.map((item) => `<div class="rule-card">${item}</div>`).join("\n")}
+${s.items.map(guideItemHtml).join("\n")}
 ${(s.notes ?? []).map((note) => `<div class="note-box">${escapeHtml(note)}</div>`).join("\n")}
 </section>`,
     )
@@ -2151,8 +2160,10 @@ ${guide.relatedLinks.map((l) => `<a href="${escapeHtml(l.href)}">${escapeHtml(l.
 
   const disclosureHtml = guide.disclosure ? `<div class="disclosure-box">${escapeHtml(guide.disclosure)}</div>` : "";
   const heroPhotoHtml = guide.cardPhoto
-    ? `<div class="guide-hero-photo"><img src="${escapeHtml(guide.cardPhoto)}" alt="${escapeHtml(guide.title)}" loading="lazy"></div>${guide.photoCredit ? `<p class="photo-credit">${guide.photoCredit}</p>` : ""}`
+    ? `<div class="guide-hero-photo"><img src="${escapeHtml(guide.cardPhoto)}" alt="${escapeHtml(guide.cardPhotoAlt ?? guide.title)}" loading="lazy"></div>${guide.photoCredit ? `<p class="photo-credit">${guide.photoCredit}</p>` : ""}`
     : "";
+
+  const fieldReportHtml = guide.fieldReport ? `<p class="field-report-note">${guide.fieldReport.map(escapeHtml).join("<br>")}</p>` : "";
 
   const changelogHtml = guide.changelog && guide.changelog.length > 0
     ? `<div class="changelog">
@@ -2165,7 +2176,7 @@ ${guide.changelog.map((c) => `<li><span class="changelog-date">${escapeHtml(c.da
 
   const bodyHtml = `<nav class="breadcrumb"><a href="/">トップ</a> &gt; <a href="${categoryPath(guide.category.key)}">${escapeHtml(guide.category.label)}</a> &gt; ${escapeHtml(guide.title)}</nav>
 <div class="page-content">
-<h1>${escapeHtml(guide.title)}</h1>
+<h1>${escapeHtml(guide.title)}</h1>${fieldReportHtml}
 ${heroPhotoHtml}
 <p class="lead">${escapeHtml(guide.lead)}</p>
 ${disclosureHtml}

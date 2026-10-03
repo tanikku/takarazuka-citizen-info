@@ -2,15 +2,21 @@
   "categoryKey": "kanko",
   "slug": "kiyoshikojin-guide",
   "icon": "temple",
-  "cardPhoto": "/photos/kiyoshikojin.jpg",
-  "photoCredit": "写真：山中紘治（<a href=\"https://commons.wikimedia.org/wiki/File:Kiyosikojin_sanmonmae_shotengai.jpg\" target=\"_blank\" rel=\"noopener\">Wikimedia Commons</a>、<a href=\"https://creativecommons.org/licenses/by-sa/3.0/deed.ja\" target=\"_blank\" rel=\"noopener\">CC BY-SA 3.0</a>）",
+  "cardPhoto": "/photos/kiyoshikojin-gate-20261003-1200x630.webp",
+  "cardPhotoAlt": "清荒神清澄寺の山門と参道",
+  "photoCredit": "参道の先の山門（2026年10月3日 宝塚Today撮影）",
+  "fieldReport": ["現地取材：2026年10月3日", "掲載写真は宝塚Todayが現地で撮影しています。"],
   "title": "清荒神清澄寺ガイド（境内案内・参道商店街・アクセス）",
   "cardSummary": "「荒神さん」の愛称で親しまれる古刹。境内・参道商店街・アクセス案内",
-  "lead": "宝塚市米谷にある清荒神清澄寺（真言三宝宗総本山）について、「荒神さん」と呼ばれる由来・境内のみどころ・参道商店街・アクセス・駐車場情報をまとめました。初詣期間の交通規制・拝観料など変動する情報は公式サイトでご確認ください。",
+  "lead": "宝塚市米谷にある清荒神清澄寺（真言三宝宗総本山）について、「荒神さん」と呼ばれる由来・境内のみどころ・参道商店街・アクセス・駐車場情報をまとめました。宝塚Todayでは2026年10月3日に阪急清荒神駅から参道を実際に歩いて確認し、写真を掲載しています。初詣期間の交通規制・拝観料など変動する情報は公式サイトでご確認ください。",
   "disclosure": "本ページは清荒神清澄寺公式サイトの公開情報をもとに作成しています。行事・料金・駐車場料金等の最新情報は必ず公式サイトでご確認ください。",
-  "updatedAt": "2026-07-23",
+  "updatedAt": "2026-10-03",
+  "changelog": [
+    { "date": "2026-10-03", "note": "2026年10月3日の現地取材写真と「清荒神駅から参道を歩く」セクションを追加。ページ冒頭の写真を宝塚Today撮影の写真に差し替え" }
+  ],
   "toc": [
     { "id": "about", "label": "清荒神とは" },
+    { "id": "aruku", "label": "清荒神駅から参道を歩く" },
     { "id": "keidai", "label": "境内のみどころ" },
     { "id": "sandou", "label": "参道の商店街" },
     { "id": "access", "label": "アクセス・最寄駅" },
@@ -29,6 +35,23 @@
       ]
     },
     {
+      "id": "aruku",
+      "heading": "清荒神駅から参道を歩く",
+      "items": [
+        "宝塚Todayでは2026年10月3日に、阪急宝塚線「清荒神」駅から清荒神清澄寺まで参道を実際に歩いて確認しました。以下の写真はいずれもこの日に撮影したものです。参道の距離や店舗の数は<a href=\"#sandou\">参道の商店街</a>をご覧ください",
+        { "photo": { "src": "/photos/kiyoshikojin-station-20261003.webp", "width": 1600, "height": 1200, "alt": "阪急清荒神駅", "caption": "阪急清荒神駅。清荒神清澄寺へ向かう際の最寄り駅です" } },
+        { "photo": { "src": "/photos/kiyoshikojin-stone-marker-20261003.webp", "width": 1440, "height": 1080, "alt": "「清荒神清澄寺」と記された石標", "caption": "清荒神清澄寺へ向かう参道沿いの石標" } },
+        { "photo": { "src": "/photos/kiyoshikojin-approach-20261003.webp", "width": 1440, "height": 1080, "alt": "住宅や店舗が並ぶ参道", "caption": "清荒神清澄寺へ向かう参道の様子" } },
+        { "photo": { "src": "/photos/kiyoshikojin-approach-shops-20261003.webp", "width": 1280, "height": 960, "alt": "テント張りの店舗が並ぶ参道", "caption": "参道沿いには店舗が並びます" } },
+        { "photo": { "src": "/photos/kiyoshikojin-approach-slope-20261003.webp", "width": 1280, "height": 960, "alt": "露店が並ぶ坂道の参道", "caption": "清荒神へ向かって続く参道" } },
+        { "subheading": "現地で立ち寄り｜北川精肉店" },
+        "宝塚Todayは2026年10月3日の取材の際に北川精肉店に立ち寄り、宝塚コロッケ4個、ハムカツ2個、ポテトフライ2個を購入しました",
+        "宝塚Todayが2026年10月3日に実際に購入した際、レシート上では宝塚コロッケは1個100円でした。価格や商品は変わる可能性があるため、最新の情報は店頭でご確認ください",
+        { "photo": { "src": "/photos/kitagawa-seinikuten-20261003.webp", "width": 1200, "height": 1600, "alt": "「宝塚コロッケの北川精肉店」と書かれた看板", "caption": "北川精肉店。2026年10月3日に宝塚Todayが立ち寄りました" } },
+        { "photo": { "src": "/photos/kitagawa-croquette-20261003.webp", "width": 1600, "height": 1200, "alt": "北川精肉店で購入したコロッケとハムカツ", "caption": "宝塚Todayが購入したコロッケとハムカツ" } }
+      ]
+    },
+    {
       "id": "keidai",
       "heading": "境内のみどころ",
       "items": [
@@ -36,6 +59,8 @@
         "<strong>眷属堂・護法堂：</strong>信仰にまつわる堂宇です",
         "<strong>龍王堂・龍王滝、一願地蔵尊：</strong>境内の見どころのひとつです",
         "<strong>鉄斎美術館「聖光殿」：</strong>1975年開館。清荒神と縁の深い文人画家・富岡鉄斎ゆかりの美術館で、史料館・新収蔵庫も併設されています",
+        { "photo": { "src": "/photos/kiyoshikojin-keidai-20261003.webp", "width": 1280, "height": 960, "alt": "石段の両側に像が置かれた境内", "caption": "参道を進み、清荒神清澄寺の境内へ（2026年10月3日撮影）" } },
+        { "photo": { "src": "/photos/kiyoshikojin-keidai-green-20261003.webp", "width": 1280, "height": 960, "alt": "木々に囲まれた境内の建物", "caption": "緑に囲まれた境内の様子（2026年10月3日撮影）" } },
         "境内の詳しい案内は<a href=\"https://www.kiyoshikojin.or.jp/keidai/\" target=\"_blank\" rel=\"noopener\">公式サイト「境内案内」</a>でご確認ください。"
       ]
     },

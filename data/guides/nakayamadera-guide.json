@@ -2,19 +2,25 @@
   "categoryKey": "kanko",
   "slug": "nakayamadera-guide",
   "icon": "temple",
-  "cardPhoto": "/photos/nakayamadera.jpg",
-  "photoCredit": "写真：Tak1701d（<a href=\"https://commons.wikimedia.org/wiki/File:Nakayama-dera_Main_Hall_201608.jpg\" target=\"_blank\" rel=\"noopener\">Wikimedia Commons</a>、<a href=\"https://creativecommons.org/licenses/by-sa/3.0/deed.ja\" target=\"_blank\" rel=\"noopener\">CC BY-SA 3.0</a>）",
+  "cardPhoto": "/photos/nakayamadera-gate-20261003-1200x630.webp",
+  "cardPhotoAlt": "中山寺の山門",
+  "photoCredit": "中山寺の山門（2026年10月3日 宝塚Today撮影）",
+  "fieldReport": ["現地取材：2026年10月3日", "掲載写真は宝塚Todayが現地で撮影しています。"],
   "title": "中山寺ガイド（安産祈願・戌の日・アクセス）",
   "cardSummary": "安産祈願・戌の日・お宮参り・七五三の参拝案内とアクセス",
-  "lead": "宝塚市中山寺にある中山寺（西国三十三所第24番札所）について、安産祈願・戌の日・お宮参り・七五三など参拝の基礎知識と、アクセス・駐車場情報をまとめました。祈祷受付時間・初穂料など変動する情報は公式サイトでご確認ください。",
+  "lead": "宝塚市中山寺にある中山寺（西国三十三所第24番札所）について、安産祈願・戌の日・お宮参り・七五三など参拝の基礎知識と、アクセス・駐車場情報をまとめました。宝塚Todayでは2026年10月3日に実際に現地を歩いて境内の様子を確認し、写真を掲載しています。祈祷受付時間・初穂料など変動する情報は公式サイトでご確認ください。",
   "disclosure": "本ページは中山寺公式サイトの公開情報をもとに作成しています。祈祷受付時間・初穂料等の最新情報は必ず公式サイトでご確認ください。",
-  "updatedAt": "2026-07-23",
+  "updatedAt": "2026-10-03",
+  "changelog": [
+    { "date": "2026-10-03", "note": "2026年10月3日の現地取材写真と「現地を歩く」セクションを追加。ページ冒頭の写真を宝塚Today撮影の写真に差し替え" }
+  ],
   "toc": [
     { "id": "about", "label": "中山寺とは" },
     { "id": "anzan", "label": "安産祈願" },
     { "id": "inunohi", "label": "戌の日について" },
     { "id": "omiyamairi", "label": "お宮参り" },
     { "id": "shichigosan", "label": "七五三" },
+    { "id": "genchi", "label": "現地を歩く（2026年10月3日）" },
     { "id": "access", "label": "アクセス・最寄駅" },
     { "id": "parking", "label": "駐車場" },
     { "id": "keidai", "label": "境内案内" }
@@ -65,6 +71,17 @@
       "items": [
         "3歳・5歳・7歳の成長を祝う「七五三」の祈祷を受け付けています。新一年生まいりの祈祷もあります",
         "時期によっては混雑が予想されます。受付時間・初穂料など詳細は<a href=\"https://www.nakayamadera.or.jp/\" target=\"_blank\" rel=\"noopener\">中山寺公式サイト</a>でご確認ください"
+      ]
+    },
+    {
+      "id": "genchi",
+      "heading": "現地を歩く（2026年10月3日）",
+      "items": [
+        "宝塚Todayでは2026年10月3日に中山寺を訪れ、山門から境内を歩いて確認しました。以下の写真はいずれもこの日に撮影したものです",
+        { "photo": { "src": "/photos/nakayamadera-keidai-path-20261003.webp", "width": 1600, "height": 1200, "alt": "山門をくぐった先の境内の道", "caption": "中山寺の境内の様子" } },
+        { "photo": { "src": "/photos/nakayamadera-stairs-pagoda-20261003.webp", "width": 1080, "height": 1440, "alt": "境内の階段と、その先に見える五重塔", "caption": "境内を進むと、階段の先に五重塔が見えてきます" } },
+        { "photo": { "src": "/photos/nakayamadera-five-story-pagoda-20261003.webp", "width": 1200, "height": 1600, "alt": "中山寺の五重塔", "caption": "中山寺の五重塔" } },
+        { "photo": { "src": "/photos/nakayamadera-keidai-20261003.webp", "width": 1600, "height": 1200, "alt": "境内の堂宇と参拝者", "caption": "参拝者でにぎわう境内の様子（2026年10月3日撮影）" } }
       ]
     },
     {
