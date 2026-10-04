@@ -1852,6 +1852,30 @@
       "source": "宝塚市公式サイト",
       "permanent": false,
       "expiresAt": "2027-10-02"
+    },
+    {
+      "url": "https://www.city.takarazuka.hyogo.jp/event/1000039/1061699/1061796/1011516.html",
+      "title": "新米ママ・パパのふれあいタイム(2回連続講座)【野上児童館】",
+      "rejectedAt": "2026-10-04",
+      "reason": "同系統の継続開催でpage ID使い回し。単独記事化しない方針のため",
+      "source": "宝塚市公式サイト",
+      "permanent": true
+    },
+    {
+      "url": "https://www.city.takarazuka.hyogo.jp/event/1000039/1061699/1061796/1011561.html",
+      "title": "親子ふれあい講座～イヤイヤ期をうまくのりこえよう～(4回連続講座)【中筋児童館】",
+      "rejectedAt": "2026-10-04",
+      "reason": "同系統の継続開催でpage ID使い回し。単独記事化しない方針のため",
+      "source": "宝塚市公式サイト",
+      "permanent": true
+    },
+    {
+      "url": "https://www.city.takarazuka.hyogo.jp/1060684/1060712/1063805.html",
+      "title": "宝塚市公式ブランド「モノ・コト・バ宝塚」第8回新規選定を行います！",
+      "rejectedAt": "2026-10-04",
+      "reason": "申込締切経過。記事化タイミングを逸したため",
+      "source": "宝塚市公式サイト",
+      "permanent": true
     }
   ]
 }
