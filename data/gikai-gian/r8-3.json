@@ -4,7 +4,7 @@
   "sessionTerm": "2026-09-01〜2026-10-07",
   "sourceUrl": "https://www.city.takarazuka.hyogo.jp/1060687/gikai/katsudo/1000795/1041633/1041639.html",
   "sourceLabel": "宝塚市議会「市長提出議案」「議員提出議案等」（令和8年第3回定例会）",
-  "updatedAt": "2026-09-19",
+  "updatedAt": "2026-10-09",
   "bills": [
     {
       "billNumber": "報告第5号",
@@ -16,6 +16,121 @@
       "citizenImpact": "市が専決処分で決めた損害賠償の額が、議会で承認されました。"
     },
     {
+      "billNumber": "議案第65号",
+      "title": "令和8年度宝塚市一般会計補正予算（第2号）",
+      "result": "可決",
+      "resultDetail": "全会一致",
+      "decidedAt": "2026-10-06",
+      "committee": "総務常任委員会"
+    },
+    {
+      "billNumber": "議案第66号",
+      "title": "令和8年度宝塚市特別会計介護保険事業費補正予算（第1号）",
+      "result": "可決",
+      "resultDetail": "全会一致",
+      "decidedAt": "2026-10-06",
+      "committee": "総務常任委員会"
+    },
+    {
+      "billNumber": "議案第67号",
+      "title": "令和8年度宝塚市水道事業会計補正予算（第2号）",
+      "result": "可決",
+      "resultDetail": "全会一致",
+      "decidedAt": "2026-10-06",
+      "committee": "産業建設常任委員会"
+    },
+    {
+      "billNumber": "議案第68号",
+      "title": "令和8年度宝塚市下水道事業会計補正予算（第1号）",
+      "result": "可決",
+      "resultDetail": "全会一致",
+      "decidedAt": "2026-10-06",
+      "committee": "産業建設常任委員会"
+    },
+    {
+      "billNumber": "議案第69号",
+      "title": "令和8年度宝塚市病院事業会計補正予算（第1号）",
+      "result": "可決",
+      "resultDetail": "全会一致",
+      "decidedAt": "2026-10-06",
+      "committee": "文教生活常任委員会"
+    },
+    {
+      "billNumber": "議案第70号",
+      "title": "宝塚市一般職の職員の給与に関する条例の一部を改正する条例の制定について",
+      "result": "可決",
+      "resultDetail": "全会一致",
+      "decidedAt": "2026-10-06",
+      "committee": "総務常任委員会"
+    },
+    {
+      "billNumber": "議案第71号",
+      "title": "宝塚市認可地縁団体印鑑条例の一部を改正する条例の制定について",
+      "result": "可決",
+      "resultDetail": "全会一致",
+      "decidedAt": "2026-10-06",
+      "committee": "文教生活常任委員会"
+    },
+    {
+      "billNumber": "議案第72号",
+      "title": "宝塚市病院事業の設置等に関する条例の一部を改正する条例の制定について",
+      "result": "可決",
+      "resultDetail": "全会一致",
+      "decidedAt": "2026-10-06",
+      "committee": "文教生活常任委員会"
+    },
+    {
+      "billNumber": "議案第73号",
+      "title": "宝塚市都市公園条例の一部を改正する条例の制定について",
+      "result": "可決",
+      "resultDetail": "全会一致",
+      "decidedAt": "2026-10-06",
+      "committee": "産業建設常任委員会"
+    },
+    {
+      "billNumber": "議案第74号",
+      "title": "宝塚市都市景観条例の一部を改正する条例の制定について",
+      "result": "可決",
+      "resultDetail": "全会一致",
+      "decidedAt": "2026-10-06",
+      "committee": "産業建設常任委員会"
+    },
+    {
+      "billNumber": "議案第75号",
+      "title": "宝塚市廃棄物の適正処理、減量及び再利用に関する条例の一部を改正する条例の制定について",
+      "result": "可決",
+      "resultDetail": "全会一致",
+      "decidedAt": "2026-10-06",
+      "committee": "産業建設常任委員会",
+      "citizenImpact": "法律の改正で条例が引用する条項の番号がずれたことに伴う形式的な整理です。市の資料では、条例で定める規制内容や手続に変更はなく、市民・事業者への実質的な影響はないとされています。",
+      "detailUrl": "https://www.city.takarazuka.hyogo.jp/_res/projects/default_project/_page_/001/043/431/sanken202609/075-001-000.pdf",
+      "detailLabel": "条例改正の概要（産業建設常任委員会資料・PDF）を見る"
+    },
+    {
+      "billNumber": "議案第76号",
+      "title": "令和7年度宝塚市水道事業会計決算認定について",
+      "result": "認定",
+      "resultDetail": "全会一致",
+      "decidedAt": "2026-10-06",
+      "committee": "産業建設常任委員会"
+    },
+    {
+      "billNumber": "議案第77号",
+      "title": "令和7年度宝塚市下水道事業会計決算認定について",
+      "result": "認定",
+      "resultDetail": "全会一致",
+      "decidedAt": "2026-10-06",
+      "committee": "産業建設常任委員会"
+    },
+    {
+      "billNumber": "議案第78号",
+      "title": "令和7年度宝塚市病院事業会計決算認定について",
+      "result": "認定",
+      "resultDetail": "全会一致",
+      "decidedAt": "2026-10-06",
+      "committee": "文教生活常任委員会"
+    },
+    {
       "billNumber": "議案第79号",
       "title": "工事請負契約（武庫川新橋耐震補強工事(その1)）の変更契約の締結について",
       "result": "可決",
@@ -25,6 +140,86 @@
       "citizenImpact": "武庫川新橋の耐震補強工事（その1）について、市が結んでいる工事請負契約を変更することが議決されました。"
     },
     {
+      "billNumber": "議案第80号",
+      "title": "工事請負契約（（都）荒地西山線道路新設改良工事(その3)）の変更について",
+      "result": "可決",
+      "resultDetail": "全会一致",
+      "decidedAt": "2026-10-06",
+      "committee": "産業建設常任委員会"
+    },
+    {
+      "billNumber": "議案第81号",
+      "title": "財産（救急自動車）の取得について",
+      "result": "可決",
+      "resultDetail": "全会一致",
+      "decidedAt": "2026-10-06",
+      "committee": "産業建設常任委員会"
+    },
+    {
+      "billNumber": "議案第82号",
+      "title": "公の施設（宝塚市立男女共同参画センター）の指定管理者の指定について",
+      "result": "可決",
+      "resultDetail": "全会一致",
+      "decidedAt": "2026-10-06",
+      "committee": "総務常任委員会"
+    },
+    {
+      "billNumber": "議案第83号",
+      "title": "公の施設（宝塚市立武田尾駅前駐車場及び宝塚市立宝塚駅前駐車場並びに宝塚市立自転車等駐車場）の指定管理者の指定について",
+      "result": "可決",
+      "resultDetail": "全会一致",
+      "decidedAt": "2026-10-06",
+      "committee": "産業建設常任委員会"
+    },
+    {
+      "billNumber": "議案第84号",
+      "title": "公の施設（宝塚市立長谷牡丹園）の指定管理者の指定について",
+      "result": "可決",
+      "resultDetail": "全会一致",
+      "decidedAt": "2026-10-06",
+      "committee": "産業建設常任委員会"
+    },
+    {
+      "billNumber": "議案第85号",
+      "title": "市道路線の認定及び認定変更について",
+      "result": "可決",
+      "resultDetail": "全会一致",
+      "decidedAt": "2026-10-06",
+      "committee": "産業建設常任委員会"
+    },
+    {
+      "billNumber": "議案第86号",
+      "title": "市道路線の認定について",
+      "result": "可決",
+      "resultDetail": "全会一致",
+      "decidedAt": "2026-10-06",
+      "committee": "産業建設常任委員会"
+    },
+    {
+      "billNumber": "議案第87号",
+      "title": "市道路線の認定について",
+      "result": "可決",
+      "resultDetail": "全会一致",
+      "decidedAt": "2026-10-06",
+      "committee": "産業建設常任委員会"
+    },
+    {
+      "billNumber": "議案第88号",
+      "title": "市道路線の認定について",
+      "result": "可決",
+      "resultDetail": "全会一致",
+      "decidedAt": "2026-10-06",
+      "committee": "産業建設常任委員会"
+    },
+    {
+      "billNumber": "議案第89号",
+      "title": "市道路線の認定変更について",
+      "result": "可決",
+      "resultDetail": "全会一致",
+      "decidedAt": "2026-10-06",
+      "committee": "産業建設常任委員会"
+    },
+    {
       "billNumber": "議案第90号",
       "title": "宝塚市教育委員会委員の任命につき同意を求めることについて",
       "result": "同意",
@@ -32,6 +227,36 @@
       "decidedAt": "2026-09-01",
       "committee": "－",
       "citizenImpact": "宝塚市教育委員会の委員の任命に、議会が同意しました。"
+    },
+    {
+      "billNumber": "議員提出議案第16号",
+      "title": "宝塚市議会ハラスメント防止条例の制定について",
+      "result": "可決",
+      "resultDetail": "全会一致",
+      "decidedAt": "2026-10-06",
+      "committee": "－",
+      "detailUrl": "https://www.city.takarazuka.hyogo.jp/_res/projects/default_project/_page_/001/041/640/giin16.pdf",
+      "detailLabel": "議員提出議案第16号（PDF）を見る"
+    },
+    {
+      "billNumber": "請願第22号",
+      "title": "宝塚市の教育環境整備をもとめる請願",
+      "result": "採択",
+      "resultDetail": "賛成多数",
+      "decidedAt": "2026-10-06",
+      "committee": "文教生活常任委員会",
+      "detailUrl": "https://www.city.takarazuka.hyogo.jp/_res/projects/default_project/_page_/001/041/640/202609seigan22.pdf",
+      "detailLabel": "請願第22号の文書（PDF）を見る"
+    },
+    {
+      "billNumber": "請願第23号",
+      "title": "宝塚市立幼稚園統廃合計画の慎重な検討を求める請願",
+      "result": "不採択",
+      "resultDetail": "賛成少数",
+      "decidedAt": "2026-10-06",
+      "committee": "文教生活常任委員会",
+      "detailUrl": "https://www.city.takarazuka.hyogo.jp/_res/projects/default_project/_page_/001/041/640/202609seigan23.pdf",
+      "detailLabel": "請願第23号の文書（PDF）を見る"
     }
   ]
 }
