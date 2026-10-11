@@ -1876,6 +1876,40 @@
       "reason": "申込締切経過。記事化タイミングを逸したため",
       "source": "宝塚市公式サイト",
       "permanent": true
+    },
+    {
+      "url": "https://www.city.takarazuka.hyogo.jp/1060684/1060713/1061607/1008146/1009569/1043711.html",
+      "title": "固定資産税・都市計画税納税通知書送付用封筒の広告の募集 ",
+      "rejectedAt": "2026-10-11",
+      "reason": "TEMPORARY_同一URL再利用の可能性。今回（2026年度）の募集は事業者向けで一般市民向けの優先度が低いため記事化しない。翌年度募集で同じURLが再利用される可能性があるため期限付きとする",
+      "source": "宝塚市公式サイト",
+      "permanent": false,
+      "expiresAt": "2027-09-01"
+    },
+    {
+      "url": "https://web.pref.hyogo.lg.jp/kk05/20261008.html",
+      "title": "令和8年度次世代空モビリティひょうご会議地域分科会の開催",
+      "rejectedAt": "2026-10-11",
+      "reason": "会議の開催通知のみのため",
+      "source": "兵庫県公式サイト",
+      "permanent": true
+    },
+    {
+      "url": "https://web.pref.hyogo.lg.jp/hnk07/press/20261005.html",
+      "title": "令和8年度持続可能なまちの農業取組支援事業の追加募集について",
+      "rejectedAt": "2026-10-11",
+      "reason": "対象が農業者に限定され、独立記事化の優先度が低いため",
+      "source": "兵庫県公式サイト",
+      "permanent": true
+    },
+    {
+      "url": "https://www.city.takarazuka.hyogo.jp/1060687/gikai/annai/1000793/1006100.html",
+      "title": "市議会の会期",
+      "rejectedAt": "2026-10-11",
+      "reason": "TEMPORARY_同一URL更新型ページ。2026-10-09更新分（9月定例会は閉会済み・12月定例会は11月18日〜12月23日）は記事化しない。次回以降の会期更新は再取得するため、12月定例会の開会日を期限とする",
+      "source": "宝塚市公式サイト",
+      "permanent": false,
+      "expiresAt": "2026-11-18"
     }
   ]
 }
