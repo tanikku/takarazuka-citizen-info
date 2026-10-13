@@ -30,68 +30,210 @@
       "headers": [
         "地区",
         "曳行日",
-        "市公式のルート図など"
+        "公式ルート図・曳行表"
       ],
       "rows": [
         [
-          "川面東・川面南・川面西",
+          "川面東",
           "10月16日（金）・17日（土）",
-          "川面3地区のルート図、各地区の曳行表"
+          {
+            "links": [
+              {
+                "text": "ルート図を見る（3地区共通）",
+                "href": "https://www.city.takarazuka.hyogo.jp/_res/projects/default_project/_page_/001/057/627/2026kawamo3.pdf"
+              },
+              {
+                "text": "曳行表を見る",
+                "href": "https://www.city.takarazuka.hyogo.jp/_res/projects/default_project/_page_/001/057/627/2026kawamohigashi.pdf"
+              }
+            ]
+          }
+        ],
+        [
+          "川面南",
+          "10月16日（金）・17日（土）",
+          {
+            "links": [
+              {
+                "text": "ルート図を見る（3地区共通）",
+                "href": "https://www.city.takarazuka.hyogo.jp/_res/projects/default_project/_page_/001/057/627/2026kawamo3.pdf"
+              },
+              {
+                "text": "曳行表を見る",
+                "href": "https://www.city.takarazuka.hyogo.jp/_res/projects/default_project/_page_/001/057/627/2026kawamominami.pdf"
+              }
+            ]
+          }
+        ],
+        [
+          "川面西",
+          "10月16日（金）・17日（土）",
+          {
+            "links": [
+              {
+                "text": "ルート図を見る（3地区共通）",
+                "href": "https://www.city.takarazuka.hyogo.jp/_res/projects/default_project/_page_/001/057/627/2026kawamo3.pdf"
+              },
+              {
+                "text": "曳行表を見る",
+                "href": "https://www.city.takarazuka.hyogo.jp/_res/projects/default_project/_page_/001/057/627/2026kawamonishi.pdf"
+              }
+            ]
+          }
         ],
         [
           "米谷",
           "10月17日（土）・18日（日）",
-          "米谷清荒神のルート図"
+          {
+            "links": [
+              {
+                "text": "ルート図を見る",
+                "href": "https://www.city.takarazuka.hyogo.jp/_res/projects/default_project/_page_/001/057/627/2026maitani.pdf"
+              }
+            ]
+          }
         ],
         [
           "山本",
           "10月23日（金）・24日（土）",
-          "ルート図"
+          {
+            "links": [
+              {
+                "text": "ルート図を見る",
+                "href": "https://www.city.takarazuka.hyogo.jp/_res/projects/default_project/_page_/001/057/627/2026yamamoto.pdf"
+              }
+            ]
+          }
         ],
         [
           "中山寺",
           "10月23日（金）・24日（土）",
-          "ルート図"
+          {
+            "links": [
+              {
+                "text": "ルート図を見る",
+                "href": "https://www.city.takarazuka.hyogo.jp/_res/projects/default_project/_page_/001/057/627/2026nakayamadera.pdf"
+              }
+            ]
+          }
         ],
         [
           "上中筋",
           "10月23日（金）・24日（土）",
-          "ルート図"
+          {
+            "links": [
+              {
+                "text": "ルート図を見る",
+                "href": "https://www.city.takarazuka.hyogo.jp/_res/projects/default_project/_page_/001/057/627/2026kaminakasuji.pdf"
+              }
+            ]
+          }
         ],
         [
           "伊孑志",
           "10月24日（土）",
-          "ルート図"
+          {
+            "links": [
+              {
+                "text": "ルート図を見る",
+                "href": "https://www.city.takarazuka.hyogo.jp/_res/projects/default_project/_page_/001/057/627/2026isoshi.pdf"
+              }
+            ]
+          }
         ],
         [
           "小濱",
           "10月24日（土）・25日（日）",
-          "ルート図及び曳行表"
+          {
+            "links": [
+              {
+                "text": "ルート図・曳行表を見る",
+                "href": "https://www.city.takarazuka.hyogo.jp/_res/projects/default_project/_page_/001/057/627/2026kohama.pdf"
+              }
+            ]
+          }
         ],
         [
           "中筋南",
           "10月24日（土）・25日（日）",
-          "ルート図"
+          {
+            "links": [
+              {
+                "text": "ルート図を見る",
+                "href": "https://www.city.takarazuka.hyogo.jp/_res/projects/default_project/_page_/001/057/627/2026nakasujiminami.pdf"
+              }
+            ]
+          }
         ],
         [
           "平井",
           "10月24日（土）・25日（日）",
-          "ルート図"
+          {
+            "links": [
+              {
+                "text": "ルート図を見る",
+                "href": "https://www.city.takarazuka.hyogo.jp/_res/projects/default_project/_page_/001/057/627/2026hirai.pdf"
+              }
+            ]
+          }
         ],
         [
           "丸橋",
           "10月24日（土）・25日（日）",
-          "ルート図"
+          {
+            "links": [
+              {
+                "text": "ルート図を見る",
+                "href": "https://www.city.takarazuka.hyogo.jp/_res/projects/default_project/_page_/001/057/627/2026maruhashi.pdf"
+              }
+            ]
+          }
         ],
         [
           "口谷",
           "11月1日（日）",
-          "市公式ページに掲載なし"
+          "市公式ページにルート図の掲載なし"
         ],
         [
-          "上安倉・安倉南・小林・大原野中部",
+          "上安倉",
           "10月10日（土）・11日（日）（実施済み）",
-          "上安倉・安倉南・小林はルート図あり"
+          {
+            "links": [
+              {
+                "text": "ルート図を見る",
+                "href": "https://www.city.takarazuka.hyogo.jp/_res/projects/default_project/_page_/001/057/627/2026kamiakura.pdf"
+              }
+            ]
+          }
+        ],
+        [
+          "安倉南",
+          "10月10日（土）・11日（日）（実施済み）",
+          {
+            "links": [
+              {
+                "text": "ルート図を見る",
+                "href": "https://www.city.takarazuka.hyogo.jp/_res/projects/default_project/_page_/001/057/627/2026akuraminami.pdf"
+              }
+            ]
+          }
+        ],
+        [
+          "小林",
+          "10月10日（土）・11日（日）（実施済み）",
+          {
+            "links": [
+              {
+                "text": "ルート図を見る",
+                "href": "https://www.city.takarazuka.hyogo.jp/_res/projects/default_project/_page_/001/057/627/2026obayashi.pdf"
+              }
+            ]
+          }
+        ],
+        [
+          "大原野中部",
+          "10月10日（土）・11日（日）（実施済み）",
+          "市公式ページにルート図の掲載なし"
         ]
       ],
       "sourceUrl": "https://www.city.takarazuka.hyogo.jp/1060683/1060708/1062145/1057626/1057627.html",
@@ -113,7 +255,8 @@
     {
       "heading": "曳行時間とルート図の確認先",
       "paragraphs": [
-        "地区ごとの曳行時間・宮入時間などは、市公式サイトの「2026宝塚だんじり秋祭り曳行情報」（PDF）にまとめられています。曳行ルート図や曳行表は、地区ごとに市公式ページでPDFが公開されています（地区によってはルート図がない場合があります）。日程や時間は変わることがあるため、出かける前に市公式ページで最新の情報を確認してください。問い合わせ先は宝塚市産業文化部観光にぎわい課（電話0797-77-2012）です。"
+        "下の日程表から、地区ごとの曳行ルート図・曳行表（宝塚市公式のPDF）を直接開けます。スマートフォンでは、PDFを開いたあと拡大して確認してください。ルート図が市公式ページに掲載されていない地区は、その旨を表に記しています。市のページ更新によりPDFのリンク先が変わる場合があります。",
+        "地区ごとの曳行時間・宮入時間などは、市公式サイトの「2026宝塚だんじり秋祭り曳行情報」（PDF）にまとめられています。当日の曳行ルートや時間は変更になる場合があるため、出かける前に市公式ページでも最新の情報を確認してください。問い合わせ先は宝塚市産業文化部観光にぎわい課（電話0797-77-2012）です。"
       ]
     }
   ],

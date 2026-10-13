@@ -1053,6 +1053,15 @@ html[data-theme="dark"] .point-box-title {
   text-decoration: underline;
 }
 
+/* 記事の比較表セル内のリンク（comparisonTables の links セル）。押しやすいよう上下に余白を持たせる */
+.table-cell-link {
+  display: inline-block;
+  padding: 6px 0;
+  color: var(--link);
+  font-weight: 700;
+  text-decoration: underline;
+}
+
 .rule-card strong {
   color: var(--accent);
 }

@@ -166,6 +166,33 @@ function validateSources(sources, article, errors) {
   });
 }
 
+// 表セルは文字列が基本。リンクを置く場合のみ { links: [{ text, href }] } を許可する（任意HTMLは受け付けない）。
+// 未知のキーを拒否し、href は https:// のURLに限定する（javascript: / data: / 相対URL を防ぐ）
+function validateTableCell(cell, at, errors) {
+  if (typeof cell === "string") return;
+  if (!cell || typeof cell !== "object" || Array.isArray(cell)) {
+    errors.push(`${at} は文字列または { links: [...] } である必要があります`);
+    return;
+  }
+  const extraKeys = Object.keys(cell).filter((k) => k !== "links");
+  if (extraKeys.length > 0) errors.push(`${at} に未対応のキーがあります: ${extraKeys.join(", ")}`);
+  if (!Array.isArray(cell.links) || cell.links.length === 0) {
+    errors.push(`${at}.links は1件以上の配列である必要があります`);
+    return;
+  }
+  cell.links.forEach((link, i) => {
+    const lat = `${at}.links[${i}]`;
+    if (!link || typeof link !== "object" || Array.isArray(link)) {
+      errors.push(`${lat} はオブジェクトである必要があります`);
+      return;
+    }
+    const linkExtra = Object.keys(link).filter((k) => k !== "text" && k !== "href");
+    if (linkExtra.length > 0) errors.push(`${lat} に未対応のキーがあります: ${linkExtra.join(", ")}`);
+    if (!isNonEmptyString(link.text)) errors.push(`${lat}.text が空です`);
+    if (!isHttpsUrl(link.href)) errors.push(`${lat}.href が https:// の有効なURLではありません: ${link.href}`);
+  });
+}
+
 function validateComparisonTables(tables, errors) {
   if (!Array.isArray(tables)) {
     errors.push("comparisonTables は配列である必要があります");
@@ -193,6 +220,7 @@ function validateComparisonTables(tables, errors) {
       if (row.length !== t.headers.length) {
         errors.push(`${at}.rows[${j}] の列数(${row.length})が headers(${t.headers.length})と一致しません`);
       }
+      row.forEach((cell, k) => validateTableCell(cell, `${at}.rows[${j}][${k}]`, errors));
     });
     if (t.sourceUrl !== undefined && !isHttpsUrl(t.sourceUrl)) {
       errors.push(`${at}.sourceUrl が https:// の有効なURLではありません: ${t.sourceUrl}`);

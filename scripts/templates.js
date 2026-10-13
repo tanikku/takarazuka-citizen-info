@@ -41,6 +41,21 @@ export function escapeHtml(text) {
     .replaceAll("'", "&#39;");
 }
 
+// comparisonTables のセル。文字列は従来どおりエスケープのみ（既存記事の出力を変えない）。
+// { links: [{ text, href }] } のときだけリンクにする。schema検証済みでも、描画側で https:// 以外は文字のみ出力する
+export function tableCellHtml(cell) {
+  if (typeof cell === "string") return escapeHtml(cell);
+  if (!cell || !Array.isArray(cell.links)) return "";
+  return cell.links
+    .map((link) => {
+      const text = escapeHtml(link?.text ?? "");
+      const href = typeof link?.href === "string" ? link.href : "";
+      if (!href.startsWith("https://")) return text;
+      return `<a class="table-cell-link" href="${escapeHtml(href)}" target="_blank" rel="noopener noreferrer">${text}</a>`;
+    })
+    .join("<br>");
+}
+
 // モダンな線画スタイルのアイコンセット（絵文字の代わりに使用。外部アイコンフォント・ライブラリは使わない）
 const ICON_PATHS = {
   building: '<rect x="4" y="3" width="16" height="18" rx="1.5"/><rect x="8" y="6.5" width="3" height="3" rx="0.5"/><rect x="13" y="6.5" width="3" height="3" rx="0.5"/><rect x="8" y="11.5" width="3" height="3" rx="0.5"/><rect x="13" y="11.5" width="3" height="3" rx="0.5"/><line x1="9" y1="21" x2="15" y2="21"/>',
@@ -326,7 +341,7 @@ ${t.headers.map((h, i) => `<th style="padding:0.5rem;text-align:${i === 0 ? "lef
 ${t.rows
   .map(
     (row) =>
-      `<tr>${row.map((cell, i) => `<td style="padding:0.5rem;text-align:${i === 0 ? "left" : "right"};border-bottom:1px solid var(--color-border,#ddd);">${escapeHtml(cell)}</td>`).join("")}</tr>`
+      `<tr>${row.map((cell, i) => `<td style="padding:0.5rem;text-align:${i === 0 ? "left" : "right"};border-bottom:1px solid var(--color-border,#ddd);">${tableCellHtml(cell)}</td>`).join("")}</tr>`
   )
   .join("\n")}
 </tbody>
