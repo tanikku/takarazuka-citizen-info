@@ -1463,7 +1463,7 @@ ${watchTableHtml}
 
 ${faqHtml}
 
-<p class="source-note">出典：<a href="${SRC.towa}" target="_blank" rel="noopener">宝塚市議会「市議会とは」</a>（情報は要約です。最新情報は出典元をご確認ください）</p>
+<p class="source-note">出典：<a href="${SRC.towa}" target="_blank" rel="noopener">宝塚市議会「市議会とは」</a>（公式情報をもとに編集部が整理しています。正式な内容・最新情報は出典元もあわせてご確認ください）</p>
 <p class="article-source">追加出典：<a href="${SRC.gaiyo}" target="_blank" rel="noopener">宝塚市議会の概要</a>／<a href="${SRC.bouchou}" target="_blank" rel="noopener">本会議・委員会等の傍聴</a>／<a href="${SRC.kaigiroku}" target="_blank" rel="noopener">会議録の検索</a>／<a href="${SRC.chukei}" target="_blank" rel="noopener">議会中継・録画配信</a>／<a href="${SRC.seigan}" target="_blank" rel="noopener">請願・陳情の方法</a>／<a href="${SRC.gian}" target="_blank" rel="noopener">議案等一覧・審議結果</a>（いずれも宝塚市公式サイト）</p>
 ${recommendedPagesPanel("shigikai", canonicalUrl.replace(siteUrl, ""))}
 </div>`;
@@ -2201,7 +2201,7 @@ ${tocHtml}
 ${sectionsHtml}
 ${faqHtml}
 ${relatedHtml}
-<p class="source-note">出典：<a href="${escapeHtml(guide.sourceUrl)}" target="_blank" rel="noopener">${escapeHtml(guide.sourceLabel)}</a>（情報は要約です。最新情報は出典元をご確認ください）</p>
+<p class="source-note">出典：<a href="${escapeHtml(guide.sourceUrl)}" target="_blank" rel="noopener">${escapeHtml(guide.sourceLabel)}</a>（公式情報をもとに編集部が整理しています。正式な内容・最新情報は出典元もあわせてご確認ください）</p>
 ${adSlot("guideBottom", guideAdsAllowed)}
 ${recommendedPagesPanel(guide.categoryKey, canonicalUrl.replace(siteUrl, ""))}
 </div>`;
@@ -2369,7 +2369,7 @@ ${staticSectionHeading("第三者配信広告について")}
 <p>第三者配信広告は、広告配信事業者の仕組みによって自動的に表示されるもので、上記の地域企業・店舗向けの広告掲載枠とは別のものです。第三者配信広告の表示によって、記事・ガイドの編集内容が変わることはありません。</p>
 
 ${staticSectionHeading("通常記事")}
-<p>宝塚市、兵庫県、兵庫県警察などの公的機関が公開している情報をもとに、編集部が独自に要約・整理した記事です。通常記事は、広告主や第三者からの依頼によって内容が左右されることはありません。</p>
+<p>宝塚市、兵庫県、兵庫県警察などの公的機関が公開している一次情報をもとに、編集部が市民生活への影響や利用時に必要な情報を整理して掲載している記事です。正式な内容や最新情報は、記事内の出典もあわせてご確認ください。通常記事は、広告主や第三者からの依頼によって内容が左右されることはありません。</p>
 
 ${staticSectionHeading("店舗・団体提供情報")}
 <p>店舗、企業、団体などから提供された情報をもとに掲載する情報です。掲載の可否は編集部が判断します。情報提供をいただいた場合でも、掲載を保証するものではありません。内容に誤りがないか確認するため、必要に応じて提供元へ確認を行う場合があります。</p>
