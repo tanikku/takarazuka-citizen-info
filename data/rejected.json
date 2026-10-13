@@ -1910,6 +1910,31 @@
       "source": "宝塚市公式サイト",
       "permanent": false,
       "expiresAt": "2026-11-18"
+    },
+    {
+      "url": "https://web.pref.hyogo.lg.jp/hnk08/20261013.html",
+      "title": "【10/21(水)～10/23(金)】川西市、猪名川町内の小学校等で黒大豆枝豆（品種：丹波黒）のさやもぎ体験を実施します。",
+      "rejectedAt": "2026-10-13",
+      "reason": "川西市・猪名川町の小学校等での実施で、宝塚市との直接の関係がないため",
+      "source": "兵庫県公式サイト",
+      "permanent": true
+    },
+    {
+      "url": "https://web.pref.hyogo.lg.jp/hnk07/press/20261015.html",
+      "title": "農福連携展の開催",
+      "rejectedAt": "2026-10-13",
+      "reason": "伊丹市での県の広域展示で、宝塚市内の事業所・会場への言及がないため",
+      "source": "兵庫県公式サイト",
+      "permanent": true
+    },
+    {
+      "url": "https://www.city.takarazuka.hyogo.jp/1060683/1060708/1062145/1057626/1057627.html",
+      "title": "令和8年(2026年)だんじり秋祭り(曳行日)のお知らせ",
+      "rejectedAt": "2026-10-13",
+      "reason": "TEMPORARY_2026年分は記事化済み（danjiri-akimatsuri-2026）。同じURLが翌年の日程案内に再利用される可能性があるため、翌年の日程再取得に向け期限付きとする",
+      "source": "宝塚市公式サイト",
+      "permanent": false,
+      "expiresAt": "2027-08-01"
     }
   ]
 }
