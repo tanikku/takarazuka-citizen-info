@@ -1,6 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { articleStatusNotice } from "./lib/article-status.js";
 
 // フェーズ17：回遊率向上のための「おすすめページ」「人気コンテンツ」データ（JSON管理）
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -400,7 +401,7 @@ ${article.relatedArticles
 <article class="article-detail">
 <p class="category-tag">${sourceBadge(article.sourceName)}${categoryMeta ? icon(categoryMeta.icon) : icon("newspaper")}${escapeHtml(article.category)}</p>
 <h1>${escapeHtml(article.title)}</h1>
-<p class="article-meta">${escapeHtml(article.publishedAt)}${updatedAtHtml}</p>
+<p class="article-meta">${escapeHtml(article.publishedAt)}${updatedAtHtml}</p>${articleStatusBox(article)}
 ${aiEditorialBadge}
 ${keyPointsBox}
 <p class="article-summary">${escapeHtml(article.summary)}</p>${sectionsHtml}
@@ -466,13 +467,26 @@ function thumbHtml(photo, fallbackIconName) {
     : icon(fallbackIconName);
 }
 
+// 一覧で「終了」「受付終了」「復旧済み」を見分けるためのタグ。status 未設定・active は空文字（従来と同一）
+function statusTag(article) {
+  const notice = articleStatusNotice(article);
+  return notice ? `<span class="status-tag status-${notice.status}">${escapeHtml(notice.label)}</span>` : "";
+}
+
+// 記事ページ冒頭の状態表示。過去の告知が「開催します」「募集しています」のまま現行情報に見えないようにする
+function articleStatusBox(article) {
+  const notice = articleStatusNotice(article);
+  if (!notice) return "";
+  return `\n<p class="article-status article-status-${notice.status}" role="note"><span class="status-tag status-${notice.status}">${escapeHtml(notice.label)}</span>${escapeHtml(notice.message)}</p>`;
+}
+
 function headlineRow(article) {
   const categoryMeta = findCategory(article.category);
   const photo = findPhotoForText(`${article.title} ${article.summary ?? ""}`);
   return `<a class="headline-row" href="/articles/${article.slug}">
 <div class="headline-thumb">${thumbHtml(photo, categoryMeta ? categoryMeta.icon : "newspaper")}</div>
 <div>
-  <p class="headline-title">${sourceBadge(article.sourceName)}<span class="topic-tag">${escapeHtml(article.category)}</span>${escapeHtml(article.title)}</p>
+  <p class="headline-title">${sourceBadge(article.sourceName)}<span class="topic-tag">${escapeHtml(article.category)}</span>${statusTag(article)}${escapeHtml(article.title)}</p>
   <p class="headline-meta">${escapeHtml(article.publishedAt)}・${escapeHtml(article.sourceName)}</p>
 </div>
 </a>`;
@@ -1089,7 +1103,7 @@ function eventRow(occurrence) {
   return `<a class="headline-row" href="/articles/${article.slug}">
 <div class="headline-thumb">${thumbHtml(photo, categoryMeta ? categoryMeta.icon : "calendar")}</div>
 <div>
-  <p class="headline-title">${escapeHtml(dateLabel)}　${escapeHtml(article.title)}</p>
+  <p class="headline-title">${escapeHtml(dateLabel)}　${statusTag(article)}${escapeHtml(article.title)}</p>
   <p class="headline-meta">${escapeHtml(article.eventLocation ?? "")}</p>
 </div>
 </a>`;

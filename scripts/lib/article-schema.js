@@ -7,6 +7,7 @@
 // - 新fieldはすべて任意。未定義の既存記事はerrorにならない。
 // - 文字数の下限は設けない（短くても事実が正確なら成立する記事があるため）。
 import { CATEGORIES } from "../templates.js";
+import { ARTICLE_STATUSES, isArticleStatus } from "./article-status.js";
 
 const REQUIRED_STRING_FIELDS = ["slug", "title", "summary", "sourceUrl", "sourceName", "publishedAt", "category", "valueScore"];
 const VALUE_SCORES = new Set(["S", "A", "B", "C"]);
@@ -274,6 +275,19 @@ export function validateArticle(article, context = {}) {
       errors.push(`updatedAt が YYYY-MM-DD 形式の実在する日付ではありません: ${article.updatedAt}`);
     } else if (isValidDateString(article.publishedAt) && article.updatedAt < article.publishedAt) {
       errors.push(`updatedAt(${article.updatedAt})が publishedAt(${article.publishedAt})より前です`);
+    }
+  }
+
+  if (article.status !== undefined && !isArticleStatus(article.status)) {
+    errors.push(`status は ${ARTICLE_STATUSES.join(" / ")} のいずれかです: ${article.status}`);
+  }
+  if (article.statusDate !== undefined) {
+    if (!isValidDateString(article.statusDate)) {
+      errors.push(`statusDate が YYYY-MM-DD 形式の実在する日付ではありません: ${article.statusDate}`);
+    }
+    // 日付は「いつ終了・受付終了・復旧したか」を表すため、状態が終わっていない記事には意味を持たない
+    if (article.status === undefined || article.status === "active") {
+      errors.push("statusDate は status が ended / closed / resolved のときだけ設定できます");
     }
   }
 

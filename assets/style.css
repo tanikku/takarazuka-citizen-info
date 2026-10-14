@@ -650,6 +650,41 @@ main {
   background: #6e4ba0;
 }
 
+/* 記事の現在状態（終了・受付終了・復旧済み）。一覧のタグと、記事ページ冒頭の表示で共用する */
+.status-tag {
+  display: inline-block;
+  font-size: 0.68rem;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 3px;
+  margin-right: 6px;
+  color: white;
+  background: #5f6368;
+}
+
+.status-tag.status-resolved {
+  background: #2a7a46;
+}
+
+.article-status {
+  background: #f1f3f4;
+  border: 1px solid var(--border);
+  border-left: 4px solid #5f6368;
+  border-radius: 6px;
+  padding: 10px 12px;
+  margin: 0 0 14px;
+  font-size: 0.88rem;
+  line-height: 1.6;
+}
+
+.article-status.article-status-resolved {
+  border-left-color: #2a7a46;
+}
+
+html[data-theme="dark"] .article-status {
+  background: #26282b;
+}
+
 /* 市議会ウォッチ：AI要約・人間レビュー済みバッジ、生成過程の明記ボックス */
 .disclosure-box {
   background: #eef6ff;

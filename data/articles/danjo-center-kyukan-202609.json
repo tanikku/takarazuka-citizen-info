@@ -11,9 +11,11 @@
     }
   ],
   "publishedAt": "2026-08-31",
-  "updatedAt": "2026-09-11",
+  "updatedAt": "2026-10-14",
   "category": "行政・くらし",
   "valueScore": "B",
+  "status": "ended",
+  "statusDate": "2026-09-30",
   "eventDates": [
     "2026-09-01",
     "2026-09-30"

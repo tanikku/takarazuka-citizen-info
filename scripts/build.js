@@ -25,6 +25,7 @@ import {
   AD_CONFIG,
 } from "./templates.js";
 import { validateArticles, PUBLISHABLE_SCORES } from "./lib/article-schema.js";
+import { isListableAsUpcoming } from "./lib/article-status.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.join(__dirname, "..");
@@ -187,7 +188,7 @@ function buildEventOccurrences(publishedArticles) {
   const todayKey = todayDateKey();
   const occurrences = [];
   for (const article of publishedArticles) {
-    if (!Array.isArray(article.eventDates)) continue;
+    if (!Array.isArray(article.eventDates) || !isListableAsUpcoming(article)) continue;
     for (const date of article.eventDates) {
       if (date >= todayKey) occurrences.push({ article, date });
     }
