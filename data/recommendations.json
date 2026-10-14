@@ -12,7 +12,6 @@
       { "href": "/category/kurashi/school-admission-guide", "label": "学区・高校受験ガイド", "sub": "学区制度・周辺高校一覧", "icon": "book" },
       { "href": "/category/kyoiku/open-school-guide", "label": "オープンスクールガイド", "sub": "学校見学・説明会の申し込み方法", "icon": "book" },
       { "href": "/category/kyoiku/bunkasai-guide", "label": "高校文化祭ガイド", "sub": "文化祭シーズン・一般公開の有無", "icon": "camera" },
-      { "href": "/category/kyoiku/nenkan-event-guide", "label": "学校年間イベントガイド", "sub": "入学式から卒業式までの年間の流れ", "icon": "calendar" },
       { "href": "/category/kyoiku/suisougaku-guide", "label": "吹奏楽コンクールガイド", "sub": "西阪神地区大会の結果・大会情報", "icon": "book" }
     ],
     "bosai": [

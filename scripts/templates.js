@@ -1967,7 +1967,6 @@ ${sourceLinksHtml}
 <p class="panel-note"><a href="/category/kyoiku/guide">→ 宝塚市 学校情報ガイドを見る</a></p>
 <p class="panel-note"><a href="/category/kurashi/school-admission-guide">→ 学区・高校受験ガイドを見る</a></p>
 <p class="panel-note"><a href="/category/kyoiku/bunkasai-guide">→ 高校文化祭ガイドを見る</a></p>
-<p class="panel-note"><a href="/category/kyoiku/nenkan-event-guide">→ 学校年間イベントガイドを見る</a></p>
 </div>
 ${recommendedPagesPanel("kyoiku", canonicalUrl.replace(siteUrl, ""))}
 </div>`;

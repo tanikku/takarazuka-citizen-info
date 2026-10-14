@@ -591,7 +591,17 @@ function main() {
 
   // 公開終了した /mukogawa/ は、上位互換の /livecam へCloudflare Pages標準の_redirectsで恒久転送する（フェーズE-2）。
   // 末尾スラッシュの有無どちらでも受けられるよう2行とも明示する。
-  writeFile("_redirects", "/mukogawa /livecam 301\n/mukogawa/ /livecam 301\n");
+  // 一般論中心だった「学校年間イベントガイド」は、確認方法だけを学校情報ガイドへ統合した（2026-10-14）。
+  // .html付きのURLもCloudflare Pagesの正規化に頼らず、元ファイルが無くなった後も確実に転送されるよう明示する。
+  writeFile(
+    "_redirects",
+    [
+      "/mukogawa /livecam 301",
+      "/mukogawa/ /livecam 301",
+      "/category/kyoiku/nenkan-event-guide /category/kyoiku/guide 301",
+      "/category/kyoiku/nenkan-event-guide.html /category/kyoiku/guide 301",
+    ].join("\n") + "\n"
+  );
 
   // AdSense導入準備（フェーズ21）：data/ad-config.jsonのadsTxtに内容を設定するとads.txtが出力される。未設定の間は生成しない
   if (AD_CONFIG.adsTxt) {
