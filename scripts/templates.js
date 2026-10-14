@@ -2,6 +2,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { articleStatusNotice } from "./lib/article-status.js";
+import { isArticleIndexable } from "./lib/indexing.js";
 
 // フェーズ17：回遊率向上のための「おすすめページ」「人気コンテンツ」データ（JSON管理）
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -425,6 +426,7 @@ ${recommendedPagesPanel(categoryMeta?.key ?? "", `/articles/${article.slug}`)}`;
     ogType: "article",
     structuredData: [jsonLd, breadcrumbLd],
     adsAllowed,
+    noindex: !isArticleIndexable(article),
   });
 }
 
@@ -1237,6 +1239,11 @@ ${rankingOrRecentPanel(ranking, recentArticles, 10, false)}
   });
 }
 
+// 議員活動サマリー（/giin/ と個別ページ）を検索エンジンにインデックスさせない。
+// 掲載が一部の議員だけで、全議員を同じ基準・同じ期間で扱えていないため（議員本人や発言内容への評価ではない）。
+// ページは公開したままで、市議会記事からの導線・サイト内検索も残す。build.js の sitemap もこの値を参照する
+export const GIIN_PAGES_NOINDEX = true;
+
 // 議員活動サマリー：本人の公開発言（市議会会議録）を時系列で並べるのみ。スコア化・ランキング・評価は行わない
 export function giinPage(giin, relatedArticles, siteUrl) {
   const canonicalUrl = `${siteUrl}/giin/${giin.slug}`;
@@ -1284,6 +1291,7 @@ ${items || '<p class="empty-state">まだ発言記録がありません</p>'}
     canonicalUrl,
     structuredData: breadcrumbLd,
     adsAllowed: adsAllowedFor({ pathname: `/giin/${giin.slug}` }),
+    noindex: GIIN_PAGES_NOINDEX,
   });
 }
 
@@ -1327,6 +1335,7 @@ ${items || '<p class="empty-state">まだ掲載がありません</p>'}
     canonicalUrl,
     structuredData: breadcrumbLd,
     adsAllowed: adsAllowedFor({ pathname: "/giin/" }),
+    noindex: GIIN_PAGES_NOINDEX,
   });
 }
 

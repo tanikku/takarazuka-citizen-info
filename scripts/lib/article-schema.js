@@ -8,6 +8,7 @@
 // - 文字数の下限は設けない（短くても事実が正確なら成立する記事があるため）。
 import { CATEGORIES } from "../templates.js";
 import { ARTICLE_STATUSES, isArticleStatus } from "./article-status.js";
+import { INDEXING_VALUES, isIndexingValue } from "./indexing.js";
 
 const REQUIRED_STRING_FIELDS = ["slug", "title", "summary", "sourceUrl", "sourceName", "publishedAt", "category", "valueScore"];
 const VALUE_SCORES = new Set(["S", "A", "B", "C"]);
@@ -289,6 +290,11 @@ export function validateArticle(article, context = {}) {
     if (article.status === undefined || article.status === "active") {
       errors.push("statusDate は status が ended / closed / resolved のときだけ設定できます");
     }
+  }
+
+  // 通常（index）は未設定で表す。"index" を明示する値は持たせない
+  if (article.indexing !== undefined && !isIndexingValue(article.indexing)) {
+    errors.push(`indexing は未設定（通常どおりindex）または ${INDEXING_VALUES.join(" / ")} です: ${article.indexing}`);
   }
 
   if (article.sections !== undefined) validateSections(article.sections, errors);

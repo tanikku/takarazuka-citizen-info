@@ -23,9 +23,11 @@ import {
   searchPage,
   CATEGORIES,
   AD_CONFIG,
+  GIIN_PAGES_NOINDEX,
 } from "./templates.js";
 import { validateArticles, PUBLISHABLE_SCORES } from "./lib/article-schema.js";
 import { isListableAsUpcoming } from "./lib/article-status.js";
+import { articleSitemapEntry, indexableSitemapEntries } from "./lib/indexing.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.join(__dirname, "..");
@@ -282,15 +284,12 @@ function buildSitemap(publishedArticles, categoryPageKeys, giinWithArticles, gui
     ...(gianSessions.length > 0 ? [{ loc: `${SITE_URL}/category/shigikai/gian`, lastmod: today }] : []),
     ...(zaiseiPeriods.length > 0 ? [{ loc: `${SITE_URL}/category/shigikai/zaisei-watch`, lastmod: zaiseiPeriods[0].publishedDate }] : []),
     ...(suisougakuYears.length > 0 ? [{ loc: `${SITE_URL}/category/kyoiku/suisougaku-guide`, lastmod: today }] : []),
-    ...(giinWithArticles.length > 0 ? [{ loc: `${SITE_URL}/giin/`, lastmod: today }] : []),
-    ...giinWithArticles.map((giin) => ({ loc: `${SITE_URL}/giin/${giin.slug}`, lastmod: today })),
-    ...publishedArticles.map((article) => ({
-      loc: `${SITE_URL}/articles/${article.slug}`,
-      lastmod: article.updatedAt ?? article.publishedAt,
-    })),
+    ...(giinWithArticles.length > 0 ? [{ loc: `${SITE_URL}/giin/`, lastmod: today, noindex: GIIN_PAGES_NOINDEX }] : []),
+    ...giinWithArticles.map((giin) => ({ loc: `${SITE_URL}/giin/${giin.slug}`, lastmod: today, noindex: GIIN_PAGES_NOINDEX })),
+    ...publishedArticles.map((article) => articleSitemapEntry(article, SITE_URL)),
   ];
 
-  const body = entries
+  const body = indexableSitemapEntries(entries)
     .map((e) => `<url><loc>${e.loc}</loc><lastmod>${e.lastmod}</lastmod></url>`)
     .join("\n");
 
