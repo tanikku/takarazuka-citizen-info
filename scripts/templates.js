@@ -2147,8 +2147,24 @@ ${recommendedPagesPanel("shigikai", canonicalUrl.replace(siteUrl, ""))}
 }
 
 // ガイド本文の1要素。文字列は従来どおりrule-card、オブジェクトは現地取材写真（photo）と小見出し（subheading）
+// ガイドの表。セルは記事の比較表と同じ tableCellHtml で描画し、任意HTMLは出さない（形は guide-schema.js が検証済み）
+function guideTableHtml(table) {
+  const caption = table.caption ? `<caption>${escapeHtml(table.caption)}</caption>` : "";
+  const head = table.headers.map((h) => `<th scope="col">${escapeHtml(h)}</th>`).join("");
+  const body = table.rows
+    .map((row) => `<tr>${row.map((cell, i) => (i === 0 ? `<th scope="row">${tableCellHtml(cell)}</th>` : `<td>${tableCellHtml(cell)}</td>`)).join("")}</tr>`)
+    .join("\n");
+  return `<div class="table-scroll"><table class="guide-table">${caption}
+<thead><tr>${head}</tr></thead>
+<tbody>
+${body}
+</tbody>
+</table></div>`;
+}
+
 function guideItemHtml(item) {
   if (typeof item === "string") return `<div class="rule-card">${item}</div>`;
+  if (item.table) return guideTableHtml(item.table);
   if (item.subheading) return `<h3 class="guide-subheading">${escapeHtml(item.subheading)}</h3>`;
   const p = item.photo;
   const portraitClass = p.height > p.width ? " guide-photo--portrait" : "";

@@ -28,6 +28,7 @@ import {
 import { validateArticles, PUBLISHABLE_SCORES } from "./lib/article-schema.js";
 import { isListableAsUpcoming } from "./lib/article-status.js";
 import { articleSitemapEntry, indexableSitemapEntries } from "./lib/indexing.js";
+import { validateGuides } from "./lib/guide-schema.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.join(__dirname, "..");
@@ -457,6 +458,11 @@ function main() {
   const ranking = loadRanking();
   const giinList = loadGiin();
   const guides = loadGuides();
+  const guideValidation = validateGuides(guides);
+  if (guideValidation.errors.length > 0) {
+    for (const error of guideValidation.errors) console.error(`ガイドデータエラー: ${error}`);
+    throw new Error(`ガイドデータに ${guideValidation.errors.length} 件のエラーがあります。ビルドを中止しました。`);
+  }
   const gianSessions = loadGianSessions();
   const gikaiVoteIndex = loadGikaiVoteIndex();
   const zaiseiPeriods = loadZaiseiPeriods();

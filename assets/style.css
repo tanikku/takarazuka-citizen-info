@@ -811,6 +811,46 @@ html[data-theme="dark"] .point-box-title {
   font-weight: 700;
 }
 
+/* ガイドの表（2〜3列の早見表）。文章を折り返してスマホ幅に収める */
+.guide-table {
+  width: 100%;
+  table-layout: fixed;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+  line-height: 1.6;
+  background: var(--surface);
+}
+
+.guide-table caption {
+  text-align: left;
+  font-weight: 700;
+  padding: 0 0 6px;
+}
+
+.guide-table th,
+.guide-table td {
+  padding: 8px;
+  text-align: left;
+  vertical-align: top;
+  border-bottom: 1px solid var(--border);
+  overflow-wrap: anywhere;
+}
+
+.guide-table thead th {
+  background: var(--accent-soft);
+}
+
+/* 列幅は中身に任せず先頭列を30%に固定する（中身任せだと長い名前の列が他の列を押しつぶす）。残りは均等 */
+.guide-table thead th:first-child {
+  width: 30%;
+}
+
+/* 先頭列（区分名・品目名）は「・」などの区切りで折り返し、語の途中では割らない（収まらない長い語だけ折り返す） */
+.guide-table tbody th {
+  font-weight: 700;
+  word-break: keep-all;
+}
+
 .takarazuka-tag {
   display: inline-block;
   background: var(--accent-soft);

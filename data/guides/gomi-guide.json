@@ -3,89 +3,170 @@
   "slug": "gomi-guide",
   "title": "宝塚市ゴミ出し完全ガイド",
   "cardSummary": "分別ルール・収集日・よくある質問をまとめました",
-  "lead": "宝塚市のごみ出しルールを完全ガイド。燃やすごみ・プラスチック類・かん/びん/紙/布/ペットボトルなど品目別の分別方法と収集頻度、収集日午前8時までのルール、収集カレンダーや通知アプリ「さんあ～る」の使い方、粗大ごみの出し方まで、公式情報をもとにまとめました。",
-  "updatedAt": "2026-07-18",
+  "lead": "宝塚市のごみ出しを、市の公式情報をもとに整理したガイドです。燃やすごみ・プラスチック類・かん、びん・紙、布・ペットボトル・小型不燃ごみの6区分の早見表、電池やスプレー缶など迷いやすい品目の出し方、粗大ごみの申し込み、市で収集できないもの、収集日の確認方法をまとめています。",
+  "updatedAt": "2026-10-14",
+  "changelog": [
+    { "date": "2026-10-14", "note": "6区分の早見表、迷いやすい品目、粗大ごみの申し込み・持ち込み、市で収集できないもの、問い合わせ先を追加し、収集日の確認方法とよくある質問を見直し" }
+  ],
   "toc": [
-    {
-      "id": "kind",
-      "label": "ごみの種類と収集頻度"
-    },
-    {
-      "id": "rule",
-      "label": "分別ルール"
-    },
-    {
-      "id": "caution",
-      "label": "出し方の注意点"
-    },
-    {
-      "id": "calendar",
-      "label": "収集日の確認方法"
-    },
-    {
-      "id": "ng",
-      "label": "収集できないごみ"
-    }
+    { "id": "first", "label": "ごみ出しでまず確認すること" },
+    { "id": "kubun", "label": "宝塚市の主な6区分（早見表）" },
+    { "id": "mayoi", "label": "迷いやすい品目" },
+    { "id": "sodai", "label": "粗大ごみ" },
+    { "id": "ng", "label": "市で収集できないもの" },
+    { "id": "calendar", "label": "収集日の確認方法" },
+    { "id": "karte", "label": "まちカルテで確認できる地域" },
+    { "id": "contact", "label": "問い合わせ先" },
+    { "id": "links", "label": "公式リンク" }
   ],
   "sections": [
     {
-      "id": "kind",
-      "heading": "ごみの種類と収集頻度",
+      "id": "first",
+      "heading": "ごみ出しでまず確認すること",
       "items": [
-        "<strong>ごみの出し方フロー図：</strong><div class=\"guide-map-wrap\" style=\"background:var(--surface);padding:8px;\"><svg viewBox=\"0 0 380 414\" style=\"width:100%;height:auto;display:block\" role=\"img\" aria-label=\"宝塚市のごみの捨て方フロー図：燃やすごみ・プラスチック類・かん/びん等・粗大ごみ・収集できないごみの5パターン（並列の分類、優先順位ではありません）\"><line x1=\"30\" y1=\"300\" x2=\"30\" y2=\"406\" stroke=\"currentColor\" stroke-width=\"1.6\"/><line x1=\"30\" y1=\"82\" x2=\"30\" y2=\"256\" stroke=\"currentColor\" stroke-width=\"1.6\"/><rect x=\"80\" y=\"8\" width=\"220\" height=\"34\" rx=\"8\" fill=\"var(--surface)\" stroke=\"currentColor\" stroke-width=\"2.2\"/><text x=\"190\" y=\"30\" font-size=\"14\" font-weight=\"bold\" fill=\"currentColor\" text-anchor=\"middle\">捨てたいものは？</text><line x1=\"190\" y1=\"42\" x2=\"190\" y2=\"54\" stroke=\"currentColor\" stroke-width=\"1.6\"/><rect x=\"20\" y=\"54\" width=\"340\" height=\"20\" rx=\"5\" fill=\"var(--surface)\" stroke=\"currentColor\" stroke-width=\"1\" opacity=\"0.55\"/><text x=\"190\" y=\"68\" font-size=\"9.5\" fill=\"currentColor\" text-anchor=\"middle\" opacity=\"0.8\">①〜③は午前8時までに透明・半透明の袋で</text><line x1=\"190\" y1=\"74\" x2=\"190\" y2=\"82\" stroke=\"currentColor\" stroke-width=\"1.6\"/><line x1=\"30\" y1=\"82\" x2=\"190\" y2=\"82\" stroke=\"currentColor\" stroke-width=\"1.6\"/><circle cx=\"190\" cy=\"82\" r=\"2.5\" fill=\"currentColor\"/><line x1=\"30\" y1=\"116\" x2=\"50\" y2=\"116\" stroke=\"currentColor\" stroke-width=\"1.6\"/><circle cx=\"30\" cy=\"116\" r=\"2.5\" fill=\"currentColor\"/><rect x=\"50\" y=\"92\" width=\"310\" height=\"48\" rx=\"7\" fill=\"var(--surface)\" stroke=\"#c8102e\" stroke-width=\"2\"/><text x=\"62\" y=\"113\" font-size=\"12.5\" font-weight=\"bold\" fill=\"currentColor\">① 燃やすごみ</text><text x=\"348\" y=\"113\" font-size=\"11.5\" font-weight=\"bold\" fill=\"#c8102e\" text-anchor=\"end\">週2回</text><text x=\"62\" y=\"130\" font-size=\"10.5\" fill=\"currentColor\" opacity=\"0.85\">台所ごみ・紙くず・布くず等</text><line x1=\"30\" y1=\"174\" x2=\"50\" y2=\"174\" stroke=\"currentColor\" stroke-width=\"1.6\"/><circle cx=\"30\" cy=\"174\" r=\"2.5\" fill=\"currentColor\"/><rect x=\"50\" y=\"150\" width=\"310\" height=\"48\" rx=\"7\" fill=\"var(--surface)\" stroke=\"#3f7fb0\" stroke-width=\"2\"/><text x=\"62\" y=\"171\" font-size=\"12.5\" font-weight=\"bold\" fill=\"currentColor\">② プラスチック類</text><text x=\"348\" y=\"171\" font-size=\"11.5\" font-weight=\"bold\" fill=\"#3f7fb0\" text-anchor=\"end\">週1回</text><text x=\"62\" y=\"188\" font-size=\"10.5\" fill=\"currentColor\" opacity=\"0.85\">食品容器・ボトル等</text><line x1=\"30\" y1=\"232\" x2=\"50\" y2=\"232\" stroke=\"currentColor\" stroke-width=\"1.6\"/><circle cx=\"30\" cy=\"232\" r=\"2.5\" fill=\"currentColor\"/><rect x=\"50\" y=\"208\" width=\"310\" height=\"48\" rx=\"7\" fill=\"var(--surface)\" stroke=\"#2e8b57\" stroke-width=\"2\"/><text x=\"62\" y=\"229\" font-size=\"12.5\" font-weight=\"bold\" fill=\"currentColor\">③ かん・びん／紙・布</text><text x=\"348\" y=\"229\" font-size=\"11.5\" font-weight=\"bold\" fill=\"#2e8b57\" text-anchor=\"end\">月2回</text><text x=\"62\" y=\"246\" font-size=\"10.5\" fill=\"currentColor\" opacity=\"0.85\">ペットボトル・小型不燃ごみ等</text><line x1=\"20\" y1=\"274\" x2=\"360\" y2=\"274\" stroke=\"currentColor\" stroke-width=\"1\" stroke-dasharray=\"3 3\" opacity=\"0.5\"/><text x=\"190\" y=\"290\" font-size=\"10.5\" fill=\"currentColor\" text-anchor=\"middle\" opacity=\"0.75\">特別な出し方が必要なもの</text><line x1=\"30\" y1=\"324\" x2=\"50\" y2=\"324\" stroke=\"currentColor\" stroke-width=\"1.6\"/><circle cx=\"30\" cy=\"324\" r=\"2.5\" fill=\"currentColor\"/><rect x=\"50\" y=\"300\" width=\"310\" height=\"48\" rx=\"7\" fill=\"var(--surface)\" stroke=\"#4a3f8f\" stroke-width=\"2\"/><text x=\"62\" y=\"321\" font-size=\"12.5\" font-weight=\"bold\" fill=\"currentColor\">④ 粗大ごみ</text><text x=\"348\" y=\"321\" font-size=\"11.5\" font-weight=\"bold\" fill=\"#4a3f8f\" text-anchor=\"end\">要申込</text><text x=\"62\" y=\"338\" font-size=\"10.5\" fill=\"currentColor\" opacity=\"0.85\">ネット受付／クリーンセンター持込</text><line x1=\"30\" y1=\"382\" x2=\"50\" y2=\"382\" stroke=\"currentColor\" stroke-width=\"1.6\"/><circle cx=\"30\" cy=\"382\" r=\"2.5\" fill=\"currentColor\"/><rect x=\"50\" y=\"358\" width=\"310\" height=\"48\" rx=\"7\" fill=\"var(--surface)\" stroke=\"#888\" stroke-width=\"2\" stroke-dasharray=\"6 4\"/><text x=\"62\" y=\"379\" font-size=\"12.5\" font-weight=\"bold\" fill=\"currentColor\">⑤ 収集できないごみ</text><text x=\"348\" y=\"379\" font-size=\"11.5\" font-weight=\"bold\" fill=\"#888\" text-anchor=\"end\">要問合せ</text><text x=\"62\" y=\"396\" font-size=\"10.5\" fill=\"currentColor\" opacity=\"0.85\">消火器・タイヤ等→クリーンセンターへ</text></svg><p class=\"guide-map-caption\">①〜③は毎回の収集日、④⑤は個別の申込・問い合わせが必要です（並列の分類で、優先順位ではありません）</p></div>",
-        "<strong>燃やすごみ</strong>：週2回収集",
-        "<strong>プラスチック類</strong>：週1回収集",
-        "<strong>かん・びん／紙・布／ペットボトル／小型不燃ごみ</strong>：月2回収集"
+        "ごみは、収集日の<strong>午前8時まで</strong>に、決められたごみステーションへ出します",
+        "<strong>透明または半透明の袋</strong>で出します。<strong>黒いごみ袋は収集できません</strong>。袋は空気を抜き、口をしっかり縛ります",
+        "収集日は<strong>地区ごとに異なります</strong>。お住まいの地区の収集日は、下の「収集日の確認方法」で確認できます"
       ]
     },
     {
-      "id": "rule",
-      "heading": "分別ルール",
+      "id": "kubun",
+      "heading": "宝塚市の主な6区分（早見表）",
       "items": [
-        "<strong>燃やすごみ</strong>：台所ごみ・紙くず・布くず・木くず等。木くずは50cm以内に切ってひもで束ねる",
-        "<strong>プラスチック類</strong>：食品容器・ボトル等。汚れたものは洗ってから出す",
-        "<strong>ペットボトル</strong>：キャップ・ラベルを外し、中を洗ってつぶしてから出す"
+        {
+          "table": {
+            "headers": ["区分", "主な例", "出し方・頻度"],
+            "rows": [
+              ["燃やすごみ", "台所ごみ、紙くず、布くず、皮革類、ゴム類、木くず", "透明・半透明の袋で出す。木くずは50cm以内に切り、ひもで束ねる。週2回"],
+              ["プラスチック類", "袋・ボトル・パックなどの容器、チューブ類、トレイ、カップ、発泡スチロール", "汚れは洗って出す。発泡スチロールは30cm以下。使い捨てライター・安全カミソリは燃やすごみへ。週1回"],
+              ["かん、びん", "缶詰・飲料のかん・びん、化粧品・医薬品のかん・びん、中身を使い切ったスプレー缶・カセットボンベ", "透明・半透明の袋に一緒に入れる。乳白色のガラスびんは小型不燃ごみへ。月2回"],
+              ["紙、布", "新聞、ダンボール、雑紙、紙パック、古着など", "紙は片手で持てる程度にひもで縛る。雨の日は次の収集日に出す。布は紙と混ぜず、透明・半透明の袋で。月2回"],
+              ["ペットボトル", "飲料用・酒類用・しょうゆ用", "キャップとラベルを外し、水で洗ってつぶし、ボトルだけを透明・半透明の袋で出す。月2回"],
+              ["小型不燃ごみ", "陶磁器類、金属類（乾電池を含む）、小型家電品、ガラス類（蛍光灯・電球を含む）", "一辺30cm以下のもの。透明・半透明の袋で出す。刃物などは「キケン」と書く。月2回"]
+            ]
+          }
+        }
       ],
       "notes": [
-        "ペットシート・マスク・紙おむつは「紙・布」ではなく「燃やすごみ」に出します"
+        "宝塚市には「有害ごみ」という区分はありません。電池や蛍光管などは、次の「迷いやすい品目」で品目ごとの出し方を確認してください"
       ]
     },
     {
-      "id": "caution",
-      "heading": "出し方の注意点",
+      "id": "mayoi",
+      "heading": "迷いやすい品目",
       "items": [
-        "収集日の<strong>午前8時まで</strong>に、決められたごみステーションへ出す",
-        "<strong>黒いごみ袋は収集できません</strong>（透明・半透明の袋を使用）"
+        {
+          "table": {
+            "headers": ["品目", "区分・出し方"],
+            "rows": [
+              ["乾電池", "小型不燃ごみ"],
+              ["充電式電池・モバイルバッテリー", "ごみには出せません。家庭で使ったものは、市役所やクリーンセンターなどの充電式電池回収ボックスへ。膨らんだものは回収ボックスに入れず、クリーンセンター管理棟1階の窓口で職員に直接渡す"],
+              ["ボタン電池", "販売店などの回収ボックスを利用するか、クリーンセンター管理棟1階へ持参"],
+              ["スプレー缶・カセットボンベ", "中身を使い切ったものは「かん、びん」。使い切れないものはクリーンセンター管理棟1階へ持参（予約不要・無料）"],
+              ["蛍光管", "クリーンセンター管理棟1階の専用回収ボックスへ割らずに入れるか、小型不燃ごみの日に出す。割れた蛍光管・LEDランプ・白熱電球は小型不燃ごみ"],
+              ["水銀体温計・水銀血圧計", "クリーンセンター管理棟1階の窓口へ持参"],
+              ["使い捨てライター", "燃やすごみ。ガスが残っているものは収集できないため、クリーンセンター窓口へ持参"],
+              ["包丁・ナイフ", "小型不燃ごみ。刃を新聞紙などで包み「キケン」と書く"],
+              ["フライパン", "小型不燃ごみ。丸い部分の直径が30cmを超えるものは粗大ごみ"],
+              ["傘", "粗大ごみ。折りたたみ傘は小型不燃ごみ（3辺のいずれかが30cmを超えるものは粗大ごみ）"],
+              ["布団", "粗大ごみ"],
+              ["紙おむつ・ペット用トイレシート・マスク", "燃やすごみ（「紙、布」の日には出さない）。紙おむつの汚物はトイレに流す。長辺が30cmを超えるものは粗大ごみ"],
+              ["植木鉢", "プラスチック製はプラスチック類、素焼き・陶器製は小型不燃ごみ。コンクリート製は市では収集できない"],
+              ["電子レンジ・扇風機", "粗大ごみ"],
+              ["小型家電（携帯電話など）", "一辺30cm以下なら小型不燃ごみ。市の小型家電回収ボックス（投入口 横30cm×縦20cm）も利用できる。個人情報は自分で消去し、電池は外す"]
+            ]
+          }
+        },
+        "回収ボックスの設置場所は変わることがあるため、<a href=\"https://www.city.takarazuka.hyogo.jp/cleancenter/household_garbage/1061245.html\" target=\"_blank\" rel=\"noopener\">充電式電池の回収場所</a>・<a href=\"https://www.city.takarazuka.hyogo.jp/cleancenter/household_garbage/1001131.html\" target=\"_blank\" rel=\"noopener\">小型家電回収ボックスの設置場所</a>は市の公式ページで確認してください。ここにない品目は<a href=\"https://www.city.takarazuka.hyogo.jp/cleancenter/household_garbage/1061777.html\" target=\"_blank\" rel=\"noopener\">ごみの分別検索</a>で調べられます"
+      ]
+    },
+    {
+      "id": "sodai",
+      "heading": "粗大ごみ",
+      "items": [
+        "布団・座布団・毛布・じゅうたんなどは粗大ごみです。品目ごとの区分は<a href=\"https://www.city.takarazuka.hyogo.jp/cleancenter/household_garbage/1061777.html\" target=\"_blank\" rel=\"noopener\">ごみの分別検索</a>で確認できます",
+        "<strong>申し込み</strong>：粗大ごみ予約・受付センターへ、インターネット（<a href=\"https://www.sodai-takarazuka.jp/eco/view/takarazuka/top.html\" target=\"_blank\" rel=\"noopener\">粗大ごみインターネット受付</a>、メンテナンス期間を除き24時間）または電話（0797-87-3363、午前9時〜午後5時、年末年始を除き土日祝も受付）で申し込みます。インターネットで初めて戸別収集を申し込む場合などは、先に電話での申し込みが必要です",
+        "<strong>処理券</strong>：料金は1品目300円〜2,700円（300円単位）です。処理券はクリーンセンター・支所・出張所、スーパーやコンビニなどで購入できます。品目ごとの料金は<a href=\"https://www.city.takarazuka.hyogo.jp/cleancenter/household_garbage/1002046.html\" target=\"_blank\" rel=\"noopener\">粗大ごみ品目別収集料金表</a>で確認してください",
+        "<strong>戸別収集</strong>：処理希望日の前日正午までに申し込みます。収集日は月〜金曜日（祝日を含む）です。処理券に記名または受付番号を書いて貼り、予約した場所（収集車が横付けできる所）へ朝8時までに出します。立ち会いは不要です",
+        "<strong>クリーンセンターへの持ち込み</strong>：前日の午後5時までに予約が必要です。持ち込みできるのは月〜金曜日（祝日を含む）と毎月第3土曜日で、搬入時間は午前8時〜11時・正午〜午後3時です。家庭系の粗大ごみは10kgあたり90円で、支払いは現金のみです。積み下ろしは自分で行います"
+      ]
+    },
+    {
+      "id": "ng",
+      "heading": "市で収集できないもの",
+      "items": [
+        {
+          "table": {
+            "headers": ["種類", "主な例", "処分の方法"],
+            "rows": [
+              ["危険物", "消火器、プロパン、燃料、塗料、バッテリーなど", "市では収集できません。鉛バッテリーは販売店（カー用品店など）に相談"],
+              ["処理不適物", "タイヤ、51cc以上のバイク、ピアノ、建築廃材など", "市では収集できません"],
+              ["家電リサイクル法の対象品", "エアコン、テレビ、電気冷蔵庫、電気冷凍庫、電気洗濯機など", "市では収集できません。購入店・買い替え店などに引き取りを依頼"],
+              ["パソコン", "家庭で使ったパソコン","市では収集しません。メーカーによる回収、国の認定事業者による宅配回収のほか、投入口に入る大きさなら市の小型家電回収ボックスも利用できる。データの消去は自分で行う"],
+              ["事業系ごみ", "店舗・事務所から出たごみ", "市の収集には出せません。市の許可業者に依頼するか、直接搬入"]
+            ]
+          }
+        },
+        "パソコンの回収方法は<a href=\"https://www.city.takarazuka.hyogo.jp/cleancenter/household_garbage/1002037.html\" target=\"_blank\" rel=\"noopener\">パソコンの処理について</a>、家電4品目は<a href=\"https://www.city.takarazuka.hyogo.jp/cleancenter/household_garbage/1002039.html\" target=\"_blank\" rel=\"noopener\">家電リサイクル法対象品目</a>（いずれも市公式サイト）で確認できます"
       ]
     },
     {
       "id": "calendar",
       "heading": "収集日の確認方法",
       "items": [
-        "<a href=\"https://www.city.takarazuka.hyogo.jp/cleancenter/household_garbage/1049789.html\" target=\"_blank\" rel=\"noopener\">ごみ分別アプリ「さんあ～る」</a>（収集日通知・分別検索）",
-        "<a href=\"https://www.city.takarazuka.hyogo.jp/shisei/1008927/1031437.html\" target=\"_blank\" rel=\"noopener\">LINE公式アカウント「宝塚市」</a>（収集日通知）",
-        "<a href=\"https://www.city.takarazuka.hyogo.jp/cleancenter/household_garbage/1010940.html\" target=\"_blank\" rel=\"noopener\">ごみ収集カレンダー</a>（公式サイト掲載）"
+        "<a href=\"https://www.city.takarazuka.hyogo.jp/cleancenter/household_garbage/1007880/index.html\" target=\"_blank\" rel=\"noopener\">通年カレンダー（町名別索引）</a>：町名からお住まいの地区を選ぶと、その地区の年間の収集日を確認できます",
+        "<a href=\"https://www.city.takarazuka.hyogo.jp/cleancenter/household_garbage/1010940.html\" target=\"_blank\" rel=\"noopener\">ごみ収集カレンダー</a>：市公式サイトのカレンダーの案内ページです",
+        "<a href=\"https://www.city.takarazuka.hyogo.jp/cleancenter/household_garbage/1049789.html\" target=\"_blank\" rel=\"noopener\">ごみ分別アプリ「さんあ～る」</a>：カレンダーの表示と、収集日の通知を受け取れます",
+        "<a href=\"https://www.city.takarazuka.hyogo.jp/cleancenter/household_garbage/1055554.html\" target=\"_blank\" rel=\"noopener\">宝塚市LINE公式アカウント</a>：メニューの「ごみ」から地区とごみの種類を登録すると、収集日の前日または当日に通知が届きます"
       ]
     },
     {
-      "id": "ng",
-      "heading": "収集できないごみ",
+      "id": "karte",
+      "heading": "まちカルテで確認できる地域",
       "items": [
-        "消火器・プロパンボンベ・タイヤ・バイク・建築廃材など（<a href=\"https://www.city.takarazuka.hyogo.jp/cleancenter/index.html\" target=\"_blank\" rel=\"noopener\">クリーンセンター</a>へお問い合わせください）"
-      ],
-      "notes": [
-        "エアコン・テレビ等の家電リサイクル対象品は購入店等への引き取り依頼が必要です"
+        "町丁目ごとの収集日は、Takarazuka Todayの<a href=\"/area/\">まちカルテ</a>でもまとめています（現在は逆瀬川1丁目のみ掲載）。それ以外の地域は、上の市の町名別索引などで確認してください"
+      ]
+    },
+    {
+      "id": "contact",
+      "heading": "問い合わせ先",
+      "items": [
+        "<strong>ごみの分け方・出し方・収集</strong>：クリーンセンター業務課（電話 0797-87-7883）",
+        "<strong>粗大ごみの申し込み</strong>：粗大ごみ予約・受付センター（電話 0797-87-3363、午前9時〜午後5時、年末年始を除く）",
+        "<strong>クリーンセンターへの持ち込み</strong>：クリーンセンター管理課（電話 0797-87-4844）"
+      ]
+    },
+    {
+      "id": "links",
+      "heading": "公式リンク",
+      "items": [
+        "<a href=\"https://www.city.takarazuka.hyogo.jp/cleancenter/household_garbage/1002043.html\" target=\"_blank\" rel=\"noopener\">ごみの出し方</a>／<a href=\"https://www.city.takarazuka.hyogo.jp/cleancenter/household_garbage/1061777.html\" target=\"_blank\" rel=\"noopener\">ごみの分別検索</a>／<a href=\"https://www.city.takarazuka.hyogo.jp/cleancenter/notice/1036815.html\" target=\"_blank\" rel=\"noopener\">「紙・布」の出し方</a>",
+        "<a href=\"https://www.city.takarazuka.hyogo.jp/cleancenter/household_garbage/1002040.html\" target=\"_blank\" rel=\"noopener\">粗大ごみの収集・持ち込み方法</a>／<a href=\"https://www.city.takarazuka.hyogo.jp/cleancenter/household_garbage/1002046.html\" target=\"_blank\" rel=\"noopener\">粗大ごみ品目別収集料金表</a>",
+        "<a href=\"https://www.city.takarazuka.hyogo.jp/cleancenter/household_garbage/1061245.html\" target=\"_blank\" rel=\"noopener\">充電式電池の回収</a>／<a href=\"https://www.city.takarazuka.hyogo.jp/cleancenter/household_garbage/1014206.html\" target=\"_blank\" rel=\"noopener\">スプレー缶・カセットボンベの捨て方</a>／<a href=\"https://www.city.takarazuka.hyogo.jp/cleancenter/household_garbage/1014347.html\" target=\"_blank\" rel=\"noopener\">有害物質（鉛・水銀等）を含む製品の分別</a>",
+        "<a href=\"https://www.city.takarazuka.hyogo.jp/cleancenter/household_garbage/1001131.html\" target=\"_blank\" rel=\"noopener\">使用済み小型家電リサイクル</a>／<a href=\"https://www.city.takarazuka.hyogo.jp/cleancenter/household_garbage/1002037.html\" target=\"_blank\" rel=\"noopener\">パソコンの処理について</a>"
       ]
     }
   ],
   "faq": [
     {
-      "q": "粗大ごみはどう出せばいい？",
-      "a": "<a href=\"https://www.sodai-takarazuka.jp/\" target=\"_blank\" rel=\"noopener\">宝塚市粗大ごみインターネット受付</a>での申込、または<a href=\"https://www.city.takarazuka.hyogo.jp/cleancenter/index.html\" target=\"_blank\" rel=\"noopener\">クリーンセンター</a>への持ち込みが必要です。詳細は公式サイトをご確認ください。"
+      "q": "粗大ごみはどう申し込む？",
+      "a": "粗大ごみ予約・受付センターへ、<a href=\"https://www.sodai-takarazuka.jp/eco/view/takarazuka/top.html\" target=\"_blank\" rel=\"noopener\">インターネット</a>または電話（0797-87-3363）で申し込みます。戸別収集は処理希望日の前日正午まで、クリーンセンターへの持ち込みは前日の午後5時までに申し込みが必要です。"
     },
     {
       "q": "収集日を忘れてしまった場合は？",
-      "a": "<a href=\"https://www.city.takarazuka.hyogo.jp/cleancenter/household_garbage/1049789.html\" target=\"_blank\" rel=\"noopener\">アプリ「さんあ～る」</a>や<a href=\"https://www.city.takarazuka.hyogo.jp/shisei/1008927/1031437.html\" target=\"_blank\" rel=\"noopener\">LINE公式アカウント</a>に登録すると、収集日の通知を受け取れます。"
+      "a": "<a href=\"https://www.city.takarazuka.hyogo.jp/cleancenter/household_garbage/1049789.html\" target=\"_blank\" rel=\"noopener\">アプリ「さんあ～る」</a>や<a href=\"https://www.city.takarazuka.hyogo.jp/cleancenter/household_garbage/1055554.html\" target=\"_blank\" rel=\"noopener\">宝塚市LINE公式アカウント</a>に登録すると、収集日の通知を受け取れます。"
+    },
+    {
+      "q": "使い切れないスプレー缶はどうすればいい？",
+      "a": "中身が残っているものは、クリーンセンター管理棟1階へ持参してください（予約不要・無料）。中身を使い切ったものは「かん、びん」の日に出せます。"
+    },
+    {
+      "q": "モバイルバッテリーは何ごみ？",
+      "a": "ごみには出せません。家庭で使ったものは、市役所やクリーンセンターなどの充電式電池回収ボックスに入れてください。膨らんだものは回収ボックスに入れず、クリーンセンター管理棟1階の窓口で職員に直接渡してください。"
+    },
+    {
+      "q": "引っ越しでごみがたくさん出るときは？",
+      "a": "市の案内では、引っ越しなどでごみが多量に出る場合は、少量ずつ収集日に出すよう求めています。布団など粗大ごみにあたるものは、粗大ごみとして申し込んでください。"
     }
   ],
   "relatedLinks": [

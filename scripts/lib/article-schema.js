@@ -9,6 +9,7 @@
 import { CATEGORIES } from "../templates.js";
 import { ARTICLE_STATUSES, isArticleStatus } from "./article-status.js";
 import { INDEXING_VALUES, isIndexingValue } from "./indexing.js";
+import { isNonEmptyString, isHttpsUrl, validateTableCell } from "./table.js";
 
 const REQUIRED_STRING_FIELDS = ["slug", "title", "summary", "sourceUrl", "sourceName", "publishedAt", "category", "valueScore"];
 const VALUE_SCORES = new Set(["S", "A", "B", "C"]);
@@ -19,26 +20,12 @@ const CATEGORY_LABELS = new Set(CATEGORIES.map((c) => c.label));
 const DESCRIPTION_WARN_LENGTH = 140;
 const RELATED_ARTICLES_MAX = 3;
 
-function isNonEmptyString(v) {
-  return typeof v === "string" && v.trim() !== "";
-}
-
 // YYYY-MM-DD 形式かつ実在する日付か（2026-02-30 のような値を弾く）
 function isValidDateString(v) {
   if (typeof v !== "string" || !/^\d{4}-\d{2}-\d{2}$/.test(v)) return false;
   const [y, m, d] = v.split("-").map(Number);
   const dt = new Date(Date.UTC(y, m - 1, d));
   return dt.getUTCFullYear() === y && dt.getUTCMonth() === m - 1 && dt.getUTCDate() === d;
-}
-
-function isHttpsUrl(v) {
-  if (!isNonEmptyString(v) || !v.startsWith("https://")) return false;
-  try {
-    new URL(v);
-    return true;
-  } catch {
-    return false;
-  }
 }
 
 // 文字列配列を検証する。存在する場合は1件以上・各要素が非空stringであること。
@@ -165,33 +152,6 @@ function validateSources(sources, article, errors) {
       if (seen.has(s.url)) errors.push(`sources に重複したURLがあります: ${s.url}`);
       seen.add(s.url);
     }
-  });
-}
-
-// 表セルは文字列が基本。リンクを置く場合のみ { links: [{ text, href }] } を許可する（任意HTMLは受け付けない）。
-// 未知のキーを拒否し、href は https:// のURLに限定する（javascript: / data: / 相対URL を防ぐ）
-function validateTableCell(cell, at, errors) {
-  if (typeof cell === "string") return;
-  if (!cell || typeof cell !== "object" || Array.isArray(cell)) {
-    errors.push(`${at} は文字列または { links: [...] } である必要があります`);
-    return;
-  }
-  const extraKeys = Object.keys(cell).filter((k) => k !== "links");
-  if (extraKeys.length > 0) errors.push(`${at} に未対応のキーがあります: ${extraKeys.join(", ")}`);
-  if (!Array.isArray(cell.links) || cell.links.length === 0) {
-    errors.push(`${at}.links は1件以上の配列である必要があります`);
-    return;
-  }
-  cell.links.forEach((link, i) => {
-    const lat = `${at}.links[${i}]`;
-    if (!link || typeof link !== "object" || Array.isArray(link)) {
-      errors.push(`${lat} はオブジェクトである必要があります`);
-      return;
-    }
-    const linkExtra = Object.keys(link).filter((k) => k !== "text" && k !== "href");
-    if (linkExtra.length > 0) errors.push(`${lat} に未対応のキーがあります: ${linkExtra.join(", ")}`);
-    if (!isNonEmptyString(link.text)) errors.push(`${lat}.text が空です`);
-    if (!isHttpsUrl(link.href)) errors.push(`${lat}.href が https:// の有効なURLではありません: ${link.href}`);
   });
 }
 
