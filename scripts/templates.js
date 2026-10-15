@@ -529,31 +529,27 @@ ${items}
 </div>`;
 }
 
-function photoOfDayPanel(photoOfDay) {
-  if (!photoOfDay) {
-    return `<div class="panel" id="photo">
-<p class="panel-title">${icon("camera")}今日の宝塚フォト</p>
-<p class="empty-state">写真がまだ登録されていません</p>
-</div>`;
-  }
-  const { photo, seasonLabel } = photoOfDay;
+// 旧「今日の宝塚フォト」の枠。宝塚Todayが現地で撮影した写真を、撮影日・場所と現地取材ガイドへのリンクつきで出す
+function fieldReportPanel(fieldReportPhoto) {
+  if (!fieldReportPhoto) return "";
+  const p = fieldReportPhoto;
   return `<div class="panel" id="photo" style="padding:0; overflow:hidden;">
-<a class="photo-hero" href="${escapeHtml(photo.sourcePage)}" target="_blank" rel="noopener">
-<img src="/photos/${escapeHtml(photo.localFile)}" alt="${escapeHtml(photo.title)}">
+<a class="photo-hero" href="${escapeHtml(p.href)}">
+<img src="${escapeHtml(p.src)}" alt="${escapeHtml(p.alt)}">
 <span class="photo-hero-caption">
-  <span class="season-tag">${escapeHtml(seasonLabel)}</span>
-  <span class="photo-hero-title">${escapeHtml(photo.title)}</span>
-  <span class="photo-hero-credit">写真提供：宝塚市オープンデータ（CC BY 4.0）</span>
+  <span class="season-tag">現地取材</span>
+  <span class="photo-hero-title">${escapeHtml(p.place)}</span>
+  <span class="photo-hero-credit">宝塚Today撮影｜${escapeHtml(p.shotOn)}</span>
 </span>
 </a>
 </div>`;
 }
 
-function todayRow(todayArticles, photoOfDay, categoryPageKeys, activeNotices = []) {
+function todayRow(todayArticles, fieldReportPhoto, categoryPageKeys, activeNotices = []) {
   return `<div class="today-row">
 ${todayTopicPanel(todayArticles, activeNotices)}
 <div class="today-row-side">
-${photoOfDayPanel(photoOfDay)}
+${fieldReportPanel(fieldReportPhoto)}
 ${categoryPanel(categoryPageKeys)}
 </div>
 </div>`;
@@ -616,7 +612,7 @@ ${showMoreLink ? '<p class="panel-note"><a href="/ranking/">ランキングを�
   return `<div class="panel">
 <p class="panel-title">${icon("bell")}新着記事</p>
 <ol class="ranking-list">${items || '<li class="empty-state">まだ記事がありません</li>'}</ol>
-<p class="panel-note">※アクセスデータが蓄積されると人気記事ランキングに切り替わります</p>
+<p class="panel-note">※最新のアクセスランキングを表示できないため、新着記事を表示しています</p>
 ${showMoreLink ? '<p class="panel-note"><a href="/ranking/">新着記事をもっと見る →</a></p>' : ""}
 </div>`;
 }
@@ -676,14 +672,14 @@ ${items}
 </div>`;
 }
 
-export function indexPage({ topArticles, todayArticles, categoryPageKeys, publishedArticles, ranking, weather, todayCounts, photoOfDay, dateLabel, siteUrl, hasGianPage = false, activeNotices = [] }) {
+export function indexPage({ topArticles, todayArticles, categoryPageKeys, publishedArticles, ranking, weather, todayCounts, fieldReportPhoto, dateLabel, siteUrl, hasGianPage = false, activeNotices = [] }) {
   const gikaiArticles = publishedArticles.filter((a) => a.category === "市議会");
 
   const bodyHtml = `${dateBar(dateLabel)}
 ${searchBoxPanel()}
 ${quickAccessPanel()}
 <div class="weather-standalone-row">${weatherPanel(weather)}${contactCtaPanel()}</div>
-${todayRow(todayArticles, photoOfDay, categoryPageKeys, activeNotices)}
+${todayRow(todayArticles, fieldReportPhoto, categoryPageKeys, activeNotices)}
 <div class="grid-2">
   <div class="col-main">
     ${topNewsPanel(topArticles)}
@@ -692,7 +688,7 @@ ${todayRow(todayArticles, photoOfDay, categoryPageKeys, activeNotices)}
     ${recentCombinedFeed(publishedArticles, categoryPageKeys)}
   </div>
   <div class="col-side">
-    ${rankingOrRecentPanel(ranking, publishedArticles)}
+    ${ranking ? rankingOrRecentPanel(ranking, publishedArticles) : ""}
     ${livecamPanel()}
     ${entertainmentPanel()}
   </div>
@@ -1214,9 +1210,19 @@ ${icon("search")}
   });
 }
 
+// /ranking/ を検索エンジンにインデックスさせない。ランキングは手動集計でしか更新されず、
+// 最新でないときは新着記事で代替するため、「人気記事ランキング」として検索結果に出す内容が安定しない。
+// ページは公開したまま。build.js の sitemap もこの値を参照する
+export const RANKING_PAGE_NOINDEX = true;
+
 export function rankingPage(ranking, recentArticles, siteUrl) {
   const canonicalUrl = `${siteUrl}/ranking/`;
-  const bodyHtml = `<nav class="breadcrumb"><a href="/">トップ</a> &gt; 人気記事ランキング</nav>
+  // 最新ランキングが無いときは新着記事を出すので、ページ名・説明文も実際の表示内容に合わせる
+  const pageLabel = ranking ? "人気記事ランキング" : "新着記事";
+  const description = ranking
+    ? "Takarazuka Todayでよく読まれているページを、過去30日間のアクセスデータをもとに紹介します。"
+    : "Takarazuka Todayの新着記事をまとめてご案内します。";
+  const bodyHtml = `<nav class="breadcrumb"><a href="/">トップ</a> &gt; ${pageLabel}</nav>
 <div class="page-content">
 ${rankingOrRecentPanel(ranking, recentArticles, 10, false)}
 </div>`;
@@ -1226,16 +1232,17 @@ ${rankingOrRecentPanel(ranking, recentArticles, 10, false)}
     "@type": "BreadcrumbList",
     itemListElement: [
       { "@type": "ListItem", position: 1, name: "トップ", item: `${siteUrl}/` },
-      { "@type": "ListItem", position: 2, name: "人気記事ランキング", item: canonicalUrl },
+      { "@type": "ListItem", position: 2, name: pageLabel, item: canonicalUrl },
     ],
   };
 
   return layout({
-    title: "人気記事ランキング｜Takarazuka Today",
-    description: "Takarazuka Todayでよく読まれている記事のランキングです（過去30日間）。",
+    title: `${pageLabel}｜Takarazuka Today`,
+    description,
     bodyHtml,
     canonicalUrl,
     structuredData: breadcrumbLd,
+    noindex: RANKING_PAGE_NOINDEX,
   });
 }
 

@@ -24,11 +24,13 @@ import {
   CATEGORIES,
   AD_CONFIG,
   GIIN_PAGES_NOINDEX,
+  RANKING_PAGE_NOINDEX,
 } from "./templates.js";
 import { validateArticles, PUBLISHABLE_SCORES } from "./lib/article-schema.js";
 import { isListableAsUpcoming } from "./lib/article-status.js";
 import { articleSitemapEntry, indexableSitemapEntries } from "./lib/indexing.js";
 import { validateGuides } from "./lib/guide-schema.js";
+import { pickFieldReportPhoto, isRankingFresh } from "./lib/home-features.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.join(__dirname, "..");
@@ -153,26 +155,6 @@ function loadWeather() {
   }
 }
 
-// 月から季節カテゴリーを判定（3-5月=春, 6-8月=夏, 9-11月=秋, 12-2月=冬）
-function seasonFromMonth(month) {
-  if (month >= 3 && month <= 5) return { category: "春", label: "春の宝塚" };
-  if (month >= 6 && month <= 8) return { category: "夏", label: "夏の宝塚" };
-  if (month >= 9 && month <= 11) return { category: "秋", label: "秋の宝塚" };
-  return { category: "冬", label: "冬の宝塚" };
-}
-
-function pickPhotoOfDay(allPhotos) {
-  const now = new Date();
-  const todayKobe = new Date(now.toLocaleString("en-US", { timeZone: "Asia/Tokyo" }));
-  const { category, label } = seasonFromMonth(todayKobe.getMonth() + 1);
-
-  const seasonPhotos = allPhotos.filter((p) => p.category === category);
-  if (seasonPhotos.length === 0) return null;
-
-  const dayOfYear = Math.floor((todayKobe - new Date(todayKobe.getFullYear(), 0, 0)) / 86400000);
-  const photo = seasonPhotos[dayOfYear % seasonPhotos.length];
-  return { photo, seasonLabel: label };
-}
 
 function computeTodayCounts(publishedArticles) {
   const now = Date.now();
@@ -237,7 +219,8 @@ function loadRanking() {
   if (!fs.existsSync(RANKING_FILE)) return null;
   try {
     const data = JSON.parse(fs.readFileSync(RANKING_FILE, "utf-8"));
-    if (Array.isArray(data.top) && data.top.length >= RANKING_READY_THRESHOLD) {
+    // 集計が古いランキングは使わない（トップでは欄ごと出さず、/ranking/ は従来どおり新着で代替する）
+    if (Array.isArray(data.top) && data.top.length >= RANKING_READY_THRESHOLD && isRankingFresh(data, todayDateKey())) {
       return data;
     }
   } catch {
@@ -275,7 +258,7 @@ function buildSitemap(publishedArticles, categoryPageKeys, giinWithArticles, gui
     ...[...categoryPageKeys].map((key) => ({ loc: `${SITE_URL}/category/${key}`, lastmod: today })),
     { loc: `${SITE_URL}/livecam`, lastmod: today },
     { loc: `${SITE_URL}/events/`, lastmod: today },
-    { loc: `${SITE_URL}/ranking/`, lastmod: today },
+    { loc: `${SITE_URL}/ranking/`, lastmod: today, noindex: RANKING_PAGE_NOINDEX },
     { loc: `${SITE_URL}/category/shigikai/guide`, lastmod: today },
     { loc: `${SITE_URL}/privacy`, lastmod: today },
     { loc: `${SITE_URL}/about`, lastmod: today },
@@ -409,8 +392,9 @@ function buildSearchIndex({ publishedArticles, categorySections, guides, gianSes
       url: "/events/",
     },
     {
-      title: "人気記事ランキング",
-      description: "Takarazuka Todayでよく読まれている記事のランキングです。",
+      // ランキングが有効でも無効（新着で代替）でも事実と矛盾しない表記にする
+      title: "ランキング・新着記事",
+      description: "アクセスランキングを確認できるページです。最新ランキングを表示できない場合は新着記事を表示します。",
       category: "",
       keywords: "",
       url: "/ranking/",
@@ -489,7 +473,7 @@ function main() {
       ranking,
       weather: loadWeather(),
       todayCounts: computeTodayCounts(publishedArticles),
-      photoOfDay: pickPhotoOfDay(allPhotos),
+      fieldReportPhoto: pickFieldReportPhoto(todayKey),
       dateLabel: todayDateLabel(),
       siteUrl: SITE_URL,
       hasGianPage: gianSessions.length > 0,
@@ -642,7 +626,7 @@ function main() {
   console.log(`写真: ${allPhotos.length}枚をpublic/photos/にコピー（記事・パネルのサムネイル用）`);
   console.log(`カテゴリーページ: ${categorySections.length}件`);
   console.log(`議員活動サマリー: ${giinWithArticles.length}名`);
-  console.log(`ランキング表示: ${ranking ? "有効" : "未蓄積のため新着記事で代替"}`);
+  console.log(`ランキング表示: ${ranking ? "有効" : "なし（データ未蓄積または集計が古いため、トップに出さず /ranking/ は新着で代替）"}`);
   console.log(`検索インデックス: ${searchIndex.length}件`);
 }
 
