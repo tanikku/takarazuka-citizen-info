@@ -29,10 +29,10 @@ function home(overrides = {}) {
 
 // --- 現地取材写真 ---
 
-test("現地取材の写真は宝塚Today撮影の2枚で、リンク先は現地取材を明記したガイドだけ", () => {
+test("現地取材の写真は宝塚Today撮影の3枚で、リンク先は現地取材を明記したガイドだけ", () => {
   assert.deepEqual(
     FIELD_REPORT_PHOTOS.map((p) => p.href),
-    ["/category/kanko/kiyoshikojin-guide", "/category/kanko/nakayamadera-guide"]
+    ["/category/kanko/kiyoshikojin-guide", "/category/kanko/nakayamadera-guide", "/category/kanko/aiaipark-guide"]
   );
   for (const p of FIELD_REPORT_PHOTOS) {
     assert.ok(fs.existsSync(path.join(ROOT, "assets", p.src)), p.src);
@@ -41,11 +41,46 @@ test("現地取材の写真は宝塚Today撮影の2枚で、リンク先は現�
   }
 });
 
-test("日替わりで交互に切り替わり、同じ日は常に同じ写真", () => {
+test("日替わりで3件を順に回り、同じ日は常に同じ写真", () => {
   assert.equal(pickFieldReportPhoto("2026-10-16"), pickFieldReportPhoto("2026-10-16"));
-  assert.notEqual(pickFieldReportPhoto("2026-10-16"), pickFieldReportPhoto("2026-10-17"));
-  assert.equal(pickFieldReportPhoto("2026-10-16"), pickFieldReportPhoto("2026-10-18"));
+  const days = ["2026-10-16", "2026-10-17", "2026-10-18"].map((d) => pickFieldReportPhoto(d));
+  assert.equal(new Set(days).size, 3);
+  assert.equal(pickFieldReportPhoto("2026-10-19"), days[0]);
   assert.equal(pickFieldReportPhoto("2026-10-16", []), null);
+});
+
+test("年をまたいでも翌日は次の候補へ進む", () => {
+  const next = (p) => FIELD_REPORT_PHOTOS[(FIELD_REPORT_PHOTOS.indexOf(p) + 1) % FIELD_REPORT_PHOTOS.length];
+  for (const [today, tomorrow] of [["2026-12-31", "2027-01-01"], ["2028-02-28", "2028-02-29"], ["2028-12-31", "2029-01-01"]]) {
+    assert.equal(pickFieldReportPhoto(tomorrow), next(pickFieldReportPhoto(today)), `${today}→${tomorrow}`);
+  }
+});
+
+test("あいあいパークの日は、場所と撮影日（2026年10月16日）を出してガイドへリンクする", () => {
+  const html = home({ fieldReportPhoto: FIELD_REPORT_PHOTOS[2] });
+  assert.ok(html.includes('<a class="photo-hero" href="/category/kanko/aiaipark-guide">'));
+  assert.ok(html.includes('<span class="photo-hero-title">あいあいパーク</span>'));
+  assert.ok(html.includes('<span class="photo-hero-credit">宝塚Today撮影｜2026年10月16日</span>'));
+});
+
+test("あいあいパークガイドは現地取材日と、駅から歩いた所要時間を実測として書く", () => {
+  const guide = JSON.parse(fs.readFileSync(path.join(ROOT, "data", "guides", "aiaipark-guide.json"), "utf8"));
+  const text = JSON.stringify(guide);
+  assert.ok(guide.fieldReport.includes("現地取材：2026年10月16日"));
+  assert.equal(guide.cardPhoto, "/photos/aiaipark-exterior-20261016-1200x630.webp");
+  assert.ok(text.includes("宝塚Today編集部が2026年10月16日に阪急山本駅南口から実際に歩いたところ、あいあいパークまでは約5分でした。"));
+  assert.ok(text.includes("信号待ちや歩く速度によって所要時間は変わります。"));
+  assert.ok(!/(?<!約)徒歩5分/.test(text), "「徒歩5分」と断定しない");
+  // 駐車場は公式アクセスページの現行案内（合計135台・2026年10月1日からの料金）に揃える
+  assert.ok(text.includes("135台"));
+  assert.ok(text.includes("2026年10月1日から"));
+  for (const old of ["65台", "75台", "140台"]) assert.ok(!text.includes(old), old);
+  // 2026-10-16 に直した歴史記述を残す
+  assert.ok(text.includes("平安期に始まり"));
+  assert.ok(text.includes("2000年4月にオープン"));
+  for (const item of guide.sections.flatMap((s) => s.items)) {
+    if (item.photo) assert.ok(fs.existsSync(path.join(ROOT, "assets", item.photo.src)), item.photo.src);
+  }
 });
 
 test("トップの写真欄は現地取材バッジ・場所・撮影者と撮影日を出し、旧クレジットは出さない", () => {

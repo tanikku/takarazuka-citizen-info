@@ -1,7 +1,7 @@
 // トップページの「現地取材」写真と人気記事ランキングの表示可否。build.js が使い、テストから直接呼べるよう純粋関数にしている。
 
 // 宝塚Todayが自ら現地で撮影した写真だけを載せる。リンク先は現地取材を明記したガイドに限る
-// （ガイド側の fieldReport に「現地取材：2026年10月3日」「掲載写真は宝塚Todayが現地で撮影」とある2件）。
+// （ガイド側の fieldReport に「現地取材：…」「掲載写真は宝塚Todayが現地で撮影…」とある3件）。
 export const FIELD_REPORT_PHOTOS = [
   {
     src: "/photos/kiyoshikojin-gate-20261003-1200x630.webp",
@@ -17,18 +17,26 @@ export const FIELD_REPORT_PHOTOS = [
     shotOn: "2026年10月3日",
     href: "/category/kanko/nakayamadera-guide",
   },
+  {
+    src: "/photos/aiaipark-exterior-20261016-1200x630.webp",
+    alt: "あいあいパークの英国風の建物（2026年10月16日 宝塚Today撮影）",
+    place: "あいあいパーク",
+    shotOn: "2026年10月16日",
+    href: "/category/kanko/aiaipark-guide",
+  },
 ];
 
-// "YYYY-MM-DD" のその年の通算日（1月1日=1）。タイムゾーンに依存しない
-function dayOfYear(dateKey) {
+// "YYYY-MM-DD" の1970-01-01からの通算日。タイムゾーンに依存せず、年をまたいでも1日ずつ増える
+// （年内の通算日だと 12/31→1/1 で候補が戻ってしまう）
+function dayNumber(dateKey) {
   const [y, m, d] = dateKey.split("-").map(Number);
-  return Math.round((Date.UTC(y, m - 1, d) - Date.UTC(y, 0, 0)) / 86400000);
+  return Math.round(Date.UTC(y, m - 1, d) / 86400000);
 }
 
-// 旧「今日の宝塚フォト」と同じ日替わり方式。同じ日のビルドでは常に同じ写真になる（ランダムにしない）
+// 日替わり。同じ日のビルドでは常に同じ写真、翌日は次の候補になる（ランダムにしない）
 export function pickFieldReportPhoto(dateKey, photos = FIELD_REPORT_PHOTOS) {
   if (photos.length === 0) return null;
-  return photos[dayOfYear(dateKey) % photos.length];
+  return photos[dayNumber(dateKey) % photos.length];
 }
 
 // ranking.json は手動の fetch:ranking でしか更新されない。過去30日の集計なので、
