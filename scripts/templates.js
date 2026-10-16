@@ -3,9 +3,15 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { articleStatusNotice } from "./lib/article-status.js";
 import { isArticleIndexable } from "./lib/indexing.js";
+import { contentVersion } from "./lib/asset-version.js";
 
 // フェーズ17：回遊率向上のための「おすすめページ」「人気コンテンツ」データ（JSON管理）
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
+
+// build.js が public/css/style.css へそのままコピーするファイルと同じ内容からバージョンを決める
+export const STYLESHEET_HREF = `/css/style.css?v=${contentVersion(
+  fs.readFileSync(path.join(__dirname, "..", "assets", "style.css"))
+)}`;
 const RECOMMENDATIONS = JSON.parse(
   fs.readFileSync(path.join(__dirname, "..", "data", "recommendations.json"), "utf-8"),
 );
@@ -245,7 +251,7 @@ export function layout({ title, description, bodyHtml, canonicalUrl, ogType = "w
 <meta name="twitter:title" content="${escapeHtml(title)}">
 <meta name="twitter:description" content="${escapeHtml(description)}">
 ${ogImageTags}
-<link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="${STYLESHEET_HREF}">
 <script>${themeInitScript()}</script>
 ${adsenseHeadScript}
 </head>
@@ -431,11 +437,12 @@ ${recommendedPagesPanel(categoryMeta?.key ?? "", `/articles/${article.slug}`)}`;
 }
 
 // 冒頭の「3〜4ポイント解説」画像。build.js が未配置のファイルを除くため、ここに来るのは実在する画像だけ。
-// width/height を出して読み込み時のレイアウトずれを防ぐ
+// width/height を出して読み込み時のレイアウトずれを防ぐ。
+// inline の max-width/height は、古い style.css がキャッシュに残っていても原寸（1200px）ではみ出さないための保険
 function explainerFigure(img) {
   if (!img) return "";
   return `
-<figure class="explainer-figure"><img src="${escapeHtml(img.src)}" width="${Number(img.width)}" height="${Number(img.height)}" alt="${escapeHtml(img.alt)}" decoding="async"></figure>`;
+<figure class="explainer-figure"><img src="${escapeHtml(img.src)}" width="${Number(img.width)}" height="${Number(img.height)}" alt="${escapeHtml(img.alt)}" decoding="async" style="display:block;max-width:100%;height:auto;"></figure>`;
 }
 
 const SOURCE_BADGES = {

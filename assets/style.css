@@ -1001,16 +1001,16 @@ html[data-theme="dark"] .point-box-title {
 }
 
 /* 記事・議案採決一覧の冒頭に置く「3〜4ポイント解説」画像。本文より目立ちすぎないよう幅を抑える */
+/* 幅の上限は枠側に持たせる（img には古いCSS対策の inline max-width:100% があり、img側の上限は上書きされるため） */
 .explainer-figure {
-  margin: 12px 0 16px;
+  max-width: 720px;
+  margin: 12px auto 16px;
 }
 
 .explainer-figure img {
   display: block;
   width: 100%;
-  max-width: 720px;
   height: auto;
-  margin: 0 auto;
   border-radius: 10px;
   border: 1px solid var(--border);
 }

@@ -46,7 +46,7 @@ test("画像ファイルが未配置なら null（表示しない）、配置済
 
 test("記事ページは画像があるときだけ、タイトル・更新日の直後に width/height/alt 付きで出す", () => {
   const withImg = articlePage({ ...ARTICLE, explainerImage: IMG }, SITE);
-  assert.ok(withImg.includes('<figure class="explainer-figure"><img src="/photos/test-summary.webp" width="1200" height="675" alt="テスト記事の主な論点を4項目で整理した図です" decoding="async"></figure>'));
+  assert.ok(withImg.includes('<figure class="explainer-figure"><img src="/photos/test-summary.webp" width="1200" height="675" alt="テスト記事の主な論点を4項目で整理した図です" decoding="async" style="display:block;max-width:100%;height:auto;"></figure>'));
   assert.ok(withImg.indexOf("explainer-figure") > withImg.indexOf('class="article-meta"'));
   assert.ok(withImg.indexOf("explainer-figure") < withImg.indexOf('class="article-summary"'));
   // 本文テキストは画像があっても残す
@@ -54,6 +54,15 @@ test("記事ページは画像があるときだけ、タイトル・更新日�
 
   const withoutImg = articlePage(ARTICLE, SITE);
   assert.ok(!withoutImg.includes("explainer-figure"));
+});
+
+test("古い style.css がキャッシュに残っていても原寸ではみ出さないよう、img に max-width:100% と height:auto を直接持たせる", () => {
+  const html = articlePage({ ...ARTICLE, explainerImage: IMG }, SITE);
+  const img = html.match(/<figure class="explainer-figure">(<img[^>]*>)/)[1];
+  assert.ok(img.includes("max-width:100%"));
+  assert.ok(img.includes("height:auto"));
+  // CLS対策の width/height は残す
+  assert.ok(img.includes('width="1200"') && img.includes('height="675"'));
 });
 
 test("議案採決一覧は開催回に画像があるときだけ、開催回の見出しの直後に出す", () => {
