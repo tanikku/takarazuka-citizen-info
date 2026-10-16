@@ -1015,6 +1015,38 @@ html[data-theme="dark"] .point-box-title {
   border: 1px solid var(--border);
 }
 
+/* 解説画像の直下に置く案内役の紹介。「今回のポイント」（黄）・注意書き（青）と区別できる控えめな色にする */
+.explainer-guide {
+  max-width: 720px;
+  margin: -4px auto 16px;
+  padding: 10px 14px;
+  background: #eefaf5;
+  border: 1px solid #cdeedf;
+  border-radius: 8px;
+  font-size: 0.88rem;
+  line-height: 1.7;
+  color: var(--text);
+}
+
+.explainer-guide p {
+  margin: 0;
+}
+
+.explainer-guide .explainer-guide-title {
+  font-weight: 700;
+  color: #1f6f55;
+  margin-bottom: 2px;
+}
+
+html[data-theme="dark"] .explainer-guide {
+  background: #13241e;
+  border-color: #25463a;
+}
+
+html[data-theme="dark"] .explainer-guide .explainer-guide-title {
+  color: #8fdcbf;
+}
+
 .guide-subheading {
   font-size: 1rem;
   margin: 18px 0 8px;

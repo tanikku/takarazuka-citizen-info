@@ -436,13 +436,17 @@ ${recommendedPagesPanel(categoryMeta?.key ?? "", `/articles/${article.slug}`)}`;
   });
 }
 
+// 解説画像の直下に出す案内役の紹介。初見の読者向けに、画像のキャラクターが誰かを本文テキストで説明する
+const EXPLAINER_GUIDE_HTML = `<div class="explainer-guide"><p class="explainer-guide-title">宝塚Todayの案内役</p><p>「たから まどか」と柴犬の相棒「たからワン」が、難しい市政・議会情報を3〜4ポイントで分かりやすく整理します。まどかは全体像、たからワンは数字・日付・注意点を担当します。</p></div>`;
+
 // 冒頭の「3〜4ポイント解説」画像。build.js が未配置のファイルを除くため、ここに来るのは実在する画像だけ。
 // width/height を出して読み込み時のレイアウトずれを防ぐ。
 // inline の max-width/height は、古い style.css がキャッシュに残っていても原寸（1200px）ではみ出さないための保険
 function explainerFigure(img) {
   if (!img) return "";
   return `
-<figure class="explainer-figure"><img src="${escapeHtml(img.src)}" width="${Number(img.width)}" height="${Number(img.height)}" alt="${escapeHtml(img.alt)}" decoding="async" style="display:block;max-width:100%;height:auto;"></figure>`;
+<figure class="explainer-figure"><img src="${escapeHtml(img.src)}" width="${Number(img.width)}" height="${Number(img.height)}" alt="${escapeHtml(img.alt)}" decoding="async" style="display:block;max-width:100%;height:auto;"></figure>
+${EXPLAINER_GUIDE_HTML}`;
 }
 
 const SOURCE_BADGES = {

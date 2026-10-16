@@ -65,6 +65,28 @@ test("古い style.css がキャッシュに残っていても原寸ではみ出
   assert.ok(img.includes('width="1200"') && img.includes('height="675"'));
 });
 
+test("解説画像の直下に案内役（たから まどか・たからワン）の紹介を本文テキストで出す", () => {
+  const html = articlePage({ ...ARTICLE, explainerImage: IMG }, SITE);
+  assert.ok(html.includes('<div class="explainer-guide"><p class="explainer-guide-title">宝塚Todayの案内役</p>'));
+  assert.ok(html.includes("「たから まどか」と柴犬の相棒「たからワン」が"));
+  // 画像 → 案内役 → ポイント欄・本文 の順
+  assert.ok(html.indexOf("explainer-figure") < html.indexOf("explainer-guide"));
+  assert.ok(html.indexOf("explainer-guide") < html.indexOf('class="article-summary"'));
+});
+
+test("解説画像がないページには案内役の紹介を出さない", () => {
+  assert.ok(!articlePage(ARTICLE, SITE).includes("explainer-guide"));
+  const session = { sessionName: "テスト定例会", sessionTerm: "2026-09-01〜2026-10-07", bills: [] };
+  assert.ok(!gianResultPage([session], new Map(), SITE).includes("explainer-guide"));
+});
+
+test("議案採決一覧でも、開催回の画像の直下に案内役の紹介を出す", () => {
+  const session = { sessionName: "テスト定例会", sessionTerm: "2026-09-01〜2026-10-07", bills: [], explainerImage: IMG };
+  const html = gianResultPage([session], new Map(), SITE);
+  assert.ok(html.indexOf("explainer-figure") < html.indexOf("explainer-guide"));
+  assert.ok(html.includes("宝塚Todayの案内役"));
+});
+
 test("議案採決一覧は開催回に画像があるときだけ、開催回の見出しの直後に出す", () => {
   const session = { sessionName: "テスト定例会", sessionTerm: "2026-09-01〜2026-10-07", bills: [] };
   const withImg = gianResultPage([{ ...session, explainerImage: IMG }], new Map(), SITE);
