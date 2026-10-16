@@ -31,6 +31,7 @@ import { isListableAsUpcoming } from "./lib/article-status.js";
 import { articleSitemapEntry, indexableSitemapEntries } from "./lib/indexing.js";
 import { validateGuides } from "./lib/guide-schema.js";
 import { pickFieldReportPhoto, isRankingFresh } from "./lib/home-features.js";
+import { validateExplainerImage, availableExplainerImage } from "./lib/explainer-image.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.join(__dirname, "..");
@@ -449,6 +450,25 @@ function main() {
   }
   const gianSessions = loadGianSessions();
   const gikaiVoteIndex = loadGikaiVoteIndex();
+
+  // 「3〜4ポイント解説」画像：記事はschemaで検証済み。議案採決一覧の開催回データはここで検証する。
+  // 画像ファイルが assets/photos/ に未配置のものはページに出さない（素材がそろうまで何も表示しない）
+  const explainerShown = [];
+  const explainerMissing = [];
+  for (const session of gianSessions) {
+    if (session.explainerImage === undefined) continue;
+    const errors = validateExplainerImage(session.explainerImage, `議案採決一覧（${session.sessionName}）.explainerImage`);
+    if (errors.length > 0) throw new Error(errors.join(" / "));
+  }
+  for (const item of [...publishedArticles, ...gianSessions]) {
+    if (item.explainerImage === undefined) continue;
+    if (availableExplainerImage(item.explainerImage, PHOTOS_DIR)) {
+      explainerShown.push(item.explainerImage.src);
+    } else {
+      explainerMissing.push(item.explainerImage.src);
+      delete item.explainerImage;
+    }
+  }
   const zaiseiPeriods = loadZaiseiPeriods();
   const suisougakuYears = loadSuisougakuYears();
 
@@ -628,6 +648,9 @@ function main() {
   console.log(`議員活動サマリー: ${giinWithArticles.length}名`);
   console.log(`ランキング表示: ${ranking ? "有効" : "なし（データ未蓄積または集計が古いため、トップに出さず /ranking/ は新着で代替）"}`);
   console.log(`検索インデックス: ${searchIndex.length}件`);
+  if (explainerShown.length + explainerMissing.length > 0) {
+    console.log(`解説画像: 表示${explainerShown.length}件 / 画像未配置で非表示${explainerMissing.length}件${explainerMissing.length ? `（${explainerMissing.join("、")}）` : ""}`);
+  }
 }
 
 main();

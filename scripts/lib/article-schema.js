@@ -10,6 +10,7 @@ import { CATEGORIES } from "../templates.js";
 import { ARTICLE_STATUSES, isArticleStatus } from "./article-status.js";
 import { INDEXING_VALUES, isIndexingValue } from "./indexing.js";
 import { isNonEmptyString, isHttpsUrl, validateTableCell } from "./table.js";
+import { validateExplainerImage } from "./explainer-image.js";
 
 const REQUIRED_STRING_FIELDS = ["slug", "title", "summary", "sourceUrl", "sourceName", "publishedAt", "category", "valueScore"];
 const VALUE_SCORES = new Set(["S", "A", "B", "C"]);
@@ -261,6 +262,7 @@ export function validateArticle(article, context = {}) {
   if (article.relatedArticles !== undefined) validateRelatedArticles(article.relatedArticles, article, publishedSlugs, errors);
   if (article.sources !== undefined) validateSources(article.sources, article, errors);
   if (article.comparisonTables !== undefined) validateComparisonTables(article.comparisonTables, errors);
+  if (article.explainerImage !== undefined) errors.push(...validateExplainerImage(article.explainerImage));
 
   return { errors, warnings };
 }

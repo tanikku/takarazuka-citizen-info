@@ -402,7 +402,7 @@ ${article.relatedArticles
 <article class="article-detail">
 <p class="category-tag">${sourceBadge(article.sourceName)}${categoryMeta ? icon(categoryMeta.icon) : icon("newspaper")}${escapeHtml(article.category)}</p>
 <h1>${escapeHtml(article.title)}</h1>
-<p class="article-meta">${escapeHtml(article.publishedAt)}${updatedAtHtml}</p>${articleStatusBox(article)}
+<p class="article-meta">${escapeHtml(article.publishedAt)}${updatedAtHtml}</p>${articleStatusBox(article)}${explainerFigure(article.explainerImage)}
 ${aiEditorialBadge}
 ${keyPointsBox}
 <p class="article-summary">${escapeHtml(article.summary)}</p>${sectionsHtml}
@@ -428,6 +428,14 @@ ${recommendedPagesPanel(categoryMeta?.key ?? "", `/articles/${article.slug}`)}`;
     adsAllowed,
     noindex: !isArticleIndexable(article),
   });
+}
+
+// 冒頭の「3〜4ポイント解説」画像。build.js が未配置のファイルを除くため、ここに来るのは実在する画像だけ。
+// width/height を出して読み込み時のレイアウトずれを防ぐ
+function explainerFigure(img) {
+  if (!img) return "";
+  return `
+<figure class="explainer-figure"><img src="${escapeHtml(img.src)}" width="${Number(img.width)}" height="${Number(img.height)}" alt="${escapeHtml(img.alt)}" decoding="async"></figure>`;
 }
 
 const SOURCE_BADGES = {
@@ -2110,7 +2118,7 @@ ${byDate.get(date).map((bill) => gianCard(bill, voteIndex)).join("\n")}`,
       return `<div class="session-header">
 <div class="session-name">${escapeHtml(session.sessionName)}</div>
 <div class="session-date">会期：${escapeHtml(session.sessionTerm)}</div>
-</div>
+</div>${explainerFigure(session.explainerImage)}
 ${dateGroupsHtml}`;
     })
     .join("\n");

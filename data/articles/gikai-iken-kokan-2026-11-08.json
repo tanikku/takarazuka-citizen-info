@@ -13,6 +13,12 @@
   ],
   "publishedAt": "2026-10-16",
   "updatedAt": "2026-10-16",
+  "explainerImage": {
+    "src": "/photos/gikai-iken-kokan-2026-11-08-summary.webp",
+    "width": 1200,
+    "height": 675,
+    "alt": "宝塚市議会の第16回意見交換会について、開催日、時間、会場、延長後の申込期限を4項目で整理した図"
+  },
   "meetingType": "意見交換会",
   "meetingDate": "2026-11-08",
   "eventDates": [

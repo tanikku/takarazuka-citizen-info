@@ -33,6 +33,12 @@
   ],
   "publishedAt": "2026-10-16",
   "updatedAt": "2026-10-16",
+  "explainerImage": {
+    "src": "/photos/gikai-2026-09-discussion-summary.webp",
+    "width": 1200,
+    "height": 675,
+    "alt": "宝塚市議会9月定例会の主な論点を、学校・教育、新市立病院、上下水道、道路工事の4項目で整理した図"
+  },
   "meetingType": "常任委員会の審査内容",
   "keyPoints": [
     "光明小学校と末成小学校の統合に向けた設計費が補正予算に計上されました。市の資料では統合は令和10年4月の予定です",
