@@ -17,6 +17,10 @@ import {
   giinIndexPage,
   privacyPage,
   aboutPage,
+  guideCharactersPage,
+  GUIDE_CHARACTERS_SLUG,
+  GUIDE_CHARACTERS_TITLE,
+  GUIDE_CHARACTERS_DESCRIPTION,
   adPolicyPage,
   contactPage,
   notFoundPage,
@@ -263,6 +267,7 @@ function buildSitemap(publishedArticles, categoryPageKeys, giinWithArticles, gui
     { loc: `${SITE_URL}/category/shigikai/guide`, lastmod: today },
     { loc: `${SITE_URL}/privacy`, lastmod: today },
     { loc: `${SITE_URL}/about`, lastmod: today },
+    { loc: `${SITE_URL}/${GUIDE_CHARACTERS_SLUG}`, lastmod: "2026-10-16" },
     { loc: `${SITE_URL}/ad-policy`, lastmod: today },
     { loc: `${SITE_URL}/contact`, lastmod: today },
     ...guides.map((g) => ({ loc: `${SITE_URL}/category/${g.categoryKey}/${g.slug}`, lastmod: g.updatedAt })),
@@ -401,6 +406,13 @@ function buildSearchIndex({ publishedArticles, categorySections, guides, gianSes
       url: "/ranking/",
     },
     {
+      title: GUIDE_CHARACTERS_TITLE,
+      description: GUIDE_CHARACTERS_DESCRIPTION,
+      category: "",
+      keywords: "たから まどか たからワン 案内役 柴犬",
+      url: `/${GUIDE_CHARACTERS_SLUG}`,
+    },
+    {
       title: "運営者情報",
       description: "Takarazuka Todayのサイト名・目的・編集方針・運営体制について説明します。",
       category: "",
@@ -530,6 +542,7 @@ function main() {
   }
   writeFile("privacy.html", privacyPage(SITE_URL));
   writeFile("about.html", aboutPage(SITE_URL));
+  writeFile(`${GUIDE_CHARACTERS_SLUG}.html`, guideCharactersPage(SITE_URL));
   writeFile("ad-policy.html", adPolicyPage(SITE_URL));
   writeFile("contact.html", contactPage(SITE_URL, process.env.TURNSTILE_SITE_KEY));
   // 未マッチURL用。Cloudflare Pagesがルート直下の404.htmlをHTTP 404で自動配信する（sitemap・検索インデックスには載せない）
@@ -630,6 +643,10 @@ function main() {
   writeFile("img/header-banner.png", fs.readFileSync(path.join(ASSETS_DIR, "header-banner.png")));
   writeFile("photos/hanshin-keibajo.jpg", fs.readFileSync(path.join(ASSETS_DIR, "photos", "hanshin-keibajo.jpg")));
   writeFile("photos/takarazuka-kita-sa.jpg", fs.readFileSync(path.join(ASSETS_DIR, "photos", "takarazuka-kita-sa.jpg")));
+  // 案内役（たから まどか・たからワン）の正式原画。紹介ページで表示する（元PNGはコピーしない）
+  for (const file of fs.readdirSync(path.join(ASSETS_DIR, "characters")).filter((f) => f.endsWith(".webp"))) {
+    writeFile(`characters/${file}`, fs.readFileSync(path.join(ASSETS_DIR, "characters", file)));
+  }
   // ガイドの現地取材写真（WebP）はファイル追加だけで公開されるよう一括コピーする
   for (const file of fs.readdirSync(PHOTOS_DIR).filter((f) => f.endsWith(".webp"))) {
     writeFile(`photos/${file}`, fs.readFileSync(path.join(PHOTOS_DIR, file)));

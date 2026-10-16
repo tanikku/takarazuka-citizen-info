@@ -1033,9 +1033,83 @@ html[data-theme="dark"] .point-box-title {
 }
 
 .explainer-guide .explainer-guide-title {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 2px 10px;
   font-weight: 700;
   color: #1f6f55;
   margin-bottom: 2px;
+}
+
+/* 紹介ページへの控えめなリンク。見出しと同じ行に置き、高さをなるべく増やさない */
+.explainer-guide-link {
+  font-size: 0.8rem;
+  font-weight: 400;
+  color: var(--link);
+  text-decoration: underline;
+}
+
+/* TOPの案内役カード：キャラクターは小さく、文章は短く */
+.guide-chara-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.guide-chara-imgs {
+  display: flex;
+  flex: 0 0 auto;
+  gap: 2px;
+}
+
+.guide-chara-imgs img {
+  width: 52px;
+  height: auto;
+}
+
+.guide-chara-name {
+  margin: 0 0 4px;
+  font-weight: 700;
+  font-size: 0.9rem;
+}
+
+.guide-chara-name .nowrap {
+  white-space: nowrap;
+}
+
+.guide-chara-desc {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--text-sub);
+  line-height: 1.6;
+}
+
+/* 案内役紹介ページ：正式原画2枚を並べて表示する */
+.chara-intro {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  margin: 8px 0 18px;
+}
+
+.chara-card {
+  flex: 0 1 220px;
+  margin: 0;
+  text-align: center;
+}
+
+.chara-card img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.chara-card figcaption {
+  margin-top: 6px;
+  font-weight: 700;
+  font-size: 0.95rem;
 }
 
 html[data-theme="dark"] .explainer-guide {

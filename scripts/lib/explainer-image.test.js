@@ -7,7 +7,7 @@ import os from "node:os";
 import path from "node:path";
 import { validateExplainerImage, availableExplainerImage } from "./explainer-image.js";
 import { validateArticle } from "./article-schema.js";
-import { articlePage, gianResultPage } from "../templates.js";
+import { articlePage, gianResultPage, guideCharactersPage, GUIDE_CHARACTERS_SLUG } from "../templates.js";
 
 const SITE = "https://takarazuka-today.jp";
 const IMG = { src: "/photos/test-summary.webp", width: 1200, height: 675, alt: "テスト記事の主な論点を4項目で整理した図です" };
@@ -67,7 +67,7 @@ test("古い style.css がキャッシュに残っていても原寸ではみ出
 
 test("解説画像の直下に案内役（たから まどか・たからワン）の紹介を本文テキストで出す", () => {
   const html = articlePage({ ...ARTICLE, explainerImage: IMG }, SITE);
-  assert.ok(html.includes('<div class="explainer-guide"><p class="explainer-guide-title">宝塚Todayの案内役</p>'));
+  assert.ok(html.includes('<div class="explainer-guide"><p class="explainer-guide-title">宝塚Todayの案内役'));
   assert.ok(html.includes("「たから まどか」と柴犬の相棒「たからワン」が"));
   // 画像 → 案内役 → ポイント欄・本文 の順
   assert.ok(html.indexOf("explainer-figure") < html.indexOf("explainer-guide"));
@@ -93,4 +93,27 @@ test("議案採決一覧は開催回に画像があるときだけ、開催回�
   assert.ok(withImg.includes('class="explainer-figure"'));
   assert.ok(withImg.indexOf("explainer-figure") > withImg.indexOf("テスト定例会"));
   assert.ok(!gianResultPage([session], new Map(), SITE).includes("explainer-figure"));
+});
+
+test("案内ボックスから案内役の紹介ページへリンクする", () => {
+  const html = articlePage({ ...ARTICLE, explainerImage: IMG }, SITE);
+  assert.ok(html.includes(`<a class="explainer-guide-link" href="/${GUIDE_CHARACTERS_SLUG}">たから まどか・たからワンについて</a>`));
+});
+
+test("案内役の紹介ページは正式原画2枚を表示し、解説画像を載せた4ページへリンクする", () => {
+  const html = guideCharactersPage(SITE);
+  assert.ok(html.includes('<img src="/characters/takara-madoka.webp" width="1122" height="1402"'));
+  assert.ok(html.includes('<img src="/characters/takara-wan.webp" width="1122" height="1402"'));
+  for (const href of ["/articles/gikai-2026-09-discussion", "/articles/shin-byoin-gikai-2026", "/category/shigikai/gian", "/articles/gikai-iken-kokan-2026-11-08"]) {
+    assert.ok(html.includes(`href="${href}"`), href);
+  }
+  assert.ok(html.includes(`<link rel="canonical" href="${SITE}/${GUIDE_CHARACTERS_SLUG}">`));
+  assert.ok(html.includes(`content="${SITE}/photos/takara-madoka-takara-wan-1200x630.webp"`));
+  assert.ok(!html.includes('name="robots"'));
+});
+
+test("紹介ページで使う画像ファイルが assets に存在する", () => {
+  for (const f of ["characters/takara-madoka.webp", "characters/takara-wan.webp", "photos/takara-madoka-takara-wan-1200x630.webp"]) {
+    assert.ok(fs.existsSync(new URL(`../../assets/${f}`, import.meta.url)), f);
+  }
 });

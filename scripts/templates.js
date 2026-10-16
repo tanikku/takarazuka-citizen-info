@@ -437,7 +437,7 @@ ${recommendedPagesPanel(categoryMeta?.key ?? "", `/articles/${article.slug}`)}`;
 }
 
 // 解説画像の直下に出す案内役の紹介。初見の読者向けに、画像のキャラクターが誰かを本文テキストで説明する
-const EXPLAINER_GUIDE_HTML = `<div class="explainer-guide"><p class="explainer-guide-title">宝塚Todayの案内役</p><p>「たから まどか」と柴犬の相棒「たからワン」が、難しい市政・議会情報を3〜4ポイントで分かりやすく整理します。まどかは全体像、たからワンは数字・日付・注意点を担当します。</p></div>`;
+const EXPLAINER_GUIDE_HTML = `<div class="explainer-guide"><p class="explainer-guide-title">宝塚Todayの案内役<a class="explainer-guide-link" href="/takara-madoka-takara-wan">たから まどか・たからワンについて</a></p><p>「たから まどか」と柴犬の相棒「たからワン」が、難しい市政・議会情報を3〜4ポイントで分かりやすく整理します。まどかは全体像、たからワンは数字・日付・注意点を担当します。</p></div>`;
 
 // 冒頭の「3〜4ポイント解説」画像。build.js が未配置のファイルを除くため、ここに来るのは実在する画像だけ。
 // width/height を出して読み込み時のレイアウトずれを防ぐ。
@@ -709,6 +709,7 @@ ${todayRow(todayArticles, fieldReportPhoto, categoryPageKeys, activeNotices)}
   <div class="col-side">
     ${ranking ? rankingOrRecentPanel(ranking, publishedArticles) : ""}
     ${livecamPanel()}
+    ${guideCharactersPanel()}
     ${entertainmentPanel()}
   </div>
 </div>`;
@@ -937,6 +938,23 @@ function livecamPanel() {
 <p class="panel-title">${icon("videoCamera")}宝塚市内のライブカメラ</p>
 ${items}
 <p class="panel-note"><a href="/livecam">ライブカメラ一覧・水位基準を見る →</a></p>
+</div>`;
+}
+
+// TOPの常設カード：案内役（たから まどか・たからワン）の紹介ページへの小さな導線。
+// 主要コンテンツを見た後に出るよう、サイドバーのライブカメラの後に置く。
+// 画像は正式原画を縮小しただけの軽量版（-thumb）を使う。名前は「たからワン」の途中で改行しないよう単位ごとにまとめる
+function guideCharactersPanel() {
+  return `<div class="panel guide-chara-panel">
+<p class="panel-title">${icon("user")}宝塚Todayの案内役</p>
+<div class="guide-chara-row">
+<div class="guide-chara-imgs"><img src="/characters/takara-madoka-thumb.webp" width="144" height="180" alt="案内役のたから まどか" loading="lazy" decoding="async"><img src="/characters/takara-wan-thumb.webp" width="144" height="180" alt="柴犬のたからワン" loading="lazy" decoding="async"></div>
+<div>
+<p class="guide-chara-name"><span class="nowrap">たから まどか ＆</span> <span class="nowrap">柴犬のたからワン</span></p>
+<p class="guide-chara-desc">市政・議会などの少し難しい情報を、3〜4ポイントで分かりやすく案内します。</p>
+</div>
+</div>
+<p class="panel-note"><a href="/${GUIDE_CHARACTERS_SLUG}">2人について詳しく見る →</a></p>
 </div>`;
 }
 
@@ -2304,7 +2322,7 @@ ${recommendedPagesPanel(guide.categoryKey, canonicalUrl.replace(siteUrl, ""))}
 
 
 // フェーズ7：収益化の土台整備として追加した運営系の固定ページ共通レイアウト
-function staticInfoPage({ slug, breadcrumbLabel, title, description, panelTitle, panelIcon, contentHtml, siteUrl }) {
+function staticInfoPage({ slug, breadcrumbLabel, title, description, panelTitle, panelIcon, contentHtml, siteUrl, ogImage = null }) {
   const canonicalUrl = `${siteUrl}/${slug}`;
 
   const bodyHtml = `<nav class="breadcrumb"><a href="/">トップ</a> &gt; ${escapeHtml(breadcrumbLabel)}</nav>
@@ -2330,6 +2348,7 @@ ${contentHtml}
     bodyHtml,
     canonicalUrl,
     structuredData: breadcrumbLd,
+    ogImage,
   });
 }
 
@@ -2418,6 +2437,70 @@ ${staticSectionHeading("内容の誤りについて")}
     panelIcon: "building",
     contentHtml,
     siteUrl,
+  });
+}
+
+// 案内役「たから まどか」「たからワン」の紹介。キャラクター画像は assets/characters/ の正式原画をそのまま表示する
+export const GUIDE_CHARACTERS_SLUG = "takara-madoka-takara-wan";
+export const GUIDE_CHARACTERS_TITLE = "宝塚Todayに案内役が登場　「たから まどか」と柴犬の「たからワン」を紹介します";
+export const GUIDE_CHARACTERS_DESCRIPTION =
+  "宝塚Todayの新しい案内役「たから まどか」と柴犬の「たからワン」を紹介します。市政や議会などの情報を3〜4ポイントで分かりやすく整理し、まどかは全体像、たからワンは数字・日付・注意点を担当します。";
+
+export function guideCharactersPage(siteUrl) {
+  const contentHtml = `
+<p class="updated-at">公開日：2026年10月16日</p>
+<div class="chara-intro">
+<figure class="chara-card"><img src="/characters/takara-madoka.webp" width="1122" height="1402" alt="案内役のたから まどか。本を抱えて手で案内しているイラスト"><figcaption>たから まどか</figcaption></figure>
+<figure class="chara-card"><img src="/characters/takara-wan.webp" width="1122" height="1402" alt="まどかの相棒、柴犬のたからワン。青いバンダナを着けて前足を上げているイラスト"><figcaption>たからワン（柴犬）</figcaption></figure>
+</div>
+
+${staticSectionHeading("「難しい情報を、まず3〜4ポイントで」")}
+<p>宝塚Todayでは、宝塚市の行政情報や市議会の内容をできるだけ丁寧に紹介しています。一方で、市の資料や議会の議論は情報量が多く、「どこから読めばいいのか分からない」と感じる内容もあります。</p>
+<p>そこで、長い記事を読む前に重要なポイントをつかめるよう、記事冒頭に3〜4項目の解説画像を掲載する取り組みを始めました。その案内役を務めるのが、「たから まどか」と「たからワン」です。</p>
+
+${staticSectionHeading("たから まどか")}
+<p>宝塚Todayの案内役。市政や議会などの情報について、「この記事では何が重要なのか」「全体として何が起きているのか」を整理して伝える役目です。</p>
+<p>落ち着いて情報を整理し、難しい内容でもできるだけ身近な言葉で案内します。</p>
+
+${staticSectionHeading("たからワン")}
+<p>まどかの相棒を務める柴犬です。</p>
+<p>数字、日付、締め切り、変更点など、「ここは見落としたくない」というポイントを担当します。記事の中で重要な数字や予定があるときは、たからワンの出番です。</p>
+
+${staticSectionHeading("2人で役割分担")}
+<p>まどかが「全体像」、たからワンが「数字・日付・注意点」。</p>
+<p>この役割分担で、まず記事の要点を確認し、その後に本文で詳しい内容を読める構成を目指します。</p>
+
+${staticSectionHeading("最初に登場したのは市議会の記事")}
+<p>今回、この形式を最初に導入したのは、市議会に関する記事です。</p>
+<ul class="related-links">
+<li><a href="/articles/gikai-2026-09-discussion">9月定例会の主な論点</a></li>
+<li><a href="/articles/shin-byoin-gikai-2026">新市立病院</a></li>
+<li><a href="/category/shigikai/gian">議案採決一覧</a></li>
+<li><a href="/articles/gikai-iken-kokan-2026-11-08">第16回意見交換会</a></li>
+</ul>
+<p>の記事で、まどかとたからワンによる解説画像を掲載しています。</p>
+<p>市議会の記事は重要な情報が多い一方、どうしても長くなりやすいため、最初に要点を見られる形にしました。</p>
+
+${staticSectionHeading("キャラクターがいても、情報の確認方法は変わりません")}
+<p>まどかとたからワンは、情報を分かりやすく伝えるための案内役です。</p>
+<p>宝塚Todayでは今後も、宝塚市や宝塚市議会などの公的な一次情報を優先し、事実と推測を分けて記事を作ります。日時、場所、金額、対象範囲などの重要な情報についても、これまでと同じように確認した上で掲載します。</p>
+<p>キャラクターを通じて親しみやすくしながら、情報そのものの正確さは変えない。そんな形で続けていきます。</p>
+
+${staticSectionHeading("これから登場する記事も増やしていきます")}
+<p>市議会だけでなく、制度変更や教育、生活に関わるテーマなど、内容を整理した方が分かりやすい記事で登場してもらう予定です。</p>
+<p>宝塚Todayの記事でこの一人と一匹を見かけたら、「まずここを見れば大事なところが分かる」という目印にしてもらえればと思います。</p>
+`;
+
+  return staticInfoPage({
+    slug: GUIDE_CHARACTERS_SLUG,
+    breadcrumbLabel: "宝塚Todayの案内役",
+    title: GUIDE_CHARACTERS_TITLE,
+    description: GUIDE_CHARACTERS_DESCRIPTION,
+    panelTitle: GUIDE_CHARACTERS_TITLE,
+    panelIcon: "user",
+    contentHtml,
+    siteUrl,
+    ogImage: "/photos/takara-madoka-takara-wan-1200x630.webp",
   });
 }
 

@@ -6,7 +6,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { FIELD_REPORT_PHOTOS, pickFieldReportPhoto, isRankingFresh, RANKING_MAX_AGE_DAYS } from "./home-features.js";
-import { indexPage, rankingPage, RANKING_PAGE_NOINDEX } from "../templates.js";
+import { indexPage, rankingPage, RANKING_PAGE_NOINDEX, articlePage, guideCharactersPage } from "../templates.js";
 
 const ROOT = path.join(path.dirname(fileURLToPath(import.meta.url)), "..", "..");
 const SITE = "https://takarazuka-today.jp";
@@ -133,4 +133,44 @@ test("トップはランキングが無い（古い）日はランキング欄�
   assert.ok(!home({ ranking: null }).includes("人気記事ランキング"));
   const ranking = { top: [{ path: "/livecam", title: "武庫川ライブカメラ" }] };
   assert.ok(home({ ranking }).includes("人気記事ランキング（30日間）"));
+});
+
+// --- 案内役カード ---
+
+test("TOPには案内役カードが1つあり、紹介ページへのリンクは1件、画像は正式原画を参照する", () => {
+  const html = home();
+  assert.equal(html.split('class="panel guide-chara-panel"').length - 1, 1);
+  assert.equal(html.split('href="/takara-madoka-takara-wan"').length - 1, 1);
+  // TOPは正式原画を縮小した軽量版を使い、フルサイズの原画は直接読み込まない
+  assert.ok(html.includes('<img src="/characters/takara-madoka-thumb.webp"'));
+  assert.ok(html.includes('<img src="/characters/takara-wan-thumb.webp"'));
+  assert.ok(!html.includes('"/characters/takara-madoka.webp"'));
+  assert.ok(!html.includes('"/characters/takara-wan.webp"'));
+  // 「たからワン」の途中で改行しない
+  assert.ok(html.includes('<span class="nowrap">たから まどか ＆</span> <span class="nowrap">柴犬のたからワン</span>'));
+  assert.ok(html.includes("2人について詳しく見る →"));
+});
+
+test("案内役カードはTOP以外のページには出ない", () => {
+  const article = articlePage({
+    slug: "test-article", title: "テスト", summary: "本文", sourceUrl: "https://www.city.takarazuka.hyogo.jp/",
+    sourceName: "宝塚市公式サイト", publishedAt: "2026-10-16", category: "行政・くらし", valueScore: "A",
+  }, SITE);
+  assert.ok(!article.includes("guide-chara-panel"));
+  assert.ok(!rankingPage(null, [], SITE).includes("guide-chara-panel"));
+});
+
+test("紹介固定ページは正式原画（フルサイズ）を使い続ける", () => {
+  const html = guideCharactersPage(SITE);
+  assert.ok(html.includes('<img src="/characters/takara-madoka.webp"'));
+  assert.ok(html.includes('<img src="/characters/takara-wan.webp"'));
+  assert.ok(!html.includes("-thumb.webp"));
+});
+
+test("TOP用の軽量版画像は正式原画の5分の1未満の容量", () => {
+  for (const name of ["takara-madoka", "takara-wan"]) {
+    const thumb = fs.statSync(path.join(ROOT, "assets", "characters", `${name}-thumb.webp`)).size;
+    const full = fs.statSync(path.join(ROOT, "assets", "characters", `${name}.webp`)).size;
+    assert.ok(thumb < full / 5, `${name}: ${thumb} >= ${full}/5`);
+  }
 });
