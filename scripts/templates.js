@@ -262,9 +262,9 @@ ${bodyHtml}
 ${popularContentStrip(new URL(canonicalUrl).pathname)}
 </main>
 <footer class="site-footer">
-<p>宝塚Todayは、宝塚市や兵庫県などの公式情報をもとに、地域のニュースや暮らしに役立つ情報を整理してお届けしています。詳細・正式な内容は各ページの出典元をご確認ください。</p>
+<p>宝塚Todayは、宝塚市や兵庫県などの公式情報をもとに、地域のニュースや暮らしに役立つ情報を整理してお届けしています。一部の記事・ガイドでは、運営者が現地で取材・撮影しています。詳細・正式な内容は各ページの出典元をご確認ください。</p>
 <p>本サイトは宝塚市の公式サイトではありません。個人が運営する地域情報サイトです。</p>
-<p>写真提供：<a href="https://www.city.takarazuka.hyogo.jp/1060687/1060729/1014984/1015575/index.html" target="_blank" rel="noopener">宝塚市オープンデータ</a>（<a href="https://creativecommons.org/licenses/by/4.0/deed.ja" target="_blank" rel="noopener">CC BY 4.0</a>）</p>
+<p>写真：<a href="https://www.city.takarazuka.hyogo.jp/1060687/1060729/1014984/1015575/index.html" target="_blank" rel="noopener">宝塚市オープンデータ</a>（<a href="https://creativecommons.org/licenses/by/4.0/deed.ja" target="_blank" rel="noopener">CC BY 4.0</a>）、宝塚Today撮影など。出典・撮影情報は各ページをご確認ください。</p>
 <p>公式X：<a href="https://x.com/TakaTodayJP" target="_blank" rel="noopener">@TakaTodayJP</a>　公式Facebook：<a href="https://www.facebook.com/takarazukatoday" target="_blank" rel="noopener">宝塚Today</a></p>
 <p class="footer-contact"><a href="/contact">${icon("mail")}お問い合わせ</a></p>
 <p class="footer-links"><a href="/privacy">プライバシーポリシー</a>　<a href="/about">運営者情報</a>　<a href="/ad-policy">PR・広告掲載ポリシー</a></p>
@@ -2449,6 +2449,7 @@ ${staticSectionHeading("目的")}
 
 ${staticSectionHeading("編集方針")}
 <p>行政・くらしの情報、防犯・防災情報、市議会の動き、イベント情報などを扱います。宝塚市や兵庫県などが公開する一次情報を主な情報源とし、地域ニュースの要点整理に加え、複数の公式情報をまとめたガイドや比較・一覧情報などを掲載しています。原文の転載は行わず、詳細・正式な内容を確認できるよう出典を明記します。事実に基づく内容を扱い、推測や誇張した表現は避けます。市議会に関する記事では、議員、会派、議案などへの政治的な評価や優劣判断は行わず、公開情報をもとにした事実ベースの要約を行います。PR記事や広告掲載枠については、通常記事と区別できるよう「PR」「広告」などの表記を行います。</p>
+<p>一部のガイドでは、運営者が現地を訪れて撮影した写真や、現地で確認した様子を掲載しています（<a href="/category/kanko/kiyoshikojin-guide">清荒神清澄寺</a>・<a href="/category/kanko/nakayamadera-guide">中山寺</a>・<a href="/category/kanko/aiaipark-guide">あいあいパーク</a>・<a href="/category/kanko/dahlia-en-guide">宝塚ダリア園</a>の各ガイド）。現地で確認した内容には取材日を記載し、公式情報と区別しています。また、宝塚市議会が公開する議決結果を会期ごとに一覧にした「<a href="/category/shigikai/gian">議案採決一覧</a>」や、市が公表する財政状況の要点を整理した「<a href="/category/shigikai/zaisei-watch">財政ウォッチ</a>」など、公式情報を独自に整理したページも掲載しています。</p>
 <p>掲載期間が終了し、継続して読む価値が失われた情報は、公開を終了する場合があります。また、出典元のページが削除・差し替えされた場合や、原典で確認できない記述が判明した場合は、出典の差し替え、本文の修正、または公開終了を行います。内容を更新した記事・ガイドには、更新日を表示しています。</p>
 
 ${staticSectionHeading("情報源")}
