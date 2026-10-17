@@ -616,6 +616,8 @@ function main() {
   // 末尾スラッシュの有無どちらでも受けられるよう2行とも明示する。
   // 一般論中心だった「学校年間イベントガイド」は、確認方法だけを学校情報ガイドへ統合した（2026-10-14）。
   // .html付きのURLもCloudflare Pagesの正規化に頼らず、元ファイルが無くなった後も確実に転送されるよう明示する。
+  // 退役記事のうち、内容が現行ページに実質的に引き継がれているものだけを転送する（2026-10-17監査でA判定の5件）。
+  // それ以外の退役記事は404のまま。元ファイルが無いと.html付きURLは308されず404になるため、こちらも2行ずつ明示する。
   writeFile(
     "_redirects",
     [
@@ -623,6 +625,16 @@ function main() {
       "/mukogawa/ /livecam 301",
       "/category/kyoiku/nenkan-event-guide /category/kyoiku/guide 301",
       "/category/kyoiku/nenkan-event-guide.html /category/kyoiku/guide 301",
+      "/articles/kitsuen-kinshi-takarazuka-2026 /category/kurashi/kitsuen-guide 301",
+      "/articles/kitsuen-kinshi-takarazuka-2026.html /category/kurashi/kitsuen-guide 301",
+      "/articles/poisute-jorei-2026 /category/kurashi/kitsuen-guide 301",
+      "/articles/poisute-jorei-2026.html /category/kurashi/kitsuen-guide 301",
+      "/articles/daria-en-2026 /category/kanko/dahlia-en-guide 301",
+      "/articles/daria-en-2026.html /category/kanko/dahlia-en-guide 301",
+      "/articles/daria-en-encho-2026 /category/kanko/dahlia-en-guide 301",
+      "/articles/daria-en-encho-2026.html /category/kanko/dahlia-en-guide 301",
+      "/articles/sf3rpgwmqgakedmvbtya /articles/tezuka-drama-shomei-2026 301",
+      "/articles/sf3rpgwmqgakedmvbtya.html /articles/tezuka-drama-shomei-2026 301",
     ].join("\n") + "\n"
   );
 
