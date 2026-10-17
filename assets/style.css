@@ -149,6 +149,59 @@ html[data-theme="dark"] .theme-icon-moon { display: block; }
   .site-lead-sep {
     display: none;
   }
+
+  /* 中央のロゴと重ならないよう、テーマ切替をヘッダーの右上へ */
+  .site-header {
+    position: relative;
+  }
+
+  .header-row {
+    position: static;
+  }
+
+  .theme-toggle {
+    top: 6px;
+    right: 6px;
+    transform: none;
+  }
+
+  /* 語の途中で折り返さないよう、意味の区切りで2行にする */
+  .site-tagline span {
+    display: block;
+  }
+
+  /* 2行のタグラインまでバナーの明るい帯（画像の縦15〜84%）に収まる高さにする。
+     背景は cover なので帯の高さはヘッダーの高さに比例する */
+  .header-overlay {
+    min-height: 250px;
+    padding: 8px 0;
+  }
+
+  .header-row {
+    padding: 6px 18px;
+  }
+
+  .site-tagline {
+    margin-top: 2px;
+  }
+}
+
+/* 601〜767px は背景が横幅基準で拡大され上下が切れるため、1行のタグラインが帯の下端から出ないよう余白を詰める */
+@media (min-width: 601px) and (max-width: 767px) {
+  .header-row {
+    padding: 6px 18px;
+  }
+
+  .site-tagline {
+    margin-top: 2px;
+  }
+}
+
+/* ロゴが2行に折り返す幅では、タグラインまで明るい帯に収まらないため出さない */
+@media (max-width: 359px) {
+  .site-tagline {
+    display: none;
+  }
 }
 
 .date-bar {
@@ -440,6 +493,13 @@ html[data-theme="dark"] .guide-nav-panel {
   font-weight: 700;
   color: var(--text);
   text-align: center;
+}
+
+/* 縦並び（768px未満）では flex-basis が高さとして効き、168pxの空白の箱になるため */
+@media (max-width: 767px) {
+  .contact-cta-panel {
+    flex-basis: auto;
+  }
 }
 
 /* フォトの下にカテゴリー一覧を重ねる列 */

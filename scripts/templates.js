@@ -128,7 +128,7 @@ function header() {
       <span class="theme-icon theme-icon-moon">${icon("moon")}</span>
     </button>
   </div>
-  <p class="site-tagline">宝塚の暮らしに役立つ情報を毎日わかりやすくお届け</p>
+  <p class="site-tagline"><span>宝塚の暮らしに役立つ情報を</span><span>毎日わかりやすくお届け</span></p>
 </div>
 </header>`;
 }
