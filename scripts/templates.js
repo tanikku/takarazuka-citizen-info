@@ -2609,7 +2609,7 @@ export function contactPage(siteUrl, turnstileSiteKey) {
   <label>内容 <span class="req">必須</span>
     <textarea name="message" required maxlength="2000" rows="8"></textarea>
   </label>
-  <div class="cf-turnstile" data-sitekey="${escapeHtml(turnstileSiteKey)}"></div>
+  <div class="cf-turnstile" data-sitekey="${escapeHtml(turnstileSiteKey)}" data-size="compact"></div>
   <label class="consent-label">
     <input type="checkbox" name="consent" required>
     <a href="/privacy" target="_blank" rel="noopener">プライバシーポリシー</a>に同意します
