@@ -13,9 +13,11 @@
     }
   ],
   "publishedAt": "2026-08-12",
-  "updatedAt": "2026-10-14",
+  "updatedAt": "2026-10-17",
   "category": "イベント",
   "valueScore": "B",
+  "status": "ended",
+  "statusDate": "2026-10-12",
   "eventDates": [
     "2026-10-09"
   ],

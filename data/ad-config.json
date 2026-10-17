@@ -10,7 +10,7 @@
   "adsenseClientId": "ca-pub-1166196957838822",
   "adsTxt": "",
   "excludedCategories": ["防災", "防犯"],
-  "excludedPaths": ["/livecam", "/category/bosai", "/category/bohan", "/category/bosai/guide", "/search", "/giin/", "/giin/kitayama-teruaki", "/giin/nakayama-yusuke"],
+  "excludedPaths": ["/livecam", "/category/bosai", "/category/bohan", "/category/bosai/guide", "/search", "/giin/", "/giin/kitayama-teruaki", "/giin/nakayama-yusuke", "/area/", "/area/sakasegawa/", "/404", "/ranking/"],
   "slots": {
     "articleBottom": "",
     "beforeRelated": "",

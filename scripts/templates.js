@@ -1319,6 +1319,7 @@ ${rankingOrRecentPanel(ranking, recentArticles, 10, false)}
     bodyHtml,
     canonicalUrl,
     structuredData: breadcrumbLd,
+    adsAllowed: adsAllowedFor({ pathname: "/ranking/" }),
     noindex: RANKING_PAGE_NOINDEX,
   });
 }
@@ -2624,6 +2625,7 @@ export function notFoundPage(siteUrl) {
     description: "お探しのページは見つかりませんでした。トップページまたはサイト内検索からお探しください。",
     bodyHtml,
     canonicalUrl: `${siteUrl}/404`,
+    adsAllowed: adsAllowedFor({ pathname: "/404" }),
     noindex: true,
   });
 }
