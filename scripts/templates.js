@@ -299,6 +299,7 @@ export function articlePage(article, siteUrl, giinList = [], articlesBySlug = ne
     author: { "@type": "Organization", name: "Takarazuka Today編集部" },
     publisher: { "@type": "Organization", name: "Takarazuka Today｜今日の宝塚を、3分で。" },
     isAccessibleForFree: true,
+    ...(article.ogImage ? { image: `${siteUrl}${article.ogImage}` } : {}),
   };
   const categoryMeta = findCategory(article.category);
   // 防災・防犯カテゴリの記事（避難情報・災害情報・被害者が存在しうる事件事故等）には広告を表示しない
@@ -371,7 +372,7 @@ ${t.sourceUrl ? `<p class="panel-note">出典：<a href="${escapeHtml(t.sourceUr
             (s) => `<section class="article-section${Array.isArray(s.questions) ? " article-section--questions" : ""}">
 <h2>${escapeHtml(s.heading)}</h2>
 ${(s.paragraphs ?? []).map((p) => `<p>${escapeHtml(p)}</p>`).join("\n")}
-${(s.items ?? []).length > 0 ? `<ul>${(s.items ?? []).map((item) => `<li>${escapeHtml(item)}</li>`).join("\n")}</ul>` : ""}${Array.isArray(s.questions) ? questionListHtml(s.questions) : ""}
+${articleItemsHtml(s.items ?? [])}${Array.isArray(s.questions) ? questionListHtml(s.questions) : ""}
 </section>`
           )
           .join("\n")
@@ -401,6 +402,15 @@ ${article.relatedArticles
 </div>`
       : "";
 
+  // 関連ガイド。カードは「あなたへのおすすめ」と同じ見た目で、表示名と説明は recommendations.json から引く
+  const relatedGuidesHtml =
+    Array.isArray(article.relatedGuides) && article.relatedGuides.length > 0
+      ? `\n<div class="panel" style="margin:1rem 0;">
+<p class="panel-title">${icon("book")}関連ガイド</p>
+${article.relatedGuides.map((href) => recommendationCard(findRecommendation(href))).join("\n")}
+</div>`
+      : "";
+
   // 更新日。updatedAt未設定の記事は公開日のみ表示（従来と同一）
   const updatedAtHtml = article.updatedAt ? `（${escapeHtml(article.updatedAt)}更新）` : "";
 
@@ -417,7 +427,7 @@ ${giinLinkBox}
 ${shigikaiDisclosure}
 ${adSlot("articleBottom", adsAllowed)}
 <p class="article-source">出典：<a href="${escapeHtml(article.sourceUrl)}" rel="noopener" target="_blank">${escapeHtml(article.sourceName)}</a>${article.sourceUnavailable ? "（掲載終了）" : ""}</p>
-${article.sourceUnavailable ? `<p class="empty-state" style="font-size:0.85rem;">※ 出典ページは掲載終了しています（期間限定のお知らせのため）。本文は掲載当時の公式発表内容を要約したものです。</p>` : ""}${additionalSourcesHtml}${relatedArticlesHtml}
+${article.sourceUnavailable ? `<p class="empty-state" style="font-size:0.85rem;">※ 出典ページは掲載終了しています（期間限定のお知らせのため）。本文は掲載当時の公式発表内容を要約したものです。</p>` : ""}${additionalSourcesHtml}${relatedArticlesHtml}${relatedGuidesHtml}
 <p class="x-follow-note">公式X：<a href="https://x.com/TakaTodayJP" target="_blank" rel="noopener">@TakaTodayJP</a><br>最新の更新情報や防災情報をお届けしています。</p>
 <p class="back-link"><a href="/">${icon("newspaper")}トップへ戻る</a></p>
 </article>
@@ -431,9 +441,31 @@ ${recommendedPagesPanel(categoryMeta?.key ?? "", `/articles/${article.slug}`)}`;
     canonicalUrl,
     ogType: "article",
     structuredData: [jsonLd, breadcrumbLd],
+    ogImage: article.ogImage ?? null,
     adsAllowed,
     noindex: !isArticleIndexable(article),
   });
+}
+
+// 記事 sections の items。連続する文字列は1つの箇条書きにまとめ、{ photo } は箇条書きの間に写真として挟む。
+// 写真のない記事は従来どおり <ul> 1つだけになる
+function articleItemsHtml(items) {
+  const parts = [];
+  let list = [];
+  const flush = () => {
+    if (list.length > 0) parts.push(`<ul>${list.map((item) => `<li>${escapeHtml(item)}</li>`).join("\n")}</ul>`);
+    list = [];
+  };
+  for (const item of items) {
+    if (typeof item === "string") {
+      list.push(item);
+    } else {
+      flush();
+      parts.push(photoFigureHtml(item.photo));
+    }
+  }
+  flush();
+  return parts.join("\n");
 }
 
 // 解説画像の直下に出す案内役の紹介。初見の読者向けに、画像のキャラクターが誰かを本文テキストで説明する
@@ -788,6 +820,14 @@ function guideCard(guide) {
 }
 
 // フェーズ17：おすすめページ・人気コンテンツ導線。既存の.guide-cardデザインを流用する
+// 記事の relatedGuides から recommendations.json の項目を引く。未登録のリンクはビルドを止めて気づけるようにする
+function findRecommendation(href) {
+  const all = [...RECOMMENDATIONS.default, ...Object.values(RECOMMENDATIONS.categories).flat()];
+  const item = all.find((r) => r.href === href);
+  if (!item) throw new Error(`relatedGuides のリンク先が data/recommendations.json に登録されていません: ${href}`);
+  return item;
+}
+
 function recommendationCard(item) {
   return `<a class="guide-card" href="${escapeHtml(item.href)}">
 <div class="icon-box">${icon(item.icon)}</div>
@@ -2210,7 +2250,11 @@ function guideItemHtml(item) {
   if (typeof item === "string") return `<div class="rule-card">${item}</div>`;
   if (item.table) return guideTableHtml(item.table);
   if (item.subheading) return `<h3 class="guide-subheading">${escapeHtml(item.subheading)}</h3>`;
-  const p = item.photo;
+  return photoFigureHtml(item.photo);
+}
+
+// 現地取材写真。ガイドと記事で同じ見た目にする
+function photoFigureHtml(p) {
   const portraitClass = p.height > p.width ? " guide-photo--portrait" : "";
   return `<figure class="guide-photo${portraitClass}"><img src="${escapeHtml(p.src)}" width="${p.width}" height="${p.height}" alt="${escapeHtml(p.alt)}" loading="lazy" decoding="async"><figcaption>${escapeHtml(p.caption)}</figcaption></figure>`;
 }

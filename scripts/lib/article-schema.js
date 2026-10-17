@@ -67,6 +67,63 @@ function validateQuestions(questions, label, errors) {
   });
 }
 
+const PHOTO_SRC_PATTERN = /^\/photos\/[a-z0-9][a-z0-9-]*\.webp$/;
+
+// 現地取材写真 { src, width, height, alt, caption }。ガイドの photo と同じ形で、記事でも同じ描画を使う
+function validateArticlePhoto(p, label, errors) {
+  if (!p || typeof p !== "object" || Array.isArray(p)) {
+    errors.push(`${label} はオブジェクトである必要があります`);
+    return;
+  }
+  const allowed = new Set(["src", "width", "height", "alt", "caption"]);
+  for (const key of Object.keys(p)) if (!allowed.has(key)) errors.push(`${label} に未知のキーがあります: ${key}`);
+  if (typeof p.src !== "string" || !PHOTO_SRC_PATTERN.test(p.src)) errors.push(`${label}.src は /photos/xxx.webp 形式である必要があります: ${p.src}`);
+  for (const key of ["width", "height"]) {
+    if (!Number.isInteger(p[key]) || p[key] <= 0) errors.push(`${label}.${key} は正の整数である必要があります`);
+  }
+  if (!isNonEmptyString(p.alt)) errors.push(`${label}.alt が空です`);
+  if (!isNonEmptyString(p.caption)) errors.push(`${label}.caption が空です`);
+}
+
+// items は文字列（箇条書き）と { photo } の混在を認める。生HTMLは受け付けない
+function validateSectionItems(items, label, errors) {
+  if (!Array.isArray(items)) {
+    errors.push(`${label} は配列である必要があります`);
+    return;
+  }
+  if (items.length === 0) {
+    errors.push(`${label} が空です（存在する場合は1件以上必要）`);
+    return;
+  }
+  items.forEach((item, i) => {
+    if (typeof item === "string") {
+      if (!isNonEmptyString(item)) errors.push(`${label}[${i}] が空です`);
+    } else if (item && typeof item === "object" && !Array.isArray(item) && Object.keys(item).length === 1 && "photo" in item) {
+      validateArticlePhoto(item.photo, `${label}[${i}].photo`, errors);
+    } else {
+      errors.push(`${label}[${i}] は文字列か { photo } である必要があります`);
+    }
+  });
+}
+
+// 関連ガイドはサイト内のガイドページ（/category/<カテゴリー>/<slug>）だけを指す。表示名は recommendations.json から引く
+const GUIDE_HREF_PATTERN = /^\/category\/[a-z]+\/[a-z0-9-]+$/;
+const RELATED_GUIDES_MAX = 3;
+
+function validateRelatedGuides(guides, errors) {
+  if (!Array.isArray(guides) || guides.length === 0) {
+    errors.push("relatedGuides は1件以上の配列である必要があります");
+    return;
+  }
+  if (guides.length > RELATED_GUIDES_MAX) errors.push(`relatedGuides は最大${RELATED_GUIDES_MAX}件です（${guides.length}件あります）`);
+  const seen = new Set();
+  guides.forEach((href, i) => {
+    if (typeof href !== "string" || !GUIDE_HREF_PATTERN.test(href)) errors.push(`relatedGuides[${i}] は /category/xxx/yyy 形式である必要があります: ${href}`);
+    if (seen.has(href)) errors.push(`relatedGuides に重複があります: ${href}`);
+    seen.add(href);
+  });
+}
+
 function validateSections(sections, errors) {
   if (!Array.isArray(sections)) {
     errors.push("sections は配列である必要があります");
@@ -93,7 +150,7 @@ function validateSections(sections, errors) {
       return;
     }
     if (hasParagraphs) validateStringArray(s.paragraphs, `${at}.paragraphs`, errors);
-    if (hasItems) validateStringArray(s.items, `${at}.items`, errors);
+    if (hasItems) validateSectionItems(s.items, `${at}.items`, errors);
     if (hasQuestions) validateQuestions(s.questions, `${at}.questions`, errors);
   });
 }
@@ -263,6 +320,10 @@ export function validateArticle(article, context = {}) {
   if (article.sources !== undefined) validateSources(article.sources, article, errors);
   if (article.comparisonTables !== undefined) validateComparisonTables(article.comparisonTables, errors);
   if (article.explainerImage !== undefined) errors.push(...validateExplainerImage(article.explainerImage));
+  if (article.relatedGuides !== undefined) validateRelatedGuides(article.relatedGuides, errors);
+  if (article.ogImage !== undefined && (typeof article.ogImage !== "string" || !PHOTO_SRC_PATTERN.test(article.ogImage))) {
+    errors.push(`ogImage は /photos/xxx.webp 形式である必要があります: ${article.ogImage}`);
+  }
 
   return { errors, warnings };
 }
