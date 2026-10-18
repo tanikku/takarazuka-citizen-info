@@ -1901,7 +1901,7 @@ function suisougakuStagePanel(iconName, title, stage, advancedLabel = "上位大
 <thead><tr style="background:var(--color-surface-2,#f5f5f5);">
 <th style="padding:0.5rem;text-align:left;border-bottom:1px solid var(--color-border,#ddd);">学校名</th>
 <th style="padding:0.5rem;text-align:right;border-bottom:1px solid var(--color-border,#ddd);">出演順</th>
-<th style="padding:0.5rem;text-align:right;border-bottom:1px solid var(--color-border,#ddd);">演奏予定時刻</th>
+<th style="padding:0.5rem;text-align:right;border-bottom:1px solid var(--color-border,#ddd);">舞台時刻</th>
 ${hasResults ? `<th style="padding:0.5rem;text-align:right;border-bottom:1px solid var(--color-border,#ddd);">賞</th><th style="padding:0.5rem;text-align:right;border-bottom:1px solid var(--color-border,#ddd);">${escapeHtml(advancedLabel)}</th>` : ""}
 </tr></thead>
 <tbody>
@@ -1975,8 +1975,7 @@ export function suisougakuGuidePage(years, siteUrl) {
     ? `${resultsNoteHtml}
 <p class="today-source"><span class="takarazuka-tag">宝塚市内</span>のマークが付いた学校が宝塚市内・雲雀丘学園の学校です。</p>
 ${current.districtResults.divisions.map((d) => loadSuisougakuDistrictDivisionTable(d, takarazukaNames)).join("\n")}
-<p class="note-box">${escapeHtml(current.districtResults.pendingNote)}</p>
-<p class="today-source">F部門・C部門は上位大会（県大会）への出場対象外の部門です。</p>`
+${current.districtResults.pendingNote ? `<p class="note-box">${escapeHtml(current.districtResults.pendingNote)}</p>\n` : ""}<p class="today-source">F部門・C部門は上位大会（県大会）への出場対象外の部門です。</p>`
     : resultsNoteHtml;
 
   const faqHtml = SUISOUGAKU_FAQ.map((item) => `<p class="guide-q">Q. ${escapeHtml(item.q)}</p><p>${escapeHtml(item.a)}</p>`).join("\n");
