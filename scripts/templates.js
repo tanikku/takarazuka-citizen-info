@@ -564,19 +564,24 @@ function siteNoticeRow(notice) {
 </a>`;
 }
 
-function todayTopicPanel(todayArticles, activeNotices = []) {
+// 当日の記事が無い日は、空欄の代わりに最新記事（latestArticles）を「本日の新着なし」と明示して出す
+function todayTopicPanel(todayArticles, activeNotices = [], latestArticles = []) {
   const noticeItems = activeNotices.map(siteNoticeRow).join("\n");
-  if (todayArticles.length === 0 && activeNotices.length === 0) {
+  if (todayArticles.length === 0 && activeNotices.length === 0 && latestArticles.length === 0) {
     return `<div class="panel" id="today-topic">
 <p class="panel-title">${icon("calendar")}今日の宝塚トピック</p>
 <p class="empty-state">本日の新しい記事はまだありません</p>
 </div>`;
   }
+  const latestHtml =
+    todayArticles.length === 0 && latestArticles.length > 0
+      ? `<p class="panel-note">本日の新着記事はまだありません。最新の記事をご紹介します</p>\n${latestArticles.map(headlineRow).join("\n")}`
+      : "";
   const items = todayArticles.map(headlineRow).join("\n");
   return `<div class="panel" id="today-topic">
 <p class="panel-title">${icon("calendar")}今日の宝塚トピック</p>
 ${noticeItems}
-${items}
+${items}${latestHtml}
 </div>`;
 }
 
@@ -596,9 +601,9 @@ function fieldReportPanel(fieldReportPhoto) {
 </div>`;
 }
 
-function todayRow(todayArticles, fieldReportPhoto, categoryPageKeys, activeNotices = []) {
+function todayRow(todayArticles, fieldReportPhoto, categoryPageKeys, activeNotices = [], latestArticles = []) {
   return `<div class="today-row">
-${todayTopicPanel(todayArticles, activeNotices)}
+${todayTopicPanel(todayArticles, activeNotices, latestArticles)}
 <div class="today-row-side">
 ${fieldReportPanel(fieldReportPhoto)}
 ${categoryPanel(categoryPageKeys)}
@@ -724,19 +729,28 @@ ${items}
 }
 
 export function indexPage({ topArticles, todayArticles, categoryPageKeys, publishedArticles, ranking, weather, todayCounts, fieldReportPhoto, dateLabel, siteUrl, hasGianPage = false, activeNotices = [] }) {
-  const gikaiArticles = publishedArticles.filter((a) => a.category === "市議会");
+  // 同じ記事を「今日の宝塚トピック」「トップニュース」「新着記事」で重ねて出さない。上の枠から順に表示済みを除く
+  const latestArticles = todayArticles.length === 0 ? topArticles.slice(0, 2) : [];
+  const shown = new Set([...todayArticles, ...latestArticles].map((a) => a.slug));
+  const notShown = (a) => !shown.has(a.slug);
+  // 市議会情報は最新の市議会記事を出す枠なので、今日の宝塚トピックとの重複だけを除き、トップニュースとの重複は許す（重複を避けるために古い記事を繰り上げない）
+  const gikaiArticles = publishedArticles.filter((a) => a.category === "市議会" && notShown(a)).slice(0, 3);
+  const topNewsArticles = topArticles.filter(notShown).slice(0, 3);
+  [...topNewsArticles, ...gikaiArticles].forEach((a) => shown.add(a.slug));
+  // 新着記事は検索対象（noindexでない）の記事だけ。noindexの記事も記事ページ自体は公開のまま
+  const recentArticles = publishedArticles.filter((a) => notShown(a) && isArticleIndexable(a));
 
   const bodyHtml = `${dateBar(dateLabel)}
 ${searchBoxPanel()}
 ${quickAccessPanel()}
 <div class="weather-standalone-row">${weatherPanel(weather)}${contactCtaPanel()}</div>
-${todayRow(todayArticles, fieldReportPhoto, categoryPageKeys, activeNotices)}
+${todayRow(todayArticles, fieldReportPhoto, categoryPageKeys, activeNotices, latestArticles)}
 <div class="grid-2">
   <div class="col-main">
-    ${topNewsPanel(topArticles)}
+    ${topNewsPanel(topNewsArticles)}
     ${shigikaiCornerPanel({ hasGianPage, gikaiArticles })}
     ${guideNavPanel()}
-    ${recentCombinedFeed(publishedArticles, categoryPageKeys)}
+    ${recentCombinedFeed(recentArticles, categoryPageKeys)}
   </div>
   <div class="col-side">
     ${ranking ? rankingOrRecentPanel(ranking, publishedArticles) : ""}

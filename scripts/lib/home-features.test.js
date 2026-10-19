@@ -174,3 +174,88 @@ test("TOP用の軽量版画像は正式原画の5分の1未満の容量", () => 
     assert.ok(thumb < full / 5, `${name}: ${thumb} >= ${full}/5`);
   }
 });
+
+// --- 今日の宝塚トピックと記事枠の重複 ---
+function fakeArticle(slug, category = "行政・くらし") {
+  return { slug, title: `記事${slug}`, summary: "", sourceUrl: "https://example.jp/", sourceName: "宝塚市公式サイト", publishedAt: "2026-10-15", category, valueScore: "A" };
+}
+function countLinks(html, slug) {
+  return html.split(`href="/articles/${slug}"`).length - 1;
+}
+
+test("当日の記事が無い日は空表示にせず、最新記事を「本日の新着なし」と明示して出す", () => {
+  const list = ["a1", "a2", "a3"].map((s) => fakeArticle(s));
+  const html = home({ topArticles: list, publishedArticles: list });
+  assert.ok(!html.includes("本日の新しい記事はまだありません"));
+  assert.ok(html.includes("本日の新着記事はまだありません。最新の記事をご紹介します"));
+});
+
+test("今日の宝塚トピック・トップニュース・新着記事では同じ記事を重ねて出さない", () => {
+  const list = [fakeArticle("a1"), fakeArticle("a2"), fakeArticle("a3"), fakeArticle("a4"), fakeArticle("a5"), fakeArticle("a6"), fakeArticle("a7")];
+  const html = home({ topArticles: list, publishedArticles: list });
+  for (const a of list) assert.equal(countLinks(html, a.slug), 1, `${a.slug} の表示回数`);
+});
+
+test("市議会情報は最新の市議会記事を出し、トップニュースとの重複は許すが古い記事を繰り上げない", () => {
+  const list = [fakeArticle("a1"), fakeArticle("a2"), fakeArticle("g1", "市議会"), fakeArticle("g2", "市議会"), fakeArticle("g3", "市議会"), fakeArticle("g4-old", "市議会")];
+  const html = home({ topArticles: list, publishedArticles: list });
+  const corner = html.slice(html.indexOf("shigikai-corner"), html.indexOf("市議会ウォッチ一覧へ"));
+  for (const slug of ["g1", "g2", "g3"]) assert.equal(countLinks(corner, slug), 1, slug);
+  assert.equal(countLinks(corner, "g4-old"), 0);
+  assert.equal(countLinks(html, "g1"), 2);
+});
+
+test("新着記事には noindex の記事を出さない", () => {
+  const list = ["a1", "a2", "a3", "a4", "a5", "a6"].map((s) => fakeArticle(s));
+  list[5].indexing = "noindex";
+  const html = home({ topArticles: list.slice(0, 5), publishedArticles: list });
+  assert.equal(countLinks(html, "a6"), 0);
+});
+
+// --- トップの境界条件 ---
+function panelSlice(html, title) {
+  const start = html.indexOf(title);
+  const next = html.indexOf('<p class="panel-title">', start + title.length);
+  return html.slice(start, next === -1 ? undefined : next);
+}
+
+test("当日の記事がある日は最新記事の補充をせず、当日の記事をトピックだけに1回出す", () => {
+  const list = [fakeArticle("t1"), fakeArticle("a1"), fakeArticle("a2"), fakeArticle("a3"), fakeArticle("a4")];
+  const html = home({ todayArticles: [list[0]], topArticles: list, publishedArticles: list });
+  assert.ok(!html.includes("最新の記事をご紹介します"));
+  assert.ok(!html.includes("本日の新しい記事はまだありません"));
+  assert.equal(countLinks(panelSlice(html, "今日の宝塚トピック"), "t1"), 1);
+  assert.equal(countLinks(html, "t1"), 1);
+  const top = panelSlice(html, "トップニュース");
+  assert.deepEqual(["a1", "a2", "a3"].map((s) => countLinks(top, s)), [1, 1, 1]);
+});
+
+test("お知らせがある日は、当日の記事が無くてもお知らせと最新記事の両方を出す", () => {
+  const list = ["a1", "a2", "a3"].map((s) => fakeArticle(s));
+  const notice = { text: "テストのお知らせ", href: "/category/shigikai/gian", until: "2099-12-31" };
+  const html = home({ topArticles: list, publishedArticles: list, activeNotices: [notice] });
+  const today = panelSlice(html, "今日の宝塚トピック");
+  assert.ok(today.includes("テストのお知らせ"));
+  assert.ok(today.includes('href="/category/shigikai/gian"'));
+  assert.ok(today.includes("最新の記事をご紹介します"));
+  assert.ok(today.indexOf("テストのお知らせ") < today.indexOf("最新の記事をご紹介します"));
+});
+
+test("市議会記事が当日の記事の日は、市議会情報に重ねて出さず次の市議会記事を出す", () => {
+  const list = [fakeArticle("g1", "市議会"), fakeArticle("a1"), fakeArticle("g2", "市議会"), fakeArticle("g3", "市議会"), fakeArticle("g4", "市議会")];
+  const html = home({ todayArticles: [list[0]], topArticles: list, publishedArticles: list, hasGianPage: true });
+  assert.equal(countLinks(html, "g1"), 1);
+  const corner = html.slice(html.indexOf("shigikai-corner"), html.indexOf("市議会ウォッチ一覧へ"));
+  assert.deepEqual(["g1", "g2", "g3", "g4"].map((s) => countLinks(corner, s)), [0, 1, 1, 1]);
+});
+
+test("noindex の記事が新着候補に混ざっても、新着記事は検索対象の記事だけで埋める", () => {
+  const list = Array.from({ length: 16 }, (_, i) => fakeArticle(`n${i}`));
+  for (const i of [6, 8, 10]) list[i].indexing = "noindex";
+  const html = home({ topArticles: list.slice(0, 5), publishedArticles: list });
+  const recent = panelSlice(html, "新着記事</p>");
+  for (const i of [6, 8, 10]) assert.equal(countLinks(recent, `n${i}`), 0, `n${i}`);
+  const shownInRecent = list.filter((a) => countLinks(recent, a.slug) === 1).map((a) => a.slug);
+  assert.equal(shownInRecent.length, 8);
+  assert.deepEqual(shownInRecent, ["n5", "n7", "n9", "n11", "n12", "n13", "n14", "n15"]);
+});
