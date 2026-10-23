@@ -192,7 +192,7 @@ const QUICK_ACCESS_ITEMS = [
   { href: "/category/shigikai", icon: "building", label: "市議会" },
   { href: "/category/bohan", icon: "shield", label: "防犯" },
   { href: "/events/", icon: "calendar", label: "イベント" },
-  { href: "/#photo", icon: "camera", label: "フォト" },
+  { href: "/photo", icon: "camera", label: "フォト" },
   { href: "/livecam", icon: "videoCamera", label: "武庫川・水位情報" },
 ];
 
@@ -598,6 +598,7 @@ function fieldReportPanel(fieldReportPhoto) {
   <span class="photo-hero-credit">宝塚Today撮影｜${escapeHtml(p.shotOn)}</span>
 </span>
 </a>
+<p class="photo-more"><a href="/photo">現地取材フォトをもっと見る →</a></p>
 </div>`;
 }
 
@@ -2560,6 +2561,47 @@ ${staticSectionHeading("これから登場する記事も増やしていきま�
     contentHtml,
     siteUrl,
     ogImage: "/photos/takara-madoka-takara-wan-1200x630.webp",
+  });
+}
+
+// 現地取材フォト（/photo）。宝塚Todayが現地で撮影した写真だけを、場所ごとに取材日とガイドへのリンクつきで並べる。
+// gallery は home-features.js の buildFieldReportGallery で組み立てたもの（写真・キャプション・取材日はガイドのデータ）
+export const FIELD_PHOTO_SLUG = "photo";
+// 一覧の写真は縮小版を表示し、タップで元画像を開けるようにする。
+// 最初の1枚だけは初回表示に入るため lazy にせず優先して読み込む
+function galleryFigureHtml(p, isFirst) {
+  const loading = isFirst ? 'fetchpriority="high"' : 'loading="lazy"';
+  return `<figure class="guide-photo"><a href="${escapeHtml(p.src)}"><img src="${escapeHtml(p.thumb)}" width="${p.width}" height="${p.height}" alt="${escapeHtml(p.alt)}" ${loading} decoding="async"></a><figcaption>${escapeHtml(p.caption)}</figcaption></figure>`;
+}
+
+export function photoGalleryPage(gallery, siteUrl) {
+  const sections = gallery
+    .map((g, gi) => {
+      const figures = g.photos.map((p, pi) => galleryFigureHtml(p, gi === 0 && pi === 0)).join("\n");
+      const articleLink = g.article ? `　<a href="${escapeHtml(g.article.href)}">${escapeHtml(g.article.label)} →</a>` : "";
+      return `${staticSectionHeading(g.place)}
+<p class="photo-gallery-meta">現地取材：${escapeHtml(g.reportedOn)}・写真：宝塚Today撮影</p>
+<div class="photo-gallery">
+${figures}
+</div>
+<p class="panel-note"><a href="${escapeHtml(g.href)}">${escapeHtml(g.guideTitle)}で詳しく見る →</a>${articleLink}</p>`;
+    })
+    .join("\n");
+  const contentHtml = `
+<p>宝塚Todayが実際に現地を訪れて撮影した写真を、場所ごとにまとめています。それぞれの場所のアクセスや見どころは、リンク先のガイドで詳しく紹介しています。</p>
+<p class="panel-note">このページに載せているのは宝塚Todayが撮影した写真だけです。宝塚市オープンデータなど、提供を受けた写真は含めていません。</p>
+${sections}
+`;
+  return staticInfoPage({
+    slug: FIELD_PHOTO_SLUG,
+    breadcrumbLabel: "現地取材フォト",
+    title: "現地取材フォト",
+    description: `宝塚Todayが現地で撮影した宝塚市内の写真を、場所ごとに取材日とあわせてまとめました（${gallery.map((g) => g.place).join("・")}）。`,
+    panelTitle: "現地取材フォト",
+    panelIcon: "camera",
+    contentHtml,
+    siteUrl,
+    ogImage: gallery[0]?.photos[0]?.src ?? null,
   });
 }
 

@@ -1060,6 +1060,42 @@ html[data-theme="dark"] .point-box-title {
   margin-top: 6px;
 }
 
+/* 現地取材フォト（/photo）。スマホは1列、広い画面は3列。写真は横長だけを選んでいるので4:3で揃える */
+.photo-gallery {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+  margin: 8px 0 6px;
+}
+
+@media (min-width: 720px) {
+  .photo-gallery {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.photo-gallery .guide-photo {
+  margin: 0;
+}
+
+.photo-gallery .guide-photo img {
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+}
+
+.photo-gallery-meta {
+  font-size: 0.8rem;
+  color: var(--text-sub);
+  margin: 0 0 4px;
+}
+
+/* トップの現地取材写真の下に置く /photo への導線 */
+.photo-more {
+  margin: 0;
+  padding: 10px 14px;
+  font-size: 0.85rem;
+}
+
 /* 記事・議案採決一覧の冒頭に置く「3〜4ポイント解説」画像。本文より目立ちすぎないよう幅を抑える */
 /* 幅の上限は枠側に持たせる（img には古いCSS対策の inline max-width:100% があり、img側の上限は上書きされるため） */
 .explainer-figure {

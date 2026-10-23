@@ -51,3 +51,71 @@ export function isRankingFresh(data, todayKey, maxAgeDays = RANKING_MAX_AGE_DAYS
   const ageDays = (Date.UTC(y, m - 1, d) - generated) / 86400000;
   return ageDays <= maxAgeDays;
 }
+
+// 現地取材フォト（/photo）に載せる場所と写真。宝塚Todayが現地で撮影したとガイドに明記している場所だけを、新しい取材順に並べる。
+// 写真のキャプション・寸法・取材日は各ガイドのデータから読む（ここに複製しない）。一覧で切り抜かれないよう横長の写真だけを選ぶ
+export const FIELD_REPORT_GALLERY = [
+  {
+    guide: "dahlia-en-guide",
+    place: "宝塚ダリア園",
+    photos: ["/photos/dahlia-field-mountain-20261017.webp", "/photos/dahlia-pastel-bee-20261017.webp", "/photos/dahlia-area2-goldrush-20261017.webp"],
+    article: { href: "/articles/dahlia-en-2026aki", label: "現地取材の記事を読む" },
+  },
+  {
+    guide: "aiaipark-guide",
+    place: "あいあいパーク",
+    photos: ["/photos/aiaipark-exterior-20261016.webp", "/photos/aiaipark-courtyard-20261016.webp", "/photos/aiaipark-outdoor-plants-20261016.webp"],
+  },
+  {
+    guide: "kiyoshikojin-guide",
+    place: "清荒神清澄寺",
+    photos: ["/photos/kiyoshikojin-approach-20261003.webp", "/photos/kiyoshikojin-keidai-20261003.webp", "/photos/kiyoshikojin-keidai-green-20261003.webp"],
+  },
+  {
+    guide: "nakayamadera-guide",
+    place: "中山寺",
+    photos: ["/photos/nakayamadera-keidai-path-20261003.webp", "/photos/nakayamadera-keidai-20261003.webp"],
+  },
+];
+
+const OWN_PHOTO_STATEMENT = "宝塚Todayが現地で撮影";
+
+function guidePhotos(guide) {
+  const photos = [];
+  for (const section of guide.sections ?? []) {
+    for (const item of section.items ?? []) {
+      if (item && typeof item === "object" && item.photo) photos.push(item.photo);
+    }
+  }
+  return photos;
+}
+
+// guides（data/guides の読み込み結果）から /photo の表示データを組み立てる。
+// 撮影の明記・取材日・写真のどれかがガイドに無ければ、推測で埋めずにビルドを止める
+export function buildFieldReportGallery(guides, gallery = FIELD_REPORT_GALLERY) {
+  return gallery.map((entry) => {
+    const guide = guides.find((g) => g.slug === entry.guide);
+    if (!guide) throw new Error(`現地取材フォト: ガイド ${entry.guide} が見つかりません`);
+    const report = guide.fieldReport ?? [];
+    if (!report.some((line) => line.includes(OWN_PHOTO_STATEMENT))) {
+      throw new Error(`現地取材フォト: ${entry.guide} に「${OWN_PHOTO_STATEMENT}」の明記がありません`);
+    }
+    const dateLine = report.find((line) => line.startsWith("現地取材："));
+    if (!dateLine) throw new Error(`現地取材フォト: ${entry.guide} に取材日がありません`);
+    const all = guidePhotos(guide);
+    const photos = entry.photos.map((src) => {
+      const photo = all.find((p) => p.src === src);
+      if (!photo) throw new Error(`現地取材フォト: ${entry.guide} に写真 ${src} がありません`);
+      // 一覧は横800pxの縮小版（assets/photos に別ファイルで配置）を表示し、元画像はリンク先に残す
+      return { ...photo, thumb: src.replace(/\.webp$/, "-800w.webp") };
+    });
+    return {
+      place: entry.place,
+      reportedOn: dateLine.slice("現地取材：".length),
+      href: `/category/${guide.categoryKey}/${guide.slug}`,
+      guideTitle: guide.title,
+      photos,
+      article: entry.article ?? null,
+    };
+  });
+}

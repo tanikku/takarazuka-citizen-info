@@ -21,6 +21,8 @@ import {
   GUIDE_CHARACTERS_SLUG,
   GUIDE_CHARACTERS_TITLE,
   GUIDE_CHARACTERS_DESCRIPTION,
+  photoGalleryPage,
+  FIELD_PHOTO_SLUG,
   adPolicyPage,
   contactPage,
   notFoundPage,
@@ -34,7 +36,7 @@ import { validateArticles, PUBLISHABLE_SCORES } from "./lib/article-schema.js";
 import { isListableAsUpcoming } from "./lib/article-status.js";
 import { articleSitemapEntry, indexableSitemapEntries } from "./lib/indexing.js";
 import { validateGuides } from "./lib/guide-schema.js";
-import { pickFieldReportPhoto, isRankingFresh } from "./lib/home-features.js";
+import { pickFieldReportPhoto, isRankingFresh, buildFieldReportGallery } from "./lib/home-features.js";
 import { validateExplainerImage, availableExplainerImage } from "./lib/explainer-image.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -268,6 +270,7 @@ function buildSitemap(publishedArticles, categoryPageKeys, giinWithArticles, gui
     { loc: `${SITE_URL}/privacy`, lastmod: today },
     { loc: `${SITE_URL}/about`, lastmod: today },
     { loc: `${SITE_URL}/${GUIDE_CHARACTERS_SLUG}`, lastmod: "2026-10-16" },
+    { loc: `${SITE_URL}/${FIELD_PHOTO_SLUG}`, lastmod: today },
     { loc: `${SITE_URL}/ad-policy`, lastmod: today },
     { loc: `${SITE_URL}/contact`, lastmod: today },
     ...guides.map((g) => ({ loc: `${SITE_URL}/category/${g.categoryKey}/${g.slug}`, lastmod: g.updatedAt })),
@@ -413,6 +416,13 @@ function buildSearchIndex({ publishedArticles, categorySections, guides, gianSes
       url: `/${GUIDE_CHARACTERS_SLUG}`,
     },
     {
+      title: "現地取材フォト",
+      description: "宝塚Todayが現地で撮影した宝塚市内の写真を、場所ごとに取材日とあわせてまとめています。",
+      category: "",
+      keywords: "写真 フォト 現地取材 ダリア園 あいあいパーク 清荒神 中山寺",
+      url: `/${FIELD_PHOTO_SLUG}`,
+    },
+    {
       title: "運営者情報",
       description: "Takarazuka Todayのサイト名・目的・編集方針・運営体制について説明します。",
       category: "",
@@ -543,6 +553,7 @@ function main() {
   writeFile("privacy.html", privacyPage(SITE_URL));
   writeFile("about.html", aboutPage(SITE_URL));
   writeFile(`${GUIDE_CHARACTERS_SLUG}.html`, guideCharactersPage(SITE_URL));
+  writeFile(`${FIELD_PHOTO_SLUG}.html`, photoGalleryPage(buildFieldReportGallery(guides), SITE_URL));
   writeFile("ad-policy.html", adPolicyPage(SITE_URL));
   writeFile("contact.html", contactPage(SITE_URL, process.env.TURNSTILE_SITE_KEY));
   // 未マッチURL用。Cloudflare Pagesがルート直下の404.htmlをHTTP 404で自動配信する（sitemap・検索インデックスには載せない）

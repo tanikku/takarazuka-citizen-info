@@ -5,8 +5,8 @@ import assert from "node:assert/strict";
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { FIELD_REPORT_PHOTOS, pickFieldReportPhoto, isRankingFresh, RANKING_MAX_AGE_DAYS } from "./home-features.js";
-import { indexPage, rankingPage, RANKING_PAGE_NOINDEX, articlePage, guideCharactersPage } from "../templates.js";
+import { FIELD_REPORT_PHOTOS, pickFieldReportPhoto, isRankingFresh, RANKING_MAX_AGE_DAYS, FIELD_REPORT_GALLERY, buildFieldReportGallery } from "./home-features.js";
+import { indexPage, rankingPage, RANKING_PAGE_NOINDEX, articlePage, guideCharactersPage, photoGalleryPage } from "../templates.js";
 
 const ROOT = path.join(path.dirname(fileURLToPath(import.meta.url)), "..", "..");
 const SITE = "https://takarazuka-today.jp";
@@ -258,4 +258,61 @@ test("noindex の記事が新着候補に混ざっても、新着記事は検索
   const shownInRecent = list.filter((a) => countLinks(recent, a.slug) === 1).map((a) => a.slug);
   assert.equal(shownInRecent.length, 8);
   assert.deepEqual(shownInRecent, ["n5", "n7", "n9", "n11", "n12", "n13", "n14", "n15"]);
+});
+
+// --- 現地取材フォト（/photo） ---
+function loadAllGuides() {
+  const dir = path.join(ROOT, "data", "guides");
+  return fs.readdirSync(dir).filter((f) => f.endsWith(".json")).map((f) => JSON.parse(fs.readFileSync(path.join(dir, f), "utf8")));
+}
+
+test("現地取材フォトは撮影を明記したガイドの写真だけで、取材日・横長・実ファイルをそろえる", () => {
+  const gallery = buildFieldReportGallery(loadAllGuides());
+  assert.equal(gallery.length, FIELD_REPORT_GALLERY.length);
+  for (const g of gallery) {
+    assert.match(g.reportedOn, /^\d{4}年\d{1,2}月\d{1,2}日$/, g.place);
+    assert.ok(g.photos.length >= 2, g.place);
+    for (const p of g.photos) {
+      assert.ok(fs.existsSync(path.join(ROOT, "assets", p.src)), p.src);
+      assert.ok(p.width > p.height, `${p.src} は横長ではない`);
+      assert.ok(!p.src.includes("/0010"), `${p.src} はオープンデータの写真`);
+      assert.ok(p.caption && p.alt, p.src);
+    }
+  }
+});
+
+test("撮影の明記が無いガイドや存在しない写真は、推測で埋めずにエラーにする", () => {
+  const guides = loadAllGuides();
+  assert.throws(() => buildFieldReportGallery(guides, [{ guide: "hanshin-keibajo-guide", place: "阪神競馬場", photos: ["/photos/hanshin-keibajo.jpg"] }]));
+  assert.throws(() => buildFieldReportGallery(guides, [{ guide: "dahlia-en-guide", place: "宝塚ダリア園", photos: ["/photos/not-found.webp"] }]));
+});
+
+test("/photo は場所ごとに取材日・撮影者・ガイドへのリンクを出し、トップのフォトから辿れる", () => {
+  const gallery = buildFieldReportGallery(loadAllGuides());
+  const html = photoGalleryPage(gallery, SITE);
+  for (const g of gallery) {
+    assert.ok(html.includes(g.place));
+    assert.ok(html.includes(`現地取材：${g.reportedOn}・写真：宝塚Today撮影`));
+    assert.ok(html.includes(`href="${g.href}"`));
+  }
+  assert.ok(html.includes('rel="canonical" href="https://takarazuka-today.jp/photo"'));
+  const top = home();
+  assert.ok(top.includes('<a class="qa-tile" href="/photo">'));
+  assert.ok(top.includes('href="/photo">現地取材フォトをもっと見る'));
+});
+
+test("/photo の一覧は縮小版を表示して元画像へリンクし、最初の1枚だけ優先読み込みする", () => {
+  const gallery = buildFieldReportGallery(loadAllGuides());
+  const html = photoGalleryPage(gallery, SITE);
+  const photos = gallery.flatMap((g) => g.photos);
+  for (const p of photos) {
+    const thumbPath = path.join(ROOT, "assets", p.thumb);
+    assert.ok(fs.existsSync(thumbPath), p.thumb);
+    assert.ok(fs.statSync(thumbPath).size < fs.statSync(path.join(ROOT, "assets", p.src)).size, `${p.thumb} が元画像より小さくない`);
+    assert.ok(html.includes(`<a href="${p.src}"><img src="${p.thumb}"`), p.src);
+  }
+  const imgs = html.match(/<img src="\/photos\/[^"]+-800w\.webp"[^>]*>/g);
+  assert.equal(imgs.length, photos.length);
+  assert.ok(imgs[0].includes('fetchpriority="high"') && !imgs[0].includes('loading="lazy"'));
+  for (const img of imgs.slice(1)) assert.ok(img.includes('loading="lazy"') && !img.includes("fetchpriority"), img);
 });
