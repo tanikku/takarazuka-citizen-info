@@ -2409,3 +2409,66 @@ a:focus-visible, button:focus-visible {
     color: var(--text-sub);
   }
 }
+
+/* 行政手続きガイドの目的別カード（guide.quickLinks）。見出しと一覧は .contact-cards を共用し、
+   カード全体を押せるリンクにする（タップ領域は44px以上） */
+.quick-link {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 44px;
+  height: 100%;
+  box-sizing: border-box;
+  padding: 12px 14px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-left: 6px solid var(--accent);
+  border-radius: 8px;
+  color: inherit;
+  text-decoration: none;
+}
+
+.quick-link:hover {
+  background: var(--accent-soft);
+}
+
+.quick-link-icon {
+  flex: none;
+  display: flex;
+  color: var(--accent);
+}
+
+.quick-link-icon .icon {
+  width: 28px;
+  height: 28px;
+}
+
+.quick-link-body {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.quick-link-tag {
+  font-size: 0.82rem;
+  font-weight: 800;
+  color: var(--accent);
+}
+
+.quick-link-title {
+  font-size: 1.1rem;
+  font-weight: 900;
+  line-height: 1.35;
+}
+
+.quick-link-title::after {
+  content: " ↓";
+}
+
+.quick-link-desc {
+  text-wrap: balance;
+  font-size: 0.82rem;
+  color: var(--text-sub);
+  line-height: 1.5;
+}

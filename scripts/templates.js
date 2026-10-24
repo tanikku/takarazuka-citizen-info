@@ -2354,6 +2354,26 @@ ${c.note ? `<p class="contact-cards-note">${escapeHtml(c.note)}</p>` : ""}
 `;
 }
 
+// 目的別の入口カード（guide.quickLinks を持つガイドだけ）。同じページ内の節へのリンクで、
+// 見出しと一覧の見た目は連絡先カードと共通。アイコンとラベルを併記し、色だけに頼らない
+function quickLinksHtml(q) {
+  if (!q) return "";
+  return `<nav class="contact-cards quick-links" aria-labelledby="quick-links-title">
+<h2 id="quick-links-title">${icon("search")}${escapeHtml(q.heading)}</h2>
+<ul class="contact-cards-list">
+${q.links
+  .map(
+    (l) => `<li><a class="quick-link" href="${escapeHtml(l.href)}">
+<span class="quick-link-icon">${icon(l.icon)}</span>
+<span class="quick-link-body"><span class="quick-link-tag">${escapeHtml(l.tag)}</span><span class="quick-link-title">${escapeHtml(l.title)}</span><span class="quick-link-desc">${escapeHtml(l.desc)}</span></span>
+</a></li>`,
+  )
+  .join("\n")}
+</ul>
+</nav>
+`;
+}
+
 // 検索流入向けの常設ガイドページ（ごみ出し・子育て支援・防災・学校情報など）
 // ニュース記事ではなく評価性のない常設リファレンス情報のため、記事スキーマとは別に専用ページとして実装する
 export function guidePage(guide, siteUrl) {
@@ -2414,7 +2434,7 @@ ${guide.changelog.map((c) => `<li><span class="changelog-date">${escapeHtml(c.da
 <div class="page-content${guide.visual ? " guide-visual" : ""}">
 <h1>${escapeHtml(guide.title)}</h1>${fieldReportHtml}
 ${heroPhotoHtml}
-${contactCardsHtml(guide.contactCards)}<p class="lead">${escapeHtml(guide.lead)}</p>
+${contactCardsHtml(guide.contactCards)}${quickLinksHtml(guide.quickLinks)}<p class="lead">${escapeHtml(guide.lead)}</p>
 ${disclosureHtml}
 <p class="updated-at">最終更新：${escapeHtml(guide.updatedAt)}</p>
 ${changelogHtml}

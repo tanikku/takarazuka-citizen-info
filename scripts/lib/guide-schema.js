@@ -23,9 +23,27 @@ function validateContactCards(c, errors) {
   });
 }
 
+const QUICK_LINK_ICONS = ["building", "newspaper", "user"];
+
+// 任意の quickLinks（冒頭の目的別カード）。リンク先は同じページの節（sections[].id）だけ
+function validateQuickLinks(q, sectionIds, errors) {
+  if (q === undefined) return;
+  if (!q || typeof q !== "object" || Array.isArray(q)) return errors.push("quickLinks はオブジェクトにしてください");
+  if (typeof q.heading !== "string" || !q.heading.trim()) errors.push("quickLinks.heading は空でない文字列にしてください");
+  if (!Array.isArray(q.links) || q.links.length < 1 || q.links.length > 3) return errors.push("quickLinks.links は1〜3件にしてください");
+  q.links.forEach((l, i) => {
+    for (const k of ["tag", "title", "desc"]) {
+      if (typeof l?.[k] !== "string" || !l[k].trim()) errors.push(`quickLinks.links[${i}].${k} は空でない文字列にしてください`);
+    }
+    if (!QUICK_LINK_ICONS.includes(l?.icon)) errors.push(`quickLinks.links[${i}].icon は ${QUICK_LINK_ICONS.join(" / ")} のいずれかにしてください`);
+    if (typeof l?.href !== "string" || !l.href.startsWith("#") || !sectionIds.has(l.href.slice(1))) errors.push(`quickLinks.links[${i}].href は同じページの節（#id）にしてください`);
+  });
+}
+
 export function validateGuide(guide) {
   const errors = [];
   validateContactCards(guide?.contactCards, errors);
+  validateQuickLinks(guide?.quickLinks, new Set((guide?.sections ?? []).map((s) => s?.id)), errors);
   if (guide?.visual !== undefined && typeof guide.visual !== "boolean") errors.push("visual は true / false にしてください");
   (guide?.sections ?? []).forEach((section, i) => {
     (section?.items ?? []).forEach((item, j) => {
