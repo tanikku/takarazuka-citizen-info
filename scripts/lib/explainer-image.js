@@ -10,7 +10,7 @@ const SRC_PATTERN = /^\/photos\/[a-z0-9][a-z0-9-]*\.webp$/;
 export function validateExplainerImage(img, label = "explainerImage") {
   if (!img || typeof img !== "object" || Array.isArray(img)) return [`${label} はオブジェクトである必要があります`];
   const errors = [];
-  const allowed = new Set(["src", "width", "height", "alt"]);
+  const allowed = new Set(["src", "width", "height", "alt", "caption"]);
   for (const key of Object.keys(img)) if (!allowed.has(key)) errors.push(`${label} に未知のキーがあります: ${key}`);
   if (typeof img.src !== "string" || !SRC_PATTERN.test(img.src)) errors.push(`${label}.src は /photos/xxx.webp 形式である必要があります: ${img.src}`);
   for (const key of ["width", "height"]) {
@@ -18,6 +18,8 @@ export function validateExplainerImage(img, label = "explainerImage") {
   }
   // キャラクター名だけのaltにしないため、図の内容が分かる長さを求める
   if (typeof img.alt !== "string" || img.alt.trim().length < 15) errors.push(`${label}.alt は図の内容が分かる15字以上の説明にしてください`);
+  // caption を持つ図解はオリジナルの解説図で、まどか・ワンの案内役の紹介は付けない
+  if (img.caption !== undefined && (typeof img.caption !== "string" || img.caption.trim() === "" || img.caption.length > 120)) errors.push(`${label}.caption は1〜120字の文字列にしてください`);
   return errors;
 }
 

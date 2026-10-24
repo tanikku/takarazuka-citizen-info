@@ -321,6 +321,18 @@ export function validateArticle(article, context = {}) {
   if (article.comparisonTables !== undefined) validateComparisonTables(article.comparisonTables, errors);
   if (article.explainerImage !== undefined) errors.push(...validateExplainerImage(article.explainerImage));
   if (article.relatedGuides !== undefined) validateRelatedGuides(article.relatedGuides, errors);
+  if (article.keyPoints !== undefined) {
+    if (!Array.isArray(article.keyPoints) || article.keyPoints.length < 1 || article.keyPoints.length > 5 || article.keyPoints.some((p) => typeof p !== "string" || p.trim() === "")) {
+      errors.push("keyPoints は空でない文字列の配列（1〜5件）である必要があります");
+    }
+  }
+  if (article.keyPointsTitle !== undefined) {
+    if (typeof article.keyPointsTitle !== "string" || article.keyPointsTitle.trim() === "" || article.keyPointsTitle.length > 30) {
+      errors.push("keyPointsTitle は1〜30字の文字列である必要があります");
+    } else if (article.keyPoints === undefined) {
+      errors.push("keyPointsTitle は keyPoints と一緒に設定してください");
+    }
+  }
   if (article.ogImage !== undefined && (typeof article.ogImage !== "string" || !PHOTO_SRC_PATTERN.test(article.ogImage))) {
     errors.push(`ogImage は /photos/xxx.webp 形式である必要があります: ${article.ogImage}`);
   }

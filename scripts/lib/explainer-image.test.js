@@ -32,7 +32,7 @@ test("src・サイズ・alt・未知のキーの不正は検出する", () => {
   assert.ok(validateExplainerImage({ ...IMG, src: "https://example.com/a.webp" }).length > 0);
   assert.ok(validateExplainerImage({ ...IMG, width: 0 }).length > 0);
   assert.ok(validateExplainerImage({ ...IMG, alt: "たから まどか" }).length > 0, "キャラクター名だけのaltは不可");
-  assert.ok(validateExplainerImage({ ...IMG, caption: "x" }).length > 0);
+  assert.ok(validateExplainerImage({ ...IMG, credit: "x" }).length > 0);
   assert.ok(validateArticle({ ...ARTICLE, explainerImage: "x" }).errors.length > 0);
 });
 
@@ -116,4 +116,14 @@ test("紹介ページで使う画像ファイルが assets に存在する", () 
   for (const f of ["characters/takara-madoka.webp", "characters/takara-wan.webp", "photos/takara-madoka-takara-wan-1200x630.webp"]) {
     assert.ok(fs.existsSync(new URL(`../../assets/${f}`, import.meta.url)), f);
   }
+});
+
+test("caption は任意。あれば figcaption で出し、案内役の紹介は付けない", async () => {
+  assert.deepEqual(validateExplainerImage({ ...IMG, caption: "図の説明" }), []);
+  assert.ok(validateExplainerImage({ ...IMG, caption: "" }).length > 0);
+  const { articlePage } = await import("../templates.js");
+  const base = { slug: "t", title: "t", summary: "s", sourceUrl: "https://www.city.takarazuka.hyogo.jp/", sourceName: "宝塚市公式サイト", publishedAt: "2026-10-24", category: "防犯", valueScore: "A" };
+  const html = articlePage({ ...base, explainerImage: { ...IMG, caption: "図の説明" } }, "https://takarazuka-today.jp");
+  assert.match(html, /<figcaption class="explainer-caption">図の説明<\/figcaption>/);
+  assert.doesNotMatch(html, /explainer-guide/);
 });

@@ -814,6 +814,113 @@ html[data-theme="dark"] .point-box-title {
   margin-bottom: 4px;
 }
 
+/* 市議会以外の記事で keyPointsTitle を指定したときの要点カード。黄色の注意色ではなく中立色にし、タイトルの文字とアイコンで示す */
+.point-box-plain,
+html[data-theme="dark"] .point-box-plain {
+  background: var(--accent-soft);
+  border-color: var(--border);
+}
+
+.point-box-plain .point-box-title,
+html[data-theme="dark"] .point-box-plain .point-box-title {
+  color: var(--accent);
+}
+
+/* 編集部のやさしい解説（トップ）と、防犯カテゴリの入口 */
+.editor-explainer-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+}
+
+.editor-explainer-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: linear-gradient(135deg, var(--accent-soft), var(--surface));
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 10px;
+  margin-bottom: 14px;
+  text-decoration: none;
+  color: inherit;
+}
+
+.editor-explainer-grid .editor-explainer-card {
+  margin-bottom: 0;
+}
+
+.editor-explainer-thumb {
+  flex: none;
+  width: 96px;
+  height: 72px;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  background: #f4f9fb;
+}
+
+.editor-explainer-thumb img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top;
+}
+
+.editor-explainer-thumb-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--accent);
+  background: var(--accent-soft);
+}
+
+.editor-explainer-thumb-icon .icon {
+  width: 34px;
+  height: 34px;
+}
+
+.editor-explainer-text {
+  min-width: 0;
+}
+
+.editor-explainer-tag {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 800;
+  color: var(--accent);
+  border: 1px solid var(--accent);
+  border-radius: 4px;
+  padding: 0 6px;
+  margin-bottom: 2px;
+}
+
+.editor-explainer-title {
+  margin: 0;
+  font-weight: 800;
+  font-size: 0.92rem;
+  color: var(--accent);
+}
+
+.editor-explainer-sub {
+  margin: 2px 0 0;
+  font-size: 0.78rem;
+  color: var(--text-sub);
+}
+
+.entry-label {
+  margin: 4px 0 6px;
+  font-size: 0.85rem;
+  font-weight: 800;
+}
+
+@media (min-width: 720px) {
+  .editor-explainer-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
 .giin-link-box {
   display: flex;
   align-items: center;
@@ -1101,6 +1208,12 @@ html[data-theme="dark"] .point-box-title {
 .explainer-figure {
   max-width: 720px;
   margin: 12px auto 16px;
+}
+
+.explainer-caption {
+  margin-top: 6px;
+  font-size: 0.78rem;
+  color: var(--text-sub);
 }
 
 .explainer-figure img {

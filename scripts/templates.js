@@ -318,10 +318,11 @@ export function articlePage(article, siteUrl, giinList = [], articlesBySlug = ne
   };
 
   const isShigikai = article.category === "市議会";
+  // 市議会記事は従来どおり keyPoints があれば表示。それ以外の記事は keyPointsTitle を明示したときだけ表示する（既存記事に自動では出さない）
   const keyPointsBox =
-    isShigikai && Array.isArray(article.keyPoints) && article.keyPoints.length > 0
-      ? `<div class="point-box">
-<p class="point-box-title">${icon("alert")}今回のポイント（市民生活への影響）</p>
+    (isShigikai || article.keyPointsTitle) && Array.isArray(article.keyPoints) && article.keyPoints.length > 0
+      ? `<div class="point-box${isShigikai ? "" : " point-box-plain"}">
+<p class="point-box-title">${icon(isShigikai ? "alert" : "book")}${escapeHtml(isShigikai ? "今回のポイント（市民生活への影響）" : article.keyPointsTitle)}</p>
 <ul>${article.keyPoints.map((p) => `<li>${escapeHtml(p)}</li>`).join("\n")}</ul>
 </div>`
       : "";
@@ -411,6 +412,12 @@ ${article.relatedGuides.map((href) => recommendationCard(findRecommendation(href
 </div>`
       : "";
 
+  // keyPointsTitle を使う記事は、図解より先に要点を見せる（タイトル → 要点 → 要約 → 図解）。市議会記事など従来の記事は図解が先のまま
+  const figureHtml = explainerFigure(article.explainerImage);
+  const pointsFirst = !isShigikai && Boolean(article.keyPointsTitle) && Boolean(keyPointsBox);
+  const figureBeforePoints = pointsFirst ? "" : figureHtml;
+  const figureAfterSummary = pointsFirst ? figureHtml : "";
+
   // 更新日。updatedAt未設定の記事は公開日のみ表示（従来と同一）
   const updatedAtHtml = article.updatedAt ? `（${escapeHtml(article.updatedAt)}更新）` : "";
 
@@ -418,10 +425,10 @@ ${article.relatedGuides.map((href) => recommendationCard(findRecommendation(href
 <article class="article-detail">
 <p class="category-tag">${sourceBadge(article.sourceName)}${categoryMeta ? icon(categoryMeta.icon) : icon("newspaper")}${escapeHtml(article.category)}</p>
 <h1>${escapeHtml(article.title)}</h1>
-<p class="article-meta">${escapeHtml(article.publishedAt)}${updatedAtHtml}</p>${articleStatusBox(article)}${explainerFigure(article.explainerImage)}
+<p class="article-meta">${escapeHtml(article.publishedAt)}${updatedAtHtml}</p>${articleStatusBox(article)}${figureBeforePoints}
 ${aiEditorialBadge}
 ${keyPointsBox}
-<p class="article-summary">${escapeHtml(article.summary)}</p>${sectionsHtml}
+<p class="article-summary">${escapeHtml(article.summary)}</p>${figureAfterSummary}${sectionsHtml}
 ${comparisonTablesHtml}
 ${giinLinkBox}
 ${shigikaiDisclosure}
@@ -477,8 +484,8 @@ const EXPLAINER_GUIDE_HTML = `<div class="explainer-guide"><p class="explainer-g
 function explainerFigure(img) {
   if (!img) return "";
   return `
-<figure class="explainer-figure"><img src="${escapeHtml(img.src)}" width="${Number(img.width)}" height="${Number(img.height)}" alt="${escapeHtml(img.alt)}" decoding="async" style="display:block;max-width:100%;height:auto;"></figure>
-${EXPLAINER_GUIDE_HTML}`;
+<figure class="explainer-figure"><img src="${escapeHtml(img.src)}" width="${Number(img.width)}" height="${Number(img.height)}" alt="${escapeHtml(img.alt)}" decoding="async" style="display:block;max-width:100%;height:auto;">${img.caption ? `<figcaption class="explainer-caption">${escapeHtml(img.caption)}</figcaption>` : ""}</figure>${img.caption ? "" : `
+${EXPLAINER_GUIDE_HTML}`}`;
 }
 
 const SOURCE_BADGES = {
@@ -702,6 +709,40 @@ function guideNavPanel() {
 </div>`;
 }
 
+// 編集部のやさしい解説。今回だけの特集を「最新ニュース」に見せないため、日付やNEWは付けず、固定の入口として置く。
+// 解説記事は公開済みで図解を持つときだけ出し、サムネイルは記事の explainerImage から引く
+const EDITOR_EXPLAINER_SLUG = "php-vulnerability-takarazuka-sites-2026";
+const EDITOR_EXPLAINER_TEXT = {
+  title: "宝塚市のサイト停止とPHPの弱点を図解",
+  sub: "停止と情報漏えいの違い、宝塚TodayがPHP更新不要だった理由",
+};
+
+// 文字なしのサムネイル（記事の図解と同じ配色）。図解の一部を切り出さず、小さくても何の話か分かる専用画像を使う
+const EDITOR_EXPLAINER_THUMB = { src: "/photos/php-vulnerability-thumb.webp", width: 288, height: 216, alt: "ブラウザ画面と、チェックマーク入りの盾のイラスト" };
+
+function editorExplainerCards(article) {
+  if (!article?.explainerImage) return "";
+  return `<a class="editor-explainer-card" href="/articles/${escapeHtml(article.slug)}">
+<div class="editor-explainer-thumb"><img src="${escapeHtml(EDITOR_EXPLAINER_THUMB.src)}" width="${EDITOR_EXPLAINER_THUMB.width}" height="${EDITOR_EXPLAINER_THUMB.height}" alt="${escapeHtml(EDITOR_EXPLAINER_THUMB.alt)}" loading="lazy" decoding="async"></div>
+<div class="editor-explainer-text"><span class="editor-explainer-tag">解説</span><p class="editor-explainer-title">${escapeHtml(EDITOR_EXPLAINER_TEXT.title)}</p><p class="editor-explainer-sub">${escapeHtml(EDITOR_EXPLAINER_TEXT.sub)}</p></div>
+</a>`;
+}
+
+function editorExplainerPanel(article) {
+  const articleCard = editorExplainerCards(article);
+  if (!articleCard) return "";
+  return `<div class="panel editor-explainer-panel">
+<p class="panel-title">${icon("book")}編集部のやさしい解説</p>
+<div class="editor-explainer-grid">
+${articleCard}
+<a class="editor-explainer-card" href="/category/bohan/guide">
+<div class="editor-explainer-thumb editor-explainer-thumb-icon">${icon("shield")}</div>
+<div class="editor-explainer-text"><span class="editor-explainer-tag">ガイド</span><p class="editor-explainer-title">宝塚市 防犯ガイド</p><p class="editor-explainer-sub">詐欺・事件への対処と、相談窓口の使い分け</p></div>
+</a>
+</div>
+</div>`;
+}
+
 function shigikaiCornerPanel({ hasGianPage, gikaiArticles }) {
   if (!hasGianPage && gikaiArticles.length === 0) return "";
 
@@ -732,7 +773,10 @@ ${items}
 export function indexPage({ topArticles, todayArticles, categoryPageKeys, publishedArticles, ranking, weather, todayCounts, fieldReportPhoto, dateLabel, siteUrl, hasGianPage = false, activeNotices = [] }) {
   // 同じ記事を「今日の宝塚トピック」「トップニュース」「新着記事」で重ねて出さない。上の枠から順に表示済みを除く
   const latestArticles = todayArticles.length === 0 ? topArticles.slice(0, 2) : [];
+  const explainerPanel = editorExplainerPanel(publishedArticles.find((a) => a.slug === EDITOR_EXPLAINER_SLUG));
   const shown = new Set([...todayArticles, ...latestArticles].map((a) => a.slug));
+  // 解説コーナーに出す記事は、トップニュース・新着記事では重ねて出さない
+  if (explainerPanel) shown.add(EDITOR_EXPLAINER_SLUG);
   const notShown = (a) => !shown.has(a.slug);
   // 市議会情報は最新の市議会記事を出す枠なので、今日の宝塚トピックとの重複だけを除き、トップニュースとの重複は許す（重複を避けるために古い記事を繰り上げない）
   const gikaiArticles = publishedArticles.filter((a) => a.category === "市議会" && notShown(a)).slice(0, 3);
@@ -750,6 +794,7 @@ ${todayRow(todayArticles, fieldReportPhoto, categoryPageKeys, activeNotices, lat
   <div class="col-main">
     ${topNewsPanel(topNewsArticles)}
     ${shigikaiCornerPanel({ hasGianPage, gikaiArticles })}
+    ${explainerPanel}
     ${guideNavPanel()}
     ${recentCombinedFeed(recentArticles, categoryPageKeys)}
   </div>
@@ -915,10 +960,19 @@ export function categoryPage(category, articles, siteUrl, guidesForCategory = []
 </a>`
     : "";
   const guideCards = guidesForCategory.map(guideCard).join("\n");
+  // 防犯カテゴリだけ、記事一覧の前に「知りたいこと別の入口」を出す（ガイドカードと一覧の構成は従来どおり）
+  const explainerEntry = category.key === "bohan" ? editorExplainerCards(articles.find((a) => a.slug === EDITOR_EXPLAINER_SLUG)) : "";
+  const entryCards =
+    guideCards && explainerEntry
+      ? `<p class="entry-label">事件・詐欺への対処と相談先</p>
+${guideCards}
+<p class="entry-label">セキュリティの仕組みを知る</p>
+${explainerEntry}`
+      : guideCards;
 
   const bodyHtml = `<nav class="breadcrumb"><a href="/">トップ</a> &gt; ${escapeHtml(category.label)}</nav>
 <div class="page-content">
-${guideCards}
+${entryCards}
 ${gianCta}
 ${zaiseiCta}
 ${suisougakuCta}
