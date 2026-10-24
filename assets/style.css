@@ -165,24 +165,39 @@ html[data-theme="dark"] .theme-icon-moon { display: block; }
     transform: none;
   }
 
-  /* 語の途中で折り返さないよう、意味の区切りで2行にする */
-  .site-tagline span {
-    display: block;
-  }
-
-  /* 2行のタグラインまでバナーの明るい帯（画像の縦15〜84%）に収まる高さにする。
-     背景は cover なので帯の高さはヘッダーの高さに比例する */
+  /* スマホでは本文を早く見せるため、ヘッダーを約140pxに抑える。背景は cover なので、バナーの明るい帯
+     （画像の縦15〜84%）は高さ140pxなら約21〜118px。ロゴ2行（サイト名＋キャッチ）がこの帯に収まる大きさにし、
+     帯に収まらなくなる下部の2行タグラインはスマホでは出さない（PC・タブレットの表示は変えない） */
   .header-overlay {
-    min-height: 250px;
-    padding: 8px 0;
+    min-height: 140px;
+    padding: 0;
   }
 
   .header-row {
-    padding: 6px 18px;
+    padding: 0 18px;
   }
 
   .site-tagline {
-    margin-top: 2px;
+    display: none;
+  }
+
+  /* 幅に応じて縮め、320pxでも語の途中で折り返さず、右上のテーマ切替と重ならないようにする */
+  .logo {
+    font-size: min(1.8rem, 7vw);
+    white-space: nowrap;
+  }
+
+  .logo small {
+    font-size: min(0.95rem, 4vw);
+  }
+
+  /* タップ領域を44×44pxにする */
+  .theme-toggle {
+    width: 44px;
+    height: 44px;
+    justify-content: center;
+    top: 4px;
+    right: 4px;
   }
 }
 
