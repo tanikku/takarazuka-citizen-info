@@ -2268,3 +2268,144 @@ a:focus-visible, button:focus-visible {
   outline: 3px solid var(--accent);
   outline-offset: 2px;
 }
+
+/* 防犯ガイドの冒頭にある連絡先カード（guide.contactCards）。番号・用途・条件はテキストで出し、
+   色だけに頼らず、種別ラベルとアイコンでも見分けられるようにする */
+.contact-cards {
+  margin: 0 0 18px;
+}
+
+.contact-cards h2 {
+  font-size: 1.05rem;
+  margin: 0 0 10px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.contact-cards-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 10px;
+}
+
+.contact-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-left: 6px solid var(--text-sub);
+  border-radius: 8px;
+  padding: 10px 14px 12px;
+}
+
+.contact-card:first-child {
+  border-left-color: var(--accent);
+  background: var(--accent-soft);
+}
+
+.contact-card p {
+  margin: 0;
+}
+
+.contact-card-tag {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.82rem;
+  font-weight: 800;
+  color: var(--text-sub);
+}
+
+.contact-card:first-child .contact-card-tag {
+  color: var(--accent);
+}
+
+.contact-card-number {
+  font-size: 2.2rem;
+  font-weight: 900;
+  line-height: 1.2;
+  letter-spacing: 0.02em;
+}
+
+.contact-card-use {
+  font-size: 0.95rem;
+  font-weight: 700;
+}
+
+.contact-card-detail {
+  margin-top: 4px;
+  font-size: 0.82rem;
+  color: var(--text-sub);
+  line-height: 1.6;
+}
+
+.contact-cards-note {
+  margin: 8px 0 0;
+  font-size: 0.82rem;
+  color: var(--text-sub);
+}
+
+@media (min-width: 768px) {
+  .contact-cards-list {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* 注意情報などの3列の表は、スマホでは幅が足りず1文字ずつ折り返されるため、行をカード状に積む
+   （guide.visual のガイドだけ。見出し行は見た目だけ隠し、項目名は data-label で各セルの前に出す） */
+@media (max-width: 600px) {
+  .guide-visual .guide-table--stack thead {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+  }
+
+  .guide-visual .guide-table--stack,
+  .guide-visual .guide-table--stack tbody,
+  .guide-visual .guide-table--stack tr,
+  .guide-visual .guide-table--stack th,
+  .guide-visual .guide-table--stack td {
+    display: block;
+    width: auto;
+  }
+
+  .guide-visual .guide-table--stack {
+    background: none;
+  }
+
+  .guide-visual .guide-table--stack caption {
+    display: block;
+    width: auto;
+  }
+
+  .guide-visual .guide-table--stack tr {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    margin-bottom: 8px;
+    overflow: hidden;
+  }
+
+  .guide-visual .guide-table--stack tbody th {
+    background: var(--accent-soft);
+    border-bottom: 1px solid var(--border);
+    word-break: normal;
+  }
+
+  .guide-visual .guide-table--stack td {
+    border-bottom: 0;
+    padding-top: 6px;
+    padding-bottom: 6px;
+  }
+
+  .guide-visual .guide-table--stack td::before {
+    content: attr(data-label);
+    display: block;
+    font-size: 0.72rem;
+    font-weight: 800;
+    color: var(--text-sub);
+  }
+}

@@ -2301,13 +2301,16 @@ ${recommendedPagesPanel("shigikai", canonicalUrl.replace(siteUrl, ""))}
 
 // ガイド本文の1要素。文字列は従来どおりrule-card、オブジェクトは現地取材写真（photo）と小見出し（subheading）
 // ガイドの表。セルは記事の比較表と同じ tableCellHtml で描画し、任意HTMLは出さない（形は guide-schema.js が検証済み）
-function guideTableHtml(table) {
+// stacked: スマホで行をカード状に積む表にする（guide.visual のガイドだけ。data-label は積んだときの項目名）
+function guideTableHtml(table, { stacked = false } = {}) {
   const caption = table.caption ? `<caption>${escapeHtml(table.caption)}</caption>` : "";
   const head = table.headers.map((h) => `<th scope="col">${escapeHtml(h)}</th>`).join("");
+  // 2列の表は先頭列が項目名なので、積んだときの項目名ラベルは3列以上のときだけ付ける
+  const label = (i) => (stacked && table.headers.length > 2 ? ` data-label="${escapeHtml(table.headers[i])}"` : "");
   const body = table.rows
-    .map((row) => `<tr>${row.map((cell, i) => (i === 0 ? `<th scope="row">${tableCellHtml(cell)}</th>` : `<td>${tableCellHtml(cell)}</td>`)).join("")}</tr>`)
+    .map((row) => `<tr>${row.map((cell, i) => (i === 0 ? `<th scope="row">${tableCellHtml(cell)}</th>` : `<td${label(i)}>${tableCellHtml(cell)}</td>`)).join("")}</tr>`)
     .join("\n");
-  return `<div class="table-scroll"><table class="guide-table">${caption}
+  return `<div class="table-scroll"><table class="guide-table${stacked ? " guide-table--stack" : ""}">${caption}
 <thead><tr>${head}</tr></thead>
 <tbody>
 ${body}
@@ -2315,9 +2318,9 @@ ${body}
 </table></div>`;
 }
 
-function guideItemHtml(item) {
+function guideItemHtml(item, opts) {
   if (typeof item === "string") return `<div class="rule-card">${item}</div>`;
-  if (item.table) return guideTableHtml(item.table);
+  if (item.table) return guideTableHtml(item.table, opts);
   if (item.subheading) return `<h3 class="guide-subheading">${escapeHtml(item.subheading)}</h3>`;
   return photoFigureHtml(item.photo);
 }
@@ -2326,6 +2329,29 @@ function guideItemHtml(item) {
 function photoFigureHtml(p) {
   const portraitClass = p.height > p.width ? " guide-photo--portrait" : "";
   return `<figure class="guide-photo${portraitClass}"><img src="${escapeHtml(p.src)}" width="${p.width}" height="${p.height}" alt="${escapeHtml(p.alt)}" loading="lazy" decoding="async"><figcaption>${escapeHtml(p.caption)}</figcaption></figure>`;
+}
+
+// 困ったときに最初に見る連絡先カード（guide.contactCards を持つガイドだけ）。番号と用途はHTMLテキストで出し、
+// 色だけで区別しないよう、各カードにアイコンと種別ラベルを付ける。電話リンクは誤発信を避けるため付けない
+function contactCardsHtml(c) {
+  if (!c) return "";
+  return `<section class="contact-cards" aria-labelledby="contact-cards-title">
+<h2 id="contact-cards-title">${icon("alert")}${escapeHtml(c.heading)}</h2>
+<ul class="contact-cards-list">
+${c.cards
+  .map(
+    (card) => `<li class="contact-card">
+<p class="contact-card-tag">${icon(card.icon)}${escapeHtml(card.tag)}</p>
+<p class="contact-card-number">${escapeHtml(card.number)}</p>
+<p class="contact-card-use">${escapeHtml(card.use)}</p>
+<p class="contact-card-detail">${escapeHtml(card.detail)}</p>
+</li>`,
+  )
+  .join("\n")}
+</ul>
+${c.note ? `<p class="contact-cards-note">${escapeHtml(c.note)}</p>` : ""}
+</section>
+`;
 }
 
 // 検索流入向けの常設ガイドページ（ごみ出し・子育て支援・防災・学校情報など）
@@ -2343,7 +2369,7 @@ export function guidePage(guide, siteUrl) {
     .map(
       (s) => `<section class="guide-section" id="${escapeHtml(s.id)}">
 <h2>${icon(s.icon ?? guide.category.icon)}${escapeHtml(s.heading)}</h2>
-${s.items.map(guideItemHtml).join("\n")}
+${s.items.map((item) => guideItemHtml(item, { stacked: Boolean(guide.visual) })).join("\n")}
 ${(s.notes ?? []).map((note) => `<div class="note-box">${escapeHtml(note)}</div>`).join("\n")}
 </section>`,
     )
@@ -2385,10 +2411,10 @@ ${guide.changelog.map((c) => `<li><span class="changelog-date">${escapeHtml(c.da
     : "";
 
   const bodyHtml = `<nav class="breadcrumb"><a href="/">トップ</a> &gt; <a href="${categoryPath(guide.category.key)}">${escapeHtml(guide.category.label)}</a> &gt; ${escapeHtml(guide.title)}</nav>
-<div class="page-content">
+<div class="page-content${guide.visual ? " guide-visual" : ""}">
 <h1>${escapeHtml(guide.title)}</h1>${fieldReportHtml}
 ${heroPhotoHtml}
-<p class="lead">${escapeHtml(guide.lead)}</p>
+${contactCardsHtml(guide.contactCards)}<p class="lead">${escapeHtml(guide.lead)}</p>
 ${disclosureHtml}
 <p class="updated-at">最終更新：${escapeHtml(guide.updatedAt)}</p>
 ${changelogHtml}
