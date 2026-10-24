@@ -2002,6 +2002,27 @@ html[data-theme="dark"] .note-box {
   font-size: 0.9rem;
 }
 
+/* スマホでは記事タイトルと要点を早く見せるため、記事冒頭の余白の重なりだけを詰める。
+   パンくず下は .article-detail の上余白24px＋最初の段落の既定マージン16pxで40pxあった。
+   文字サイズ・行間・カード内余白は変えない（PC・タブレットの表示も変えない） */
+@media (max-width: 600px) {
+  .breadcrumb-article {
+    padding-top: 8px;
+  }
+
+  .article-detail {
+    padding-top: 12px;
+  }
+
+  .article-detail > .category-tag {
+    margin: 0 0 8px;
+  }
+
+  .article-detail h1 {
+    margin-top: 0;
+  }
+}
+
 .article-summary {
   font-size: 1.02rem;
 }
