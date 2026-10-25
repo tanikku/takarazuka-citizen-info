@@ -2542,3 +2542,33 @@ a:focus-visible, button:focus-visible {
     padding: 6px 12px;
   }
 }
+
+/* スマホ：パンくずと目次のリンクの押せる範囲を広げる（見た目の位置・行の高さは変えない）。
+   パンくずは padding と同量の負のマージンで、行の高さを増やさず当たり判定だけ広げる。
+   position/z-index は、後ろに続く区切り文字や次の行の文字に、広げた下側・右側の当たり判定を奪われないため。
+   目次は行全体を押せるリンクにし、上下の余白をリンク内へ移して、項目の間隔（約27px）は変えない */
+@media (max-width: 600px) {
+  .breadcrumb a {
+    display: inline-block;
+    position: relative;
+    z-index: 1;
+    padding: 4px 6px;
+    margin: -4px -6px;
+  }
+
+  .toc li {
+    margin-bottom: 0;
+  }
+
+  .toc li a {
+    display: block;
+    padding: 2px 4px;
+    margin: 0 -4px;
+    border-radius: 4px;
+  }
+
+  .toc li a:hover,
+  .toc li a:focus-visible {
+    background: var(--accent-soft);
+  }
+}
