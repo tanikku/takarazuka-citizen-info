@@ -145,9 +145,14 @@ html[data-theme="dark"] .theme-icon-moon { display: block; }
 }
 
 @media (max-width: 600px) {
-  .site-lead,
+  /* トップのh1は画面にも出す（区切りの縦線だけ隠す）。390pxでは日付と1行、狭い幅では折り返す */
   .site-lead-sep {
     display: none;
+  }
+
+  .date-bar {
+    flex-wrap: wrap;
+    row-gap: 0;
   }
 
   /* 中央のロゴと重ならないよう、テーマ切替をヘッダーの右上へ */
@@ -2505,4 +2510,35 @@ a:focus-visible, button:focus-visible {
 
 #category-articles {
   scroll-margin-top: 12px;
+}
+
+/* トップページ（スマホのみ）：天気とお問い合わせの縦の占有を減らす。内容・リンク・順序は変えない */
+@media (max-width: 599px) {
+  .weather-standalone-row {
+    gap: 8px;
+  }
+
+  #weather {
+    padding: 10px 14px;
+  }
+
+  #weather .panel-title {
+    margin-bottom: 8px;
+    padding-bottom: 6px;
+  }
+
+  #weather .weather-body {
+    gap: 6px 16px;
+  }
+
+  #weather .weather-pop-time {
+    white-space: nowrap;
+  }
+
+  .contact-cta-panel {
+    flex-direction: row;
+    gap: 8px;
+    min-height: 44px;
+    padding: 6px 12px;
+  }
 }
