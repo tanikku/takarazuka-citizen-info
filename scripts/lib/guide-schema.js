@@ -23,7 +23,7 @@ function validateContactCards(c, errors) {
   });
 }
 
-const QUICK_LINK_ICONS = ["building", "newspaper", "user"];
+const QUICK_LINK_ICONS = ["building", "newspaper", "user", "child", "ticket"];
 
 // 任意の quickLinks（冒頭の目的別カード）。リンク先は同じページの節（sections[].id）だけ
 function validateQuickLinks(q, sectionIds, errors) {
