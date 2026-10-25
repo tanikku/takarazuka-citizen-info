@@ -2472,3 +2472,37 @@ a:focus-visible, button:focus-visible {
   color: var(--text-sub);
   line-height: 1.5;
 }
+
+/* カテゴリ一覧の見出し（h1）と、記事一覧へ移動するページ内リンク */
+.category-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 1.5rem;
+  margin: 8px 0 10px;
+}
+
+.category-jump {
+  margin: 0 0 12px;
+}
+
+.category-jump a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0 14px;
+  border: 1px solid var(--accent);
+  border-radius: 22px;
+  color: var(--accent);
+  font-size: 0.9rem;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.category-jump a:hover {
+  background: var(--accent-soft);
+}
+
+#category-articles {
+  scroll-margin-top: 12px;
+}

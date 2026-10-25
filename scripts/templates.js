@@ -964,20 +964,28 @@ export function categoryPage(category, articles, siteUrl, guidesForCategory = []
   const explainerEntry = category.key === "bohan" ? editorExplainerCards(articles.find((a) => a.slug === EDITOR_EXPLAINER_SLUG)) : "";
   const entryCards =
     guideCards && explainerEntry
-      ? `<p class="entry-label">事件・詐欺への対処と相談先</p>
+      ? `<h2 class="entry-label">事件・詐欺への対処と相談先</h2>
 ${guideCards}
-<p class="entry-label">セキュリティの仕組みを知る</p>
+<h2 class="entry-label">セキュリティの仕組みを知る</h2>
 ${explainerEntry}`
-      : guideCards;
+      : guideCards
+        ? `<h2 class="entry-label">${escapeHtml(category.label)}のガイド</h2>
+${guideCards}`
+        : "";
+  // ガイドカードが続くカテゴリでは、記事一覧へ移動できる短いリンクを見出しの下に置く（案内カード2枚だけの市議会は直下に一覧があるので出さない）
+  const hasEntries = Boolean(entryCards);
+  const jumpLink = hasEntries && items ? `<p class="category-jump"><a href="#category-articles">記事一覧へ移動（${articles.length}件）↓</a></p>` : "";
 
   const bodyHtml = `<nav class="breadcrumb"><a href="/">トップ</a> &gt; ${escapeHtml(category.label)}</nav>
 <div class="page-content">
+<h1 class="category-title">${icon(category.icon)}${escapeHtml(category.label)}${isShigikai ? "ウォッチ" : ""}</h1>
+${jumpLink}
 ${entryCards}
 ${gianCta}
 ${zaiseiCta}
 ${suisougakuCta}
 <div class="panel">
-<p class="panel-title">${icon(category.icon)}${escapeHtml(category.label)}${isShigikai ? "ウォッチ" : "の記事一覧"}</p>
+<h2 class="panel-title" id="category-articles">${icon(category.icon)}${escapeHtml(category.label)}${isShigikai ? "ウォッチ" : "の記事一覧"}</h2>
 ${isShigikai ? SHIGIKAI_DISCLOSURE : ""}
 ${items || '<p class="empty-state">まだ記事がありません</p>'}
 ${giinLink}
