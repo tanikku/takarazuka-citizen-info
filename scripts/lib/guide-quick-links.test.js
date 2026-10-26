@@ -66,3 +66,14 @@ test("子育てガイドは 妊娠・母子健康手帳 / 児童手当 / 保育�
   for (const l of g.quickLinks.links) assert.match(html, new RegExp(`<section class="guide-section" id="${l.href.slice(1)}">`));
   assert.equal(g.toc.length, 9);
 });
+
+test("引っ越しチェックリストはSVGではなくHTMLのリスト（7項目・2分類・注意書き）で、原文を維持する", () => {
+  const g = JSON.parse(fs.readFileSync(path.join(GUIDES_DIR, "gyousei-tetsuzuki-guide.json"), "utf8"));
+  const item = g.sections.find((s) => s.id === "hikkoshi-checklist").items[0];
+  assert.doesNotMatch(item, /<svg/);
+  assert.equal((item.match(/<li>/g) ?? []).length, 7);
+  assert.equal((item.match(/<h3 /g) ?? []).length, 2);
+  for (const t of ["ほぼすべての方が確認", "該当する方のみ", "水道", "使用開始・中止の届出（お客さまセンター）", "電気・ガス", "契約事業者へ直接連絡", "郵便物の転送", "日本郵便「e転居」で1年間無料転送", "国民健康保険・国民年金", "加入届等が必要な場合があります", "介護保険", "40歳以上の方など、住所変更が必要な場合", "児童手当・転校手続き", "お子さんがいる場合", "そのほか", "飼い犬の登録、軽自動車・バイクの住所変更等", "世帯状況により必要な手続きは異なります。詳細は各担当窓口にご確認ください"]) {
+    assert.ok(item.includes(t), t);
+  }
+});

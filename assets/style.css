@@ -2572,3 +2572,90 @@ a:focus-visible, button:focus-visible {
     background: var(--accent-soft);
   }
 }
+
+/* 引っ越しチェックリスト（行政手続きガイド）。SVG図解をやめ、文字を読める大きさのHTMLリストにする。
+   項目は空の枠（未チェック）で示し、分類は見出しの文字・枠線の実線/破線・左の線の太さで区別する（色だけに頼らない） */
+.move-checklist {
+  margin-top: 10px;
+  max-width: 720px;
+}
+
+.move-checklist-title {
+  margin: 0 0 12px;
+  font-size: 1rem;
+  font-weight: 800;
+  color: var(--text);
+}
+
+.move-checklist-group {
+  margin: 12px 0 2px;
+  padding: 6px 10px;
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: var(--text);
+  border-left: 6px solid var(--accent);
+  background: var(--accent-soft);
+  border-radius: 4px;
+}
+
+.move-checklist-group--some {
+  border-left: 3px dashed var(--link);
+  background: var(--bg, transparent);
+  border-top: 1px solid var(--border);
+  border-right: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+
+.move-checklist-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.move-checklist-list li {
+  display: grid;
+  grid-template-columns: 20px 1fr;
+  column-gap: 10px;
+  padding: 8px 2px;
+  border-bottom: 1px solid var(--border);
+}
+
+.move-checklist-list li:last-child {
+  border-bottom: 0;
+}
+
+.move-checklist-list li::before {
+  content: "";
+  grid-row: 1 / 3;
+  width: 16px;
+  height: 16px;
+  margin-top: 3px;
+  border: 2px solid var(--accent);
+  border-radius: 4px;
+}
+
+.move-checklist-group--some + .move-checklist-list li::before {
+  border-color: var(--link);
+  border-style: dashed;
+}
+
+.move-checklist-name {
+  grid-column: 2;
+  font-size: 1rem;
+  line-height: 1.5;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.move-checklist-desc {
+  grid-column: 2;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: var(--text-sub);
+}
+
+.move-checklist-note {
+  margin: 10px 0 0;
+  font-size: 0.9rem;
+  color: var(--text-sub);
+}
