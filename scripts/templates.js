@@ -1712,7 +1712,17 @@ function formatIndicatorDiff(current, previous) {
   return `${sign}${formatYen(diff)}`;
 }
 
-function zaiseiChartGroup({ title, note, color, items, y0 }) {
+// 各グラフの見出しと注意書き。注意書きは長くSVG内に1行で描くと右端が切れるため、SVGの外のHTML段落として出す
+const ZAISEI_FLOW = {
+  title: "① 年間の規模（フロー）",
+  note: "1年間に動くお金の規模を示す指標です。一般会計予算総額と市税収入（予算）を並べています",
+};
+const ZAISEI_STOCK = {
+  title: "② 現在の残高（ストック）",
+  note: "ある時点での市債と基金の残高です。性質の異なる指標のため、単純な差額で財政状況を判断することはできません",
+};
+
+function zaiseiChartGroup({ title, color, items, y0 }) {
   const barAreaX = 130;
   const barAreaW = 165;
   const barH = 26;
@@ -1730,8 +1740,7 @@ function zaiseiChartGroup({ title, note, color, items, y0 }) {
     parts.push(`<text x="372" y="${y + barH / 2 + 4}" font-size="11" font-weight="bold" fill="currentColor" text-anchor="end">${escapeHtml(item.valueLabel)}</text>`);
     y += barH + barGap;
   }
-  parts.push(`<text x="20" y="${y - barGap + barH + 12}" font-size="9.5" fill="currentColor" opacity="0.7">${escapeHtml(note)}</text>`);
-  return { html: parts.join(""), endY: y - barGap + barH + 22 };
+  return { html: parts.join(""), endY: y - barGap + barH + 10 };
 }
 
 function zaiseiBillionLabel(yen) {
@@ -1748,8 +1757,7 @@ function zaiseiChartSvg(current) {
 
   let y = 8;
   const group1 = zaiseiChartGroup({
-    title: "① 年間の規模（フロー）",
-    note: "1年間に動くお金の規模を示す指標です。一般会計予算総額と市税収入（予算）を並べています",
+    title: ZAISEI_FLOW.title,
     color: "#3f7fb0",
     y0: y + 10,
     items: [
@@ -1761,8 +1769,7 @@ function zaiseiChartSvg(current) {
   const dividerY = y;
   y += 20;
   const group2 = zaiseiChartGroup({
-    title: "② 現在の残高（ストック）",
-    note: "ある時点での市債と基金の残高です。性質の異なる指標のため、単純な差額で財政状況を判断することはできません",
+    title: ZAISEI_STOCK.title,
     color: "#c8102e",
     y0: y,
     items: [
@@ -1772,7 +1779,7 @@ function zaiseiChartSvg(current) {
   });
   const totalH = group2.endY - 4;
 
-  return `<div class="guide-map-wrap" style="background:var(--surface);padding:8px;"><svg viewBox="0 0 380 ${totalH}" style="width:100%;height:auto;display:block" role="img" aria-label="宝塚市財政の主要指標グラフ：①年間の規模（フロー）は${escapeHtml(budget.label)}${zaiseiBillionLabel(budget.value)}・${escapeHtml(tax.label)}${zaiseiBillionLabel(tax.value)}、②現在の残高（ストック）は${escapeHtml(bond.label)}${zaiseiBillionLabel(bond.value)}・${escapeHtml(fund.label)}${zaiseiBillionLabel(fund.value)}。フローとストックは性質が異なるため別グラフで比較しています">${group1.html}<line x1="20" y1="${dividerY}" x2="360" y2="${dividerY}" stroke="currentColor" stroke-width="1" opacity="0.2" stroke-dasharray="3,3"/>${group2.html}</svg><p class="guide-map-caption">主要指標のうち金額4項目を、フロー（年間の規模）とストック（現在の残高）に分けてグラフ化しています。</p></div>`;
+  return `<div class="guide-map-wrap" style="background:var(--surface);padding:8px;"><svg viewBox="0 0 380 ${totalH}" style="width:100%;height:auto;display:block" role="img" aria-label="宝塚市財政の主要指標グラフ：①年間の規模（フロー）は${escapeHtml(budget.label)}${zaiseiBillionLabel(budget.value)}・${escapeHtml(tax.label)}${zaiseiBillionLabel(tax.value)}、②現在の残高（ストック）は${escapeHtml(bond.label)}${zaiseiBillionLabel(bond.value)}・${escapeHtml(fund.label)}${zaiseiBillionLabel(fund.value)}。フローとストックは性質が異なるため別グラフで比較しています">${group1.html}<line x1="20" y1="${dividerY}" x2="360" y2="${dividerY}" stroke="currentColor" stroke-width="1" opacity="0.2" stroke-dasharray="3,3"/>${group2.html}</svg><div class="zaisei-chart-notes"><p><strong>${escapeHtml(ZAISEI_FLOW.title)}</strong><br>${escapeHtml(ZAISEI_FLOW.note)}</p><p><strong>${escapeHtml(ZAISEI_STOCK.title)}</strong><br>${escapeHtml(ZAISEI_STOCK.note)}</p></div><p class="guide-map-caption">主要指標のうち金額4項目を、フロー（年間の規模）とストック（現在の残高）に分けてグラフ化しています。</p></div>`;
 }
 
 function zaiseiIndicatorRows(current, previous) {

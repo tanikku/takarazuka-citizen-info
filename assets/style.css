@@ -2659,3 +2659,19 @@ a:focus-visible, button:focus-visible {
   font-size: 0.9rem;
   color: var(--text-sub);
 }
+
+/* 財政ウォッチのグラフ下の注意書き（SVG内では右端で切れるためHTML段落で出す）。14px以上で自然に折り返す */
+.zaisei-chart-notes {
+  padding: 4px 4px 0;
+}
+
+.zaisei-chart-notes p {
+  margin: 8px 0 0;
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: var(--text);
+}
+
+.zaisei-chart-notes strong {
+  color: var(--text);
+}
