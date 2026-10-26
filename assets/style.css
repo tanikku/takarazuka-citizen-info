@@ -2675,3 +2675,140 @@ a:focus-visible, button:focus-visible {
 .zaisei-chart-notes strong {
   color: var(--text);
 }
+
+/* 防災ガイドの警戒レベル1〜5（SVG図解をやめ、文字を読める大きさのHTMLリストにする）。
+   レベルは「レベルN」の文字と番号付きリストで示し、左の線の色は補助にとどめる（色だけに頼らない） */
+.alert-levels {
+  margin-top: 6px;
+  max-width: 720px;
+}
+
+.alert-levels-title {
+  margin: 0 0 8px;
+  font-size: 1rem;
+  font-weight: 800;
+  color: var(--text);
+}
+
+.alert-levels-group {
+  margin: 12px 0 8px;
+  padding: 6px 10px;
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: var(--text);
+  border-left: 4px solid var(--text-sub);
+  background: var(--accent-soft);
+  border-radius: 4px;
+}
+
+.alert-levels-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 8px;
+}
+
+.alert-level {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 8px 10px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-left-width: 8px;
+  border-radius: 6px;
+}
+
+.alert-level--1 {
+  border-left-color: #8a9099;
+}
+
+.alert-level--2 {
+  border-left-color: #d9a400;
+}
+
+.alert-level--3 {
+  border-left-color: #e0342a;
+}
+
+.alert-level--4 {
+  border-left-color: #7b3fa0;
+}
+
+.alert-level--5 {
+  border-left-color: #8a0f2b;
+  border-width: 2px 2px 2px 10px;
+  border-color: #8a0f2b;
+}
+
+.alert-level-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+.alert-level-badge {
+  padding: 1px 10px;
+  font-size: 1rem;
+  font-weight: 900;
+  color: var(--text);
+  border: 2px solid var(--text);
+  border-radius: 999px;
+}
+
+.alert-levels .alert-level-name {
+  font-size: 1.05rem;
+  color: var(--text);
+}
+
+.alert-level-who {
+  font-size: 0.9rem;
+  color: var(--text);
+}
+
+.alert-level-row {
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: var(--text);
+}
+
+.alert-level-label {
+  margin-right: 6px;
+  font-weight: 800;
+  color: var(--text-sub);
+}
+
+.alert-level-label::after {
+  content: "：";
+}
+
+.alert-levels .alert-levels-limit {
+  margin: 12px 0;
+  padding: 10px 12px;
+  text-align: center;
+  font-size: 1rem;
+  color: var(--text);
+  background: var(--accent-soft);
+  border: 2px solid var(--accent);
+  border-radius: 6px;
+}
+
+.alert-levels .alert-levels-limit strong {
+  color: var(--text);
+}
+
+.alert-levels-note {
+  margin: 10px 0 0;
+  font-size: 0.9rem;
+  line-height: 1.65;
+  color: var(--text);
+}
+
+.alert-levels-source {
+  margin: 10px 0 0;
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: var(--text-sub);
+}
