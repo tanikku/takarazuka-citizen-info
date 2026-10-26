@@ -2660,20 +2660,80 @@ a:focus-visible, button:focus-visible {
   color: var(--text-sub);
 }
 
-/* 財政ウォッチのグラフ下の注意書き（SVG内では右端で切れるためHTML段落で出す）。14px以上で自然に折り返す */
-.zaisei-chart-notes {
-  padding: 4px 4px 0;
+/* 財政ウォッチの主要指標グラフ（HTML/CSSの棒）。名称と数値は文字（14px以上）で出し、棒は補助の装飾。
+   フローは青、ストックは赤の棒だが、グループの見出しと注意書きの文字でも区別する */
+.zaisei-chart {
+  max-width: 720px;
+  margin-bottom: 12px;
+  padding: 2px 2px 0;
 }
 
-.zaisei-chart-notes p {
-  margin: 8px 0 0;
+.zaisei-chart-group + .zaisei-chart-group {
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1px dashed var(--border);
+}
+
+.zaisei-chart-title {
+  margin: 0 0 4px;
+  font-size: 1rem;
+  font-weight: 800;
+  color: var(--text);
+}
+
+.zaisei-chart-note {
+  margin: 0 0 8px;
   font-size: 0.9rem;
   line-height: 1.6;
   color: var(--text);
 }
 
-.zaisei-chart-notes strong {
+.zaisei-chart-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.zaisei-chart-item {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  column-gap: 12px;
+  row-gap: 4px;
+  margin: 0 0 10px;
+  font-size: 0.95rem;
   color: var(--text);
+}
+
+.zaisei-chart-value {
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.zaisei-chart-bar {
+  grid-column: 1 / -1;
+  display: block;
+  height: 14px;
+  overflow: hidden;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+}
+
+.zaisei-chart-fill {
+  display: block;
+  height: 100%;
+  background: #3f7fb0;
+}
+
+.zaisei-chart-group--stock .zaisei-chart-fill {
+  background: #c8102e;
+}
+
+.zaisei-chart-caption {
+  margin: 8px 0 0;
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: var(--text-sub);
 }
 
 /* 防災ガイドの警戒レベル1〜5（SVG図解をやめ、文字を読める大きさのHTMLリストにする）。
@@ -2811,4 +2871,103 @@ a:focus-visible, button:focus-visible {
   font-size: 0.9rem;
   line-height: 1.6;
   color: var(--text-sub);
+}
+
+/* 財政ウォッチの主要指標の表（.zaisei-table--indicators だけ。更新履歴などの .zaisei-table は変えない）。
+   スマホ（600px以下）では横スクロールをなくし、1行目に項目名と今回、2行目に前回と増減を並べる（flex）。
+   見出し行は画面から隠すだけで残し（display:none にしない）、th/td と scope を維持して対応を保つ */
+.zaisei-table--indicators caption {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+.zaisei-table--indicators tbody th {
+  font-weight: 400;
+}
+
+@media (max-width: 600px) {
+  .zaisei-table--indicators thead {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+  }
+
+  .zaisei-table--indicators,
+  .zaisei-table--indicators tbody {
+    display: block;
+    width: auto;
+  }
+
+  .zaisei-table--indicators tr {
+    display: flex;
+    flex-wrap: wrap;
+    column-gap: 12px;
+    row-gap: 2px;
+    padding: 8px 2px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  /* 1行目：項目名（折り返し可）と今回。2行目：前回と増減（収まらない長い数値は増減だけ次の行へ回る）。
+     行の途中に改行用の空の要素（::after, order:3）を入れて、1行目と2行目を分ける */
+  .zaisei-table--indicators tr::after {
+    content: "";
+    order: 3;
+    flex-basis: 100%;
+    height: 0;
+  }
+
+  .zaisei-table--indicators th,
+  .zaisei-table--indicators td {
+    display: block;
+    padding: 0;
+    border: 0;
+    white-space: normal;
+  }
+
+  .zaisei-table--indicators tbody th {
+    order: 1;
+    flex: 1 1 0;
+    min-width: 0;
+    font-weight: 700;
+    text-align: left;
+  }
+
+  .zaisei-table--indicators td[data-label="今回"] {
+    order: 2;
+    flex: 0 0 auto;
+    font-weight: 800;
+    text-align: right;
+    white-space: nowrap;
+  }
+
+  .zaisei-table--indicators td[data-label="前回"] {
+    order: 4;
+    flex: 0 1 auto;
+    font-size: 0.9rem;
+    color: var(--text-sub);
+    text-align: left;
+  }
+
+  .zaisei-table--indicators td[data-label="増減"] {
+    order: 5;
+    flex: 0 1 auto;
+    margin-left: auto;
+    font-size: 0.9rem;
+    color: var(--text-sub);
+    text-align: right;
+  }
+
+  /* ラベルは見た目用。読み上げには列見出し（th scope=col）があるため、二重に読まれないよう代替テキストを空にする */
+  .zaisei-table--indicators td[data-label="前回"]::before,
+  .zaisei-table--indicators td[data-label="増減"]::before {
+    content: attr(data-label) " ";
+    content: attr(data-label) " " / "";
+    margin-right: 2px;
+  }
 }

@@ -1712,7 +1712,7 @@ function formatIndicatorDiff(current, previous) {
   return `${sign}${formatYen(diff)}`;
 }
 
-// 各グラフの見出しと注意書き。注意書きは長くSVG内に1行で描くと右端が切れるため、SVGの外のHTML段落として出す
+// 各グループの見出しと注意書き（グループごとに、見出しのすぐ下へ置く）
 const ZAISEI_FLOW = {
   title: "① 年間の規模（フロー）",
   note: "1年間に動くお金の規模を示す指標です。一般会計予算総額と市税収入（予算）を並べています",
@@ -1722,31 +1722,30 @@ const ZAISEI_STOCK = {
   note: "ある時点での市債と基金の残高です。性質の異なる指標のため、単純な差額で財政状況を判断することはできません",
 };
 
-function zaiseiChartGroup({ title, color, items, y0 }) {
-  const barAreaX = 130;
-  const barAreaW = 165;
-  const barH = 26;
-  const barGap = 14;
-  const parts = [];
-  let y = y0;
-  parts.push(`<text x="20" y="${y + 4}" font-size="12.5" font-weight="bold" fill="currentColor">${escapeHtml(title)}</text>`);
-  y += 16;
+// 棒の長さ：従来のSVGと同じ計算。グループごとの最大値を基準に、幅＝max(4, 値/最大値×165) ÷ 165（外枠の幅165に対する割合）。
+// 最大値が0など割合が数にならない場合、従来は棒が描かれなかったので、幅0%にする（意味を変えない）
+const ZAISEI_BAR_AREA = 165;
+const ZAISEI_BAR_MIN = 4;
+function zaiseiBarPercent(value, max) {
+  const w = Math.max(ZAISEI_BAR_MIN, (value / max) * ZAISEI_BAR_AREA);
+  return Number.isFinite(w) ? Math.round((w / ZAISEI_BAR_AREA) * 10000) / 100 : 0;
+}
+
+function zaiseiChartGroup({ id, kind, def, items }) {
   const max = Math.max(...items.map((i) => i.value));
-  for (const item of items) {
-    const w = Math.max(4, (item.value / max) * barAreaW);
-    parts.push(`<text x="20" y="${y + barH / 2 + 4}" font-size="11" fill="currentColor">${escapeHtml(item.label)}</text>`);
-    parts.push(`<rect x="${barAreaX}" y="${y}" width="${barAreaW}" height="${barH}" rx="4" fill="var(--surface)" stroke="currentColor" stroke-width="1" opacity="0.25"/>`);
-    parts.push(`<rect x="${barAreaX}" y="${y}" width="${w}" height="${barH}" rx="4" fill="${color}"/>`);
-    parts.push(`<text x="372" y="${y + barH / 2 + 4}" font-size="11" font-weight="bold" fill="currentColor" text-anchor="end">${escapeHtml(item.valueLabel)}</text>`);
-    y += barH + barGap;
-  }
-  return { html: parts.join(""), endY: y - barGap + barH + 10 };
+  const rows = items
+    .map(
+      (item) => `<li class="zaisei-chart-item"><span class="zaisei-chart-name">${escapeHtml(item.label)}</span><span class="zaisei-chart-value">${escapeHtml(item.valueLabel)}</span><span class="zaisei-chart-bar" aria-hidden="true"><span class="zaisei-chart-fill" style="width:${zaiseiBarPercent(item.value, max)}%"></span></span></li>`,
+    )
+    .join("");
+  return `<div class="zaisei-chart-group zaisei-chart-group--${kind}" role="group" aria-labelledby="${id}"><p class="zaisei-chart-title" id="${id}">${escapeHtml(def.title)}</p><p class="zaisei-chart-note">${escapeHtml(def.note)}</p><ul class="zaisei-chart-list" role="list">${rows}</ul></div>`;
 }
 
 function zaiseiBillionLabel(yen) {
   return `${(yen / 1e8).toLocaleString("ja-JP", { minimumFractionDigits: 1, maximumFractionDigits: 1 })}億円`;
 }
 
+// 主要指標のグラフ。SVGではなくHTML/CSSの棒で、名称・数値は文字として出し、棒は装飾（aria-hidden）にする
 function zaiseiChartSvg(current) {
   const byKey = (key) => current.indicators.find((i) => i.key === key);
   const budget = byKey("general-account-budget");
@@ -1754,39 +1753,19 @@ function zaiseiChartSvg(current) {
   const bond = byKey("bond-balance");
   const fund = byKey("fund-balance");
   if (!budget || !tax || !bond || !fund) return "";
-
-  let y = 8;
-  const group1 = zaiseiChartGroup({
-    title: ZAISEI_FLOW.title,
-    color: "#3f7fb0",
-    y0: y + 10,
-    items: [
-      { label: budget.label, value: budget.value, valueLabel: zaiseiBillionLabel(budget.value) },
-      { label: tax.label, value: tax.value, valueLabel: zaiseiBillionLabel(tax.value) },
-    ],
-  });
-  y = group1.endY + 6;
-  const dividerY = y;
-  y += 20;
-  const group2 = zaiseiChartGroup({
-    title: ZAISEI_STOCK.title,
-    color: "#c8102e",
-    y0: y,
-    items: [
-      { label: bond.label, value: bond.value, valueLabel: zaiseiBillionLabel(bond.value) },
-      { label: fund.label, value: fund.value, valueLabel: zaiseiBillionLabel(fund.value) },
-    ],
-  });
-  const totalH = group2.endY - 4;
-
-  return `<div class="guide-map-wrap" style="background:var(--surface);padding:8px;"><svg viewBox="0 0 380 ${totalH}" style="width:100%;height:auto;display:block" role="img" aria-label="宝塚市財政の主要指標グラフ：①年間の規模（フロー）は${escapeHtml(budget.label)}${zaiseiBillionLabel(budget.value)}・${escapeHtml(tax.label)}${zaiseiBillionLabel(tax.value)}、②現在の残高（ストック）は${escapeHtml(bond.label)}${zaiseiBillionLabel(bond.value)}・${escapeHtml(fund.label)}${zaiseiBillionLabel(fund.value)}。フローとストックは性質が異なるため別グラフで比較しています">${group1.html}<line x1="20" y1="${dividerY}" x2="360" y2="${dividerY}" stroke="currentColor" stroke-width="1" opacity="0.2" stroke-dasharray="3,3"/>${group2.html}</svg><div class="zaisei-chart-notes"><p><strong>${escapeHtml(ZAISEI_FLOW.title)}</strong><br>${escapeHtml(ZAISEI_FLOW.note)}</p><p><strong>${escapeHtml(ZAISEI_STOCK.title)}</strong><br>${escapeHtml(ZAISEI_STOCK.note)}</p></div><p class="guide-map-caption">主要指標のうち金額4項目を、フロー（年間の規模）とストック（現在の残高）に分けてグラフ化しています。</p></div>`;
+  const item = (ind) => ({ label: ind.label, value: ind.value, valueLabel: zaiseiBillionLabel(ind.value) });
+  const flow = zaiseiChartGroup({ id: "zaisei-chart-flow", kind: "flow", def: ZAISEI_FLOW, items: [item(budget), item(tax)] });
+  const stock = zaiseiChartGroup({ id: "zaisei-chart-stock", kind: "stock", def: ZAISEI_STOCK, items: [item(bond), item(fund)] });
+  return `<div class="zaisei-chart">${flow}${stock}<p class="zaisei-chart-caption">主要指標のうち金額4項目を、フロー（年間の規模）とストック（現在の残高）に分けてグラフ化しています。</p></div>`;
 }
 
 function zaiseiIndicatorRows(current, previous) {
   return current.indicators
     .map((ind) => {
       const prevInd = previous?.indicators.find((p) => p.key === ind.key);
-      return `<tr><td>${escapeHtml(ind.label)}</td><td>${formatIndicatorValue(ind)}</td><td>${prevInd ? formatIndicatorValue(prevInd) : "－"}</td><td>${formatIndicatorDiff(ind, prevInd)}</td></tr>`;
+      // 項目名は行見出し（th scope=row）。data-label はスマホの2行表示で「前回」「増減」を併記するための表示用。
+      // スマホでは行を grid にするため、ブラウザによって表の意味が失われないよう role も明示している
+      return `<tr role="row"><th scope="row" role="rowheader">${escapeHtml(ind.label)}</th><td role="cell" data-label="今回">${formatIndicatorValue(ind)}</td><td role="cell" data-label="前回">${prevInd ? formatIndicatorValue(prevInd) : "－"}</td><td role="cell" data-label="増減">${formatIndicatorDiff(ind, prevInd)}</td></tr>`;
     })
     .join("\n");
 }
@@ -1859,9 +1838,10 @@ ${highlightsHtml}
 <p class="panel-title">${icon("building")}主要指標</p>
 ${chartSvg}
 <div class="table-scroll">
-<table class="zaisei-table">
-<thead><tr><th>項目</th><th>今回</th><th>前回</th><th>増減</th></tr></thead>
-<tbody>
+<table class="zaisei-table zaisei-table--indicators" role="table">
+<caption>主要指標の今回・前回・増減</caption>
+<thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">項目</th><th scope="col" role="columnheader">今回</th><th scope="col" role="columnheader">前回</th><th scope="col" role="columnheader">増減</th></tr></thead>
+<tbody role="rowgroup">
 ${indicatorRows}
 </tbody>
 </table>
