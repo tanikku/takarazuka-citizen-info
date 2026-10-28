@@ -1705,11 +1705,55 @@ function formatIndicatorValue(indicator) {
 
 function formatIndicatorDiff(current, previous) {
   if (!previous) return "－";
+  // 収入率・執行率は基準日までの累計なので、基準日の違う公表期どうしの差は意味を持たない。自動の増減は出さない
+  if (current.unit === "percent") return "－";
   const diff = current.value - previous.value;
   if (diff === 0) return "変動なし";
-  const sign = diff > 0 ? "+" : "";
-  if (current.unit === "percent") return `${sign}${(Math.round(diff * 10) / 10).toLocaleString()}pt`;
-  return `${sign}${formatYen(diff)}`;
+  const sign = diff > 0 ? "+" : "-";
+  return `${sign}${formatYenDiffAmount(Math.abs(diff))}`;
+}
+
+// 財政ウォッチの増減額。1億円以上は formatYen と同じ（万円単位）。1億円未満は、万円未満の端数を丸めず円まで出す（例：722万5,000円）。
+// 減少も増加と同じ単位表記にそろえるため、符号は呼び出し側で付ける
+function formatYenDiffAmount(yen) {
+  if (yen >= 100000000) return formatYen(yen);
+  const man = Math.floor(yen / 10000);
+  const rest = yen % 10000;
+  if (man === 0) return `${yen.toLocaleString()}円`;
+  return rest > 0 ? `${man.toLocaleString()}万${rest.toLocaleString()}円` : `${man.toLocaleString()}万円`;
+}
+
+// 基準日（basicStats.statsDate）から、令和表記の日付と会計年度を出す
+function zaiseiAsOfLabel(period) {
+  const d = period?.basicStats?.statsDate;
+  if (typeof d !== "string") return null;
+  const [y, m, day] = d.split("-").map(Number);
+  return `令和${y - 2018}年${m}月${day}日`;
+}
+function zaiseiFiscalYear(period) {
+  const d = period?.basicStats?.statsDate;
+  if (typeof d !== "string") return null;
+  const [y, m] = d.split("-").map(Number);
+  return m >= 4 ? y : y - 1;
+}
+const zaiseiFiscalYearLabel = (fy) => `令和${fy - 2018}年度`;
+
+// 表の下の注記。「前回」は直前の公表期で、基準日が違うこと、年度をまたぐ比較であること、収入率・執行率の増減を出さないことを明示する
+function zaiseiComparisonNotes(current, previous) {
+  if (!previous) return "";
+  const curAsOf = zaiseiAsOfLabel(current);
+  const prevAsOf = zaiseiAsOfLabel(previous);
+  const asOfText = curAsOf && prevAsOf ? `基準日は、今回が${curAsOf}、前回が${prevAsOf}です。` : "";
+  const notes = [
+    `「前回」は、直前の公表期（${previous.publishedLabel}・${previous.coverageLabel}）の値です。増減は、今回の値から前回の値を引いた差です。${asOfText}`,
+  ];
+  const curFy = zaiseiFiscalYear(current);
+  const prevFy = zaiseiFiscalYear(previous);
+  if (curFy != null && prevFy != null && curFy !== prevFy) {
+    notes.push(`今回（${zaiseiFiscalYearLabel(curFy)}）と前回（${zaiseiFiscalYearLabel(prevFy)}）は年度が異なります。予算総額・市税収入（予算）の増減は、年度をまたいだ比較です。`);
+  }
+  notes.push("収入率・執行率は、それぞれの基準日までの累計です。公表期によって基準日までの期間が異なるため、増減は表示していません（「－」）。");
+  return notes.map((n) => `<p class="today-source">${escapeHtml(n)}</p>`).join("\n");
 }
 
 // 各グループの見出しと注意書き（グループごとに、見出しのすぐ下へ置く）
@@ -1719,7 +1763,7 @@ const ZAISEI_FLOW = {
 };
 const ZAISEI_STOCK = {
   title: "② 現在の残高（ストック）",
-  note: "ある時点での市債と基金の残高です。性質の異なる指標のため、単純な差額で財政状況を判断することはできません",
+  note: "ある時点での市債と、基金及び出資金の残高です。性質の異なる指標のため、単純な差額で財政状況を判断することはできません",
 };
 
 // 棒の長さ：従来のSVGと同じ計算。グループごとの最大値を基準に、幅＝max(4, 値/最大値×165) ÷ 165（外枠の幅165に対する割合）。
@@ -1772,19 +1816,22 @@ function zaiseiIndicatorRows(current, previous) {
 
 const ZAISEI_TERMS = [
   { term: "一般会計", desc: "市の基本的な行政活動（福祉・教育・道路整備など）に使うお金の会計区分です。国民健康保険や介護保険など目的が特定された「特別会計」とは別に管理されています。" },
-  { term: "基金", desc: "将来の特定の目的（施設整備・災害への備えなど）のために積み立てているお金です。家庭でいう「貯金」にあたります。" },
+  { term: "基金", desc: "将来の特定の目的（施設整備・災害への備えなど）のために、目的ごとに積み立てているお金です。家計の「貯金」に例えられることがありますが、積み立てた目的に沿って使うもので、いつでも自由に使えるお金ではありません。" },
+  { term: "基金及び出資金", desc: "公表資料では、基金の残高に、市が出資・出捐しているお金（出資金及び出捐金）を加えた合計を「基金及び出資金」として示しています。このページの「基金及び出資金の残高」は、この合計額です。" },
   { term: "市債", desc: "市が学校や道路などの整備のために金融機関や国などから借り入れるお金です。家庭でいう「ローン」にあたり、複数年かけて返済します。" },
   { term: "実質収支", desc: "1年間の収入と支出の差額から、翌年度に繰り越す事業の財源などを除いた金額のことで、その年度の家計簿でいう黒字・赤字に近い指標です。決算がまとまる公表回にあわせて紹介します。" },
 ];
 
-const ZAISEI_FAQ = [
+function zaiseiFaq(current) {
+  const asOf = zaiseiAsOfLabel(current);
+  return [
   {
     q: "宝塚市の「市債」とは何ですか？",
     a: "市債とは、市が学校や道路などの整備のために金融機関や国などから借り入れるお金のことです。家庭でいう「住宅ローン」のように、複数年かけて返済していく仕組みです。",
   },
   {
     q: "「基金」とは何ですか？",
-    a: "基金とは、将来の特定の目的のために積み立てているお金のことで、家庭でいう「貯金」にあたります。宝塚市には財政調整基金など複数の基金があります。",
+    a: "基金とは、将来の特定の目的のために、目的ごとに積み立てているお金のことです。家計の「貯金」に例えられることがありますが、積み立てた目的に沿って使うもので、いつでも自由に使えるお金ではありません。宝塚市には財政調整基金など複数の基金があります。なお、このページの「基金及び出資金」は、基金に出資金及び出捐金を加えた、公表資料の合計額です。",
   },
   {
     q: "宝塚市の財政は赤字なのですか？",
@@ -1796,13 +1843,14 @@ const ZAISEI_FAQ = [
   },
   {
     q: "このページの数字はいつ時点の情報ですか？",
-    a: "直近の更新は令和8年（2026年）6月公表分で、令和7年度（2025年度）下半期（令和7年10月1日〜令和8年3月31日）の状況です。基礎数値（人口・世帯数）は令和8年3月31日時点のものです。",
+    a: `直近の更新は${current.publishedLabel}分で、${current.coverageLabel}（${current.coverageRange}）の状況です。${asOf ? `基礎数値（人口・世帯数）は${asOf}時点のものです。` : ""}`,
   },
   {
     q: "もっと詳しい情報はどこで見られますか？",
     a: "宝塚市公式サイトの「財政状況」ページで、公表資料（PDF）の原本を確認できます。詳しい内訳や過去の公表分もあわせて掲載されています。",
   },
-];
+  ];
+}
 
 export function zaiseiWatchPage(periods, siteUrl) {
   const canonicalUrl = `${siteUrl}/category/shigikai/zaisei-watch`;
@@ -1811,12 +1859,14 @@ export function zaiseiWatchPage(periods, siteUrl) {
 
   const highlightsHtml = current.highlights.map((h) => `<li>${escapeHtml(h)}</li>`).join("\n");
   const indicatorRows = zaiseiIndicatorRows(current, previous);
+  const comparisonNotes = zaiseiComparisonNotes(current, previous);
+  const faq = zaiseiFaq(current);
   const chartSvg = zaiseiChartSvg(current);
   const termsHtml = ZAISEI_TERMS.map((t) => `<p class="guide-q">${escapeHtml(t.term)}</p><p>${escapeHtml(t.desc)}</p>`).join("\n");
   const historyRows = periods
     .map((p, i) => `<tr><td>${escapeHtml(p.publishedLabel)}</td><td>${escapeHtml(p.coverageLabel)}</td><td>${i === 0 ? "今回" : ""}</td></tr>`)
     .join("\n");
-  const faqHtml = ZAISEI_FAQ.map((item) => `<p class="guide-q">Q. ${escapeHtml(item.q)}</p><p>${escapeHtml(item.a)}</p>`).join("\n");
+  const faqHtml = faq.map((item) => `<p class="guide-q">Q. ${escapeHtml(item.q)}</p><p>${escapeHtml(item.a)}</p>`).join("\n");
 
   const bodyHtml = `<nav class="breadcrumb"><a href="/">トップ</a> &gt; <a href="${categoryPath("shigikai")}">市議会</a> &gt; 財政ウォッチ</nav>
 <div class="page-content">
@@ -1846,6 +1896,7 @@ ${indicatorRows}
 </tbody>
 </table>
 </div>
+${comparisonNotes}
 <p class="today-source">単位換算・端数処理の都合上、原資料と表示が完全に一致しない場合があります。詳細は出典PDFをご確認ください。</p>
 </div>
 
@@ -1895,7 +1946,7 @@ ${recommendedPagesPanel("shigikai", canonicalUrl.replace(siteUrl, ""))}
   const faqLd = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
-    mainEntity: ZAISEI_FAQ.map((item) => ({
+    mainEntity: faq.map((item) => ({
       "@type": "Question",
       name: item.q,
       acceptedAnswer: { "@type": "Answer", text: item.a },
@@ -1904,7 +1955,7 @@ ${recommendedPagesPanel("shigikai", canonicalUrl.replace(siteUrl, ""))}
 
   return layout({
     title: "宝塚市財政ウォッチ｜財政状況を分かりやすく解説｜Takarazuka Today",
-    description: "宝塚市が毎年6月・12月に公表する「財政状況」をもとに、一般会計の予算規模・市税収入・市債残高・基金残高などの主要な財政指標を市民向けにわかりやすく整理して紹介するページです。政治的評価は行わず、公式資料の事実整理のみを行います。",
+    description: "宝塚市が毎年6月・12月に公表する「財政状況」をもとに、一般会計の予算規模・市税収入・市債残高・基金及び出資金の残高などの主要な財政指標を市民向けにわかりやすく整理して紹介するページです。政治的評価は行わず、公式資料の事実整理のみを行います。",
     bodyHtml,
     canonicalUrl,
     structuredData: [breadcrumbLd, faqLd],

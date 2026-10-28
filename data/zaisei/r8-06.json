@@ -2,6 +2,7 @@
   "period": "r8-06",
   "publishedLabel": "令和8年（2026年）6月公表",
   "publishedDate": "2026-06-30",
+  "pageUpdatedAt": "2026-10-29",
   "coverageLabel": "令和7年度（2025年度）下半期",
   "coverageRange": "令和7年（2025年）10月1日〜令和8年（2026年）3月31日",
   "basicStats": {
@@ -13,7 +14,7 @@
     "一般会計の予算総額は1,064億7,772万円（市民ひとりあたり47万770円）",
     "市税収入の予算総額は368億3,610万円（市民ひとりあたり16万2,863円）",
     "市債（借金）の残高は678億5,073万円（市民ひとりあたり29万9,988円）",
-    "基金（貯金）の残高は497億7,806万円（うち財政調整基金は63億1,296万円）",
+    "基金及び出資金の残高は497億7,806万円（基金476億253万円と、出資金及び出捐金21億7,552万円の合計。うち財政調整基金は63億1,296万円）",
     "一般会計の収入率は93.4%、執行率は91.4%",
     "今後10年間の財政見通しでは、人口減少・少子高齢化等によりリスク中位ケースでも累計約22.9億円の収支不足が見込まれている"
   ],
@@ -21,7 +22,7 @@
     { "key": "general-account-budget", "label": "一般会計予算総額", "unit": "yen", "value": 106477717000, "perCapita": 470770 },
     { "key": "tax-revenue", "label": "市税収入（予算）", "unit": "yen", "value": 36836101000, "perCapita": 162863 },
     { "key": "bond-balance", "label": "市債残高", "unit": "yen", "value": 67850729000, "perCapita": 299988 },
-    { "key": "fund-balance", "label": "基金残高（合計）", "unit": "yen", "value": 49778056000, "perCapita": null },
+    { "key": "fund-balance", "label": "基金及び出資金の残高（合計）", "unit": "yen", "value": 49778056000, "perCapita": null },
     { "key": "fiscal-adjustment-fund", "label": "うち財政調整基金", "unit": "yen", "value": 6312955000, "perCapita": null },
     { "key": "revenue-rate", "label": "収入率（一般会計）", "unit": "percent", "value": 93.4, "perCapita": null },
     { "key": "execution-rate", "label": "執行率（一般会計）", "unit": "percent", "value": 91.4, "perCapita": null }

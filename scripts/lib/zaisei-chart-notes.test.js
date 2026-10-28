@@ -18,7 +18,7 @@ const chart = html.match(/<div class="zaisei-chart">[\s\S]*?<\/ul><\/div><p clas
 const groups = chart.match(/<div class="zaisei-chart-group [\s\S]*?<\/ul><\/div>/g) ?? [];
 
 const FLOW = "1年間に動くお金の規模を示す指標です。一般会計予算総額と市税収入（予算）を並べています";
-const STOCK = "ある時点での市債と基金の残高です。性質の異なる指標のため、単純な差額で財政状況を判断することはできません";
+const STOCK = "ある時点での市債と、基金及び出資金の残高です。性質の異なる指標のため、単純な差額で財政状況を判断することはできません";
 const byKey = (key) => periods[0].indicators.find((i) => i.key === key);
 const oku = (yen) => `${(yen / 1e8).toLocaleString("ja-JP", { minimumFractionDigits: 1, maximumFractionDigits: 1 })}億円`;
 // 従来のSVGの計算：幅 = max(4, 値/グループ最大値 × 165)、外枠は165。割合にすると幅/165×100

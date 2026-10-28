@@ -1,0 +1,31 @@
+{
+  "period": "r7-12",
+  "publishedLabel": "令和7年（2025年）12月公表",
+  "publishedDate": "2025-11-28",
+  "coverageLabel": "令和7年度（2025年度）上半期",
+  "coverageRange": "令和7年（2025年）4月1日〜令和7年（2025年）9月30日",
+  "basicStats": {
+    "population": 226680,
+    "households": 107678,
+    "statsDate": "2025-09-30"
+  },
+  "highlights": [
+    "一般会計の現計予算総額は987億1,622万円（市民ひとりあたり43万5,487円）",
+    "市税収入の予算総額は365億4,010万円（市民ひとりあたり16万1,197円）",
+    "市債（借金）の残高は650億3,352万円（市民ひとりあたり28万6,896円）",
+    "基金及び出資金の残高は497億8,528万円（基金476億954万円と、出資金及び出捐金21億7,575万円の合計。うち財政調整基金は63億1,296万円）",
+    "一般会計の収入率は40.4%、執行率は38.1%（令和7年9月30日現在）"
+  ],
+  "indicators": [
+    { "key": "general-account-budget", "label": "一般会計予算総額", "unit": "yen", "value": 98716223000, "perCapita": 435487 },
+    { "key": "tax-revenue", "label": "市税収入（予算）", "unit": "yen", "value": 36540101000, "perCapita": 161197 },
+    { "key": "bond-balance", "label": "市債残高", "unit": "yen", "value": 65033522000, "perCapita": 286896 },
+    { "key": "fund-balance", "label": "基金及び出資金の残高（合計）", "unit": "yen", "value": 49785281000, "perCapita": null },
+    { "key": "fiscal-adjustment-fund", "label": "うち財政調整基金", "unit": "yen", "value": 6312955000, "perCapita": null },
+    { "key": "revenue-rate", "label": "収入率（一般会計）", "unit": "percent", "value": 40.4, "perCapita": null },
+    { "key": "execution-rate", "label": "執行率（一般会計）", "unit": "percent", "value": 38.1, "perCapita": null }
+  ],
+  "sourceUrl": "https://www.city.takarazuka.hyogo.jp/_res/projects/default_project/_page_/001/012/640/r7_12_kohyo.pdf",
+  "sourceListUrl": "https://www.city.takarazuka.hyogo.jp/shisei/gyozaisei/1000137/1012640.html",
+  "sourceName": "宝塚市公式サイト「宝塚市の財政状況」（令和7年12月公表分）"
+}

@@ -36,6 +36,7 @@ import { validateArticles, PUBLISHABLE_SCORES } from "./lib/article-schema.js";
 import { isListableAsUpcoming } from "./lib/article-status.js";
 import { articleSitemapEntry, indexableSitemapEntries } from "./lib/indexing.js";
 import { validateGuides } from "./lib/guide-schema.js";
+import { zaiseiLastmod } from "./lib/zaisei-lastmod.js";
 import { pickFieldReportPhoto, isRankingFresh, buildFieldReportGallery } from "./lib/home-features.js";
 import { validateExplainerImage, availableExplainerImage } from "./lib/explainer-image.js";
 
@@ -73,6 +74,7 @@ const SITE_NOTICES = [
   { text: "サイト内検索を追加しました。ページ上部の検索窓からキーワードで探せます", href: "/search", until: "2026-08-06" },
   { text: "おでかけガイドに6ページ追加（宝塚北SA・武田尾温泉・宝塚温泉・廃線ハイキング・あいあいパーク・ダリア園）", href: "/category/kanko", until: "2026-08-07" },
   { text: "市議会「議案採決一覧」に令和8年第3回定例会（9月）を追加しました。9月1日議決分を掲載中で、会期中に順次更新します", href: "/category/shigikai/gian", until: "2026-09-15" },
+  { text: "市議会12月定例会の予定：会期は11月18日〜12月23日、一般質問は12月11日・14日・15日（16日は予備日）の予定です（市議会日程による予定で、変更される場合があります）", href: "/category/shigikai", until: "2026-12-16" },
 ];
 
 function loadArticles() {
@@ -275,7 +277,7 @@ function buildSitemap(publishedArticles, categoryPageKeys, giinWithArticles, gui
     { loc: `${SITE_URL}/contact`, lastmod: today },
     ...guides.map((g) => ({ loc: `${SITE_URL}/category/${g.categoryKey}/${g.slug}`, lastmod: g.updatedAt })),
     ...(gianSessions.length > 0 ? [{ loc: `${SITE_URL}/category/shigikai/gian`, lastmod: today }] : []),
-    ...(zaiseiPeriods.length > 0 ? [{ loc: `${SITE_URL}/category/shigikai/zaisei-watch`, lastmod: zaiseiPeriods[0].publishedDate }] : []),
+    ...(zaiseiPeriods.length > 0 ? [{ loc: `${SITE_URL}/category/shigikai/zaisei-watch`, lastmod: zaiseiLastmod(zaiseiPeriods) }] : []),
     ...(suisougakuYears.length > 0 ? [{ loc: `${SITE_URL}/category/kyoiku/suisougaku-guide`, lastmod: today }] : []),
     ...(giinWithArticles.length > 0 ? [{ loc: `${SITE_URL}/giin/`, lastmod: today, noindex: GIIN_PAGES_NOINDEX }] : []),
     ...giinWithArticles.map((giin) => ({ loc: `${SITE_URL}/giin/${giin.slug}`, lastmod: today, noindex: GIIN_PAGES_NOINDEX })),

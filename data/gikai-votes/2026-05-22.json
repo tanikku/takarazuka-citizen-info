@@ -4,8 +4,8 @@
   "meetingName": "令和8年第2回宝塚市議会（定例会）",
   "voteMethod": "電子採決システムによる投票",
   "transcribedAt": "2026-06-27",
-  "verified": false,
-  "verifiedAt": null,
+  "verified": true,
+  "verifiedAt": "2026-10-28",
   "bills": [
     {
       "billNumber": "議員提出議案第13号",
