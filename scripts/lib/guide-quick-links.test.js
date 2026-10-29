@@ -58,13 +58,16 @@ test("行政手続きガイドは 転入・転出 / 証明書 / マイナンバ�
   assert.ok(g.toc.length >= 7, "既存の目次は維持する");
 });
 
-test("子育てガイドは 妊娠・母子健康手帳 / 児童手当 / 保育園 の3枚で、リンク先の節が実在し、目次9項目を維持する", () => {
+test("子育てガイドは 妊娠・母子健康手帳 / 児童手当 / 保育園 の3枚で、リンク先の節が実在し、目次は既存の9項目に「学童保育」を加えた10項目になる", () => {
   const g = JSON.parse(fs.readFileSync(path.join(GUIDES_DIR, "kosodate-guide.json"), "utf8"));
   assert.deepEqual(validateGuide(g).errors, []);
   assert.deepEqual(g.quickLinks.links.map((l) => l.href), ["#boshitecho", "#teate", "#hoiku"]);
   const html = guidePage({ ...g, category: CATEGORIES.find((c) => c.key === g.categoryKey) }, SITE);
   for (const l of g.quickLinks.links) assert.match(html, new RegExp(`<section class="guide-section" id="${l.href.slice(1)}">`));
-  assert.equal(g.toc.length, 9);
+  assert.equal(g.toc.length, 10);
+  assert.deepEqual(g.toc.map((t) => t.id).slice(0, 9), ["boshitecho", "teate", "hoiku", "youchien", "jidokan", "gakudo", "yobousessyu", "iryo", "hitori"]);
+  const gakudo = g.sections.find((x) => x.id === "gakudo");
+  assert.ok(gakudo.items.join("").includes("/articles/ikuseikai-nyusho-shinsei-r9"), "学童保育の節から入所申請の記事へリンクする");
 });
 
 test("引っ越しチェックリストはSVGではなくHTMLのリスト（7項目・2分類・注意書き）で、原文を維持する", () => {
