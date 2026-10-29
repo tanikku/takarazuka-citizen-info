@@ -36,7 +36,8 @@ import { validateArticles, PUBLISHABLE_SCORES } from "./lib/article-schema.js";
 import { isListableAsUpcoming } from "./lib/article-status.js";
 import { articleSitemapEntry, indexableSitemapEntries } from "./lib/indexing.js";
 import { validateGuides } from "./lib/guide-schema.js";
-import { zaiseiLastmod } from "./lib/zaisei-lastmod.js";
+import { zaiseiPageLastmod } from "./lib/zaisei-lastmod.js";
+import { loadZaiseiKessan } from "./lib/zaisei-kessan.js";
 import { pickFieldReportPhoto, isRankingFresh, buildFieldReportGallery } from "./lib/home-features.js";
 import { validateExplainerImage, availableExplainerImage } from "./lib/explainer-image.js";
 
@@ -52,6 +53,7 @@ const GUIDES_DIR = path.join(ROOT, "data", "guides");
 const GIKAI_GIAN_DIR = path.join(ROOT, "data", "gikai-gian");
 const GIKAI_VOTES_DIR = path.join(ROOT, "data", "gikai-votes");
 const ZAISEI_DIR = path.join(ROOT, "data", "zaisei");
+const ZAISEI_KESSAN_DIR = path.join(ROOT, "data", "zaisei-kessan");
 const EVENTS_DIR = path.join(ROOT, "data", "events");
 const PUBLIC_DIR = path.join(ROOT, "public");
 const ASSETS_DIR = path.join(ROOT, "assets");
@@ -260,7 +262,7 @@ function writeFile(relativePath, content) {
   fs.writeFileSync(filePath, content);
 }
 
-function buildSitemap(publishedArticles, categoryPageKeys, giinWithArticles, guides, gianSessions, zaiseiPeriods, suisougakuYears) {
+function buildSitemap(publishedArticles, categoryPageKeys, giinWithArticles, guides, gianSessions, zaiseiPeriods, suisougakuYears, zaiseiKessan = null) {
   const today = todayDateKey();
   const entries = [
     { loc: `${SITE_URL}/`, lastmod: today },
@@ -277,7 +279,7 @@ function buildSitemap(publishedArticles, categoryPageKeys, giinWithArticles, gui
     { loc: `${SITE_URL}/contact`, lastmod: today },
     ...guides.map((g) => ({ loc: `${SITE_URL}/category/${g.categoryKey}/${g.slug}`, lastmod: g.updatedAt })),
     ...(gianSessions.length > 0 ? [{ loc: `${SITE_URL}/category/shigikai/gian`, lastmod: today }] : []),
-    ...(zaiseiPeriods.length > 0 ? [{ loc: `${SITE_URL}/category/shigikai/zaisei-watch`, lastmod: zaiseiLastmod(zaiseiPeriods) }] : []),
+    ...(zaiseiPeriods.length > 0 ? [{ loc: `${SITE_URL}/category/shigikai/zaisei-watch`, lastmod: zaiseiPageLastmod(zaiseiPeriods, zaiseiKessan) }] : []),
     ...(suisougakuYears.length > 0 ? [{ loc: `${SITE_URL}/category/kyoiku/suisougaku-guide`, lastmod: today }] : []),
     ...(giinWithArticles.length > 0 ? [{ loc: `${SITE_URL}/giin/`, lastmod: today, noindex: GIIN_PAGES_NOINDEX }] : []),
     ...giinWithArticles.map((giin) => ({ loc: `${SITE_URL}/giin/${giin.slug}`, lastmod: today, noindex: GIIN_PAGES_NOINDEX })),
@@ -296,7 +298,7 @@ ${body}
 }
 
 // サイト内検索用インデックス。ビルドごとに全ページから自動生成するため、記事・ガイドを追加するだけで検索対象になる
-function buildSearchIndex({ publishedArticles, categorySections, guides, gianSessions, zaiseiPeriods, suisougakuYears, giinWithArticles }) {
+function buildSearchIndex({ publishedArticles, categorySections, guides, gianSessions, zaiseiPeriods, suisougakuYears, giinWithArticles, zaiseiKessan = null }) {
   const entries = [];
 
   for (const article of publishedArticles) {
@@ -347,7 +349,7 @@ function buildSearchIndex({ publishedArticles, categorySections, guides, gianSes
       title: "宝塚市財政ウォッチ",
       description: "宝塚市が毎年6月・12月に公表する「財政状況」をもとに、主要な財政指標を市民向けに整理して紹介するページです。",
       category: "市議会",
-      keywords: "予算 市税収入 市債残高 基金残高",
+      keywords: zaiseiKessan ? "予算 市税収入 市債残高 基金残高 決算 実質収支 財政調整基金" : "予算 市税収入 市債残高 基金残高",
       url: "/category/shigikai/zaisei-watch",
     });
   }
@@ -494,6 +496,7 @@ function main() {
     }
   }
   const zaiseiPeriods = loadZaiseiPeriods();
+  const zaiseiKessan = loadZaiseiKessan(ZAISEI_KESSAN_DIR)[0] ?? null;
   const suisougakuYears = loadSuisougakuYears();
 
   // カテゴリーごとに、公開対象（S/A/B）の記事をまとめる。記事が1件以上、またはガイドページがある場合のみカテゴリーページを生成する
@@ -547,7 +550,7 @@ function main() {
     writeFile("category/shigikai/gian.html", gianResultPage(gianSessions, gikaiVoteIndex, SITE_URL));
   }
   if (zaiseiPeriods.length > 0) {
-    writeFile("category/shigikai/zaisei-watch.html", zaiseiWatchPage(zaiseiPeriods, SITE_URL));
+    writeFile("category/shigikai/zaisei-watch.html", zaiseiWatchPage(zaiseiPeriods, SITE_URL, zaiseiKessan));
   }
   if (suisougakuYears.length > 0) {
     writeFile("category/kyoiku/suisougaku-guide.html", suisougakuGuidePage(suisougakuYears, SITE_URL));
@@ -622,7 +625,7 @@ function main() {
   writeFile("events/index.html", eventsPage({ todayEvents, thisWeekend, thisMonth, siteUrl: SITE_URL }));
   writeFile("ranking/index.html", rankingPage(ranking, publishedArticles, SITE_URL));
 
-  writeFile("sitemap.xml", buildSitemap(publishedArticles, categoryPageKeys, giinWithArticles, guides, gianSessions, zaiseiPeriods, suisougakuYears));
+  writeFile("sitemap.xml", buildSitemap(publishedArticles, categoryPageKeys, giinWithArticles, guides, gianSessions, zaiseiPeriods, suisougakuYears, zaiseiKessan));
   writeFile("robots.txt", `User-agent: *\nAllow: /\nSitemap: ${SITE_URL}/sitemap.xml\n`);
 
   // 公開終了した /mukogawa/ は、上位互換の /livecam へCloudflare Pages標準の_redirectsで恒久転送する（フェーズE-2）。
@@ -656,7 +659,7 @@ function main() {
     writeFile("ads.txt", `${AD_CONFIG.adsTxt}\n`);
   }
 
-  const searchIndex = buildSearchIndex({ publishedArticles, categorySections, guides, gianSessions, zaiseiPeriods, suisougakuYears, giinWithArticles });
+  const searchIndex = buildSearchIndex({ publishedArticles, categorySections, guides, gianSessions, zaiseiPeriods, suisougakuYears, giinWithArticles, zaiseiKessan });
   writeFile("search-index.json", JSON.stringify(searchIndex));
   writeFile("search.html", searchPage(SITE_URL));
   writeFile("js/search.js", fs.readFileSync(path.join(ASSETS_DIR, "search.js"), "utf-8"));

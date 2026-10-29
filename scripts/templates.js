@@ -1819,10 +1819,10 @@ const ZAISEI_TERMS = [
   { term: "基金", desc: "将来の特定の目的（施設整備・災害への備えなど）のために、目的ごとに積み立てているお金です。家計の「貯金」に例えられることがありますが、積み立てた目的に沿って使うもので、いつでも自由に使えるお金ではありません。" },
   { term: "基金及び出資金", desc: "公表資料では、基金の残高に、市が出資・出捐しているお金（出資金及び出捐金）を加えた合計を「基金及び出資金」として示しています。このページの「基金及び出資金の残高」は、この合計額です。" },
   { term: "市債", desc: "市が学校や道路などの整備のために金融機関や国などから借り入れるお金です。家庭でいう「ローン」にあたり、複数年かけて返済します。" },
-  { term: "実質収支", desc: "1年間の収入と支出の差額から、翌年度に繰り越す事業の財源などを除いた金額のことで、その年度の家計簿でいう黒字・赤字に近い指標です。決算がまとまる公表回にあわせて紹介します。" },
+  { term: "実質収支", desc: "1年間の収入と支出の差額から、翌年度に繰り越す事業の財源などを除いた金額のことで、その年度の家計簿でいう黒字・赤字に近い指標です。決算の数値は、このページの決算の節で紹介しています。" },
 ];
 
-function zaiseiFaq(current) {
+function zaiseiFaq(current, kessan = null) {
   const asOf = zaiseiAsOfLabel(current);
   return [
   {
@@ -1835,15 +1835,35 @@ function zaiseiFaq(current) {
   },
   {
     q: "宝塚市の財政は赤字なのですか？",
-    a: "このページで紹介している「財政状況」の公表資料は、年度途中の予算の執行状況を示すもので、黒字・赤字を判定する決算資料ではありません。宝塚市は令和8年3月に策定した今後10年間の財政見通しの中で、人口減少や少子高齢化等によりリスク中位ケースでも累計約22.9億円の収支不足が見込まれるとしており、厳しい財政状況にあるとしています。",
+    a: kessan
+      ? `半期の「財政状況」の公表資料は、予算の執行状況と基準日の残高を示すもので、黒字・赤字を判定する決算資料ではありません。収支の結果は決算で示され、このページの「${kessan.fiscalYearLabel}決算」の節で紹介しています。${kessan.fiscalYearLabel}の一般会計の実質収支は${formatKessanAmount(kessan.generalAccount.current.realBalance)}のプラスです（${kessan.authorization.status === "certified" ? "本会議で認定済み" : "市公表・本会議の認定前"}）。一方、宝塚市は令和8年3月に策定した今後10年間の財政見通しの中で、人口減少や少子高齢化等によりリスク中位ケースでも累計約22.9億円の収支不足が見込まれるとしています。`
+      : "このページで紹介している「財政状況」の公表資料は、年度途中の予算の執行状況を示すもので、黒字・赤字を判定する決算資料ではありません。宝塚市は令和8年3月に策定した今後10年間の財政見通しの中で、人口減少や少子高齢化等によりリスク中位ケースでも累計約22.9億円の収支不足が見込まれるとしており、厳しい財政状況にあるとしています。",
   },
+  ...(kessan
+    ? [
+        {
+          q: "「決算」と、年2回公表される「財政状況」は何が違いますか？",
+          a: "「財政状況」は6月と12月に公表され、予算の執行状況や、基準日現在の市債・基金の残高を示します。「決算」は、1年間の収入と支出の結果で、年度が終わった後にまとまり、議会の認定を受けます。数字の基準日や範囲が違うため、両者を直接比べたり、差を計算したりしないでください。",
+        },
+        {
+          q: `${kessan.fiscalYearLabel}決算の数字は確定していますか？`,
+          a: kessan.authorization.status === "certified"
+            ? `${kessanDateLabel(kessan.authorization.certifiedDate)}の本会議で認定されました。`
+            : "市が公表した内容で、本会議での認定は、まだ行われていません。実質公債費比率は速報値です。認定された時点で、このページの表示を更新します。",
+        },
+        {
+          q: "基金の金額が、資料によって違うのはなぜですか？",
+          a: `基準日と範囲が違うためです。半期の財政状況は3月31日現在の基金（と出資金及び出捐金の合計）、決算は出納整理期間（5月31日まで）を経た年度末の残高で、出資金は含みません。${kessan.fiscalYearLabel}の財政調整基金は、3月31日現在が${formatYen(kessan.fiscalAdjustmentFund.timeline[1].yen)}、出納整理期間中に${formatYen(kessan.fiscalAdjustmentFund.timeline[2].yen)}増え、決算の年度末残高は${formatYen(kessan.fiscalAdjustmentFund.timeline[3].yen)}です。`,
+        },
+      ]
+    : []),
   {
     q: "なぜ年に2回（6月・12月）公表されるのですか？",
     a: "地方自治法第243条の3第1項及び宝塚市の条例に基づき、市は年に2回（6月・12月）財政状況を公表することが定められています。6月は前年度下半期分、12月はその年度の上半期分の状況が公表されます。",
   },
   {
     q: "このページの数字はいつ時点の情報ですか？",
-    a: `直近の更新は${current.publishedLabel}分で、${current.coverageLabel}（${current.coverageRange}）の状況です。${asOf ? `基礎数値（人口・世帯数）は${asOf}時点のものです。` : ""}`,
+    a: `直近の更新は${current.publishedLabel}分で、${current.coverageLabel}（${current.coverageRange}）の状況です。${asOf ? `基礎数値（人口・世帯数）は${asOf}時点のものです。` : ""}${kessan ? `決算の節は、${kessan.fiscalYearLabel}決算（${kessanDateLabel(kessan.pageUpdatedAt)}時点の表示）です。` : ""}`,
   },
   {
     q: "もっと詳しい情報はどこで見られますか？",
@@ -1852,15 +1872,161 @@ function zaiseiFaq(current) {
   ];
 }
 
-export function zaiseiWatchPage(periods, siteUrl) {
+// ---- 令和7年度決算セクション（data/zaisei-kessan/）----
+// 決算は「1年間の収支の結果」で、上の半期の財政状況（予算の執行状況・基準日の残高）とは別物。表示も別の節に分け、数字を混ぜない。
+// 原資料の単位は千円。表示は formatYen と同じ（万円未満を四捨五入）にそろえる
+function formatKessanAmount(sen) {
+  if (sen === 0) return "0円";
+  return `${sen < 0 ? "−" : ""}${formatYen(Math.abs(sen) * 1000)}`;
+}
+function formatKessanDiff(cur, prev) {
+  const d = cur - prev;
+  if (d === 0) return "変動なし";
+  return `${d > 0 ? "+" : "−"}${formatYenDiffAmount(Math.abs(d) * 1000)}`;
+}
+function formatPointDiff(cur, prev) {
+  const d = Math.round((cur - prev) * 10) / 10;
+  if (d === 0) return "変動なし";
+  return `${d > 0 ? "+" : "−"}${Math.abs(d)}ポイント`;
+}
+const kessanDateLabel = (iso) => {
+  const [y, m, d] = iso.split("-").map(Number);
+  return `令和${y - 2018}年${m}月${d}日`;
+};
+
+const KESSAN_TERMS = [
+  { term: "決算", desc: "1年間（4月1日〜翌年3月31日）の収入と支出の結果をまとめたものです。市は決算を議会に提出し、議会が認定します。年に2回公表する「財政状況」（上の主要指標）は、予算の執行状況と基準日の残高を示すもので、決算とは性格が異なります。" },
+  { term: "形式収支", desc: "歳入（1年間の収入）から歳出（1年間の支出）を引いた差額です。翌年度に使うために繰り越すお金も含んでいます。" },
+  { term: "実質収支", desc: "形式収支から、翌年度に繰り越して使うお金（繰り越すべき財源）を引いた金額です。その年度の家計簿でいう黒字・赤字に近い指標です。" },
+  { term: "単年度収支", desc: "その年度の実質収支から、前年度の実質収支を引いた金額です。実質収支そのものではなく、前年度から実質収支がどれだけ増減したかを示します。" },
+  { term: "実質単年度収支", desc: "単年度収支から、基金の積立・取崩など一時的な要素を調整した金額です。原資料の算式は、当年度実質収支−前年度実質収支＋財政調整基金積立額＋地方債繰上償還額−財政調整基金取崩額です。" },
+  { term: "財政調整基金", desc: "年度によって収入や支出が大きく動いたときなどに備えて、市が積み立てている基金です。" },
+  { term: "出納整理期間", desc: "年度が終わった後、5月31日まで、その年度分の収入・支出を整理する期間です。基金の積立などが、この期間に処理されることがあります。そのため、3月31日現在の基金残高と、決算の年度末残高は異なる場合があります。" },
+  { term: "経常収支比率", desc: "毎年の収入のうち、人件費・扶助費・公債費など毎年必ず必要な支出に使われた割合です。比率が小さいほど、臨時の需要に使えるお金の余裕が大きいといえます。" },
+  { term: "実質公債費比率", desc: "市債の返済などに使うお金が、市の標準的な収入に対してどのくらいの割合かを示す指標です。3年間の平均で算出されます。" },
+  { term: "一般会計・特別会計・普通会計", desc: "一般会計は市の基本的な行政活動の会計、特別会計は国民健康保険などの目的が特定された会計です。普通会計は、全国の自治体を同じ基準で比べるために、一般会計などを組み替えた区分で、基金残高や経常収支比率はこの区分で示されます。" },
+];
+
+function zaiseiKessanSection(k) {
+  const cur = k.generalAccount.current;
+  const prev = k.generalAccount.previous;
+  const prevLabel = `令和${k.fiscalYear - 1 - 2018}年度`;
+  const curLabel = `令和${k.fiscalYear - 2018}年度`;
+  const certified = k.authorization.status === "certified";
+  const statusTitle = certified ? "本会議で認定済み" : "市公表・本会議の認定前";
+  const statusText = certified
+    ? `${k.fiscalYearLabel}の決算は、${kessanDateLabel(k.authorization.certifiedDate)}の本会議で認定されました。`
+    : `${k.fiscalYearLabel}の決算は、市が公表した内容です。本会議での認定は、まだ行われていません。${k.authorization.scheduledDate ? `市の議会日程では、${kessanDateLabel(k.authorization.scheduledDate)}に本会議で審議される予定です。` : ""}`;
+
+  const acctRow = (label, key, note = "") =>
+    `<tr role="row"><th scope="row" role="rowheader">${escapeHtml(label)}${note ? `<br><small>${escapeHtml(note)}</small>` : ""}</th><td role="cell" data-label="${curLabel}">${formatKessanAmount(cur[key])}</td><td role="cell" data-label="${prevLabel}">${formatKessanAmount(prev[key])}</td><td role="cell" data-label="増減">${formatKessanDiff(cur[key], prev[key])}</td></tr>`;
+  const accountRows = [
+    acctRow("歳入決算額", "revenue"),
+    acctRow("歳出決算額", "expenditure"),
+    acctRow("形式収支", "formalBalance", "歳入−歳出"),
+    acctRow("翌年度に繰り越すべき財源", "carryoverFunds"),
+    acctRow("実質収支", "realBalance", "形式収支−繰り越すべき財源"),
+    acctRow("単年度収支", "singleYearBalance", "当年度の実質収支−前年度の実質収支"),
+    acctRow("実質単年度収支", "realSingleYearBalance"),
+  ].join("\n");
+
+  const f = k.fiscalAdjustmentFund;
+  const rd = k.ratios.realDebtServiceRatio;
+  const cr = k.ratios.currentAccountRatio;
+  const indRow = (label, curText, prevText, diffText) =>
+    `<tr role="row"><th scope="row" role="rowheader">${escapeHtml(label)}</th><td role="cell" data-label="${curLabel}">${curText}</td><td role="cell" data-label="${prevLabel}">${prevText}</td><td role="cell" data-label="増減">${diffText}</td></tr>`;
+  const indicatorRows = [
+    indRow("財政調整基金の年度末残高（決算・出納整理期間後・普通会計）", formatKessanAmount(f.yearEnd), formatKessanAmount(f.previousYearEnd), formatKessanDiff(f.yearEnd, f.previousYearEnd)),
+    indRow("基金残高の合計（一般・特別会計合計。出資金及び出捐金を含まない）", formatKessanAmount(k.allFunds.balance), formatKessanAmount(k.allFunds.previousBalance), formatKessanDiff(k.allFunds.balance, k.allFunds.previousBalance)),
+    indRow("市債残高（一般・特別会計合計）", formatKessanAmount(k.bonds.balance), formatKessanAmount(k.bonds.previousBalance), formatKessanDiff(k.bonds.balance, k.bonds.previousBalance)),
+    indRow("経常収支比率", `${cr.value}%`, `${cr.previous}%`, formatPointDiff(cr.value, cr.previous)),
+    indRow(`実質公債費比率${rd.preliminary ? "（速報値）" : ""}`, `${rd.value}%`, `${rd.previous}%`, formatPointDiff(rd.value, rd.previous)),
+  ].join("\n");
+
+  const timelineRows = f.timeline
+    .map((t) => `<tr><td>${escapeHtml(t.label)}</td><td>${t.isChange ? "+" : ""}${formatYen(t.yen)}</td></tr>`)
+    .join("\n");
+
+  const termsHtml = KESSAN_TERMS.map((t) => `<p class="guide-q">${escapeHtml(t.term)}</p><p>${escapeHtml(t.desc)}</p>`).join("\n");
+  const sourcesHtml = k.sources
+    .map((s) => `<p class="panel-note"><a href="${escapeHtml(s.url)}" target="_blank" rel="noopener">→ ${escapeHtml(s.label)}</a>（掲載ページの更新日：${kessanDateLabel(s.pageUpdatedAt)}）</p>`)
+    .join("\n");
+
+  return `<div class="panel" id="kessan">
+<p class="panel-title">${icon("building")}${escapeHtml(k.fiscalYearLabel)}決算（${statusTitle}）</p>
+<div class="rule-card"><strong>${statusTitle}</strong>。${escapeHtml(statusText)}</div>
+<p>ここでは、1年間の収入と支出の結果である「決算」を紹介します。上の「主要指標」は、6月・12月に公表される半期ごとの財政状況（予算の執行状況と、基準日の残高）で、性格が異なります。両者の数字を直接比べたり、差を計算したりしないでください。</p>
+<p class="today-source">対象：${escapeHtml(k.fiscalYearLabel)}の一般会計の決算。基金・経常収支比率は普通会計、市債残高は一般・特別会計の合計です。原資料の単位は千円で、表示は万円未満を四捨五入しています。</p>
+
+<p class="guide-q">一般会計の決算（${curLabel}と${prevLabel}の比較）</p>
+<div class="table-scroll">
+<table class="zaisei-table zaisei-table--indicators" role="table">
+<caption>${escapeHtml(k.fiscalYearLabel)}一般会計の決算</caption>
+<thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">項目</th><th scope="col" role="columnheader">${curLabel}</th><th scope="col" role="columnheader">${prevLabel}</th><th scope="col" role="columnheader">増減</th></tr></thead>
+<tbody role="rowgroup">
+${accountRows}
+</tbody>
+</table>
+</div>
+<p class="today-source">${escapeHtml(`実質収支は${formatKessanAmount(cur.realBalance)}（前年度は${formatKessanAmount(prev.realBalance)}）です。単年度収支の${formatKessanAmount(cur.singleYearBalance)}は、実質収支が前年度から増えた額で、実質収支そのものとは別の数字です。`)}</p>
+<p class="today-source">${escapeHtml(`${prevLabel}は、市立病院の建設に充てる寄附金（歳入）と、それに伴う基金への積立（歳出）があり、決算の規模が大きくなっていました。${curLabel}の歳入・歳出の減少には、その反動が含まれると、市の決算概要は説明しています。`)}</p>
+
+<p class="guide-q">基金・比率・市債残高</p>
+<div class="table-scroll">
+<table class="zaisei-table zaisei-table--indicators" role="table">
+<caption>${escapeHtml(k.fiscalYearLabel)}決算の基金・比率・市債残高</caption>
+<thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">項目</th><th scope="col" role="columnheader">${curLabel}</th><th scope="col" role="columnheader">${prevLabel}</th><th scope="col" role="columnheader">増減</th></tr></thead>
+<tbody role="rowgroup">
+${indicatorRows}
+</tbody>
+</table>
+</div>
+<p class="today-source">${rd.preliminary ? "実質公債費比率は速報値で、確定値ではありません。" : ""}実質赤字比率・連結実質赤字比率・将来負担比率は、市の資料では赤字や資金不足がないため「－」と表示されています。経常収支比率と実質公債費比率の増減は、ポイント差です。</p>
+
+<p class="guide-q">財政調整基金の基準日の違い</p>
+<p>財政調整基金は、基準日によって金額が異なります。半期の財政状況と決算が、別の時点の残高を示しているためです。出納整理期間（年度終了後〜5月31日）に積み立てられた分が、決算の年度末残高に含まれます。</p>
+<div class="table-scroll">
+<table class="zaisei-table">
+<thead><tr><th>基準日・区分</th><th>財政調整基金</th></tr></thead>
+<tbody>
+${timelineRows}
+</tbody>
+</table>
+</div>
+<p class="today-source">${escapeHtml(`${curLabel}中の財政調整基金の取崩しは${f.withdrawalDuringYear === 0 ? "ありません" : formatKessanAmount(f.withdrawalDuringYear)}。`)}半期の財政状況（令和8年6月公表）の「基金及び出資金」は、3月31日現在の基金に出資金及び出捐金を加えた合計で、決算の基金残高（出納整理期間後・出資金を含まない）とは、基準日も範囲も違うため、単純に比較できません。</p>
+
+<p class="guide-q">市債残高の内訳と基準日</p>
+<p>${escapeHtml(`決算の市債残高${formatKessanAmount(k.bonds.balance)}は、一般会計${formatKessanAmount(k.bonds.generalAccount)}と宝塚市営霊園事業費${formatKessanAmount(k.bonds.cemeteryAccount)}の合計です（前年度末は${formatKessanAmount(k.bonds.previousBalance)}）。半期の財政状況では、市債残高の基準日が公表期ごとに異なります（たとえば令和7年12月公表は9月30日現在、令和8年6月公表は出納整理期間末現在）。9月末と年度末の差は、年度末どうしの前年比ではありません。`)}</p>
+
+<p class="guide-q">決算の用語</p>
+${termsHtml}
+
+<p class="guide-q">出典（宝塚市公式サイト）</p>
+${sourcesHtml}
+<p class="today-source">${escapeHtml(`${k.fiscalYearLabel}決算の表示は、${kessanDateLabel(k.pageUpdatedAt)}時点の内容です。`)}</p>
+</div>`;
+}
+
+// 既存の半期の表の下に常に出す注記：基準日・範囲の違いと、比較してよいもの・いけないもの
+function zaiseiBasisNotes() {
+  const notes = [
+    "基金は、3月31日現在の残高と、出納整理期間（年度終了後〜5月31日）を経た決算の年度末残高が異なります。半期の財政状況の基金は基準日現在の残高で、決算の残高はその後に確定します。",
+    "市債は、半期の財政状況の項目ごとに基準日を確認する必要があります。たとえば令和7年12月公表は9月30日現在、令和8年6月公表は出納整理期間末現在で、「前回」との増減は同じ基準日どうしの比較ではありません。",
+    "「基金及び出資金」は基金に出資金及び出捐金を加えた合計で、決算の基金残高（出資金を含まない・会計範囲も異なる）とは単純に比較できません。",
+    "9月末と年度末の比較は、年度末どうしの前年比ではありません。",
+  ];
+  return notes.map((n) => `<p class="today-source">${escapeHtml(n)}</p>`).join("\n");
+}
+
+export function zaiseiWatchPage(periods, siteUrl, kessan = null) {
   const canonicalUrl = `${siteUrl}/category/shigikai/zaisei-watch`;
   const current = periods[0];
   const previous = periods[1];
 
   const highlightsHtml = current.highlights.map((h) => `<li>${escapeHtml(h)}</li>`).join("\n");
   const indicatorRows = zaiseiIndicatorRows(current, previous);
-  const comparisonNotes = zaiseiComparisonNotes(current, previous);
-  const faq = zaiseiFaq(current);
+  const comparisonNotes = [zaiseiComparisonNotes(current, previous), zaiseiBasisNotes()].filter(Boolean).join("\n");
+  const faq = zaiseiFaq(current, kessan);
   const chartSvg = zaiseiChartSvg(current);
   const termsHtml = ZAISEI_TERMS.map((t) => `<p class="guide-q">${escapeHtml(t.term)}</p><p>${escapeHtml(t.desc)}</p>`).join("\n");
   const historyRows = periods
@@ -1899,6 +2065,8 @@ ${indicatorRows}
 ${comparisonNotes}
 <p class="today-source">単位換算・端数処理の都合上、原資料と表示が完全に一致しない場合があります。詳細は出典PDFをご確認ください。</p>
 </div>
+
+${kessan ? zaiseiKessanSection(kessan) : ""}
 
 <div class="panel">
 <p class="panel-title">${icon("book")}財政用語の解説</p>

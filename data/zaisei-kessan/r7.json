@@ -1,0 +1,76 @@
+{
+  "fiscalYear": 2025,
+  "fiscalYearLabel": "令和7年度（2025年度）",
+  "unit": "千円",
+  "pageUpdatedAt": "2026-10-29",
+  "authorization": {
+    "status": "pending",
+    "scheduledDate": "2026-11-18",
+    "certifiedDate": null
+  },
+  "sources": [
+    {
+      "label": "宝塚市公式サイト「決算（令和7年度から）」・令和7年度決算概要（PDF）",
+      "url": "https://www.city.takarazuka.hyogo.jp/_res/projects/default_project/_page_/001/064/172/r7_kessangaiyou.pdf",
+      "listUrl": "https://www.city.takarazuka.hyogo.jp/1060687/1060727/1000137/1064172.html",
+      "pageUpdatedAt": "2026-09-15"
+    },
+    {
+      "label": "宝塚市公式サイト「令和7年度決算書・決算事項別明細書・決算ダッシュボード」",
+      "url": "https://www.city.takarazuka.hyogo.jp/1060687/1060727/1000137/1045643/1064316.html",
+      "listUrl": "https://www.city.takarazuka.hyogo.jp/1060687/1060727/1000137/1045643/1064316.html",
+      "pageUpdatedAt": "2026-10-22"
+    }
+  ],
+  "generalAccount": {
+    "scope": "一般会計",
+    "current": {
+      "revenue": 99500242,
+      "expenditure": 97364935,
+      "formalBalance": 2135307,
+      "carryoverFunds": 464013,
+      "realBalance": 1671294,
+      "singleYearBalance": 410675,
+      "realSingleYearBalance": 1092206
+    },
+    "previous": {
+      "revenue": 118939288,
+      "expenditure": 117397753,
+      "formalBalance": 1541535,
+      "carryoverFunds": 280916,
+      "realBalance": 1260619,
+      "singleYearBalance": 83816,
+      "realSingleYearBalance": -420184
+    }
+  },
+  "fiscalAdjustmentFund": {
+    "scope": "普通会計",
+    "yearEnd": 6994486,
+    "previousYearEnd": 6312955,
+    "withdrawalDuringYear": 0,
+    "timeline": [
+      { "key": "2025-09-30", "label": "令和7年9月30日現在（令和7年12月公表の財政状況）", "yen": 6312955000 },
+      { "key": "2026-03-31", "label": "令和8年3月31日現在（令和8年6月公表の財政状況・決算書の財産に関する調書）", "yen": 6312955258 },
+      { "key": "closing-period", "label": "出納整理期間中の増加（決算書の財産に関する調書）", "yen": 681530358, "isChange": true },
+      { "key": "settlement", "label": "令和7年度決算の年度末残高（決算概要・出納整理期間後）", "yen": 6994485616 }
+    ]
+  },
+  "ratios": {
+    "currentAccountRatio": { "value": 95.4, "previous": 96.9, "preliminary": false },
+    "realDebtServiceRatio": { "value": 5.5, "previous": 5.5, "preliminary": true }
+  },
+  "bonds": {
+    "scope": "一般・特別会計合計",
+    "balance": 67850729,
+    "previousBalance": 68267420,
+    "generalAccount": 66342104,
+    "previousGeneralAccount": 66665847,
+    "cemeteryAccount": 1508625,
+    "previousCemeteryAccount": 1601573
+  },
+  "allFunds": {
+    "scope": "一般・特別会計合計（出資金及び出捐金を含まない）",
+    "balance": 50100680,
+    "previousBalance": 47616863
+  }
+}
