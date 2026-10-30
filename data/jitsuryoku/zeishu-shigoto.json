@@ -1,0 +1,389 @@
+{
+  "status": "published",
+  "slug": "zeishu-shigoto",
+  "title": "宝塚の税収と仕事、ほかの街とどう違う？",
+  "description": "宝塚市と同じくらいの規模の5つの街を、国勢調査や経済センサス、決算カードなどの公的な統計で比較。市税の内訳、昼間の人口、市内の仕事、小売業の販売額を、グラフで確認できます。",
+  "lastUpdated": "2026-10-30",
+  "cities": [
+    {
+      "id": "takarazuka",
+      "name": "宝塚市",
+      "pref": "兵庫県"
+    },
+    {
+      "id": "itami",
+      "name": "伊丹市",
+      "pref": "兵庫県"
+    },
+    {
+      "id": "atsugi",
+      "name": "厚木市",
+      "pref": "神奈川県"
+    },
+    {
+      "id": "chigasaki",
+      "name": "茅ヶ崎市",
+      "pref": "神奈川県"
+    },
+    {
+      "id": "nagareyama",
+      "name": "流山市",
+      "pref": "千葉県"
+    },
+    {
+      "id": "matsumoto",
+      "name": "松本市",
+      "pref": "長野県"
+    }
+  ],
+  "rows": {
+    "takarazuka": {
+      "population": {
+        "pop2025": 217157,
+        "pop2020": 226432,
+        "areaKm2": 101.8
+      },
+      "tax": {
+        "total": 35698224,
+        "individual": 16243240,
+        "corporate": 1158350,
+        "fixedAsset": 13816743
+      },
+      "daynight": {
+        "night": 226432,
+        "day": 183303,
+        "outflow": 66838,
+        "inflow": 23709
+      },
+      "industry": {
+        "establishments": 5408,
+        "workers": 54613,
+        "manufacturing": 3622,
+        "medicalWelfare": 13345,
+        "wholesaleRetail": 11154
+      },
+      "retail": {
+        "establishments": 816,
+        "workers": 8092,
+        "sales": 145105,
+        "floorArea": 139323
+      }
+    },
+    "itami": {
+      "population": {
+        "pop2025": 195049,
+        "pop2020": 198138,
+        "areaKm2": 25.0
+      },
+      "tax": {
+        "total": 32914971,
+        "individual": 11491486,
+        "corporate": 2714577,
+        "fixedAsset": 14153827
+      },
+      "daynight": {
+        "night": 198138,
+        "day": 184573,
+        "outflow": 47673,
+        "inflow": 34108
+      },
+      "industry": {
+        "establishments": 5648,
+        "workers": 68928,
+        "manufacturing": 16379,
+        "medicalWelfare": 10852,
+        "wholesaleRetail": 14053
+      },
+      "retail": {
+        "establishments": 847,
+        "workers": 9039,
+        "sales": 177786,
+        "floorArea": 184774
+      }
+    },
+    "atsugi": {
+      "population": {
+        "pop2025": 222785,
+        "pop2020": 223705,
+        "areaKm2": 93.83
+      },
+      "tax": {
+        "total": 47704582,
+        "individual": 14800843,
+        "corporate": 6328279,
+        "fixedAsset": 21423716
+      },
+      "daynight": {
+        "night": 223705,
+        "day": 259057,
+        "outflow": 42725,
+        "inflow": 78077
+      },
+      "industry": {
+        "establishments": 9435,
+        "workers": 151442,
+        "manufacturing": 24170,
+        "medicalWelfare": 14562,
+        "wholesaleRetail": 22757
+      },
+      "retail": {
+        "establishments": 1079,
+        "workers": 11769,
+        "sales": 236989,
+        "floorArea": 227093
+      }
+    },
+    "chigasaki": {
+      "population": {
+        "pop2025": 244680,
+        "pop2020": 242389,
+        "areaKm2": 35.7
+      },
+      "tax": {
+        "total": 39181460,
+        "individual": 17507107,
+        "corporate": 1421560,
+        "fixedAsset": 15056152
+      },
+      "daynight": {
+        "night": 242389,
+        "day": 197099,
+        "outflow": 67869,
+        "inflow": 22579
+      },
+      "industry": {
+        "establishments": 6296,
+        "workers": 56481,
+        "manufacturing": 7230,
+        "medicalWelfare": 12203,
+        "wholesaleRetail": 12095
+      },
+      "retail": {
+        "establishments": 910,
+        "workers": 9048,
+        "sales": 151710,
+        "floorArea": 143835
+      }
+    },
+    "nagareyama": {
+      "population": {
+        "pop2025": 215086,
+        "pop2020": 199849,
+        "areaKm2": 35.32
+      },
+      "tax": {
+        "total": 36441422,
+        "individual": 15995055,
+        "corporate": 1320248,
+        "fixedAsset": 14752907
+      },
+      "daynight": {
+        "night": 199849,
+        "day": 157255,
+        "outflow": 66043,
+        "inflow": 23449
+      },
+      "industry": {
+        "establishments": 4241,
+        "workers": 43359,
+        "manufacturing": 2814,
+        "medicalWelfare": 9684,
+        "wholesaleRetail": 10535
+      },
+      "retail": {
+        "establishments": 634,
+        "workers": 7691,
+        "sales": 151305,
+        "floorArea": 159575
+      }
+    },
+    "matsumoto": {
+      "population": {
+        "pop2025": 232241,
+        "pop2020": 241145,
+        "areaKm2": 978.47
+      },
+      "tax": {
+        "total": 38157577,
+        "individual": 14028740,
+        "corporate": 3698714,
+        "fixedAsset": 16103741
+      },
+      "daynight": {
+        "night": 241145,
+        "day": 255115,
+        "outflow": 23191,
+        "inflow": 37161
+      },
+      "industry": {
+        "establishments": 12452,
+        "workers": 121650,
+        "manufacturing": 15138,
+        "medicalWelfare": 17010,
+        "wholesaleRetail": 26144
+      },
+      "retail": {
+        "establishments": 1818,
+        "workers": 14363,
+        "sales": 276391,
+        "floorArea": 328386
+      }
+    }
+  },
+  "landmarks": {
+    "takarazuka": [
+      {
+        "name": "宝塚大劇場",
+        "kind": "文化・観光",
+        "detail": "宝塚歌劇の本拠地の劇場（栄町1-1-57）",
+        "sourceLabel": "宝塚歌劇公式「劇場案内・アクセス」",
+        "sourceUrl": "https://kageki.hankyu.co.jp/theater/takarazuka/index.html",
+        "confirmedAt": "2026-10-30"
+      },
+      {
+        "name": "手塚治虫記念館",
+        "kind": "文化・観光",
+        "detail": "市立の記念館。2026年12月1日〜2027年3月4日は長期休館の予定",
+        "sourceLabel": "宝塚市公式「手塚治虫記念館」",
+        "sourceUrl": "https://www.city.takarazuka.hyogo.jp/tezuka/4000018/4000466.html",
+        "confirmedAt": "2026-10-30"
+      },
+      {
+        "name": "阪神競馬場",
+        "kind": "レジャー",
+        "detail": "市が観光・レジャースポットとして紹介",
+        "sourceLabel": "宝塚市公式「宝塚市のあらまし」",
+        "sourceUrl": "https://www.city.takarazuka.hyogo.jp/about/profile/1001192.html",
+        "confirmedAt": "2026-10-30"
+      }
+    ],
+    "itami": [
+      {
+        "name": "大阪国際空港（伊丹空港）",
+        "kind": "交通",
+        "detail": "行政区域は伊丹市・豊中市・池田市。運営は関西エアポート",
+        "sourceLabel": "伊丹市公式「伊丹空港の概要とアクセス」",
+        "sourceUrl": "https://www.city.itami.lg.jp/SOSIKI/TOSHIKATSURYOKU/KUKOSEISAKU/kukou/48190.html",
+        "confirmedAt": "2026-10-30"
+      },
+      {
+        "name": "小西酒造 本社",
+        "kind": "企業（本社）",
+        "detail": "清酒などの製造・販売。本社は伊丹市東有岡。創業1550年",
+        "sourceLabel": "小西酒造 会社情報",
+        "sourceUrl": "https://www.konishi.co.jp/company/",
+        "confirmedAt": "2026-10-30"
+      },
+      {
+        "name": "市立伊丹ミュージアム",
+        "kind": "文化",
+        "detail": "2022年4月開館。旧岡田家住宅・酒蔵（国指定重要文化財）などを公開",
+        "sourceLabel": "伊丹市公式「市立伊丹ミュージアムについて」",
+        "sourceUrl": "https://www.city.itami.lg.jp/SOSIKI/TOSHIKATSURYOKU/BUNKA/1601879955430.html",
+        "confirmedAt": "2026-10-30"
+      }
+    ],
+    "atsugi": [
+      {
+        "name": "日産の研究開発・設計拠点",
+        "kind": "企業（研究所）",
+        "detail": "先進技術開発センター、テクニカルセンター、グローバルデザインセンター。本社・工場は市外",
+        "sourceLabel": "日産自動車公式「拠点一覧」",
+        "sourceUrl": "https://www.nissan-global.com/JP/COMPANY/PROFILE/ESTABLISHMENT/index.html",
+        "confirmedAt": "2026-10-30"
+      },
+      {
+        "name": "アミューあつぎ",
+        "kind": "商業・公共",
+        "detail": "地下1〜4階がショッピング、5〜8階が公共施設、9階が映画館の複合施設",
+        "sourceLabel": "厚木市公式「アミューあつぎ」",
+        "sourceUrl": "https://www.city.atsugi.kanagawa.jp/soshiki/shogyonigiwaika/1/8339.html",
+        "confirmedAt": "2026-10-30"
+      },
+      {
+        "name": "あつぎ鮎まつり",
+        "kind": "イベント",
+        "detail": "8月最初の土・日曜の2日間に開かれるイベント",
+        "sourceLabel": "厚木市公式「本市の魅力」",
+        "sourceUrl": "https://www.city.atsugi.kanagawa.jp/shiseijoho/shinoshokai/3/15116.html",
+        "confirmedAt": "2026-10-30"
+      }
+    ],
+    "chigasaki": [
+      {
+        "name": "アルバック 本社・工場",
+        "kind": "企業（本社・工場）",
+        "detail": "真空装置などの企業。本社・工場は茅ヶ崎市萩園",
+        "sourceLabel": "アルバック「会社概要」",
+        "sourceUrl": "https://www.ulvac.co.jp/company/outline/",
+        "confirmedAt": "2026-10-30"
+      },
+      {
+        "name": "サザンビーチちがさき",
+        "kind": "観光",
+        "detail": "市の観光ページで紹介されている海水浴場",
+        "sourceLabel": "茅ヶ崎市公式「サザンビーチちがさき」",
+        "sourceUrl": "https://www.city.chigasaki.kanagawa.jp/kankou_list/koen/1006949/index.html",
+        "confirmedAt": "2026-10-30"
+      }
+    ],
+    "nagareyama": [
+      {
+        "name": "流山おおたかの森S・C",
+        "kind": "商業",
+        "detail": "流山おおたかの森駅前のショッピングセンター（おおたかの森南1-5-1）",
+        "sourceLabel": "流山市公式「施設案内 流山おおたかの森S・C」",
+        "sourceUrl": "https://www.city.nagareyama.chiba.jp/institution/1005119/1005236.html",
+        "confirmedAt": "2026-10-30"
+      },
+      {
+        "name": "白みりんミュージアム",
+        "kind": "文化・観光",
+        "detail": "2025年3月29日開館。流山発祥の白みりんをテーマにした体験型の市の施設",
+        "sourceLabel": "流山市公式「白みりんミュージアム」",
+        "sourceUrl": "https://www.city.nagareyama.chiba.jp/tourism/1013041/1049110.html",
+        "confirmedAt": "2026-10-30"
+      },
+      {
+        "name": "流山工業団地と、流山IC周辺の大型物流施設",
+        "kind": "産業",
+        "detail": "工業団地には15事業所（2025年4月時点）。IC周辺には大型の物流施設が立地",
+        "sourceLabel": "流山市「千葉県流山市地域基本計画」",
+        "sourceUrl": "https://www.city.nagareyama.chiba.jp/_res/projects/default_project/_page_/001/051/701/keikaku.pdf",
+        "confirmedAt": "2026-10-30"
+      }
+    ],
+    "matsumoto": [
+      {
+        "name": "国宝松本城",
+        "kind": "文化・観光",
+        "detail": "国宝（昭和27年3月29日指定）。所在地は松本市丸の内",
+        "sourceLabel": "松本市公式「松本城天守」",
+        "sourceUrl": "https://www.city.matsumoto.nagano.jp/soshiki/134/3771.html",
+        "confirmedAt": "2026-10-30"
+      }
+    ]
+  },
+  "sources": {
+    "population": {
+      "label": "総務省統計局「令和7年国勢調査 人口等基本集計」（2026年9月29日公表、確定値）。2020年は同表の組替人口、面積は同表の参考値",
+      "url": "https://www.stat.go.jp/data/kokusei/2025/kekka.html"
+    },
+    "tax": {
+      "label": "総務省「市町村決算カード」令和6年度（2024年度）決算",
+      "url": "https://www.soumu.go.jp/iken/zaisei/card-25.html"
+    },
+    "daynight": {
+      "label": "総務省統計局「令和2年国勢調査 従業地・通学地集計」第1-1表（2020年10月1日現在）",
+      "url": "https://www.stat.go.jp/data/kokusei/2020/kekka.html"
+    },
+    "industry": {
+      "label": "総務省・経済産業省「令和3年経済センサス-活動調査」（2021年6月1日現在、民営事業所）。統計センター SSDSE-A-2026・統計局「統計でみる市区町村のすがた2026」で事業所数・従業者数を照合",
+      "url": "https://www.nstac.go.jp/SSDSE/"
+    },
+    "retail": {
+      "label": "総務省・経済産業省「令和3年経済センサス-活動調査 産業別集計（卸売業，小売業）産業編（市区町村表）第1表」。年間商品販売額は令和2年（2020年）1年間、ほかは2021年6月1日現在",
+      "url": "https://www.e-stat.go.jp/stat-search/files?tstat=000001145590"
+    }
+  }
+}

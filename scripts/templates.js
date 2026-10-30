@@ -839,17 +839,17 @@ ${todayRow(fieldReportPhoto, categoryPageKeys)}
 // 新企画「宝塚の実力。」の予告バナー（トップページ）と企画紹介ページ。
 // 比較結果・未監査の数字はここに書かない。公開日も約束しない（調査段階であることだけを示す）
 export const JITSURYOKU_SLUG = "jitsuryoku";
-export const JITSURYOKU_TITLE = "「宝塚の実力。」企画紹介（調査中）";
+export const JITSURYOKU_TITLE = "「宝塚の実力。」企画紹介・第1弾公開";
 export const JITSURYOKU_DESCRIPTION =
-  "宝塚Todayの新企画「宝塚の実力。」の紹介ページです。人口・産業・税収・暮らしを、伊丹・厚木・茅ヶ崎・流山・松本の5市と公的な統計で比べる調査の目的と、出典と調査年を重視する調査のルールを説明します。現在は調査中です。";
+  "宝塚Todayの新企画「宝塚の実力。」の紹介ページです。人口・産業・税収・暮らしを、伊丹・厚木・茅ヶ崎・流山・松本の5市と公的な統計で比べる調査の目的と、出典と調査年を重視する調査のルールを説明します。第1弾を公開しています。";
 
 // 画像は写真・グラフィック部分だけ（文字なし）で、イメージ。見出し・コピー・「調査中」はPC・スマホともHTMLの文字で出す。
 // 画像内に文言を埋め込まない（公開日の約束や、結論を先取りする文言を画像に残さないため）
 function jitsuryokuBannerPanel() {
   return `<section class="jitsuryoku-banner" aria-label="新企画の予告">
-<a class="jitsuryoku-banner__link" href="/${JITSURYOKU_SLUG}">
-<span class="jitsuryoku-banner__head"><span class="jitsuryoku-banner__label">新企画・調査中</span><span class="jitsuryoku-banner__title">宝塚の<em>実力</em>。</span></span>
-<span class="jitsuryoku-banner__body"><span class="jitsuryoku-banner__copy">宝塚を、知っているつもりだった。</span><span class="jitsuryoku-banner__sub">同じくらいの規模の街と<wbr>比べたら、<wbr>何が見える？</span><span class="jitsuryoku-banner__pill">人口・税収・産業・暮らし。<wbr><strong>5都市</strong>と比較する独自調査。</span><span class="jitsuryoku-banner__more">企画の紹介を見る →</span></span>
+<a class="jitsuryoku-banner__link" href="/${JITSURYOKU_SLUG}/zeishu-shigoto">
+<span class="jitsuryoku-banner__head"><span class="jitsuryoku-banner__label">第1弾公開</span><span class="jitsuryoku-banner__title">宝塚の<em>実力</em>。</span></span>
+<span class="jitsuryoku-banner__body"><span class="jitsuryoku-banner__copy">宝塚を、知っているつもりだった。</span><span class="jitsuryoku-banner__sub">同じくらいの規模の街と<wbr>比べたら、<wbr>何が見える？</span><span class="jitsuryoku-banner__pill">人口・税収・産業・暮らし。<wbr><strong>5都市</strong>と比較する独自調査。</span><span class="jitsuryoku-banner__more">第1弾を読む →</span></span>
 <span class="jitsuryoku-banner__visual"><img src="/img/jitsuryoku-visual.webp" alt="" width="962" height="724" loading="lazy" decoding="async"><span class="jitsuryoku-banner__imgnote">※AI生成イメージ（実際の景観とは異なります）</span></span>
 </a>
 </section>`;
@@ -860,7 +860,7 @@ export function jitsuryokuPage(siteUrl) {
 <p class="updated-at">最終更新日：2026年10月30日</p>
 <p class="jitsuryoku-lead">宝塚を、知っているつもりだった。</p>
 <p>毎日の暮らしの中で、宝塚市のことは分かっているつもりでも、データで見ると意外な姿が見えてくることがあります。この企画は、宝塚市を、規模や性格が近い他の都市と、公的な統計で並べて見直す調査です。</p>
-<div class="rule-card"><strong>現在は調査中です。</strong>比較の結果は、まだ公開していません。公開日は決まっていません。結果を公開するときは、このページでもお知らせします。</div>
+<div class="rule-card"><strong>第1弾を公開しました。</strong><a href="/jitsuryoku/zeishu-shigoto">宝塚の税収と仕事、ほかの街とどう違う？</a>（市税・昼間の人口・市内の仕事・小売業）。今後も、ほかのテーマの調査を続けます。公開日は決まっていません。</div>
 
 ${staticSectionHeading("企画の目的")}
 <ul>
@@ -909,7 +909,7 @@ ${staticSectionHeading("関連するページ")}
     breadcrumbLabel: "「宝塚の実力。」",
     title: JITSURYOKU_TITLE,
     description: JITSURYOKU_DESCRIPTION,
-    panelTitle: "「宝塚の実力。」企画紹介（調査中）",
+    panelTitle: "「宝塚の実力。」企画紹介",
     panelIcon: "newspaper",
     contentHtml,
     siteUrl,

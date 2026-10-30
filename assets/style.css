@@ -3180,3 +3180,138 @@ a:focus-visible, button:focus-visible {
 .jitsuryoku-cities strong {
   display: block;
 }
+
+/* ===== 「宝塚の実力。」第1弾 特集ページ（.jf-*）===== */
+.jf {
+  --jf-ind: #1f6f8b;
+  --jf-cor: #9a5212;
+  --jf-fix: #5b6b3a;
+  --jf-oth: #8a8f98;
+  font-size: 1.125rem;
+  line-height: 1.85;
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+html[data-theme="dark"] .jf {
+  --jf-ind: #5bb6d6;
+  --jf-cor: #e0a15e;
+  --jf-fix: #a6bd6e;
+  --jf-oth: #a3a8b0;
+}
+.jf p { margin: 0 0 1em; }
+.jf-draft { background: var(--accent-soft); border: 2px dashed var(--accent); padding: 0.6em 1em; font-weight: 700; border-radius: 8px; }
+.jf-hero { padding: 0.5rem 0 1.5rem; }
+.jf-hero__tag { display: inline-block; background: var(--accent); color: #fff; font-weight: 700; padding: 0.15em 0.9em; border-radius: 999px; font-size: 1rem; margin-bottom: 0.5em; }
+.jf-hero__title { font-size: clamp(1.75rem, 6vw, 2.75rem); line-height: 1.35; margin: 0 0 0.5em; }
+.jf-lead { font-size: 1.25rem; font-weight: 700; }
+.jf-chips { list-style: none; display: flex; flex-wrap: wrap; gap: 0.5rem; padding: 0; margin: 0 0 1rem; }
+.jf-chips li { border: 2px solid var(--border); border-radius: 999px; padding: 0.15em 0.9em; font-weight: 700; background: var(--surface); }
+.jf-chips li.is-self { border-color: var(--accent); background: var(--accent-soft); }
+.jf-small, .jf-source, .jf-unit, .jf-baseline { font-size: 1rem; color: var(--text-sub); }
+.jf-stats { list-style: none; padding: 0; margin: 1.25rem 0; display: grid; gap: 0.75rem; grid-template-columns: repeat(auto-fit, minmax(min(220px, 100%), 1fr)); }
+.jf-stat { background: var(--surface); border: 2px solid var(--border); border-radius: 12px; padding: 1rem; display: flex; flex-direction: column; }
+.jf-stat__num { font-size: 2.75rem; line-height: 1.1; color: var(--accent); }
+.jf-stat__lbl { font-weight: 700; }
+.jf-stat__sub { font-size: 1rem; color: var(--text-sub); }
+.jf-sec { margin: 2.5rem 0; padding-top: 1rem; border-top: 3px solid var(--border); }
+.jf-h2 { font-size: clamp(1.4rem, 4.5vw, 1.9rem); line-height: 1.4; margin: 0 0 0.75em; display: flex; gap: 0.6em; align-items: baseline; }
+.jf-h2__no { flex: none; background: var(--accent); color: #fff; width: 1.8em; height: 1.8em; border-radius: 50%; display: inline-grid; place-items: center; font-size: 0.9em; }
+.jf-h3 { font-size: 1.2rem; margin: 1.25em 0 0.5em; }
+.jf-label { display: inline-block; font-size: 0.95rem; font-weight: 700; padding: 0 0.7em; border-radius: 6px; margin-right: 0.6em; border: 2px solid currentColor; line-height: 1.6; }
+.jf-label--fact { color: var(--jf-ind); }
+.jf-label--idea { color: var(--jf-cor); border-style: dashed; }
+.jf-label--hypo { color: var(--text-sub); border-style: dotted; }
+.jf-callout { background: var(--accent-soft); border-left: 6px solid var(--accent); padding: 0.75rem 1rem; border-radius: 8px; margin: 1rem 0; }
+.jf-callout p:last-child { margin-bottom: 0; }
+.jf-callout__title { font-weight: 700; margin-bottom: 0.25em !important; }
+.jf-notes { font-size: 1rem; color: var(--text-sub); padding-left: 1.25em; line-height: 1.75; }
+.jf-details { margin: 0.75rem 0; border: 2px solid var(--border); border-radius: 8px; padding: 0.25rem 1rem; background: var(--surface); }
+.jf-details > summary { cursor: pointer; font-weight: 700; padding: 0.6em 0; }
+.jf-details > summary:focus-visible, .jf a:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+.jf-table-wrap { overflow-x: auto; margin: 0.5rem 0 1rem; }
+.jf-table-wrap:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+.jf-table { border-collapse: collapse; font-size: 1rem; min-width: 560px; width: 100%; }
+.jf-table caption { text-align: left; font-weight: 700; padding: 0.4em 0; }
+.jf-table th, .jf-table td { border: 1px solid var(--border); padding: 0.4em 0.6em; text-align: right; }
+.jf-table th[scope="row"], .jf-table thead th:first-child { text-align: left; }
+.jf-table thead th { background: var(--accent-soft); }
+.jf-table th[scope="row"] { white-space: nowrap; position: sticky; left: 0; background: var(--surface); }
+.jf-table thead th:first-child { position: sticky; left: 0; }
+.jf-table caption { position: sticky; left: 0; }
+html[data-theme="dark"] .jf-table-wrap { color-scheme: dark; }
+/* キャラクターの吹き出し */
+.jf-say { display: flex; align-items: flex-end; gap: 0.75rem; margin: 1.25rem 0; }
+.jf-say--wan { flex-direction: row-reverse; }
+.jf-say__img { flex: none; height: auto; width: auto; max-height: 120px; max-width: 110px; object-fit: contain; }
+.jf-say__bubble { position: relative; margin: 0 !important; background: var(--surface); border: 2px solid var(--border); border-radius: 16px; padding: 0.6em 1em; font-weight: 700; line-height: 1.6; }
+.jf-say__who { display: block; font-size: 0.9rem; color: var(--accent); }
+/* 横棒グラフ */
+.jf-figure { margin: 1.25rem 0; padding: 1rem; background: var(--surface); border: 2px solid var(--border); border-radius: 12px; }
+.jf-figure figcaption { display: block; margin-bottom: 0.75rem; }
+.jf-figure__title { display: block; font-size: 1.15rem; }
+.jf-figure__desc { display: block; font-size: 1rem; color: var(--text-sub); line-height: 1.7; }
+.jf-bars, .jf-stacks, .jf-legend { list-style: none; padding: 0; margin: 0; }
+.jf-bar { display: grid; grid-template-columns: 5.5em 1fr auto; gap: 0.5rem; align-items: center; padding: 0.25rem 0; }
+.jf-bar__name, .jf-stack__name { font-weight: 700; }
+.jf-bar.is-self .jf-bar__name { color: var(--accent); }
+.jf-bar__track { position: relative; height: 1.5rem; background: var(--accent-soft); border-radius: 4px; overflow: hidden; }
+.jf-bar__fill { display: block; height: 100%; background: var(--jf-ind); }
+.jf-bar.is-self .jf-bar__fill { background: var(--accent); }
+.jf-bar__fill.is-hatch,
+.jf-bar.is-self .jf-bar__fill.is-hatch { background-image: repeating-linear-gradient(45deg, rgba(255,255,255,.55) 0 4px, transparent 4px 8px); }
+.jf-bar__base { position: absolute; top: 0; bottom: 0; width: 3px; background: var(--text); }
+.jf-bar__val { font-weight: 700; min-width: 4.5em; text-align: right; font-variant-numeric: tabular-nums; }
+.jf-baseline { display: flex; align-items: center; gap: 0.5em; margin: 0.5em 0 0; }
+.jf-baseline__mark { width: 3px; height: 1.1em; background: var(--text); display: inline-block; }
+.jf-unit { margin: 0.25em 0 0; }
+.jf-pair { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr)); }
+/* 100%積み上げ */
+.jf-legend { display: flex; flex-wrap: wrap; gap: 0.25rem 1rem; margin-bottom: 0.75rem; font-size: 1rem; font-weight: 700; }
+.jf-key { display: inline-block; width: 1.1em; height: 1.1em; border-radius: 3px; vertical-align: -0.15em; margin-right: 0.3em; }
+.jf-key--ind, .jf-seg--ind { background: var(--jf-ind); }
+.jf-key--cor, .jf-seg--cor { background: var(--jf-cor) repeating-linear-gradient(45deg, rgba(255,255,255,.5) 0 3px, transparent 3px 6px); }
+.jf-key--fix, .jf-seg--fix { background: var(--jf-fix) repeating-linear-gradient(90deg, rgba(255,255,255,.5) 0 3px, transparent 3px 6px); }
+.jf-key--oth, .jf-seg--oth { background: var(--jf-oth); }
+.jf-stack { padding: 0.5rem 0; border-top: 1px solid var(--border); }
+.jf-stack:first-child { border-top: 0; }
+.jf-stack.is-self .jf-stack__name { color: var(--accent); }
+.jf-stack__bar { display: flex; height: 1.75rem; border-radius: 4px; overflow: hidden; margin: 0.25rem 0; border: 1px solid var(--border); }
+.jf-seg { display: block; height: 100%; }
+.jf-seg + .jf-seg { border-left: 2px solid var(--surface); }
+html[data-theme="dark"] .jf-hero__tag, html[data-theme="dark"] .jf-h2__no { color: #121212; }
+.jf-stack__nums { display: flex; flex-wrap: wrap; gap: 0 1rem; font-size: 1rem; }
+/* 人の動き */
+.jf-flow { display: grid; grid-template-columns: 1fr 1.3fr 1fr; gap: 0.5rem; align-items: center; margin: 1rem 0; }
+.jf-flow__box { background: var(--accent-soft); border: 2px solid var(--accent); border-radius: 12px; padding: 0.75rem; text-align: center; }
+.jf-flow__box.is-day { background: var(--surface); border-style: dashed; }
+.jf-flow__box b { display: block; font-size: 1.35rem; }
+.jf-flow__mid { display: grid; gap: 0.5rem; text-align: center; }
+.jf-flow__out, .jf-flow__in { border: 2px solid var(--border); border-radius: 8px; padding: 0.4rem; background: var(--surface); }
+.jf-flow__out { border-style: dotted; }
+.jf-flow__lbl { display: block; font-size: 1rem; }
+.jf-flow__mid b { font-size: 1.2rem; }
+@media (max-width: 600px) {
+  .jf-flow { grid-template-columns: 1fr; }
+  .jf-bar { grid-template-columns: 4.5em 1fr auto; gap: 0.35rem; }
+  .jf-say__img { max-height: 96px; max-width: 80px; }
+}
+/* 街の顔 */
+.jf-cities { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr)); }
+.jf-city { border: 2px solid var(--border); border-radius: 12px; padding: 0.75rem 1rem; background: var(--surface); }
+.jf-city.is-self { border-color: var(--accent); }
+.jf-city__name { font-size: 1.2rem; margin: 0 0 0.4em; }
+.jf-city__list { list-style: none; padding: 0; margin: 0; }
+.jf-city__list li { padding: 0.5rem 0; border-top: 1px solid var(--border); line-height: 1.6; }
+.jf-city__list li:first-child { border-top: 0; }
+.jf-kind { display: inline-block; font-size: 0.9rem; border: 1px solid var(--border); border-radius: 4px; padding: 0 0.5em; margin-right: 0.5em; color: var(--text-sub); }
+.jf-city__detail, .jf-city__src { display: block; font-size: 1rem; color: var(--text-sub); }
+/* まとめ */
+.jf-sum { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr)); }
+.jf-sum__box { border: 2px solid var(--border); border-radius: 12px; padding: 0.75rem 1rem; background: var(--surface); }
+.jf-sum__box--idea { border-style: dashed; }
+.jf-sum__box--hypo { border-style: dotted; }
+.jf-sum__box h3 { font-size: 1.1rem; margin: 0 0 0.5em; }
+.jf-sum__box ul { padding-left: 1.25em; margin: 0; }
+.jf-sources { font-size: 1rem; padding-left: 1.25em; }
+.jf-back { font-weight: 700; margin-top: 1.5rem; }

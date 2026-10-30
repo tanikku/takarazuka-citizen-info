@@ -44,6 +44,7 @@ import { zaiseiPageLastmod } from "./lib/zaisei-lastmod.js";
 import { loadZaiseiKessan } from "./lib/zaisei-kessan.js";
 import { pickFieldReportPhoto, isRankingFresh, buildFieldReportGallery } from "./lib/home-features.js";
 import { validateExplainerImage, availableExplainerImage } from "./lib/explainer-image.js";
+import { loadFeature, jitsuryokuFeaturePage, FEATURE_POSE_FILES } from "./lib/jitsuryoku-feature.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.join(__dirname, "..");
@@ -266,7 +267,7 @@ function writeFile(relativePath, content) {
   fs.writeFileSync(filePath, content);
 }
 
-function buildSitemap(publishedArticles, categoryPageKeys, giinWithArticles, guides, gianSessions, zaiseiPeriods, suisougakuYears, zaiseiKessan = null) {
+function buildSitemap(publishedArticles, categoryPageKeys, giinWithArticles, guides, gianSessions, zaiseiPeriods, suisougakuYears, zaiseiKessan = null, jitsuryokuFeature = null) {
   const today = todayDateKey();
   const entries = [
     { loc: `${SITE_URL}/`, lastmod: today },
@@ -280,6 +281,7 @@ function buildSitemap(publishedArticles, categoryPageKeys, giinWithArticles, gui
     { loc: `${SITE_URL}/${GUIDE_CHARACTERS_SLUG}`, lastmod: "2026-10-16" },
     // 企画紹介ページの更新日は固定値（ビルド日にしない）。内容を実質更新したときだけ書き換える
     { loc: `${SITE_URL}/${JITSURYOKU_SLUG}`, lastmod: "2026-10-30" },
+    ...(jitsuryokuFeature?.status === "published" ? [{ loc: `${SITE_URL}/${JITSURYOKU_SLUG}/${jitsuryokuFeature.slug}`, lastmod: jitsuryokuFeature.lastUpdated }] : []),
     { loc: `${SITE_URL}/${FIELD_PHOTO_SLUG}`, lastmod: today },
     { loc: `${SITE_URL}/ad-policy`, lastmod: today },
     { loc: `${SITE_URL}/contact`, lastmod: today },
@@ -304,7 +306,7 @@ ${body}
 }
 
 // サイト内検索用インデックス。ビルドごとに全ページから自動生成するため、記事・ガイドを追加するだけで検索対象になる
-function buildSearchIndex({ publishedArticles, categorySections, guides, gianSessions, zaiseiPeriods, suisougakuYears, giinWithArticles, zaiseiKessan = null }) {
+function buildSearchIndex({ publishedArticles, categorySections, guides, gianSessions, zaiseiPeriods, suisougakuYears, giinWithArticles, zaiseiKessan = null, jitsuryokuFeature = null }) {
   const entries = [];
 
   for (const article of publishedArticles) {
@@ -436,9 +438,10 @@ function buildSearchIndex({ publishedArticles, categorySections, guides, gianSes
       title: JITSURYOKU_TITLE,
       description: JITSURYOKU_DESCRIPTION,
       category: "",
-      keywords: "宝塚の実力 比較 5都市 伊丹 厚木 茅ヶ崎 流山 松本 統計 調査中",
+      keywords: "宝塚の実力 比較 5都市 伊丹 厚木 茅ヶ崎 流山 松本 統計 第1弾",
       url: `/${JITSURYOKU_SLUG}`,
     },
+    ...(jitsuryokuFeature?.status === "published" ? [{ title: jitsuryokuFeature.title, description: jitsuryokuFeature.description, category: "", keywords: "宝塚の実力 税収 市税 昼夜間人口 産業 小売業 比較", url: `/${JITSURYOKU_SLUG}/${jitsuryokuFeature.slug}` }] : []),
     {
       title: "運営者情報",
       description: "Takarazuka Todayのサイト名・目的・編集方針・運営体制について説明します。",
@@ -511,6 +514,8 @@ function main() {
   const zaiseiPeriods = loadZaiseiPeriods();
   const zaiseiKessan = loadZaiseiKessan(ZAISEI_KESSAN_DIR)[0] ?? null;
   const suisougakuYears = loadSuisougakuYears();
+  // 「宝塚の実力。」第1弾。status が draft の間は noindex で、サイトマップ・検索インデックスに載せない
+  const jitsuryokuFeature = loadFeature(path.join(ROOT, "data", "jitsuryoku", "zeishu-shigoto.json"));
 
   // カテゴリーごとに、公開対象（S/A/B）の記事をまとめる。記事が1件以上、またはガイドページがある場合のみカテゴリーページを生成する
   const categorySections = CATEGORIES.map((cat) => ({
@@ -572,6 +577,7 @@ function main() {
   writeFile("about.html", aboutPage(SITE_URL));
   writeFile(`${GUIDE_CHARACTERS_SLUG}.html`, guideCharactersPage(SITE_URL));
   writeFile(`${JITSURYOKU_SLUG}.html`, jitsuryokuPage(SITE_URL));
+  if (jitsuryokuFeature) writeFile(`${JITSURYOKU_SLUG}/${jitsuryokuFeature.slug}.html`, jitsuryokuFeaturePage(jitsuryokuFeature, SITE_URL));
   writeFile(`${FIELD_PHOTO_SLUG}.html`, photoGalleryPage(buildFieldReportGallery(guides), SITE_URL));
   writeFile("ad-policy.html", adPolicyPage(SITE_URL));
   writeFile("contact.html", contactPage(SITE_URL, process.env.TURNSTILE_SITE_KEY));
@@ -639,7 +645,7 @@ function main() {
   writeFile("events/index.html", eventsPage({ todayEvents, thisWeekend, thisMonth, siteUrl: SITE_URL }));
   writeFile("ranking/index.html", rankingPage(ranking, publishedArticles, SITE_URL));
 
-  writeFile("sitemap.xml", buildSitemap(publishedArticles, categoryPageKeys, giinWithArticles, guides, gianSessions, zaiseiPeriods, suisougakuYears, zaiseiKessan));
+  writeFile("sitemap.xml", buildSitemap(publishedArticles, categoryPageKeys, giinWithArticles, guides, gianSessions, zaiseiPeriods, suisougakuYears, zaiseiKessan, jitsuryokuFeature));
   writeFile("robots.txt", `User-agent: *\nAllow: /\nSitemap: ${SITE_URL}/sitemap.xml\n`);
 
   // 公開終了した /mukogawa/ は、上位互換の /livecam へCloudflare Pages標準の_redirectsで恒久転送する（フェーズE-2）。
@@ -673,7 +679,7 @@ function main() {
     writeFile("ads.txt", `${AD_CONFIG.adsTxt}\n`);
   }
 
-  const searchIndex = buildSearchIndex({ publishedArticles, categorySections, guides, gianSessions, zaiseiPeriods, suisougakuYears, giinWithArticles, zaiseiKessan });
+  const searchIndex = buildSearchIndex({ publishedArticles, categorySections, guides, gianSessions, zaiseiPeriods, suisougakuYears, giinWithArticles, zaiseiKessan, jitsuryokuFeature });
   writeFile("search-index.json", JSON.stringify(searchIndex));
   writeFile("search.html", searchPage(SITE_URL));
   writeFile("js/search.js", fs.readFileSync(path.join(ASSETS_DIR, "search.js"), "utf-8"));
@@ -689,6 +695,10 @@ function main() {
   // 案内役（たから まどか・たからワン）の正式原画。紹介ページで表示する（元PNGはコピーしない）
   for (const file of fs.readdirSync(path.join(ASSETS_DIR, "characters")).filter((f) => f.endsWith(".webp"))) {
     writeFile(`characters/${file}`, fs.readFileSync(path.join(ASSETS_DIR, "characters", file)));
+  }
+  // 特集ページ用の、正式原画から切り出したポーズ
+  for (const file of FEATURE_POSE_FILES) {
+    writeFile(`characters/poses/${file}`, fs.readFileSync(path.join(ASSETS_DIR, "characters", "poses", file)));
   }
   // ガイドの現地取材写真（WebP）はファイル追加だけで公開されるよう一括コピーする
   for (const file of fs.readdirSync(PHOTOS_DIR).filter((f) => f.endsWith(".webp"))) {

@@ -37,7 +37,7 @@ test("企画紹介ページ：title・description・canonical・パンくず", (
 
 test("企画紹介ページ：目的・5都市・4テーマ・調査ルール・調査中を載せ、薄いページではない", () => {
   const t = textOf(page);
-  for (const s of ["企画の目的", "比較する5都市", "調べる4つのテーマ", "調査のルール", "現在は調査中です", "公開日は決まっていません"]) assert.ok(t.includes(s), s);
+  for (const s of ["企画の目的", "比較する5都市", "調べる4つのテーマ", "調査のルール", "第1弾を公開しました", "調査を続けます"]) assert.ok(t.includes(s), s);
   for (const c of ["伊丹市", "厚木市", "茅ヶ崎市", "流山市", "松本市"]) assert.ok(t.includes(c), c);
   for (const th of ["人口", "産業", "税収", "暮らし"]) assert.ok(t.includes(th), th);
   assert.match(t, /出典・調査年・基準日・単位・集計の範囲/);
@@ -53,7 +53,7 @@ test("企画紹介ページ：比較結果・数字・順位・公開予定日�
   const body = textOf(page.slice(page.indexOf("jitsuryoku-lead"), iFooter));
   // 数字は「5都市」「4つ」「20万人」(伊丹市の説明)・日付(最終更新日・年)以外に出さない
   const stripped = body
-    .replace(/最終更新日：2026年10月30日/g, "")
+    .replace(/最終更新日：2026年10月30日/g, "").replace(/第1弾/g, "")
     .replace(/5都市|5市|4つ|20万人/g, "");
   assert.doesNotMatch(stripped, /\d/, `数字が残っている: ${stripped.match(/.{10}\d.{10}/)?.[0]}`);
   assert.doesNotMatch(body, /第\d位|\d位/);
@@ -63,7 +63,7 @@ test("企画紹介ページ：比較結果・数字・順位・公開予定日�
 
 test("トップページ：バナーは上段の左枠（今日の宝塚トピックがあった場所）に1つだけ。今日の宝塚トピックはトップニュースの下にあり、二重に出ない", () => {
   assert.equal((home.match(/class="jitsuryoku-banner"/g) ?? []).length, 1);
-  assert.ok(home.includes(`href="/${JITSURYOKU_SLUG}"`));
+  assert.ok(home.includes(`href="/${JITSURYOKU_SLUG}/zeishu-shigoto"`), "バナーは第1弾へ直接リンクする");
   const iBanner = home.indexOf('class="jitsuryoku-banner"');
   const iTodayRow = home.indexOf('class="today-row"');
   const iTopNews = home.indexOf("トップニュース");
@@ -103,14 +103,14 @@ test("バナー：コピーはHTMLの文字、画像は文字なしのイメー�
   const start = home.indexOf('<section class="jitsuryoku-banner"');
   const b = home.slice(start, home.indexOf("</section>", start));
   const t = textOf(b);
-  for (const s of ["新企画・調査中", "宝塚の実力。", "宝塚を、知っているつもりだった。", "同じくらいの規模の街と比べたら、何が見える？", "人口・税収・産業・暮らし。5都市と比較する独自調査。", "※AI生成イメージ（実際の景観とは異なります）", "企画の紹介を見る"]) {
+  for (const s of ["第1弾公開", "宝塚の実力。", "宝塚を、知っているつもりだった。", "同じくらいの規模の街と比べたら、何が見える？", "人口・税収・産業・暮らし。5都市と比較する独自調査。", "※AI生成イメージ（実際の景観とは異なります）", "第1弾を読む"]) {
     assert.ok(t.replace(/\s/g, "").includes(s.replace(/\s/g, "")), s);
   }
   assert.match(b, /<img src="\/img\/jitsuryoku-visual\.webp" alt="" width="962" height="724"/);
   assert.equal((b.match(/<img /g) ?? []).length, 1, "画像は1枚だけ");
   assert.doesNotMatch(b, /<picture|<source|jitsuryoku-banner(-sp)?\.webp/, "文字入りの全体画像・スマホ別画像は使わない");
   assert.doesNotMatch(t, /近日公開|公開予定|強み|課題|\d月\d+日/);
-  assert.equal((b.match(/href="\/jitsuryoku"/g) ?? []).length, 1);
+  assert.equal((b.match(/href="\/jitsuryoku\/zeishu-shigoto"/g) ?? []).length, 1);
 });
 
 test("バナー画像：公開対象は文字なしの画像1枚だけ（文字入りの全体画像は assets/ にも build にも無い）", () => {
