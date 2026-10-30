@@ -1,4 +1,4 @@
-// 新企画「宝塚の実力。」の予告バナーと企画紹介ページ：比較結果・未監査の数字・公開日の約束を載せないこと、配置、リンク、アクセシビリティ
+// 新企画「宝塚の実力」の予告バナーと企画紹介ページ：比較結果・未監査の数字・公開日の約束を載せないこと、配置、リンク、アクセシビリティ
 // 実行: npm test
 import test from "node:test";
 import assert from "node:assert/strict";
@@ -103,7 +103,7 @@ test("バナー：コピーはHTMLの文字、画像は文字なしのイメー�
   const start = home.indexOf('<section class="jitsuryoku-banner"');
   const b = home.slice(start, home.indexOf("</section>", start));
   const t = textOf(b);
-  for (const s of ["第1弾公開", "宝塚の実力。", "宝塚を、知っているつもりだった。", "同じくらいの規模の街と比べたら、何が見える？", "人口・税収・産業・暮らし。5都市と比較する独自調査。", "※AI生成イメージ（実際の景観とは異なります）", "第1弾を読む"]) {
+  for (const s of ["第1弾公開", "宝塚の実力", "宝塚を、知っているつもりだった。", "同じくらいの規模の街と比べたら、何が見える？", "人口・税収・産業・暮らし。5都市と比較する独自調査。", "※AI生成イメージ（実際の景観とは異なります）", "第1弾を読む"]) {
     assert.ok(t.replace(/\s/g, "").includes(s.replace(/\s/g, "")), s);
   }
   assert.match(b, /<img src="\/img\/jitsuryoku-visual\.webp" alt="" width="962" height="724"/);

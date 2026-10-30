@@ -1,4 +1,4 @@
-// 「宝塚の実力。」第1弾の特集ページ（インフォグラフィック主体）。
+// 「宝塚の実力」第1弾の特集ページ（インフォグラフィック主体）。
 // 数字は data/jitsuryoku/*.json に集約し、グラフ・表・本文の数字はすべてそこから計算する（数字の食い違いを防ぐ）。
 // グラフは画像ではなく HTML / CSS（文字は本物のテキスト）。色だけで区別せず、値のラベル・模様・文字の説明を付ける。
 import fs from "node:fs";
@@ -182,11 +182,11 @@ export function jitsuryokuFeaturePage(d, siteUrl) {
 
   const draftRibbon = d.status === "draft" ? `<p class="jf-draft" role="note">公開前の確認用ページです。検索には載せていません。</p>` : "";
 
-  const bodyHtml = `<nav class="breadcrumb"><a href="/">トップ</a> &gt; <a href="/jitsuryoku">「宝塚の実力。」</a> &gt; 第1弾</nav>
+  const bodyHtml = `<nav class="breadcrumb"><a href="/">トップ</a> &gt; <a href="/jitsuryoku">「宝塚の実力」</a> &gt; 第1弾</nav>
 <div class="jf">
 ${draftRibbon}
 <header class="jf-hero">
-<p class="jf-hero__tag">宝塚の実力。 第1弾</p>
+<p class="jf-hero__tag">宝塚の実力 第1弾</p>
 <h1 class="jf-hero__title">宝塚の税収と仕事、ほかの街とどう違う？</h1>
 <p class="jf-lead">宝塚市と、同じくらいの規模の5つの街を、公的な統計で比べました。</p>
 <ul class="jf-chips" role="list" aria-label="数字を見る街（JavaScriptが使えるときは、選ぶと下の3つの数字が切り替わります）">${ORDER.map((id) => `<li${id === "takarazuka" ? ' class="is-selected"' : ""} data-city="${id}" data-ind="${pct1(taxShare(id).ind)}" data-dn="${ratio(id).toFixed(2)}" data-med="${pct1(share(id, "medicalWelfare"))}">${esc(name[id])}</li>`).join("")}</ul>
@@ -277,7 +277,7 @@ ${note(["企業や施設があることだけで、税収や雇用への影響�
 ${say("wan", "wan-board", "数字は、街の“良し悪し”ではなく、“違い”を見るためのものです。")}
 <p class="jf-small">この特集は、都市や行政の優劣を決めるものではありません。</p>
 ${details("出典の一覧を見る", sourcesHtml)}
-<p class="jf-back"><a href="/jitsuryoku">「宝塚の実力。」の企画紹介へ →</a>　<a href="/category/shigikai/zaisei-watch">宝塚市財政ウォッチへ →</a></p>
+<p class="jf-back"><a href="/jitsuryoku">「宝塚の実力」の企画紹介へ →</a>　<a href="/category/shigikai/zaisei-watch">宝塚市財政ウォッチへ →</a></p>
 </section>
 </div>`;
 
@@ -287,12 +287,12 @@ ${details("出典の一覧を見る", sourcesHtml)}
     "@type": "BreadcrumbList",
     itemListElement: [
       { "@type": "ListItem", position: 1, name: "トップ", item: `${siteUrl}/` },
-      { "@type": "ListItem", position: 2, name: "「宝塚の実力。」", item: `${siteUrl}/jitsuryoku` },
+      { "@type": "ListItem", position: 2, name: "「宝塚の実力」", item: `${siteUrl}/jitsuryoku` },
       { "@type": "ListItem", position: 3, name: "第1弾", item: canonicalUrl },
     ],
   };
   return layout({
-    title: `${d.title}｜「宝塚の実力。」第1弾｜Takarazuka Today`,
+    title: `${d.title}｜「宝塚の実力」第1弾｜Takarazuka Today`,
     description: d.description,
     bodyHtml,
     canonicalUrl,

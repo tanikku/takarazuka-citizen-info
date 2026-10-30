@@ -514,7 +514,7 @@ function main() {
   const zaiseiPeriods = loadZaiseiPeriods();
   const zaiseiKessan = loadZaiseiKessan(ZAISEI_KESSAN_DIR)[0] ?? null;
   const suisougakuYears = loadSuisougakuYears();
-  // 「宝塚の実力。」第1弾。status が draft の間は noindex で、サイトマップ・検索インデックスに載せない
+  // 「宝塚の実力」第1弾。status が draft の間は noindex で、サイトマップ・検索インデックスに載せない
   const jitsuryokuFeature = loadFeature(path.join(ROOT, "data", "jitsuryoku", "zeishu-shigoto.json"));
 
   // カテゴリーごとに、公開対象（S/A/B）の記事をまとめる。記事が1件以上、またはガイドページがある場合のみカテゴリーページを生成する

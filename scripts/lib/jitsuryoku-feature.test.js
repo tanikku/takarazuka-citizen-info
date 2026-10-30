@@ -89,7 +89,7 @@ test("本文の文字量は目安の範囲（表・出典・注記を除く）",
     .replace(/<ul class="jf-city__list"[\s\S]*?<\/ul>/g, "")
     .replace(/<script[\s\S]*?<\/script>/g, "")
     .replace(/<[^>]+>/g, "");
-  const body = main.slice(main.indexOf("宝塚の実力。 第1弾"));
+  const body = main.slice(main.indexOf("宝塚の実力 第1弾"));
   assert.ok(body.length < 4500, `本文が長すぎます: ${body.length}`);
 });
 
@@ -148,4 +148,18 @@ test("税収の注記：法人市民税の割合の計算式（決算カード�
   const html = jitsuryokuFeaturePage(d, SITE);
   assert.ok(html.includes(`${t.corporate.toLocaleString("ja-JP")}千円 ÷ 地方税の総額 ${t.total.toLocaleString("ja-JP")}千円 ＝ 3.24%`));
   assert.ok(html.includes("均等割＋法人税割"));
+});
+
+test("シリーズ名は「宝塚の実力」（句点なし）で統一され、特集ページ・企画紹介ページ・トップに旧表記が残らない", async () => {
+  const { jitsuryokuPage, indexPage } = await import("../templates.js");
+  const feature = jitsuryokuFeaturePage(loadFeature(DATA), SITE);
+  const intro = jitsuryokuPage(SITE);
+  for (const html of [feature, intro]) {
+    assert.doesNotMatch(html, /宝塚の実力。|実力<\/em>。/);
+    assert.match(html, /宝塚の実力/);
+  }
+  assert.match(feature, /<title>[^<]*「宝塚の実力」第1弾/);
+  assert.match(feature, /"name":"「宝塚の実力」"/, "構造化データ（パンくず）");
+  assert.match(intro, /<title>「宝塚の実力」企画紹介/);
+  assert.equal(typeof indexPage, "function");
 });

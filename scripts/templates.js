@@ -609,7 +609,7 @@ function fieldReportPanel(fieldReportPhoto) {
 </div>`;
 }
 
-// 上段の左枠（以前は「今日の宝塚トピック」があった場所）に「宝塚の実力。」の予告バナーを置く。
+// 上段の左枠（以前は「今日の宝塚トピック」があった場所）に「宝塚の実力」の予告バナーを置く。
 // 「今日の宝塚トピック」はトップニュースの下へ移した（indexPage）。記事の選択・表示内容は変えていない
 function todayRow(fieldReportPhoto, categoryPageKeys) {
   return `<div class="today-row">
@@ -836,19 +836,19 @@ ${todayRow(fieldReportPhoto, categoryPageKeys)}
   });
 }
 
-// 新企画「宝塚の実力。」の予告バナー（トップページ）と企画紹介ページ。
+// 新企画「宝塚の実力」の予告バナー（トップページ）と企画紹介ページ。
 // 比較結果・未監査の数字はここに書かない。公開日も約束しない（調査段階であることだけを示す）
 export const JITSURYOKU_SLUG = "jitsuryoku";
-export const JITSURYOKU_TITLE = "「宝塚の実力。」企画紹介・第1弾公開";
+export const JITSURYOKU_TITLE = "「宝塚の実力」企画紹介・第1弾公開";
 export const JITSURYOKU_DESCRIPTION =
-  "宝塚Todayの新企画「宝塚の実力。」の紹介ページです。人口・産業・税収・暮らしを、伊丹・厚木・茅ヶ崎・流山・松本の5市と公的な統計で比べる調査の目的と、出典と調査年を重視する調査のルールを説明します。第1弾を公開しています。";
+  "宝塚Todayの新企画「宝塚の実力」の紹介ページです。人口・産業・税収・暮らしを、伊丹・厚木・茅ヶ崎・流山・松本の5市と公的な統計で比べる調査の目的と、出典と調査年を重視する調査のルールを説明します。第1弾を公開しています。";
 
 // 画像は写真・グラフィック部分だけ（文字なし）で、イメージ。見出し・コピー・「調査中」はPC・スマホともHTMLの文字で出す。
 // 画像内に文言を埋め込まない（公開日の約束や、結論を先取りする文言を画像に残さないため）
 function jitsuryokuBannerPanel() {
   return `<section class="jitsuryoku-banner" aria-label="新企画の予告">
 <a class="jitsuryoku-banner__link" href="/${JITSURYOKU_SLUG}/zeishu-shigoto">
-<span class="jitsuryoku-banner__head"><span class="jitsuryoku-banner__label">第1弾公開</span><span class="jitsuryoku-banner__title">宝塚の<em>実力</em>。</span></span>
+<span class="jitsuryoku-banner__head"><span class="jitsuryoku-banner__label">第1弾公開</span><span class="jitsuryoku-banner__title">宝塚の<em>実力</em></span></span>
 <span class="jitsuryoku-banner__body"><span class="jitsuryoku-banner__copy">宝塚を、知っているつもりだった。</span><span class="jitsuryoku-banner__sub">同じくらいの規模の街と<wbr>比べたら、<wbr>何が見える？</span><span class="jitsuryoku-banner__pill">人口・税収・産業・暮らし。<wbr><strong>5都市</strong>と比較する独自調査。</span><span class="jitsuryoku-banner__more">第1弾を読む →</span></span>
 <span class="jitsuryoku-banner__visual"><img src="/img/jitsuryoku-visual.webp" alt="" width="962" height="724" loading="lazy" decoding="async"><span class="jitsuryoku-banner__imgnote">※AI生成イメージ（実際の景観とは異なります）</span></span>
 </a>
@@ -906,10 +906,10 @@ ${staticSectionHeading("関連するページ")}
 
   return staticInfoPage({
     slug: JITSURYOKU_SLUG,
-    breadcrumbLabel: "「宝塚の実力。」",
+    breadcrumbLabel: "「宝塚の実力」",
     title: JITSURYOKU_TITLE,
     description: JITSURYOKU_DESCRIPTION,
-    panelTitle: "「宝塚の実力。」企画紹介",
+    panelTitle: "「宝塚の実力」企画紹介",
     panelIcon: "newspaper",
     contentHtml,
     siteUrl,
