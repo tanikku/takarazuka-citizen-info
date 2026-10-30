@@ -229,6 +229,9 @@ export function resolveNow(env = process.env) {
 const jpDate = (s) => { const [y, m, d] = s.split("-").map(Number); return `${y}年${m}月${d}日`; };
 export const episodeDate = (ep) => (ep.publishedAt ?? ep.scheduledAt).slice(0, 10);
 
+export const SERIES_HASH_META_NAME = "series-content-hash";
+export const contentHashMeta = (hash) => `<meta name="${SERIES_HASH_META_NAME}" content="${hash}">`;
+
 export function episodePage(ep, siteUrl) {
   const canonicalUrl = `${siteUrl}/jitsuryoku/${ep.slug}`;
   const sections = ep.content.sections.map((s) => `<section class="jf-sec"><h2 class="jf-h2">${escapeHtml(s.heading)}</h2>${s.paragraphs.map((p) => `<p>${escapeHtml(p)}</p>`).join("")}</section>`).join("\n");
@@ -245,6 +248,8 @@ ${sections}
     description: ep.description,
     bodyHtml,
     canonicalUrl,
+    // 承認の署名で検証した原稿の内容ハッシュ。公開の確定（finalize）が、本番に出ている版がこの原稿であることを確かめるのに使う
+    extraHeadHtml: `\n${contentHashMeta(contentHashOf(ep))}`,
     structuredData: {
       "@context": "https://schema.org",
       "@type": "BreadcrumbList",

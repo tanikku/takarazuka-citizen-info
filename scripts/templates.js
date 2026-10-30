@@ -208,7 +208,7 @@ function siteYear() {
   return new Date().toLocaleDateString("en-CA", { timeZone: "Asia/Tokyo" }).slice(0, 4);
 }
 
-export function layout({ title, description, bodyHtml, canonicalUrl, ogType = "website", structuredData = null, extraScripts = [], ogImage = null, adsAllowed = true, noindex = false }) {
+export function layout({ title, description, bodyHtml, canonicalUrl, ogType = "website", structuredData = null, extraScripts = [], ogImage = null, adsAllowed = true, noindex = false, extraHeadHtml = "" }) {
   const dataList = Array.isArray(structuredData) ? structuredData : structuredData ? [structuredData] : [];
   const jsonLdScript = dataList
     .map((data) => `<script type="application/ld+json">${JSON.stringify(data)}</script>`)
@@ -237,7 +237,7 @@ export function layout({ title, description, bodyHtml, canonicalUrl, ogType = "w
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>${escapeHtml(title)}</title>
-<meta name="description" content="${escapeHtml(description)}">${robotsMeta}
+<meta name="description" content="${escapeHtml(description)}">${robotsMeta}${extraHeadHtml}
 <meta name="google-site-verification" content="j8M7gv2ziexoZ_pW1ZVdNS8gzpJV4qRiq27tLKtyIpw">
 <link rel="canonical" href="${escapeHtml(canonicalUrl)}">
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">

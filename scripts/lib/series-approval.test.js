@@ -7,11 +7,13 @@ import path from "node:path";
 import { spawnSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
 import {
-  contentHashOf, decideEpisode, selectEpisodes, loadEpisodes, resolveApproverKey, asKeyRing, publicKeyFingerprint, signApproval,
+  contentHashOf, decideEpisode, selectEpisodes, loadEpisodes, resolveApproverKey, asKeyRing, publicKeyFingerprint, signApproval, checkApproval,
+  episodePage, contentHashMeta, SERIES_HASH_META_NAME,
 } from "./series-episodes.js";
 import {
-  formatJst, isInsideRepo, loadPrivateKey, generateKeyPair, runApprove, prepareApproval, planFinalize, applyFinalize, checkSeries, verifyLive,
+  formatJst, isInsideRepo, loadPrivateKey, generateKeyPair, runApprove, prepareApproval, planFinalize, applyFinalize, checkSeries, verifyLive, runFinalize,
 } from "./series-approval.js";
+import { layout } from "../templates.js";
 
 const ROOT = path.join(path.dirname(fileURLToPath(import.meta.url)), "..", "..");
 const TOOL = path.join(ROOT, "scripts", "series-tool.js");
@@ -224,7 +226,7 @@ test("確定：公開された scheduled だけが対象。予定前・保留・
     approvedEpisode(kp, { slug: "ep7-pub", episode: 7, status: "published", publishedAt: "2026-11-07" }),
   ];
   const ctx = { now: at(SEC), approverPublicKey: [kp.publicKey] };
-  assert.deepEqual(planFinalize(eps, ctx).targets, [{ slug: "ep2-due", publishedAt: "2026-11-07" }]);
+  assert.deepEqual(planFinalize(eps, ctx).targets, [{ slug: "ep2-due", publishedAt: "2026-11-07", contentHash: contentHashOf(eps[0]) }]);
   assert.deepEqual(planFinalize(eps, { ...ctx, now: at(-SEC) }).targets, [], "予定の1秒前は対象なし");
   const inconsistent = [...eps, { ...eps[0] }];
   const bad = planFinalize(inconsistent, ctx);
@@ -430,19 +432,139 @@ test("公開日：published の publishedAt は署名された予約日と一致
   }
 });
 
-// ---------- 本番の公開確認 ----------
-test("公開確認：本番のページが200で、この回の正規URLを含むときだけ live。404・別ページ・通信失敗は確定しない側に倒す", async () => {
-  const siteUrl = "https://site.example";
-  const page = (slug) => `<html><head><link rel="canonical" href="${siteUrl}/jitsuryoku/${slug}"></head></html>`;
-  const mk = (fn) => (url) => Promise.resolve(fn(url));
-  const res = (status, body = "") => ({ ok: status >= 200 && status < 300, status, text: async () => body });
-  const live = await verifyLive(["ep2-a"], { siteUrl, fetchFn: mk((u) => res(200, page("ep2-a"))) });
-  assert.deepEqual(live.map((x) => x.live), [true]);
-  assert.equal(live[0].url, `${siteUrl}/jitsuryoku/ep2-a`);
-  assert.equal((await verifyLive(["ep2-a"], { siteUrl, fetchFn: mk(() => res(404)) }))[0].live, false, "デプロイ前・失敗");
-  assert.equal((await verifyLive(["ep2-a"], { siteUrl, fetchFn: mk(() => res(200, page("ep3-other"))) }))[0].live, false, "別の回／404ページを200で返す場合");
-  assert.equal((await verifyLive(["ep2-a"], { siteUrl, fetchFn: mk(() => res(200, "<html></html>")) }))[0].live, false);
-  assert.equal((await verifyLive(["ep2-a"], { siteUrl, fetchFn: () => Promise.reject(new Error("offline")) }))[0].live, false, "通信失敗");
-  const mixed = await verifyLive(["ep2-a", "ep3-b"], { siteUrl, fetchFn: mk((u) => (u.endsWith("ep2-a") ? res(200, page("ep2-a")) : res(502))) });
-  assert.deepEqual(mixed.map((x) => x.live), [true, false], "1件でも未確認なら、呼び出し側は全件の確定を止める");
+// ---------- 本番の公開確認（公開と内容ハッシュ） ----------
+const SITE = "https://site.example";
+const res = (status, body = "") => ({ ok: status >= 200 && status < 300, status, text: async () => body });
+const pageOf = (ep) => episodePage(ep, SITE);
+// 本番の状態を模した fetch。pages は slug → 本文、無い slug は 404
+const serve = (pages) => (url) => {
+  const slug = url.replace(`${SITE}/jitsuryoku/`, "");
+  return Promise.resolve(slug in pages ? res(200, pages[slug]) : res(404));
+};
+
+test("連載ページ：承認済みの原稿の内容ハッシュを meta に1つだけ出力する。ハッシュは承認の署名で検証した値と同じ。通常のページには出ない", () => {
+  const kp = newKey();
+  const ep = approvedEpisode(kp);
+  const html = pageOf(ep);
+  const metas = [...html.matchAll(new RegExp(`<meta name="${SERIES_HASH_META_NAME}" content="([^"]*)">`, "g"))].map((m) => m[1]);
+  assert.deepEqual(metas, [ep.approval.contentHash]);
+  assert.equal(checkApproval(ep, [kp.publicKey]).ok, true, "出力するハッシュは、署名の検証を通った承認のハッシュと一致");
+  assert.ok(html.indexOf(SERIES_HASH_META_NAME) < html.indexOf("</head>"), "head の中にある");
+  const plain = layout({ title: "t", description: "d", bodyHtml: "<p>x</p>", canonicalUrl: `${SITE}/x` });
+  assert.ok(!plain.includes(SERIES_HASH_META_NAME), "extraHeadHtml を渡さないページは変わらない");
+  assert.ok(!plain.includes("\n\n<meta name=\"google"), "余分な空行も入らない");
+  // 本文を直すとハッシュも変わる（古い版と区別できる）
+  const edited = { ...ep, description: "直した説明" };
+  assert.notEqual(contentHashOf(edited), contentHashOf(ep));
+  assert.ok(pageOf(edited).includes(contentHashOf(edited)) && !pageOf(edited).includes(contentHashOf(ep)));
+});
+
+test("公開確認：200・正規URL・内容ハッシュの3つが揃ったときだけ live。404・別ページ・ハッシュなし・不一致・複数・通信失敗は拒否", async () => {
+  const kp = newKey();
+  const ep = approvedEpisode(kp);
+  const item = { slug: ep.slug, contentHash: contentHashOf(ep) };
+  const live = (fetchFn, it = item) => verifyLive([it], { siteUrl: SITE, fetchFn }).then((r) => r[0]);
+  const good = await live(serve({ [ep.slug]: pageOf(ep) }));
+  assert.equal(good.live, true);
+  assert.equal(good.url, `${SITE}/jitsuryoku/${ep.slug}`);
+  const stale = pageOf({ ...ep, content: { ...ep.content, sections: [{ heading: "見出し", paragraphs: ["古い本文"] }] } });
+  const r1 = await live(serve({ [ep.slug]: stale }));
+  assert.equal(r1.live, false, "古い版");
+  assert.match(r1.detail, /一致しません/);
+  const same = pageOf(ep).replace(contentHashOf(ep), "0".repeat(64));
+  assert.equal((await live(serve({ [ep.slug]: same }))).live, false, "同じURL・同じ正規URLでも、ハッシュが違えば拒否");
+  const noHash = pageOf(ep).replace(/<meta name="series-content-hash"[^>]*>/, "");
+  const r2 = await live(serve({ [ep.slug]: noHash }));
+  assert.equal(r2.live, false, "ハッシュなし（ハッシュを出す前の古いデプロイ）");
+  assert.match(r2.detail, /ハッシュがありません/);
+  const twice = pageOf(ep).replace("</head>", `${contentHashMeta(contentHashOf(ep))}</head>`);
+  assert.equal((await live(serve({ [ep.slug]: twice }))).live, false, "ハッシュが複数");
+  const other = pageOf({ ...ep, slug: "ep3-other", episode: 3 });
+  assert.equal((await live(serve({ [ep.slug]: other }))).live, false, "別の回のページ");
+  assert.equal((await live(serve({ [ep.slug]: "<html><body>お探しのページは見つかりません</body></html>" }))).live, false, "200で返る404ページ");
+  assert.equal((await live(serve({}))).live, false, "404");
+  assert.equal((await live(() => Promise.resolve(res(502)))).live, false, "502");
+  assert.equal((await live(() => Promise.reject(new Error("offline")))).live, false, "通信失敗");
+  assert.equal((await live(serve({ [ep.slug]: pageOf(ep) }), { slug: ep.slug, contentHash: undefined })).live, false, "期待するハッシュが無い");
+  assert.equal((await live(serve({ [ep.slug]: pageOf(ep) }), { slug: ep.slug, contentHash: "ABC" })).live, false, "期待するハッシュの形式が不正");
+});
+
+test("finalize：正しい原稿が本番に出ていれば確定でき、再実行しても安全。古い版・内容違い・ハッシュなし・404・別ページ・通信失敗ではファイルを書き換えない", async () => {
+  const kp = newKey();
+  const ep = approvedEpisode(kp);
+  const ctx = { now: at(SEC), approverPublicKey: [kp.publicKey] };
+  const run = async (s, pages, { write = true, fetchFn } = {}) => {
+    const lines = [];
+    const errs = [];
+    const code = await runFinalize({ dir: s.dir, ...ctx, write, siteUrl: SITE, fetchFn: fetchFn ?? serve(pages), out: (l) => lines.push(l), err: (l) => errs.push(l) });
+    return { code, text: lines.join("\n"), errs: errs.join("\n") };
+  };
+  const stalePage = pageOf({ ...ep, content: { ...ep.content, sections: [{ heading: "見出し", paragraphs: ["古い本文"] }] } });
+  const refusals = {
+    古い版が表示されている: { [ep.slug]: stalePage },
+    同じURLで内容が違う: { [ep.slug]: pageOf(ep).replace(contentHashOf(ep), "f".repeat(64)) },
+    ハッシュなし: { [ep.slug]: pageOf(ep).replace(/<meta name="series-content-hash"[^>]*>/, "") },
+    本番に無い: {},
+    別ページ: { [ep.slug]: pageOf({ ...ep, slug: "ep3-other", episode: 3 }) },
+  };
+  for (const [label, pages] of Object.entries(refusals)) {
+    const s = setup(ep, kp);
+    const before = fs.readFileSync(s.file);
+    const r = await run(s, pages);
+    assert.equal(r.code, 1, label);
+    assert.match(r.errs, /1件も行いません/, label);
+    assert.deepEqual(fs.readFileSync(s.file), before, `${label}: ファイルは不変`);
+    assert.equal(readJson(s.file).status, "scheduled");
+  }
+  {
+    const s = setup(ep, kp);
+    const before = fs.readFileSync(s.file);
+    const r = await run(s, {}, { fetchFn: () => Promise.reject(new Error("offline")) });
+    assert.equal(r.code, 1, "通信失敗");
+    assert.deepEqual(fs.readFileSync(s.file), before);
+  }
+  // 確認のみ（--write なし）は、正しい原稿でも書き込まない
+  const s = setup(ep, kp);
+  const before = fs.readFileSync(s.file);
+  const dry = await run(s, { [ep.slug]: pageOf(ep) }, { write: false });
+  assert.equal(dry.code, 0);
+  assert.ok(dry.text.includes("公開と内容の一致を確認"));
+  assert.deepEqual(fs.readFileSync(s.file), before);
+  // 正しい原稿：確定できる
+  const ok = await run(s, { [ep.slug]: pageOf(ep) });
+  assert.equal(ok.code, 0);
+  assert.equal(readJson(s.file).status, "published");
+  assert.equal(readJson(s.file).publishedAt, "2026-11-07");
+  assert.equal(decideEpisode(readJson(s.file), { now: at(90 * DAY), approverPublicKey: [kp.publicKey] }).publish, true);
+  // 再実行：安全（対象なし・本番へ問い合わせない・ファイル不変）
+  const bytes = fs.readFileSync(s.file);
+  let fetched = 0;
+  const again = await run(s, {}, { fetchFn: () => { fetched++; return Promise.resolve(res(404)); } });
+  assert.equal(again.code, 0);
+  assert.match(again.text, /確定する回はありません/);
+  assert.equal(fetched, 0);
+  assert.deepEqual(fs.readFileSync(s.file), bytes);
+});
+
+test("finalize：複数の回のうち1件でも本番の内容が古ければ、1件も確定しない。公開確認の後に原稿が編集されたら確定を中止する", async () => {
+  const kp = newKey();
+  const a = approvedEpisode(kp, { slug: "ep2-a", episode: 2 });
+  const b = approvedEpisode(kp, { slug: "ep3-b", episode: 3 });
+  const s = setup(a, kp);
+  writeAll(s.dir, [b]);
+  const ctx = { now: at(SEC), approverPublicKey: [kp.publicKey] };
+  const snapshot = () => fs.readdirSync(s.dir).map((f) => [f, fs.readFileSync(path.join(s.dir, f), "utf-8")]);
+  const before = snapshot();
+  const staleB = pageOf({ ...b, title: "古い題名" });
+  const errs = [];
+  const code = await runFinalize({ dir: s.dir, ...ctx, write: true, siteUrl: SITE, fetchFn: serve({ "ep2-a": pageOf(a), "ep3-b": staleB }), out: () => {}, err: (l) => errs.push(l) });
+  assert.equal(code, 1);
+  assert.deepEqual(snapshot(), before, "公開できている ep2-a も確定しない");
+  // 確認の後に原稿を編集 → applyFinalize が中止（承認も崩れるが、確認済みハッシュとの不一致で先に止める）
+  const plan = planFinalize(loadEpisodes(s.dir), ctx);
+  fs.writeFileSync(path.join(s.dir, "ep2-a.json"), JSON.stringify({ ...a, title: "確認後に編集" }, null, 2));
+  const edited = fs.readFileSync(path.join(s.dir, "ep2-a.json"));
+  assert.throws(() => applyFinalize(s.dir, plan.targets, ctx), /原稿が変更された/);
+  assert.deepEqual(fs.readFileSync(path.join(s.dir, "ep2-a.json")), edited);
+  assert.equal(readJson(path.join(s.dir, "ep3-b.json")).status, "scheduled");
 });

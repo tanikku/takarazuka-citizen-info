@@ -3,7 +3,7 @@ import path from "node:path";
 import readline from "node:readline";
 import { fileURLToPath } from "node:url";
 import { loadEpisodes, resolveNow, resolveApproverKey, publicKeyFingerprint } from "./lib/series-episodes.js";
-import { runApprove, generateKeyPair, planFinalize, applyFinalize, checkSeries, verifyLive } from "./lib/series-approval.js";
+import { runApprove, generateKeyPair, runFinalize, checkSeries } from "./lib/series-approval.js";
 
 const SITE_URL = "https://takarazuka-today.jp"; // build.js の SITE_URL と同じ値（本番の公開確認に使う）
 
@@ -17,7 +17,7 @@ const HELP = `使い方: node scripts/series-tool.js <コマンド>
   approve <slug> [--by <承認者名>]  原稿を確認して承認する（署名を approval に書き込む）。端末での対話が必須
   check [--strict]                  公開状態の回の承認を検証する（CI 用）。問題があれば終了コード 1
   finalize [--write]                公開された scheduled の回を published に確定する。手動操作で、本番のページが実際に
-                                    配信されていることを確認できた回だけを確定する（--write なしは確認のみ）
+                                    配信され、内容が承認した原稿と一致することを確認できた回だけを確定する（--write なしは確認のみ）
   fingerprint                       SERIES_APPROVER_PUBLIC_KEY に入っている公開鍵の指紋を表示する
 
 環境変数
@@ -86,28 +86,7 @@ async function main() {
       return result.errors.length > 0 ? 1 : 0;
     }
     case "finalize": {
-      const approverPublicKey = resolveApproverKey(env);
-      const plan = planFinalize(loadEpisodes(EPISODES_DIR), { now, approverPublicKey });
-      if (!plan.ok) {
-        for (const e of plan.errors) console.error(`エラー: ${e}`);
-        console.error("状態に問題があるため、確定は行いません。");
-        return 1;
-      }
-      if (plan.targets.length === 0) { out("確定する回はありません。"); return 0; }
-      // 予定時刻を過ぎたことは、本番に公開されたことを意味しない。本番のページを実際に取得して確かめる。
-      const live = await verifyLive(plan.targets.map((t) => t.slug), { siteUrl: SITE_URL });
-      for (const t of plan.targets) {
-        const l = live.find((x) => x.slug === t.slug);
-        out(`確定対象: ${t.slug}（publishedAt ${t.publishedAt}）本番: ${l.live ? "公開を確認" : `未確認（${l.detail}）`} ${l.url}`);
-      }
-      if (!flags.write) { out("--write を付けると書き込みます（確認のみで終了しました）。本番の公開を確認できた回だけが確定できます。"); return 0; }
-      if (live.some((l) => !l.live)) {
-        console.error("本番の公開を確認できない回があるため、確定は1件も行いません。デプロイの結果を確認してから、もう一度実行してください。");
-        return 1;
-      }
-      const done = applyFinalize(EPISODES_DIR, plan.targets, { now, approverPublicKey });
-      out(`確定しました: ${done.join("、") || "なし"}。変更を commit して main へ反映してください。`);
-      return 0;
+      return runFinalize({ dir: EPISODES_DIR, now, approverPublicKey: resolveApproverKey(env), write: Boolean(flags.write), siteUrl: SITE_URL, fetchFn: fetch, out, err: (l) => console.error(l) });
     }
     case "fingerprint": {
       const raw = env.SERIES_APPROVER_PUBLIC_KEY;

@@ -7,7 +7,7 @@ import path from "node:path";
 import crypto from "node:crypto";
 import {
   contentHashOf, signApproval, verifyApproval, parseScheduledAt, validateEpisodeShape, decideEpisode, selectEpisodes,
-  asKeyRing, publicKeyFingerprint,
+  asKeyRing, publicKeyFingerprint, loadEpisodes, SERIES_HASH_META_NAME,
 } from "./series-episodes.js";
 
 const JST_OFFSET_MS = 9 * 60 * 60 * 1000;
@@ -157,26 +157,59 @@ export async function runApprove({ slug, approvedBy, dir, repoRoot, keyFile, rin
 export function planFinalize(episodes, { now, approverPublicKey }) {
   const sel = selectEpisodes(episodes, { now, approverPublicKey });
   if (sel.errors.length > 0) return { ok: false, errors: sel.errors, targets: [] };
-  const targets = sel.publish.filter((ep) => ep.status === "scheduled").map((ep) => ({ slug: ep.slug, publishedAt: ep.scheduledAt.slice(0, 10) }));
+  const targets = sel.publish.filter((ep) => ep.status === "scheduled").map((ep) => ({ slug: ep.slug, publishedAt: ep.scheduledAt.slice(0, 10), contentHash: contentHashOf(ep) }));
   return { ok: true, errors: [], targets };
 }
 
 // 「予定時刻を過ぎた」ことと「本番に公開された」ことは別。確定の前に、本番のページが実際に配信されていることを確かめる。
-// 本番で見つからない・取得できない・正規URLが違う場合は live=false（確定しない）。ネットワークに届かないときも確定しない側に倒す。
-export async function verifyLive(slugs, { siteUrl, fetchFn = fetch, timeoutMs = 10000 }) {
+// 本番で見つからない・取得できない・正規URLが違う・内容ハッシュが無い／一致しない（古い版が出ている）場合は live=false（確定しない）。
+// ネットワークに届かないときも確定しない側に倒す。ハッシュは、承認の署名で検証した原稿の内容ハッシュ（contentHashOf）と同じもの。
+const HASH_META_RE = new RegExp(`<meta name="${SERIES_HASH_META_NAME}" content="([^"]*)">`, "g");
+
+export async function verifyLive(items, { siteUrl, fetchFn = fetch, timeoutMs = 10000 }) {
   const results = [];
-  for (const slug of slugs) {
+  for (const { slug, contentHash } of items) {
     const url = `${siteUrl}/jitsuryoku/${slug}`;
+    const fail = (detail) => results.push({ slug, url, live: false, detail });
     try {
       const res = await fetchFn(url, { redirect: "follow", signal: AbortSignal.timeout(timeoutMs) });
-      const body = res.ok ? await res.text() : "";
-      const live = res.ok && body.includes(`<link rel="canonical" href="${url}">`);
-      results.push({ slug, url, live, detail: live ? "公開を確認" : res.ok ? "ページはあるが、この回の正規URLがありません" : `HTTP ${res.status}` });
+      if (!res.ok) { fail(`HTTP ${res.status}`); continue; }
+      const body = await res.text();
+      if (!body.includes(`<link rel="canonical" href="${url}">`)) { fail("ページはあるが、この回の正規URLがありません"); continue; }
+      const hashes = [...body.matchAll(HASH_META_RE)].map((m) => m[1]);
+      if (hashes.length !== 1) { fail(hashes.length === 0 ? "内容ハッシュがありません（古い版、または別のページ）" : "内容ハッシュが複数あります"); continue; }
+      if (!/^[0-9a-f]{64}$/.test(contentHash ?? "") || hashes[0] !== contentHash) { fail("本番の内容が承認した原稿と一致しません（古い版が出ている可能性）"); continue; }
+      results.push({ slug, url, live: true, detail: "公開と内容の一致を確認" });
     } catch {
-      results.push({ slug, url, live: false, detail: "取得できません" });
+      fail("取得できません");
     }
   }
   return results;
+}
+
+// finalize コマンドの本体。終了コードを返す。fetchFn・out・err はテストで差し替える。
+// 本番の公開と内容の一致を確認できた回だけが確定できる。1件でも未確認なら、--write でも何も書かない。
+export async function runFinalize({ dir, now, approverPublicKey, write, siteUrl, fetchFn, out, err }) {
+  const plan = planFinalize(loadEpisodes(dir), { now, approverPublicKey });
+  if (!plan.ok) {
+    for (const e of plan.errors) err(`エラー: ${e}`);
+    err("状態に問題があるため、確定は行いません。");
+    return 1;
+  }
+  if (plan.targets.length === 0) { out("確定する回はありません。"); return 0; }
+  const live = await verifyLive(plan.targets, { siteUrl, fetchFn });
+  for (const t of plan.targets) {
+    const l = live.find((x) => x.slug === t.slug);
+    out(`確定対象: ${t.slug}（publishedAt ${t.publishedAt}）本番: ${l.live ? l.detail : `未確認（${l.detail}）`} ${l.url}`);
+  }
+  if (!write) { out("--write を付けると書き込みます（確認のみで終了しました）。本番の公開と内容の一致を確認できた回だけが確定できます。"); return 0; }
+  if (live.some((l) => !l.live)) {
+    err("本番の公開または内容の一致を確認できない回があるため、確定は1件も行いません。デプロイの結果を確認してから、もう一度実行してください。");
+    return 1;
+  }
+  const done = applyFinalize(dir, plan.targets, { now, approverPublicKey });
+  out(`確定しました: ${done.join("、") || "なし"}。変更を commit して main へ反映してください。`);
+  return 0;
 }
 
 export function applyFinalize(dir, targets, { now, approverPublicKey }) {
@@ -184,6 +217,8 @@ export function applyFinalize(dir, targets, { now, approverPublicKey }) {
   for (const t of targets) {
     const { file, ep } = readEpisodeFile(dir, t.slug);
     if (ep.status === "published") continue; // 再実行しても同じ結果（確定済みは何もしない）
+    // 本番で確認した原稿と、いま書き換えようとしているファイルの原稿が同じであること（確認の後に編集されていないこと）
+    if (t.contentHash && contentHashOf(ep) !== t.contentHash) throw new Error(`${t.slug}: 公開確認の後に原稿が変更されたため、確定を中止しました`);
     const next = { ...ep, status: "published", publishedAt: t.publishedAt };
     // 書き込む前に、確定後の姿でも公開されることを確かめる。公開されなくなるなら書かない。
     const d = decideEpisode(next, { now, approverPublicKey });
