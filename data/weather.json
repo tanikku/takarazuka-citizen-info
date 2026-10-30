@@ -1,23 +1,23 @@
 {
-  "reportDatetime": "2026-10-29T05:00:00+09:00",
+  "reportDatetime": "2026-10-30T08:00:00+09:00",
   "areaLabel": "神戸（阪神地域代表地点）",
-  "weatherLabel": "晴れ",
-  "weatherEmoji": "☀️",
-  "forecastDate": "2026-10-29",
+  "weatherLabel": "雨",
+  "weatherEmoji": "🌧️",
+  "forecastDate": "2026-10-30",
   "tempMin": "21",
   "tempMax": "21",
   "popBlocks": [
     {
       "label": "6〜12時",
-      "pop": "0"
+      "pop": "80"
     },
     {
       "label": "12〜18時",
-      "pop": "0"
+      "pop": "50"
     },
     {
       "label": "18〜0時",
-      "pop": "10"
+      "pop": "30"
     }
   ],
   "sourceUrl": "https://www.jma.go.jp/bosai/forecast/#area_type=class20s&area_code=2821100",
