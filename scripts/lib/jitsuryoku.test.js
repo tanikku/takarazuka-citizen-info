@@ -61,15 +61,42 @@ test("企画紹介ページ：比較結果・数字・順位・公開予定日�
   assert.doesNotMatch(body, /強み|課題|勝ち|負け/);
 });
 
-test("トップページ：バナーは「トップニュース」の後・市議会コーナーの前に1つだけ、企画紹介ページへリンクする", () => {
+test("トップページ：バナーは上段の左枠（今日の宝塚トピックがあった場所）に1つだけ。今日の宝塚トピックはトップニュースの下にあり、二重に出ない", () => {
   assert.equal((home.match(/class="jitsuryoku-banner"/g) ?? []).length, 1);
   assert.ok(home.includes(`href="/${JITSURYOKU_SLUG}"`));
   const iBanner = home.indexOf('class="jitsuryoku-banner"');
-  assert.ok(home.indexOf("今日の宝塚トピック") < iBanner || home.indexOf("今日") < iBanner, "今日の枠より下");
-  const iGuideNav = home.indexOf('class="grid-2"');
-  assert.ok(iBanner > iGuideNav, "メイン列の中（先頭の日付・検索・クイックアクセス・天気・今日のトピックより下）");
-  const iSide = home.indexOf('class="col-side"');
-  assert.ok(iBanner < iSide);
+  const iTodayRow = home.indexOf('class="today-row"');
+  const iTopNews = home.indexOf("トップニュース");
+  const iTopic = home.indexOf('id="today-topic"');
+  const iSide = home.indexOf('class="today-row-side"');
+  assert.ok(iTodayRow > 0 && iBanner > iTodayRow && iBanner < iSide, "上段の左枠（フォト・カテゴリーの列の前）");
+  assert.ok(iBanner < iTopNews, "トップニュースより上");
+  assert.ok(iTopic > iTopNews, "今日の宝塚トピックはトップニュースの下");
+  assert.equal((home.match(/id="today-topic"/g) ?? []).length, 1, "今日の宝塚トピックは1つ（削除も重複もしない）");
+});
+
+const sampleArticle = (slug, category, title) => ({ slug, title, summary: "", category, publishedAt: "2026-10-30", sourceName: "宝塚市公式サイト", valueScore: "A" });
+const homeWith = (todayArticles) =>
+  indexPage({ topArticles: [], todayArticles, categoryPageKeys: new Set(), publishedArticles: todayArticles, ranking: null, weather: null, todayCounts: {}, fieldReportPhoto: null, dateLabel: "2026年10月30日", siteUrl: SITE });
+
+test("今日の宝塚トピック：記事の選択は変えない。防災カテゴリの記事もトピックに残り（除外しない）、1回だけ表示し、防災専用の枠は作らない", () => {
+  const bosai = sampleArticle("bosai-sample", "防災", "防災のテスト記事");
+  const other = sampleArticle("kurashi-sample", "行政・くらし", "くらしのテスト記事");
+  const h = homeWith([bosai, other]);
+  assert.equal((h.match(/防災のテスト記事/g) ?? []).length, 1, "防災記事は1回だけ");
+  assert.equal((h.match(/くらしのテスト記事/g) ?? []).length, 1);
+  assert.ok(!h.includes("bosai-priority"), "防災・緊急情報の専用枠は作らない");
+  const iTopic = h.indexOf('id="today-topic"');
+  assert.ok(iTopic > h.indexOf("トップニュース"), "今日の宝塚トピックはトップニュースの下");
+  assert.ok(h.indexOf("防災のテスト記事") > iTopic && h.indexOf("くらしのテスト記事") > iTopic, "当日の記事は両方とも今日の宝塚トピックの中");
+  assert.ok(h.indexOf("防災のテスト記事") < h.indexOf("くらしのテスト記事") || h.indexOf("くらしのテスト記事") < h.indexOf("防災のテスト記事"));
+});
+
+test("今日の宝塚トピック：当日の記事が無い日は従来どおり最新記事を出し、ID（#today-topic）を維持する", () => {
+  const h = indexPage({ topArticles: [sampleArticle("latest-sample", "行政・くらし", "最新のテスト記事")], todayArticles: [], categoryPageKeys: new Set(), publishedArticles: [], ranking: null, weather: null, todayCounts: {}, fieldReportPhoto: null, dateLabel: "2026年10月30日", siteUrl: SITE });
+  assert.equal((h.match(/id="today-topic"/g) ?? []).length, 1);
+  assert.match(h, /本日の新着記事はまだありません。最新の記事をご紹介します/);
+  assert.ok(h.indexOf('class="jitsuryoku-banner"') < h.indexOf('id="today-topic"'));
 });
 
 test("バナー：コピーはHTMLの文字、画像は文字なしのイメージ1枚で、イメージである旨を明示し、公開日・結論を先取りする文言を出さない", () => {

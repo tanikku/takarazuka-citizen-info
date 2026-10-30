@@ -2976,6 +2976,17 @@ a:focus-visible, button:focus-visible {
    PC：左にコピー、右に画像。スマホ(600px以下)：画像の下部に「新企画・調査中」と見出しを重ね、コピーは画像の下に出す */
 .jitsuryoku-banner {
   margin: 12px 0;
+  container: jitsuryoku-banner / inline-size;
+}
+
+/* 上段の左枠に置くときは、右の列（フォト＋カテゴリー）と高さをそろえる */
+.today-row .jitsuryoku-banner {
+  margin: 0;
+  display: flex;
+}
+
+.today-row .jitsuryoku-banner__link {
+  flex: 1;
 }
 
 .jitsuryoku-banner__link {
@@ -3114,7 +3125,7 @@ a:focus-visible, button:focus-visible {
   line-height: 1.4;
 }
 
-@media (max-width: 600px) {
+@container jitsuryoku-banner (max-width: 600px) {
   .jitsuryoku-banner__link {
     grid-template-columns: 1fr;
     grid-template-rows: auto auto;

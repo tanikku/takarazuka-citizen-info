@@ -609,9 +609,11 @@ function fieldReportPanel(fieldReportPhoto) {
 </div>`;
 }
 
-function todayRow(todayArticles, fieldReportPhoto, categoryPageKeys, activeNotices = [], latestArticles = []) {
+// 上段の左枠（以前は「今日の宝塚トピック」があった場所）に「宝塚の実力。」の予告バナーを置く。
+// 「今日の宝塚トピック」はトップニュースの下へ移した（indexPage）。記事の選択・表示内容は変えていない
+function todayRow(fieldReportPhoto, categoryPageKeys) {
   return `<div class="today-row">
-${todayTopicPanel(todayArticles, activeNotices, latestArticles)}
+${jitsuryokuBannerPanel()}
 <div class="today-row-side">
 ${fieldReportPanel(fieldReportPhoto)}
 ${categoryPanel(categoryPageKeys)}
@@ -789,11 +791,11 @@ export function indexPage({ topArticles, todayArticles, categoryPageKeys, publis
 ${searchBoxPanel()}
 ${quickAccessPanel()}
 <div class="weather-standalone-row">${weatherPanel(weather)}${contactCtaPanel()}</div>
-${todayRow(todayArticles, fieldReportPhoto, categoryPageKeys, activeNotices, latestArticles)}
+${todayRow(fieldReportPhoto, categoryPageKeys)}
 <div class="grid-2">
   <div class="col-main">
     ${topNewsPanel(topNewsArticles)}
-    ${jitsuryokuBannerPanel()}
+    ${todayTopicPanel(todayArticles, activeNotices, latestArticles)}
     ${shigikaiCornerPanel({ hasGianPage, gikaiArticles })}
     ${explainerPanel}
     ${guideNavPanel()}
