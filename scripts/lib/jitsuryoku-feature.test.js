@@ -92,3 +92,28 @@ test("本文の文字量は目安の範囲（表・出典・注記を除く）",
   const body = main.slice(main.indexOf("宝塚の実力。 第1弾"));
   assert.ok(body.length < 4500, `本文が長すぎます: ${body.length}`);
 });
+
+test("街の選択：6市ぶんの数字がJSONから書き出され、初期は宝塚市で、JS無しでも宝塚市の数字が見える", () => {
+  const d = loadFeature(DATA);
+  const html = jitsuryokuFeaturePage(d, SITE);
+  const chips = [...html.matchAll(/<li( class="is-selected")? data-city="(\w+)" data-ind="([\d.]+%)" data-dn="([\d.]+)" data-med="([\d.]+%)">([^<]+)<\/li>/g)];
+  assert.deepEqual(chips.map((m) => m[2]), ["takarazuka", "itami", "atsugi", "chigasaki", "nagareyama", "matsumoto"]);
+  assert.deepEqual(chips.filter((m) => m[1]).map((m) => m[2]), ["takarazuka"], "初期選択は宝塚市だけ");
+  for (const m of chips) {
+    const r = d.rows[m[2]];
+    assert.equal(m[4], ((r.daynight.day / r.daynight.night) * 100).toFixed(2));
+    assert.equal(m[3], `${(Math.round((r.tax.individual / r.tax.total) * 1000) / 10).toFixed(1)}%`);
+    assert.equal(m[5], `${(Math.round((r.industry.medicalWelfare / r.industry.workers) * 1000) / 10).toFixed(1)}%`);
+  }
+  const t = chips[0];
+  for (const v of [t[3], t[4], t[5]]) assert.ok(html.includes(`<b class="jf-stat__num">${v}</b>`), `JS無しの初期表示: ${v}`);
+  assert.match(html, /<p class="jf-hint" hidden>/, "操作の案内はJSが動いたときだけ見せる");
+  assert.match(html, /<script src="\/js\/zeishu-city-select.js" defer><\/script>/);
+});
+
+test("街の選択のスクリプト：数字はHTMLのdata属性だけから取り、通信・評価をしない", () => {
+  const js = fs.readFileSync(path.join(ROOT, "assets", "zeishu-city-select.js"), "utf-8");
+  assert.doesNotMatch(js, /fetch\(|XMLHttpRequest|eval\(|innerHTML|new Function/);
+  assert.match(js, /aria-pressed/);
+  assert.match(js, /\.jf-sr/);
+});

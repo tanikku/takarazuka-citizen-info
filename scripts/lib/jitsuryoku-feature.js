@@ -177,13 +177,15 @@ ${draftRibbon}
 <p class="jf-hero__tag">宝塚の実力。 第1弾</p>
 <h1 class="jf-hero__title">宝塚の税収と仕事、<br>ほかの街とどう違う？</h1>
 <p class="jf-lead">宝塚市と、同じくらいの規模の5つの街を、公的な統計で比べました。</p>
-<ul class="jf-chips" role="list"><li class="is-self">宝塚市</li>${ORDER.slice(1).map((id) => `<li>${esc(name[id])}</li>`).join("")}</ul>
+<ul class="jf-chips" role="list" aria-label="数字を見る街（JavaScriptが使えるときは、選ぶと下の3つの数字が切り替わります）">${ORDER.map((id) => `<li${id === "takarazuka" ? ' class="is-selected"' : ""} data-city="${id}" data-ind="${pct1(taxShare(id).ind)}" data-dn="${ratio(id).toFixed(2)}" data-med="${pct1(share(id, "medicalWelfare"))}">${esc(name[id])}</li>`).join("")}</ul>
+<p class="jf-hint" hidden>街の名前を選ぶと、すぐ下の3つの数字がその街のものに切り替わります。本文とグラフは、宝塚市を中心にそのままです。</p>
 <p class="jf-small">人口は${popRange}（2025年国勢調査）。伊丹市は20万人をわずかに下回り、松本市は面積が宝塚市の約${(R.matsumoto.population.areaKm2 / T.population.areaKm2).toFixed(1)}倍と、条件が違う街も含みます。</p>
 <ul class="jf-stats" role="list">
-<li class="jf-stat"><b class="jf-stat__num">${pct1(ts.ind)}</b><span class="jf-stat__lbl">市税のうち、個人市民税の割合</span><span class="jf-stat__sub">令和6年度（2024年度）決算</span></li>
-<li class="jf-stat"><b class="jf-stat__num">${ratio("takarazuka").toFixed(2)}</b><span class="jf-stat__lbl">昼夜間人口比率（100が基準）</span><span class="jf-stat__sub">2020年国勢調査</span></li>
-<li class="jf-stat"><b class="jf-stat__num">${pct1(share("takarazuka", "medicalWelfare"))}</b><span class="jf-stat__lbl">民営事業所の従業者のうち、医療・福祉の割合</span><span class="jf-stat__sub">2021年経済センサス</span></li>
+<li class="jf-stat" data-stat="ind"><span class="jf-stat__city">宝塚市</span><b class="jf-stat__num">${pct1(ts.ind)}</b><span class="jf-stat__lbl">市税のうち、個人市民税の割合</span><span class="jf-stat__sub">令和6年度（2024年度）決算</span></li>
+<li class="jf-stat" data-stat="dn"><span class="jf-stat__city">宝塚市</span><b class="jf-stat__num">${ratio("takarazuka").toFixed(2)}</b><span class="jf-stat__lbl">昼夜間人口比率（100が基準）</span><span class="jf-stat__sub">2020年国勢調査</span></li>
+<li class="jf-stat" data-stat="med"><span class="jf-stat__city">宝塚市</span><b class="jf-stat__num">${pct1(share("takarazuka", "medicalWelfare"))}</b><span class="jf-stat__lbl">民営事業所の従業者のうち、医療・福祉の割合</span><span class="jf-stat__sub">2021年経済センサス</span></li>
 </ul>
+<p class="jf-sr" role="status" aria-live="polite"></p>
 ${say("madoka", "madoka-guide", "宝塚の“税金”と“仕事”を、ほかの街と並べて見てみましょう。")}
 ${say("wan", "wan-cheer", "数字には、ぜんぶ出典と調査年をつけています。")}
 ${details("比べた6つの街の基本データを見る", baseTable + srcLine(d.sources.population))}
@@ -283,5 +285,6 @@ ${details("出典の一覧を見る", sourcesHtml)}
     canonicalUrl,
     structuredData: structured,
     noindex: d.status === "draft",
+    extraScripts: ["/js/zeishu-city-select.js"],
   });
 }

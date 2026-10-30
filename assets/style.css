@@ -3207,7 +3207,16 @@ html[data-theme="dark"] .jf {
 .jf-lead { font-size: 1.25rem; font-weight: 700; }
 .jf-chips { list-style: none; display: flex; flex-wrap: wrap; gap: 0.5rem; padding: 0; margin: 0 0 1rem; }
 .jf-chips li { border: 2px solid var(--border); border-radius: 999px; padding: 0.15em 0.9em; font-weight: 700; background: var(--surface); }
-.jf-chips li.is-self { border-color: var(--accent); background: var(--accent-soft); }
+.jf-chips li.is-selected { border-color: var(--accent); background: var(--accent-soft); }
+.jf-chips li { padding: 0; }
+.jf-chips li:not(:has(.jf-chip)) { padding: 0.15em 0.9em; }
+.jf-chip { font: inherit; font-weight: 700; color: inherit; background: transparent; border: 0; border-radius: 999px; padding: 0.35em 1em; min-height: 44px; cursor: pointer; }
+.jf-chip[aria-pressed="true"]::before { content: "✓ "; color: var(--accent); }
+.jf-chip:hover { text-decoration: underline; }
+.jf-chip:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+.jf-hint { font-size: 1rem; color: var(--text-sub); margin: 0 0 0.75em; }
+.jf-stat__city { font-size: 1rem; font-weight: 700; }
+.jf-sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; margin: 0 !important; }
 .jf-small, .jf-source, .jf-unit, .jf-baseline { font-size: 1rem; color: var(--text-sub); }
 .jf-stats { list-style: none; padding: 0; margin: 1.25rem 0; display: grid; gap: 0.75rem; grid-template-columns: repeat(auto-fit, minmax(min(220px, 100%), 1fr)); }
 .jf-stat { background: var(--surface); border: 2px solid var(--border); border-radius: 12px; padding: 1rem; display: flex; flex-direction: column; }
