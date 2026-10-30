@@ -41,6 +41,10 @@ export function validateFeature(d) {
     if (!Array.isArray(d.landmarks?.[id]) || d.landmarks[id].length === 0) errors.push(`${id}: landmarks がありません`);
     for (const l of d.landmarks?.[id] ?? []) if (!l.name || !l.sourceUrl || !l.sourceLabel || !/^\d{4}-\d{2}-\d{2}$/.test(l.confirmedAt ?? "")) errors.push(`${id}: ${l.name ?? "?"} に出典・確認日が必要です`);
   }
+  for (const id of ORDER) {
+    const p = d?.profiles?.[id];
+    if (!p || !p.region || !p.text || !p.sourceLabel || !p.sourceUrl || !/^\d{4}-\d{2}-\d{2}$/.test(p.confirmedAt ?? "")) errors.push(`${id}: profiles に地域・紹介文・出典・確認日が必要です`);
+  }
   for (const k of ["population", "tax", "daynight", "industry", "retail"]) if (!d?.sources?.[k]?.url || !d?.sources?.[k]?.label) errors.push(`sources.${k} が必要です`);
   return errors;
 }
@@ -142,7 +146,7 @@ export function jitsuryokuFeaturePage(d, siteUrl) {
   const retailChart = barChart({
     id: "jf-retail",
     title: "小売業の年間商品販売額（2020年の1年間）",
-    desc: "お店での販売額の合計です。単位は億円です。",
+    desc: "小売業の事業所が、2020年の1年間に商品を販売した額の合計です。単位は億円です。",
     rows: ORDER.map((id) => ({ label: name[id], value: sales(id), ratio: okuFromMillion(sales(id)) / salesMax, valueText: `${n0(okuFromMillion(sales(id)))}億円`, highlight: id === "takarazuka" })),
   });
   const retailTable = `<div class="jf-table-wrap" tabindex="0" role="region" aria-label="表（幅が足りないときは横にスクロールできます）"><table class="jf-table"><caption>小売業（経済センサス-活動調査・2021年6月1日現在。年間商品販売額は2020年1年間）</caption><thead><tr><th scope="col">市</th><th scope="col">事業所数</th><th scope="col">従業者数（人）</th><th scope="col">年間商品販売額（百万円）</th><th scope="col">売場面積（㎡）</th></tr></thead><tbody>${ORDER.map((id) => {
@@ -166,6 +170,14 @@ export function jitsuryokuFeaturePage(d, siteUrl) {
       .join("")}</ul></section>`,
   ).join("");
 
+  const profilesHtml = details(
+    "比べている街はどんなところ？",
+    `<div class="jf-profiles">${ORDER.map((id) => {
+      const p = d.profiles[id];
+      return `<section class="jf-profile${id === "takarazuka" ? " is-self" : ""}" aria-labelledby="jf-prof-${id}"><h3 id="jf-prof-${id}" class="jf-profile__name">${esc(name[id])}<span class="jf-profile__region">${esc(p.region)}</span></h3><p class="jf-profile__text">${esc(p.text)}</p><p class="jf-profile__src"><a href="${esc(p.sourceUrl)}" target="_blank" rel="noopener">${esc(p.sourceLabel)}（確認日 ${esc(p.confirmedAt.replace(/-/g, "."))}）</a>${(p.extraSources ?? []).map((x) => `<br><a href="${esc(x.url)}" target="_blank" rel="noopener">${esc(x.label)}</a>`).join("")}</p></section>`;
+    }).join("")}</div>
+<p class="jf-small">各市の公式ページの説明をもとにした、簡単な紹介です。街の優劣を示すものではありません。</p>`,
+  );
   const sourcesHtml = `<ul class="jf-sources" role="list">${["population", "tax", "daynight", "industry", "retail"].map((k) => `<li><a href="${esc(d.sources[k].url)}" target="_blank" rel="noopener">${esc(d.sources[k].label)}</a></li>`).join("")}</ul>`;
 
   const draftRibbon = d.status === "draft" ? `<p class="jf-draft" role="note">公開前の確認用ページです。検索には載せていません。</p>` : "";
@@ -185,6 +197,7 @@ ${draftRibbon}
 <li class="jf-stat" data-stat="med"><span class="jf-stat__city">宝塚市</span><b class="jf-stat__num">${pct1(share("takarazuka", "medicalWelfare"))}</b><span class="jf-stat__lbl">民営事業所の従業者のうち、医療・福祉の割合</span><span class="jf-stat__sub">2021年経済センサス</span></li>
 </ul>
 <p class="jf-small">人口は${popRange}（2025年国勢調査）。伊丹市は20万人をわずかに下回り、松本市は面積が宝塚市の約${(R.matsumoto.population.areaKm2 / T.population.areaKm2).toFixed(1)}倍と、条件が違う街も含みます。</p>
+${profilesHtml}
 <p class="jf-sr" role="status" aria-live="polite"></p>
 ${say("madoka", "madoka-guide", "宝塚の“税金”と“仕事”を、ほかの街と並べて見てみましょう。")}
 ${say("wan", "wan-cheer", "数字には、ぜんぶ出典と調査年をつけています。")}
@@ -200,7 +213,7 @@ ${say("wan", "wan-cheer", `宝塚は、個人市民税が${pct1(ts.ind)}。法�
 <p><span class="jf-label jf-label--fact">事実</span>6つの街の中では、個人市民税の割合がいちばん高く、法人市民税の割合がいちばん低いのが宝塚市です。茅ヶ崎市と流山市も、近い構成です。</p>
 <div class="jf-callout"><p class="jf-callout__title">金額で見ると</p><p>割合と金額は、別のものです。個人市民税の金額は、宝塚市が約${n0(okuFromSen(T.tax.individual))}億円、厚木市が約${n0(okuFromSen(R.atsugi.tax.individual))}億円で、割合ほどの差はありません。厚木市は市税の総額が約${n0(okuFromSen(R.atsugi.tax.total))}億円と大きく、法人市民税（約${n0(okuFromSen(R.atsugi.tax.corporate))}億円）と固定資産税（約${n0(okuFromSen(R.atsugi.tax.fixedAsset))}億円）が大きい街です。</p></div>
 <p><span class="jf-label jf-label--idea">考察</span>宝塚市の市税は、住民が納める個人市民税の比重が高い構成です。</p>
-${note(["令和6年度（2024年度）決算の「地方税」（市町村税の合計）です。個人市民税は均等割＋所得割、法人市民税は均等割＋法人税割。「その他」は軽自動車税、市たばこ税、都市計画税などです。", "企業の売上は、市の税収ではありません。", "1人当たりの税額は、人口の取り方（住民基本台帳か国勢調査か）で結果が変わるため、載せていません。"])}
+${note(["令和6年度（2024年度）決算の「地方税」（市町村税の合計）です。個人市民税は均等割＋所得割、法人市民税は均等割＋法人税割。「その他」は軽自動車税、市たばこ税、都市計画税などです。", `宝塚市の法人市民税の割合は、決算カードの法人市民税（均等割＋法人税割）${n0(T.tax.corporate)}千円 ÷ 地方税の総額 ${n0(T.tax.total)}千円 ＝ ${(Math.round((T.tax.corporate / T.tax.total) * 10000) / 100).toFixed(2)}% を、小数点以下1桁に丸めた値（${pct1(ts.cor)}）です。`, "企業の売上は、市の税収ではありません。", "1人当たりの税額は、人口の取り方（住民基本台帳か国勢調査か）で結果が変わるため、載せていません。"])}
 ${srcLine(d.sources.tax)}
 ${details("金額と割合の表を見る", taxTable)}
 </section>
@@ -236,7 +249,7 @@ ${details("人数の表を見る", indTable)}
 
 <section class="jf-sec" aria-labelledby="jf-h-retail">
 <h2 id="jf-h-retail" class="jf-h2"><span class="jf-h2__no">4</span>買い物の規模は？</h2>
-<p>小売業（お店での販売）の、年間商品販売額を比べます。対象は<strong>2020年（令和2年）の1年間</strong>です。</p>
+<p>小売業の事業所の、年間商品販売額を比べます。対象は<strong>2020年（令和2年）の1年間</strong>です。</p>
 ${retailChart}
 ${say("madoka", "madoka-guide", "宝塚は、茅ヶ崎と流山に近いですね。")}
 <p><span class="jf-label jf-label--fact">事実</span>宝塚市は約${n0(okuFromMillion(sales("takarazuka")))}億円で、茅ヶ崎市（約${n0(okuFromMillion(sales("chigasaki")))}億円）、流山市（約${n0(okuFromMillion(sales("nagareyama")))}億円）に近い水準です。厚木市（約${n0(okuFromMillion(sales("atsugi")))}億円）と松本市（約${n0(okuFromMillion(sales("matsumoto")))}億円）は、それより大きくなっています。</p>

@@ -73,7 +73,7 @@
       "population": {
         "pop2025": 195049,
         "pop2020": 198138,
-        "areaKm2": 25.0
+        "areaKm2": 25
       },
       "tax": {
         "total": 32914971,
@@ -363,6 +363,56 @@
         "confirmedAt": "2026-10-30"
       }
     ]
+  },
+  "profiles": {
+    "takarazuka": {
+      "region": "兵庫県（近畿地方）",
+      "text": "兵庫県南東部に位置し、南北に細長い市です。住宅地が広がる南部市街地と、自然に囲まれた北部田園地域から成っています。市街地から大阪や神戸へは、いずれも電車で30分ほどです。",
+      "sourceLabel": "宝塚市公式「宝塚市のあらまし」",
+      "sourceUrl": "https://www.city.takarazuka.hyogo.jp/about/profile/1001192.html",
+      "confirmedAt": "2026-10-30"
+    },
+    "itami": {
+      "region": "兵庫県（近畿地方）",
+      "text": "兵庫県南東部にあり、大阪市から約10キロメートルと近く、大阪の衛星都市の一つとも位置づけられています。大阪国際空港（伊丹空港）があるまちとしても知られています。",
+      "sourceLabel": "伊丹市公式「伊丹のこと」",
+      "sourceUrl": "https://www.city.itami.lg.jp/mirai/sinosyoukai/21179.html",
+      "confirmedAt": "2026-10-30"
+    },
+    "atsugi": {
+      "region": "神奈川県（関東地方）",
+      "text": "神奈川県の中央に位置します。東部を相模川が南北に流れ、西部は大山から丹沢山塊へ連なる山地です。",
+      "sourceLabel": "厚木市公式「厚木市の地勢」",
+      "sourceUrl": "https://www.city.atsugi.kanagawa.jp/soshiki/kikakuseisakuka/9/1334.html",
+      "confirmedAt": "2026-10-30"
+    },
+    "chigasaki": {
+      "region": "神奈川県（関東地方）",
+      "text": "神奈川県の中南部に位置し、東京から西に50キロメートルあまりの市です。南は、海岸線が約6キロメートルに及ぶ相模湾に面しています。",
+      "sourceLabel": "茅ヶ崎市公式「茅ヶ崎市の沿革」",
+      "sourceUrl": "https://www.city.chigasaki.kanagawa.jp/profile/1007333.html",
+      "confirmedAt": "2026-10-30"
+    },
+    "nagareyama": {
+      "region": "千葉県（関東地方）",
+      "text": "千葉県の北西部に位置し、首都圏北東部にあたる、東京都心から25キロメートル圏の市です。市内を、秋葉原とつくば市を結ぶ都市高速鉄道のつくばエクスプレスが通っています。",
+      "sourceLabel": "流山市公式「首都圏新都市鉄道株式会社（つくばエクスプレス）」（2026年10月8日更新）",
+      "sourceUrl": "https://www.city.nagareyama.chiba.jp/life/1002088/1002089/1002091/index.html",
+      "extraSources": [
+        {
+          "label": "流山市公式「流山市の位置と交通」",
+          "url": "https://www.city.nagareyama.chiba.jp/information/1006883/1006884/1006886.html"
+        }
+      ],
+      "confirmedAt": "2026-10-30"
+    },
+    "matsumoto": {
+      "region": "長野県（中部地方）",
+      "text": "本州および長野県のほぼ中央に位置します。江戸時代には松本藩の城下町として栄え、近代には長野県の経済・金融の中心地となりました。",
+      "sourceLabel": "松本市公式「松本市の概要」",
+      "sourceUrl": "https://www.city.matsumoto.nagano.jp/soshiki/214/5892.html",
+      "confirmedAt": "2026-10-30"
+    }
   },
   "sources": {
     "population": {

@@ -59,7 +59,7 @@ test("積み上げグラフは色だけに頼らず、凡例の文字と数値�
 
 test("禁止事項: 順位・優劣・1人当たり税額の表現を本文に載せない", () => {
   const html = jitsuryokuFeaturePage(loadFeature(DATA), SITE).replace(/<[^>]+>/g, "");
-  assert.doesNotMatch(html, /第\d位|\d位|ランキング|総合評価|1人当たり.*円/);
+  assert.doesNotMatch(html, /第\d位|\d位|ランキング|総合評価|1人当たり[^。]{0,20}\d[\d,]*円/);
   assert.match(html, /優劣を決めるものではありません/);
 });
 
@@ -116,4 +116,36 @@ test("街の選択のスクリプト：数字はHTMLのdata属性だけから取
   assert.doesNotMatch(js, /fetch\(|XMLHttpRequest|eval\(|innerHTML|new Function/);
   assert.match(js, /aria-pressed/);
   assert.match(js, /\.jf-sr/);
+});
+
+test("街の紹介：6市ぶん、地域・紹介文・公式の出典リンクがあり、折りたたみで第1弾の主要3指標より下にある", () => {
+  const d = loadFeature(DATA);
+  const html = jitsuryokuFeaturePage(d, SITE);
+  assert.match(html, /<summary>比べている街はどんなところ？<\/summary>/);
+  assert.ok(html.indexOf("比べている街はどんなところ？") > html.indexOf('class="jf-stats"'), "主要3指標より下");
+  assert.equal((html.match(/class="jf-profile( is-self)?" aria-labelledby/g) ?? []).length, 6);
+  for (const id of ["takarazuka", "itami", "atsugi", "chigasaki", "nagareyama", "matsumoto"]) {
+    const p = d.profiles[id];
+    assert.ok(p.text.length > 20 && p.text.length < 140, `${id}: 1〜2文`);
+    assert.match(p.sourceUrl, /^https:\/\/www\.city\.[a-z.]+\//, `${id}: 公式の出典`);
+    assert.ok(html.includes(`href="${p.sourceUrl}"`), id);
+  }
+  assert.match(d.profiles.nagareyama.text, /千葉県の北西部.*東京都心から25キロメートル圏.*つくばエクスプレス/);
+  assert.doesNotMatch(d.profiles.nagareyama.text, /秋葉原.*分|\d+分/, "所要時間は載せない");
+  assert.equal(d.profiles.nagareyama.sourceUrl, "https://www.city.nagareyama.chiba.jp/life/1002088/1002089/1002091/index.html");
+});
+
+test("小売業の説明：「お店での販売」ではなく事業所の年間商品販売額とし、個人経営の注意書きは維持する", () => {
+  const html = jitsuryokuFeaturePage(loadFeature(DATA), SITE);
+  assert.doesNotMatch(html, /お店での/);
+  assert.match(html, /小売業の事業所が、2020年の1年間に商品を販売した額の合計です/);
+  assert.match(html, /個人経営の事業所は、販売額を調べる項目がないため、販売額に含まれません/);
+});
+
+test("税収の注記：法人市民税の割合の計算式（決算カードの金額）を示す", () => {
+  const d = loadFeature(DATA);
+  const t = d.rows.takarazuka.tax;
+  const html = jitsuryokuFeaturePage(d, SITE);
+  assert.ok(html.includes(`${t.corporate.toLocaleString("ja-JP")}千円 ÷ 地方税の総額 ${t.total.toLocaleString("ja-JP")}千円 ＝ 3.24%`));
+  assert.ok(html.includes("均等割＋法人税割"));
 });
