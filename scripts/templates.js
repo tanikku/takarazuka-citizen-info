@@ -855,7 +855,7 @@ function jitsuryokuBannerPanel() {
 </section>`;
 }
 
-export function jitsuryokuPage(siteUrl) {
+export function jitsuryokuPage(siteUrl, seriesListHtml = "") {
   const contentHtml = `
 <p class="updated-at">最終更新日：2026年10月30日</p>
 <p class="jitsuryoku-lead">宝塚を、知っているつもりだった。</p>
@@ -897,7 +897,7 @@ ${staticSectionHeading("調査のルール")}
 <li>確認できなかった数字は、推測で補わず、分からないこととして書きます。</li>
 </ul>
 
-${staticSectionHeading("関連するページ")}
+${seriesListHtml}${staticSectionHeading("関連するページ")}
 <ul>
 <li><a href="/category/shigikai/zaisei-watch">宝塚市財政ウォッチ</a>：宝塚市の財政状況と決算を、公式資料をもとに整理しています。</li>
 <li><a href="/about">運営者情報</a>：本サイトの編集方針や情報源を説明しています。</li>

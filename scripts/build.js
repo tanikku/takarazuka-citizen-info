@@ -45,6 +45,7 @@ import { loadZaiseiKessan } from "./lib/zaisei-kessan.js";
 import { pickFieldReportPhoto, isRankingFresh, buildFieldReportGallery } from "./lib/home-features.js";
 import { validateExplainerImage, availableExplainerImage } from "./lib/explainer-image.js";
 import { loadFeature, jitsuryokuFeaturePage, FEATURE_POSE_FILES } from "./lib/jitsuryoku-feature.js";
+import { loadEpisodes, selectEpisodes, resolveNow, resolveApproverKey, episodePage, episodeListHtml, episodeDate } from "./lib/series-episodes.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.join(__dirname, "..");
@@ -267,7 +268,7 @@ function writeFile(relativePath, content) {
   fs.writeFileSync(filePath, content);
 }
 
-function buildSitemap(publishedArticles, categoryPageKeys, giinWithArticles, guides, gianSessions, zaiseiPeriods, suisougakuYears, zaiseiKessan = null, jitsuryokuFeature = null) {
+function buildSitemap(publishedArticles, categoryPageKeys, giinWithArticles, guides, gianSessions, zaiseiPeriods, suisougakuYears, zaiseiKessan = null, jitsuryokuFeature = null, seriesEpisodes = []) {
   const today = todayDateKey();
   const entries = [
     { loc: `${SITE_URL}/`, lastmod: today },
@@ -282,6 +283,7 @@ function buildSitemap(publishedArticles, categoryPageKeys, giinWithArticles, gui
     // 企画紹介ページの更新日は固定値（ビルド日にしない）。内容を実質更新したときだけ書き換える
     { loc: `${SITE_URL}/${JITSURYOKU_SLUG}`, lastmod: "2026-10-30" },
     ...(jitsuryokuFeature?.status === "published" ? [{ loc: `${SITE_URL}/${JITSURYOKU_SLUG}/${jitsuryokuFeature.slug}`, lastmod: jitsuryokuFeature.lastUpdated }] : []),
+    ...seriesEpisodes.map((ep) => ({ loc: `${SITE_URL}/${JITSURYOKU_SLUG}/${ep.slug}`, lastmod: episodeDate(ep) })),
     { loc: `${SITE_URL}/${FIELD_PHOTO_SLUG}`, lastmod: today },
     { loc: `${SITE_URL}/ad-policy`, lastmod: today },
     { loc: `${SITE_URL}/contact`, lastmod: today },
@@ -306,7 +308,7 @@ ${body}
 }
 
 // サイト内検索用インデックス。ビルドごとに全ページから自動生成するため、記事・ガイドを追加するだけで検索対象になる
-function buildSearchIndex({ publishedArticles, categorySections, guides, gianSessions, zaiseiPeriods, suisougakuYears, giinWithArticles, zaiseiKessan = null, jitsuryokuFeature = null }) {
+function buildSearchIndex({ publishedArticles, categorySections, guides, gianSessions, zaiseiPeriods, suisougakuYears, giinWithArticles, zaiseiKessan = null, jitsuryokuFeature = null, seriesEpisodes = [] }) {
   const entries = [];
 
   for (const article of publishedArticles) {
@@ -441,6 +443,7 @@ function buildSearchIndex({ publishedArticles, categorySections, guides, gianSes
       keywords: "宝塚の実力 比較 5都市 伊丹 厚木 茅ヶ崎 流山 松本 統計 第1弾",
       url: `/${JITSURYOKU_SLUG}`,
     },
+    ...seriesEpisodes.map((ep) => ({ title: ep.title, description: ep.description, category: "", keywords: "宝塚の実力 連載", url: `/${JITSURYOKU_SLUG}/${ep.slug}` })),
     ...(jitsuryokuFeature?.status === "published" ? [{ title: jitsuryokuFeature.title, description: jitsuryokuFeature.description, category: "", keywords: "宝塚の実力 税収 市税 昼夜間人口 産業 小売業 比較", url: `/${JITSURYOKU_SLUG}/${jitsuryokuFeature.slug}` }] : []),
     {
       title: "運営者情報",
@@ -516,6 +519,15 @@ function main() {
   const suisougakuYears = loadSuisougakuYears();
   // 「宝塚の実力」第1弾。status が draft の間は noindex で、サイトマップ・検索インデックスに載せない
   const jitsuryokuFeature = loadFeature(path.join(ROOT, "data", "jitsuryoku", "zeishu-shigoto.json"));
+  // 「宝塚の実力」第2回以降（予約公開）。承認・時刻・保留の判定を通ったものだけを出力する（判定は lib/series-episodes.js）
+  const seriesNow = resolveNow(process.env);
+  const seriesSelection = selectEpisodes(loadEpisodes(path.join(ROOT, "data", "jitsuryoku", "episodes")), {
+    now: seriesNow,
+    approverPublicKey: resolveApproverKey(process.env),
+    reservedSlugs: [jitsuryokuFeature?.slug].filter(Boolean),
+  });
+  if (seriesSelection.errors.length > 0) throw new Error(`連載の公開判定でエラー: ${seriesSelection.errors.join(" / ")}`);
+  const seriesEpisodes = seriesSelection.publish;
 
   // カテゴリーごとに、公開対象（S/A/B）の記事をまとめる。記事が1件以上、またはガイドページがある場合のみカテゴリーページを生成する
   const categorySections = CATEGORIES.map((cat) => ({
@@ -576,7 +588,8 @@ function main() {
   writeFile("privacy.html", privacyPage(SITE_URL));
   writeFile("about.html", aboutPage(SITE_URL));
   writeFile(`${GUIDE_CHARACTERS_SLUG}.html`, guideCharactersPage(SITE_URL));
-  writeFile(`${JITSURYOKU_SLUG}.html`, jitsuryokuPage(SITE_URL));
+  writeFile(`${JITSURYOKU_SLUG}.html`, jitsuryokuPage(SITE_URL, episodeListHtml(seriesEpisodes)));
+  for (const ep of seriesEpisodes) writeFile(`${JITSURYOKU_SLUG}/${ep.slug}.html`, episodePage(ep, SITE_URL));
   if (jitsuryokuFeature) writeFile(`${JITSURYOKU_SLUG}/${jitsuryokuFeature.slug}.html`, jitsuryokuFeaturePage(jitsuryokuFeature, SITE_URL));
   writeFile(`${FIELD_PHOTO_SLUG}.html`, photoGalleryPage(buildFieldReportGallery(guides), SITE_URL));
   writeFile("ad-policy.html", adPolicyPage(SITE_URL));
@@ -645,7 +658,7 @@ function main() {
   writeFile("events/index.html", eventsPage({ todayEvents, thisWeekend, thisMonth, siteUrl: SITE_URL }));
   writeFile("ranking/index.html", rankingPage(ranking, publishedArticles, SITE_URL));
 
-  writeFile("sitemap.xml", buildSitemap(publishedArticles, categoryPageKeys, giinWithArticles, guides, gianSessions, zaiseiPeriods, suisougakuYears, zaiseiKessan, jitsuryokuFeature));
+  writeFile("sitemap.xml", buildSitemap(publishedArticles, categoryPageKeys, giinWithArticles, guides, gianSessions, zaiseiPeriods, suisougakuYears, zaiseiKessan, jitsuryokuFeature, seriesEpisodes));
   writeFile("robots.txt", `User-agent: *\nAllow: /\nSitemap: ${SITE_URL}/sitemap.xml\n`);
 
   // 公開終了した /mukogawa/ は、上位互換の /livecam へCloudflare Pages標準の_redirectsで恒久転送する（フェーズE-2）。
@@ -679,7 +692,7 @@ function main() {
     writeFile("ads.txt", `${AD_CONFIG.adsTxt}\n`);
   }
 
-  const searchIndex = buildSearchIndex({ publishedArticles, categorySections, guides, gianSessions, zaiseiPeriods, suisougakuYears, giinWithArticles, zaiseiKessan, jitsuryokuFeature });
+  const searchIndex = buildSearchIndex({ publishedArticles, categorySections, guides, gianSessions, zaiseiPeriods, suisougakuYears, giinWithArticles, zaiseiKessan, jitsuryokuFeature, seriesEpisodes });
   writeFile("search-index.json", JSON.stringify(searchIndex));
   writeFile("search.html", searchPage(SITE_URL));
   writeFile("js/search.js", fs.readFileSync(path.join(ASSETS_DIR, "search.js"), "utf-8"));
@@ -713,6 +726,7 @@ function main() {
     }
   }
 
+  console.log(`連載「宝塚の実力」（第2回以降）: 公開${seriesEpisodes.length}件 / 非公開${seriesSelection.excluded.length}件${seriesSelection.excluded.map((x) => `（${x.slug}: ${x.reason}）`).join("")}`);
   console.log(`公開記事: ${publishedArticles.length}件（S/A=${featuredArticles.length}件・B=${publishedArticles.length - featuredArticles.length}件） / 非公開(C): ${skippedCount}件`);
   console.log(`写真: ${allPhotos.length}枚をpublic/photos/にコピー（記事・パネルのサムネイル用）`);
   console.log(`カテゴリーページ: ${categorySections.length}件`);
