@@ -74,6 +74,30 @@ function asEd25519PublicKey(key) {
   }
 }
 
+// 公開鍵リング：鍵の更新のあいだ、旧鍵と新鍵を同時に信頼するため、複数の公開鍵（PEM を並べる）を受け付ける。
+// 1つでも読めない・Ed25519 でないものが混ざっていれば、リング全体を無効（null）にする（安全側で停止）。
+const PEM_BLOCK_RE = /-----BEGIN PUBLIC KEY-----[A-Za-z0-9+/=\s]+?-----END PUBLIC KEY-----/g;
+export function asKeyRing(input) {
+  if (!input) return null;
+  let items;
+  if (Array.isArray(input)) items = input;
+  else if (typeof input === "string") {
+    const blocks = input.match(PEM_BLOCK_RE);
+    if (!blocks || input.replace(PEM_BLOCK_RE, "").trim() !== "") return null;
+    items = blocks;
+  } else items = [input];
+  if (items.length === 0) return null;
+  const ring = items.map(asEd25519PublicKey);
+  return ring.every(Boolean) ? ring : null;
+}
+
+// 公開鍵の指紋（SPKI DER の SHA-256）。承認の画面や運用で「どの鍵か」を見比べるために使う。
+export function publicKeyFingerprint(publicKey) {
+  const k = asEd25519PublicKey(publicKey);
+  if (!k) return null;
+  return crypto.createHash("sha256").update(k.export({ type: "spki", format: "der" })).digest("hex");
+}
+
 // 承認者だけが持つ秘密鍵（Ed25519）で署名する。ビルド側は公開鍵だけを持つ。
 export function signApproval(privateKey, fields) {
   return crypto.sign(null, Buffer.from(approvalMessage(fields)), privateKey).toString("base64");
@@ -99,8 +123,10 @@ export function checkApproval(episode, approverPublicKey) {
   if (a.contentHash !== contentHashOf(episode)) return { ok: false, reason: "content-changed-after-approval" };
   if (episode.scheduledAt !== a.scheduledAt) return { ok: false, reason: "schedule-changed-after-approval" };
   if (!approverPublicKey) return { ok: false, reason: "approver-key-missing" };
-  if (!asEd25519PublicKey(approverPublicKey)) return { ok: false, reason: "approver-key-invalid" };
-  if (!verifyApproval(approverPublicKey, { slug: episode.slug, contentHash: a.contentHash, scheduledAt: a.scheduledAt, approvedBy: a.approvedBy, approvedAt: a.approvedAt }, a.signature)) {
+  const ring = asKeyRing(approverPublicKey);
+  if (!ring) return { ok: false, reason: "approver-key-invalid" };
+  const fields = { slug: episode.slug, contentHash: a.contentHash, scheduledAt: a.scheduledAt, approvedBy: a.approvedBy, approvedAt: a.approvedAt };
+  if (!ring.some((key) => verifyApproval(key, fields, a.signature))) {
     return { ok: false, reason: "approval-signature-invalid" };
   }
   return { ok: true };
@@ -139,7 +165,10 @@ export function decideEpisode(ep, { now, approverPublicKey } = {}) {
   // ここから先の予約日時は、署名で承認された値（ep.scheduledAt と一致済み）
   const sched = parseScheduledAt(ep.scheduledAt);
   if (!sched.ok) return { publish: false, reason: `invalid-schedule:${sched.reason}` };
-  if (parseJstDateTime(ep.approval.approvedAt).ms > sched.ms) return { publish: false, reason: "approved-after-schedule" };
+  // 公開日（ページに表示され、sitemap の lastmod になる）は署名の対象ではないので、署名された予約日と一致することを求める
+  if (ep.status === "published" && ep.publishedAt !== ep.scheduledAt.slice(0, 10)) return { publish: false, reason: "published-date-mismatch", blocking: true };
+  // 承認が予約より後でも、公開済みの回は有効：鍵の更新で、公開済みの回を新しい鍵で署名し直すときに必要になる
+  if (ep.status !== "published" && parseJstDateTime(ep.approval.approvedAt).ms > sched.ms) return { publish: false, reason: "approved-after-schedule" };
   if (now.getTime() < sched.ms) return { publish: false, reason: ep.status === "published" ? "published-before-scheduled" : ep.hold === true ? "on-hold" : "not-yet-due" };
   if (ep.status === "published") return { publish: true, reason: "published" };
   if (ep.hold === true) return { publish: false, reason: "on-hold" };
@@ -235,9 +264,9 @@ export function episodeListHtml(episodes) {
   return `<h2 class="guide-q" style="font-size:1rem;">これまでの連載</h2>\n<ul>${items}</ul>\n`;
 }
 
-// 承認者の公開鍵（PEM）。リポジトリの外（ビルド環境の変数）から受け取る。無い・不正なときは null（予約・公開済みは出さない）
+// 承認者の公開鍵（PEM。鍵の更新中は複数を並べてよい）。リポジトリの外（ビルド環境の変数）から受け取る。無い・不正なときは null（予約・公開済みは出さない）
 export function resolveApproverKey(env = process.env) {
   const raw = env.SERIES_APPROVER_PUBLIC_KEY;
   if (!raw) return null;
-  return asEd25519PublicKey(raw.replace(/\\n/g, "\n"));
+  return asKeyRing(raw.replace(/\\n/g, "\n"));
 }
