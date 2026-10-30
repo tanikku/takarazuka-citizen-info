@@ -2971,3 +2971,201 @@ a:focus-visible, button:focus-visible {
     margin-right: 2px;
   }
 }
+
+/* 新企画「宝塚の実力。」の予告バナー（トップページ。2026-10-30）。画像は文字なしのイメージで、文字はHTMLで出す。
+   PC：左にコピー、右に画像。スマホ(600px以下)：画像の下部に「新企画・調査中」と見出しを重ね、コピーは画像の下に出す */
+.jitsuryoku-banner {
+  margin: 12px 0;
+}
+
+.jitsuryoku-banner__link {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+  grid-template-rows: auto 1fr;
+  grid-template-areas: "head visual" "body visual";
+  border-radius: 10px;
+  overflow: hidden;
+  background: linear-gradient(135deg, #0b1633 0%, #14285a 60%, #1c3a78 100%);
+  color: #ffffff;
+  text-decoration: none;
+}
+
+.jitsuryoku-banner__link:hover .jitsuryoku-banner__more {
+  text-decoration: underline;
+}
+
+.jitsuryoku-banner__link:focus-visible {
+  outline: 3px solid var(--link);
+  outline-offset: 2px;
+}
+
+.jitsuryoku-banner__head {
+  grid-area: head;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+  padding: 18px 8px 0 20px;
+  z-index: 1;
+}
+
+.jitsuryoku-banner__label {
+  padding: 2px 12px;
+  border-radius: 999px;
+  background: #c8102e;
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.jitsuryoku-banner__title {
+  font-size: 2.6rem;
+  font-weight: 800;
+  line-height: 1.12;
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
+}
+
+.jitsuryoku-banner__title em {
+  font-style: normal;
+  color: #ff6b81;
+}
+
+.jitsuryoku-banner__body {
+  grid-area: body;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 8px 8px 18px 20px;
+  z-index: 1;
+}
+
+.jitsuryoku-banner__copy {
+  font-size: 1.15rem;
+  font-weight: 700;
+}
+
+.jitsuryoku-banner__sub {
+  font-size: 0.95rem;
+  color: #dfe6f7;
+}
+
+.jitsuryoku-banner__pill {
+  padding: 5px 12px;
+  border-radius: 6px;
+  background: #ffffff;
+  color: #14285a;
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.jitsuryoku-banner__pill strong {
+  color: #c8102e;
+  font-size: 1.05em;
+}
+
+/* 改行位置を <wbr> に任せる（「見え／る？」のような不自然な位置で折り返さない） */
+.jitsuryoku-banner__sub,
+.jitsuryoku-banner__pill {
+  word-break: keep-all;
+  overflow-wrap: anywhere;
+}
+
+.jitsuryoku-banner__more {
+  margin-top: 2px;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #ffd7de;
+}
+
+.jitsuryoku-banner__visual {
+  grid-area: visual;
+  position: relative;
+  min-height: 100%;
+}
+
+.jitsuryoku-banner__visual img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.jitsuryoku-banner__visual::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to right, #14285a 0%, rgba(20, 40, 90, 0) 28%);
+}
+
+.jitsuryoku-banner__imgnote {
+  position: absolute;
+  right: 8px;
+  bottom: 8px;
+  z-index: 1;
+  max-width: calc(100% - 16px);
+  padding: 2px 8px;
+  border-radius: 4px;
+  background: rgba(0, 0, 0, 0.7);
+  color: #ffffff;
+  font-size: 0.75rem;
+  line-height: 1.4;
+}
+
+@media (max-width: 600px) {
+  .jitsuryoku-banner__link {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto;
+    grid-template-areas: "visual" "body";
+  }
+
+  .jitsuryoku-banner__visual {
+    min-height: 0;
+  }
+
+  .jitsuryoku-banner__visual img {
+    position: static;
+    aspect-ratio: 962 / 724;
+    max-height: 300px;
+    height: auto;
+    object-position: 60% center;
+  }
+
+  .jitsuryoku-banner__visual::after {
+    background: linear-gradient(to top, rgba(11, 22, 51, 0.9) 0%, rgba(11, 22, 51, 0.6) 40%, rgba(11, 22, 51, 0) 70%);
+  }
+
+  .jitsuryoku-banner__imgnote {
+    top: 8px;
+    bottom: auto;
+  }
+
+  .jitsuryoku-banner__head {
+    grid-area: visual;
+    align-self: end;
+    padding: 0 14px 10px;
+  }
+
+  .jitsuryoku-banner__title {
+    font-size: 2.1rem;
+  }
+
+  .jitsuryoku-banner__body {
+    padding: 10px 14px 14px;
+  }
+}
+
+.jitsuryoku-lead {
+  font-size: 1.05rem;
+  font-weight: 700;
+}
+
+.jitsuryoku-cities {
+  padding-left: 1.2em;
+}
+
+.jitsuryoku-cities strong {
+  display: block;
+}

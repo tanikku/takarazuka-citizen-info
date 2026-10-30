@@ -19,6 +19,10 @@ import {
   aboutPage,
   guideCharactersPage,
   GUIDE_CHARACTERS_SLUG,
+  JITSURYOKU_SLUG,
+  JITSURYOKU_TITLE,
+  JITSURYOKU_DESCRIPTION,
+  jitsuryokuPage,
   GUIDE_CHARACTERS_TITLE,
   GUIDE_CHARACTERS_DESCRIPTION,
   photoGalleryPage,
@@ -274,6 +278,8 @@ function buildSitemap(publishedArticles, categoryPageKeys, giinWithArticles, gui
     { loc: `${SITE_URL}/privacy`, lastmod: today },
     { loc: `${SITE_URL}/about`, lastmod: today },
     { loc: `${SITE_URL}/${GUIDE_CHARACTERS_SLUG}`, lastmod: "2026-10-16" },
+    // 企画紹介ページの更新日は固定値（ビルド日にしない）。内容を実質更新したときだけ書き換える
+    { loc: `${SITE_URL}/${JITSURYOKU_SLUG}`, lastmod: "2026-10-30" },
     { loc: `${SITE_URL}/${FIELD_PHOTO_SLUG}`, lastmod: today },
     { loc: `${SITE_URL}/ad-policy`, lastmod: today },
     { loc: `${SITE_URL}/contact`, lastmod: today },
@@ -427,6 +433,13 @@ function buildSearchIndex({ publishedArticles, categorySections, guides, gianSes
       url: `/${FIELD_PHOTO_SLUG}`,
     },
     {
+      title: JITSURYOKU_TITLE,
+      description: JITSURYOKU_DESCRIPTION,
+      category: "",
+      keywords: "宝塚の実力 比較 5都市 伊丹 厚木 茅ヶ崎 流山 松本 統計 調査中",
+      url: `/${JITSURYOKU_SLUG}`,
+    },
+    {
       title: "運営者情報",
       description: "Takarazuka Todayのサイト名・目的・編集方針・運営体制について説明します。",
       category: "",
@@ -558,6 +571,7 @@ function main() {
   writeFile("privacy.html", privacyPage(SITE_URL));
   writeFile("about.html", aboutPage(SITE_URL));
   writeFile(`${GUIDE_CHARACTERS_SLUG}.html`, guideCharactersPage(SITE_URL));
+  writeFile(`${JITSURYOKU_SLUG}.html`, jitsuryokuPage(SITE_URL));
   writeFile(`${FIELD_PHOTO_SLUG}.html`, photoGalleryPage(buildFieldReportGallery(guides), SITE_URL));
   writeFile("ad-policy.html", adPolicyPage(SITE_URL));
   writeFile("contact.html", contactPage(SITE_URL, process.env.TURNSTILE_SITE_KEY));
@@ -669,6 +683,7 @@ function main() {
   writeFile("js/contact-form.js", fs.readFileSync(path.join(ASSETS_DIR, "contact-form.js"), "utf-8"));
   writeFile("favicon.svg", fs.readFileSync(path.join(ASSETS_DIR, "favicon.svg"), "utf-8"));
   writeFile("img/header-banner.png", fs.readFileSync(path.join(ASSETS_DIR, "header-banner.png")));
+  writeFile("img/jitsuryoku-visual.webp", fs.readFileSync(path.join(ASSETS_DIR, "jitsuryoku-visual.webp")));
   writeFile("photos/hanshin-keibajo.jpg", fs.readFileSync(path.join(ASSETS_DIR, "photos", "hanshin-keibajo.jpg")));
   writeFile("photos/takarazuka-kita-sa.jpg", fs.readFileSync(path.join(ASSETS_DIR, "photos", "takarazuka-kita-sa.jpg")));
   // 案内役（たから まどか・たからワン）の正式原画。紹介ページで表示する（元PNGはコピーしない）

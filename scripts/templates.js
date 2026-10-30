@@ -793,6 +793,7 @@ ${todayRow(todayArticles, fieldReportPhoto, categoryPageKeys, activeNotices, lat
 <div class="grid-2">
   <div class="col-main">
     ${topNewsPanel(topNewsArticles)}
+    ${jitsuryokuBannerPanel()}
     ${shigikaiCornerPanel({ hasGianPage, gikaiArticles })}
     ${explainerPanel}
     ${guideNavPanel()}
@@ -830,6 +831,86 @@ ${todayRow(todayArticles, fieldReportPhoto, categoryPageKeys, activeNotices, lat
     structuredData,
     extraScripts: ["/js/search.js"],
     ogImage: "/img/header-banner.png",
+  });
+}
+
+// 新企画「宝塚の実力。」の予告バナー（トップページ）と企画紹介ページ。
+// 比較結果・未監査の数字はここに書かない。公開日も約束しない（調査段階であることだけを示す）
+export const JITSURYOKU_SLUG = "jitsuryoku";
+export const JITSURYOKU_TITLE = "「宝塚の実力。」企画紹介（調査中）";
+export const JITSURYOKU_DESCRIPTION =
+  "宝塚Todayの新企画「宝塚の実力。」の紹介ページです。人口・産業・税収・暮らしを、伊丹・厚木・茅ヶ崎・流山・松本の5市と公的な統計で比べる調査の目的と、出典と調査年を重視する調査のルールを説明します。現在は調査中です。";
+
+// 画像は写真・グラフィック部分だけ（文字なし）で、イメージ。見出し・コピー・「調査中」はPC・スマホともHTMLの文字で出す。
+// 画像内に文言を埋め込まない（公開日の約束や、結論を先取りする文言を画像に残さないため）
+function jitsuryokuBannerPanel() {
+  return `<section class="jitsuryoku-banner" aria-label="新企画の予告">
+<a class="jitsuryoku-banner__link" href="/${JITSURYOKU_SLUG}">
+<span class="jitsuryoku-banner__head"><span class="jitsuryoku-banner__label">新企画・調査中</span><span class="jitsuryoku-banner__title">宝塚の<em>実力</em>。</span></span>
+<span class="jitsuryoku-banner__body"><span class="jitsuryoku-banner__copy">宝塚を、知っているつもりだった。</span><span class="jitsuryoku-banner__sub">同じくらいの規模の街と<wbr>比べたら、<wbr>何が見える？</span><span class="jitsuryoku-banner__pill">人口・税収・産業・暮らし。<wbr><strong>5都市</strong>と比較する独自調査。</span><span class="jitsuryoku-banner__more">企画の紹介を見る →</span></span>
+<span class="jitsuryoku-banner__visual"><img src="/img/jitsuryoku-visual.webp" alt="" width="962" height="724" loading="lazy" decoding="async"><span class="jitsuryoku-banner__imgnote">※AI生成イメージ（実際の景観とは異なります）</span></span>
+</a>
+</section>`;
+}
+
+export function jitsuryokuPage(siteUrl) {
+  const contentHtml = `
+<p class="updated-at">最終更新日：2026年10月30日</p>
+<p class="jitsuryoku-lead">宝塚を、知っているつもりだった。</p>
+<p>毎日の暮らしの中で、宝塚市のことは分かっているつもりでも、データで見ると意外な姿が見えてくることがあります。この企画は、宝塚市を、規模や性格が近い他の都市と、公的な統計で並べて見直す調査です。</p>
+<div class="rule-card"><strong>現在は調査中です。</strong>比較の結果は、まだ公開していません。公開日は決まっていません。結果を公開するときは、このページでもお知らせします。</div>
+
+${staticSectionHeading("企画の目的")}
+<ul>
+<li>宝塚市の特徴を、感覚だけでなくデータで知る手がかりをつくります。</li>
+<li>他の都市との違いを、「どちらが優れているか」ではなく「どう違うか」として整理します。</li>
+<li>数字の出どころ・調査年・定義を明記し、読む人が自分で確かめられるようにします。</li>
+</ul>
+
+${staticSectionHeading("比較する5都市")}
+<p>宝塚市と並べて調べる都市は、次の5市です。都市の性格が偏らないように選びました。順位を付けるための選び方ではありません。</p>
+<ul class="jitsuryoku-cities">
+<li><strong>伊丹市（兵庫県）</strong>宝塚市と隣り合う阪神間の都市です。人口は20万人をわずかに下回りますが、隣接する都市として加えました。</li>
+<li><strong>厚木市（神奈川県）</strong>人口と面積が宝塚市に近く、工業や商業の集積がある都市です。</li>
+<li><strong>茅ヶ崎市（神奈川県）</strong>住宅地と観光の性格を併せ持つ、湘南の都市です。</li>
+<li><strong>流山市（千葉県）</strong>東京近郊で、近年人口が増えている住宅都市です。</li>
+<li><strong>松本市（長野県）</strong>地方の中核都市です。面積が宝塚市よりずっと大きく、条件が大きく違うことを前提に比べます。</li>
+</ul>
+
+${staticSectionHeading("調べる4つのテーマ")}
+<ul>
+<li><strong>人口</strong>：人口の増減など。主に国勢調査を使います。</li>
+<li><strong>産業</strong>：市内の事業所や働く人の数、業種の構成など。主に経済センサスを使います。</li>
+<li><strong>税収</strong>：市税の内訳や、財政の基本的な指標など。総務省の市町村決算カードや、各市の決算資料を使います。</li>
+<li><strong>暮らし</strong>：人の動きや通勤・通学、子育て・教育に関わる基礎的な統計など。国勢調査や各市の公式資料を使います。</li>
+</ul>
+
+${staticSectionHeading("調査のルール")}
+<ul>
+<li>数字には、出典・調査年・基準日・単位・集計の範囲を添えて載せます。</li>
+<li>年や定義が違う数字は、同じ表で直接比べません。</li>
+<li>「事実」（確認できた数字）、「考察」（事実から考えられること）、「仮説」（まだ確かめていないこと）を分けて書きます。</li>
+<li>企業の売上は、市の税収ではありません。有名な企業や施設があることだけで、経済効果があるとは言いません。</li>
+<li>数字だけで、街の良し悪しや行政の優劣は決めません。順位を付ける企画ではありません。</li>
+<li>確認できなかった数字は、推測で補わず、分からないこととして書きます。</li>
+</ul>
+
+${staticSectionHeading("関連するページ")}
+<ul>
+<li><a href="/category/shigikai/zaisei-watch">宝塚市財政ウォッチ</a>：宝塚市の財政状況と決算を、公式資料をもとに整理しています。</li>
+<li><a href="/about">運営者情報</a>：本サイトの編集方針や情報源を説明しています。</li>
+</ul>
+`;
+
+  return staticInfoPage({
+    slug: JITSURYOKU_SLUG,
+    breadcrumbLabel: "「宝塚の実力。」",
+    title: JITSURYOKU_TITLE,
+    description: JITSURYOKU_DESCRIPTION,
+    panelTitle: "「宝塚の実力。」企画紹介（調査中）",
+    panelIcon: "newspaper",
+    contentHtml,
+    siteUrl,
   });
 }
 
