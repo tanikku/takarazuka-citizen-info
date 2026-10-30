@@ -3003,7 +3003,12 @@ a:focus-visible, button:focus-visible {
 }
 
 .jitsuryoku-banner__link:hover .jitsuryoku-banner__more {
-  text-decoration: underline;
+  background: #ffd7de;
+}
+
+.jitsuryoku-banner__link:focus-visible .jitsuryoku-banner__more {
+  outline: 3px solid #ffd7de;
+  outline-offset: 2px;
 }
 
 .jitsuryoku-banner__link:focus-visible {
@@ -3022,18 +3027,21 @@ a:focus-visible, button:focus-visible {
 }
 
 .jitsuryoku-banner__label {
-  padding: 2px 12px;
+  display: inline-block;
+  padding: 4px 16px;
   border-radius: 999px;
   background: #c8102e;
-  font-size: 0.8rem;
-  font-weight: 700;
+  font-size: 1.15rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  line-height: 1.4;
 }
 
 .jitsuryoku-banner__title {
-  font-size: 2.6rem;
+  font-size: clamp(2rem, 10.5cqw, 3.4rem);
   font-weight: 800;
   line-height: 1.12;
-  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.6);
 }
 
 .jitsuryoku-banner__title em {
@@ -3054,6 +3062,8 @@ a:focus-visible, button:focus-visible {
 .jitsuryoku-banner__copy {
   font-size: 1.15rem;
   font-weight: 700;
+  text-wrap: balance;
+  word-break: auto-phrase;
 }
 
 .jitsuryoku-banner__sub {
@@ -3083,10 +3093,18 @@ a:focus-visible, button:focus-visible {
 }
 
 .jitsuryoku-banner__more {
-  margin-top: 2px;
-  font-size: 0.9rem;
-  font-weight: 700;
-  color: #ffd7de;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+  margin-top: 4px;
+  padding: 0 24px;
+  border-radius: 999px;
+  background: #ffffff;
+  color: #14285a;
+  font-size: 1.15rem;
+  font-weight: 800;
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.35);
 }
 
 .jitsuryoku-banner__visual {
@@ -3159,12 +3177,53 @@ a:focus-visible, button:focus-visible {
     padding: 0 14px 10px;
   }
 
-  .jitsuryoku-banner__title {
-    font-size: 2.1rem;
-  }
-
   .jitsuryoku-banner__body {
     padding: 10px 14px 14px;
+  }
+}
+
+/* 幅の狭いバナー（スマホ・760px前後）：注記を画像の上の帯にして、画像の吹き出しに重ねない */
+@container jitsuryoku-banner (max-width: 400px) {
+  .jitsuryoku-banner__visual {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .jitsuryoku-banner__imgnote {
+    position: static;
+    order: -1;
+    max-width: none;
+    padding: 4px 10px;
+    border-radius: 0;
+    text-align: center;
+    text-wrap: balance;
+    word-break: auto-phrase;
+  }
+}
+
+@media (min-width: 1000px) {
+  .today-row .jitsuryoku-banner {
+    position: relative;
+  }
+
+  .today-row .jitsuryoku-banner__link {
+    position: absolute;
+    inset: 0;
+    grid-template-rows: minmax(0, 1fr) auto;
+  }
+
+  .today-row .jitsuryoku-banner__visual {
+    min-height: 0;
+    overflow: hidden;
+  }
+
+  .today-row .jitsuryoku-banner__visual img {
+    position: absolute;
+    inset: 0;
+    aspect-ratio: auto;
+    max-height: none;
+    height: 100%;
+    object-position: 65% 12%;
   }
 }
 
