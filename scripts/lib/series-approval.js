@@ -6,7 +6,7 @@ import fs from "node:fs";
 import path from "node:path";
 import crypto from "node:crypto";
 import {
-  contentHashOf, signApproval, verifyApproval, parseScheduledAt, validateEpisodeShape, decideEpisode, selectEpisodes,
+  contentHashOf, signApproval, verifyApproval, parseScheduledAt, parseJstDateTime, validateEpisodeShape, decideEpisode, selectEpisodes,
   asKeyRing, publicKeyFingerprint, loadEpisodes, SERIES_HASH_META_NAME,
 } from "./series-episodes.js";
 
@@ -233,12 +233,39 @@ export function applyFinalize(dir, targets, { now, approverPublicKey }) {
 // strict では、公開状態の回（scheduled / published）が、いまの公開鍵で検証できる承認を持つことまで求める。
 const OK_REASONS = new Set(["draft", "not-yet-due", "on-hold", "due", "published"]);
 
-export function checkSeries(episodes, { now, approverPublicKey, strict = false }) {
+// 承認の署名が「あるのに」いまの公開鍵で検証できないものを見つける（Pages 向けの検査で使う）。
+// 署名が無い・空の承認は「未承認」で、ここでは問題にしない（予約は非公開のまま、サイトのビルドは続ける）。
+// 原稿の編集や日時の変更とは独立に、承認に記録された内容そのものを公開鍵で検証する（編集で鍵の不一致が隠れないように）。
+export function verifyStoredApproval(ep, approverPublicKey) {
+  const a = ep?.approval;
+  if (!a || typeof a !== "object" || typeof a.signature !== "string" || !a.signature) return { signed: false };
+  const wellFormed = typeof a.approvedBy === "string" && a.approvedBy.trim() && parseJstDateTime(a.approvedAt).ok && parseJstDateTime(a.scheduledAt).ok && /^[0-9a-f]{64}$/.test(a.contentHash ?? "");
+  if (!wellFormed) return { signed: true, ok: false, reason: "approval-malformed" };
+  if (!approverPublicKey) return { signed: true, ok: false, reason: "approver-key-missing" };
+  const ring = asKeyRing(approverPublicKey);
+  if (!ring) return { signed: true, ok: false, reason: "approver-key-invalid" };
+  const fields = { slug: ep.slug, contentHash: a.contentHash, scheduledAt: a.scheduledAt, approvedBy: a.approvedBy, approvedAt: a.approvedAt };
+  return ring.some((key) => verifyApproval(key, fields, a.signature)) ? { signed: true, ok: true } : { signed: true, ok: false, reason: "approval-signature-invalid" };
+}
+
+// モード
+//   通常      : 公開判定の矛盾（重複・JSON破損・公開済みの承認不整合）と、公開状態の回があるのに公開鍵がない場合を失敗にする
+//   strict    : さらに、公開状態の回が検証できない理由（未承認・承認が予約より後など）をすべて失敗にする（GitHub CI 用）
+//   deploy    : Pages 向け。未承認の予約は非公開のまま通す。次の場合だけ失敗にする
+//               ・公開判定の矛盾（重複・JSON破損・公開済みの承認不整合・既存ページとの衝突）
+//               ・承認の署名があるのに、公開鍵が無い・不正・一致しない・承認の記録が壊れている（draft 以外の回）
+export function checkSeries(episodes, { now, approverPublicKey, strict = false, deploy = false }) {
+  if (strict && deploy) throw new Error("strict と deploy は同時に指定できません");
   const errors = [];
   const sel = selectEpisodes(episodes, { now, approverPublicKey });
   errors.push(...sel.errors);
   const live = episodes.filter((e) => e && !e.__loadError && e.status !== "draft");
-  if (live.length > 0) {
+  if (deploy) {
+    for (const ep of live) {
+      const v = verifyStoredApproval(ep, approverPublicKey);
+      if (v.signed && !v.ok) errors.push(`${ep.slug ?? "(slugなし)"}: 承認の署名があるのに公開鍵（SERIES_APPROVER_PUBLIC_KEY）で検証できません（${v.reason}）`);
+    }
+  } else if (live.length > 0) {
     if (!approverPublicKey) errors.push("公開鍵（SERIES_APPROVER_PUBLIC_KEY）が設定されていません。draft 以外の回は検証できません");
     else if (!asKeyRing(approverPublicKey)) errors.push("公開鍵（SERIES_APPROVER_PUBLIC_KEY）が不正です");
   }

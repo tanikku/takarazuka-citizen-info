@@ -568,3 +568,89 @@ test("finalize：複数の回のうち1件でも本番の内容が古ければ�
   assert.deepEqual(fs.readFileSync(path.join(s.dir, "ep2-a.json")), edited);
   assert.equal(readJson(path.join(s.dir, "ep3-b.json")).status, "scheduled");
 });
+
+// ---------- Pages 向けの検査（check --deploy） ----------
+const deployCtx = (kp, extra = {}) => ({ now: at(-DAY), approverPublicKey: kp ? [kp.publicKey] : null, deploy: true, ...extra });
+const errsOf = (eps, ctx) => checkSeries(eps, ctx).errors;
+
+test("deploy検査：正常な予約・未承認の予約・draft・連載0件は通す（サイトのビルドを止めない）。公開鍵が無くても、署名のない回は通す", () => {
+  const kp = newKey();
+  assert.deepEqual(errsOf([approvedEpisode(kp)], deployCtx(kp)), [], "承認済み・公開前・鍵あり");
+  assert.deepEqual(errsOf([draft()], deployCtx(kp)), [], "未承認の予約");
+  assert.deepEqual(errsOf([draft()], deployCtx(null)), [], "未承認の予約・公開鍵なし");
+  assert.deepEqual(errsOf([draft()], deployCtx(kp, { approverPublicKey: "garbage" })), [], "未承認の予約・公開鍵が不正");
+  assert.deepEqual(errsOf([draft({ status: "draft" })], deployCtx(null)), [], "draft");
+  assert.deepEqual(errsOf([], deployCtx(null)), [], "連載0件");
+  assert.deepEqual(errsOf([{ ...draft(), approval: {} }, { ...draft({ slug: "ep3-b", episode: 3 }), approval: { signature: "" } }], deployCtx(null)), [], "署名のない承認欄は未承認と同じ");
+  // 同じ状態でも strict は失敗する（GitHub CI の厳しさは維持）
+  assert.ok(errsOf([draft()], { ...deployCtx(kp), deploy: false, strict: true }).length > 0);
+  // 未承認の予約はビルドでも非公開のまま（公開判定は変えていない）
+  assert.deepEqual(selectEpisodes([draft()], { now: at(DAY), approverPublicKey: [kp.publicKey] }).publish, []);
+});
+
+test("deploy検査：承認の署名があるのに公開鍵が無い・不正・不一致なら失敗する（予約・公開済みとも）", () => {
+  const kp = newKey();
+  const signedEp = approvedEpisode(kp);
+  const pubEp = approvedEpisode(kp, { slug: "ep3-pub", episode: 3, status: "published", publishedAt: "2026-11-07" });
+  assert.match(errsOf([signedEp], deployCtx(null)).join(), /approver-key-missing/, "公開鍵が未登録");
+  assert.match(errsOf([signedEp], deployCtx(kp, { approverPublicKey: "garbage" })).join(), /approver-key-missing|approver-key-invalid/, "公開鍵が不正（環境変数としては null と同じ扱い）");
+  assert.match(errsOf([signedEp], deployCtx(kp, { approverPublicKey: [crypto.generateKeyPairSync("rsa", { modulusLength: 2048 }).publicKey] })).join(), /approver-key-invalid/, "Ed25519以外");
+  assert.match(errsOf([signedEp], deployCtx(newKey())).join(), /approval-signature-invalid/, "別の鍵が登録されている");
+  assert.match(errsOf([pubEp], deployCtx(newKey())).join(), /approval-signature-invalid/);
+  assert.ok(checkSeries([signedEp], deployCtx(null)).errors.every((e) => e.includes("ep2-sample")), "どの回かが分かる");
+  // 鍵リング：旧鍵・新鍵のどちらで署名していても、リングに含まれていれば通る
+  const k2 = newKey();
+  assert.deepEqual(errsOf([signedEp], { ...deployCtx(kp), approverPublicKey: [k2.publicKey, kp.publicKey] }), []);
+  assert.ok(errsOf([signedEp], { ...deployCtx(kp), approverPublicKey: [k2.publicKey] }).length > 0, "旧鍵を外すと失敗");
+});
+
+test("deploy検査：署名の偽造・切り詰め・承認欄の破損は、原稿を編集していても検出する。編集済みの予約（鍵は一致）は未承認として通す", () => {
+  const kp = newKey();
+  const ok = approvedEpisode(kp);
+  const forged = approvedEpisode(newKey());
+  assert.match(errsOf([forged], deployCtx(kp)).join(), /approval-signature-invalid/, "別の鍵の署名");
+  assert.match(errsOf([{ ...ok, approval: { ...ok.approval, signature: ok.approval.signature.slice(0, 20) } }], deployCtx(kp)).join(), /approval-signature-invalid/, "切り詰め");
+  assert.match(errsOf([{ ...ok, approval: { ...ok.approval, approvedBy: "別の人" } }], deployCtx(kp)).join(), /approval-signature-invalid/, "承認者名の改ざん");
+  assert.match(errsOf([{ ...ok, approval: { ...ok.approval, contentHash: "0".repeat(64) } }], deployCtx(kp)).join(), /approval-signature-invalid/, "承認欄のハッシュの改ざん");
+  assert.match(errsOf([{ ...ok, approval: { ...ok.approval, approvedAt: "bad" } }], deployCtx(kp)).join(), /approval-malformed/, "承認欄の破損");
+  assert.match(errsOf([{ ...ok, slug: "ep9-moved", episode: 9 }], deployCtx(kp)).join(), /approval-signature-invalid/, "他の回への流用");
+  // 別の鍵が登録されていて、かつ原稿も編集されている場合でも、鍵の不一致は隠れない
+  const editedAndWrongKey = { ...ok, title: "編集済み" };
+  assert.match(errsOf([editedAndWrongKey], deployCtx(newKey())).join(), /approval-signature-invalid/);
+  // 鍵が一致していて、承認後に原稿・日時を編集した予約は「未承認」と同じ：非公開のままビルドは続ける
+  assert.deepEqual(errsOf([editedAndWrongKey], deployCtx(kp)), [], "原稿を編集した予約");
+  assert.deepEqual(errsOf([{ ...ok, scheduledAt: SLOT2 }], deployCtx(kp)), [], "日時を変えた予約");
+  assert.equal(decideEpisode(editedAndWrongKey, { now: at(DAY), approverPublicKey: [kp.publicKey] }).publish, false, "公開はされない");
+  // 承認が予約より後の予約も、鍵の問題ではないので通す（公開はされない）
+  const late = approvedEpisode(kp, {}, "2026-11-07T10:30:00+09:00");
+  assert.deepEqual(errsOf([late], deployCtx(kp)), []);
+  assert.equal(decideEpisode(late, { now: at(DAY), approverPublicKey: [kp.publicKey] }).publish, false);
+});
+
+test("deploy検査：公開済み記事の承認不整合・書き換え・日付の食い違い・JSON破損・重複は、従来どおり失敗する", () => {
+  const kp = newKey();
+  const pub = approvedEpisode(kp, { status: "published", publishedAt: "2026-11-07" });
+  const ctx = deployCtx(kp, { now: at(30 * DAY) });
+  assert.deepEqual(errsOf([pub], ctx), [], "正常な公開済み");
+  assert.ok(errsOf([{ ...pub, title: "書き換え" }], ctx).length > 0, "公開済みの原稿の書き換え");
+  assert.ok(errsOf([{ ...pub, publishedAt: "2026-12-01" }], ctx).length > 0, "公開日の食い違い");
+  const { approval, ...noApproval } = pub;
+  assert.ok(errsOf([noApproval], ctx).length > 0, "承認のない published");
+  assert.ok(errsOf([{ ...pub, scheduledAt: SLOT2 }], ctx).length > 0, "公開済みの予約日時の変更");
+  assert.ok(errsOf([{ slug: "ep2-broken", __loadError: "JSON を読めません（ep2-broken.json）" }], ctx).length > 0, "JSON破損");
+  assert.ok(errsOf([approvedEpisode(kp), { ...approvedEpisode(kp, { episode: 5 }) }], deployCtx(kp)).length > 0, "slugの重複");
+  assert.ok(errsOf([draft({ slug: "ep3-a", episode: 3 }), draft({ slug: "ep4-b", episode: 3 })], deployCtx(kp)).length > 0, "回番号の重複");
+  assert.throws(() => checkSeries([], { now: at(0), strict: true, deploy: true }), /同時に指定できません/);
+});
+
+test("deploy検査コマンド：連載0件では公開鍵の有無によらず成功する。strictとの同時指定は拒否。既存の通常検査・strictの動作は変わらない", () => {
+  const run = (args, key) => spawnSync(process.execPath, [TOOL, "check", ...args], { encoding: "utf-8", env: { ...process.env, SERIES_APPROVER_PUBLIC_KEY: key, CF_PAGES: "1" } });
+  for (const key of ["", "garbage"]) {
+    for (const args of [["--deploy"], ["--strict"], []]) assert.equal(run(args, key).status, 0, `${args.join(" ") || "通常"} / 鍵=${key || "なし"}`);
+  }
+  const both = run(["--strict", "--deploy"], "");
+  assert.equal(both.status, 1);
+  assert.match(both.stderr, /同時に指定できません/);
+  // 通常検査は従来のまま：署名のない予約があり公開鍵がなければ失敗する
+  assert.ok(errsOf([draft()], { now: at(0), approverPublicKey: null }).length > 0);
+});

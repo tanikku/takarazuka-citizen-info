@@ -15,7 +15,10 @@ const HELP = `使い方: node scripts/series-tool.js <コマンド>
 
   keygen --out <秘密鍵のファイル>   承認用の鍵を作る。秘密鍵はリポジトリの外のファイルにだけ保存し、公開鍵と指紋を表示する
   approve <slug> [--by <承認者名>]  原稿を確認して承認する（署名を approval に書き込む）。端末での対話が必須
-  check [--strict]                  公開状態の回の承認を検証する（CI 用）。問題があれば終了コード 1
+  check [--strict | --deploy]       公開状態の回の承認を検証する。問題があれば終了コード 1
+                                    --strict : 未承認の予約も失敗にする（GitHub CI 用）
+                                    --deploy : Pages のビルド用。未承認の予約は非公開のまま通し、承認の署名があるのに
+                                               公開鍵で検証できない場合・公開済みの異常・JSON破損だけを失敗にする
   finalize [--write]                公開された scheduled の回を published に確定する。手動操作で、本番のページが実際に
                                     配信され、内容が承認した原稿と一致することを確認できた回だけを確定する（--write なしは確認のみ）
   fingerprint                       SERIES_APPROVER_PUBLIC_KEY に入っている公開鍵の指紋を表示する
@@ -80,7 +83,7 @@ async function main() {
       return 0;
     }
     case "check": {
-      const result = checkSeries(loadEpisodes(EPISODES_DIR), { now, approverPublicKey: resolveApproverKey(env), strict: Boolean(flags.strict) });
+      const result = checkSeries(loadEpisodes(EPISODES_DIR), { now, approverPublicKey: resolveApproverKey(env), strict: Boolean(flags.strict), deploy: Boolean(flags.deploy) });
       out(`公開できる回: ${result.published.length}件 / 公開しない回: ${result.excluded.length}件${result.excluded.length ? `（${result.excluded.map((x) => `${x.slug}: ${x.reason}`).join("、")}）` : ""}`);
       for (const e of result.errors) console.error(`エラー: ${e}`);
       return result.errors.length > 0 ? 1 : 0;
