@@ -3260,11 +3260,11 @@ html[data-theme="dark"] .jf {
 }
 .jf p { margin: 0 0 1em; }
 .jf-draft { background: var(--accent-soft); border: 2px dashed var(--accent); padding: 0.6em 1em; font-weight: 700; border-radius: 8px; }
-.jf-hero { padding: 0.5rem 0 1.5rem; }
-.jf-hero__tag { display: inline-block; background: var(--accent); color: #fff; font-weight: 700; padding: 0.15em 0.9em; border-radius: 999px; font-size: 1rem; margin-bottom: 0.5em; }
-.jf-hero__title { font-size: clamp(1.75rem, 6vw, 2.75rem); line-height: 1.35; margin: 0 0 0.5em; }
-.jf-lead { font-size: 1.25rem; font-weight: 700; }
-.jf-chips { list-style: none; display: flex; flex-wrap: wrap; gap: 0.5rem; padding: 0; margin: 0 0 1rem; }
+.jf-hero { padding: 0 0 0.75rem; }
+.jf-hero__tag { display: inline-block; background: var(--accent); color: #fff; font-weight: 700; padding: 0.15em 0.9em; border-radius: 999px; font-size: 1rem; margin-bottom: 0.25em; }
+.jf-hero__title { font-size: clamp(1.5rem, 4.2vw, 2.25rem); line-height: 1.3; margin: 0 0 0.3em; text-wrap: balance; word-break: auto-phrase; }
+.jf-lead { font-size: 1.25rem; font-weight: 700; margin-bottom: 0.6em !important; text-wrap: balance; word-break: auto-phrase; }
+.jf-chips { list-style: none; display: flex; flex-wrap: wrap; gap: 0.5rem; padding: 0; margin: 0 0 0.5rem; }
 .jf-chips li { border: 2px solid var(--border); border-radius: 999px; padding: 0.15em 0.9em; font-weight: 700; background: var(--surface); }
 .jf-chips li.is-selected { border-color: var(--accent); background: var(--accent-soft); }
 .jf-chips li { padding: 0; }
@@ -3272,14 +3272,15 @@ html[data-theme="dark"] .jf {
 .jf-chip { font: inherit; font-weight: 700; color: inherit; background: transparent; border: 0; border-radius: 999px; padding: 0.35em 1em; min-height: 44px; cursor: pointer; }
 .jf-chip[aria-pressed="true"]::before { content: "✓ "; color: var(--accent); }
 .jf-chip:hover { text-decoration: underline; }
+@media (max-width: 400px) { .jf-chips { gap: 0.4rem; } .jf-chip { padding: 0.35em 0.75em; } }
 .jf-chip:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
-.jf-hint { font-size: 1rem; color: var(--text-sub); margin: 0 0 0.75em; }
+.jf-hint { font-size: 1rem; color: var(--text-sub); margin: 0 0 0.5em !important; }
 .jf-stat__city { font-size: 1rem; font-weight: 700; }
 .jf-sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; margin: 0 !important; }
 .jf-small, .jf-source, .jf-unit, .jf-baseline { font-size: 1rem; color: var(--text-sub); }
-.jf-stats { list-style: none; padding: 0; margin: 1.25rem 0; display: grid; gap: 0.75rem; grid-template-columns: repeat(auto-fit, minmax(min(220px, 100%), 1fr)); }
-.jf-stat { background: var(--surface); border: 2px solid var(--border); border-radius: 12px; padding: 1rem; display: flex; flex-direction: column; }
-.jf-stat__num { font-size: 2.75rem; line-height: 1.1; color: var(--accent); }
+.jf-stats { list-style: none; padding: 0; margin: 0.5rem 0 0.75rem; display: grid; gap: 0.75rem; grid-template-columns: repeat(auto-fit, minmax(min(220px, 100%), 1fr)); }
+.jf-stat { background: var(--surface); border: 2px solid var(--border); border-radius: 12px; padding: 0.6rem 1rem; display: flex; flex-direction: column; }
+.jf-stat__num { font-size: 2.5rem; line-height: 1.1; color: var(--accent); }
 .jf-stat__lbl { font-weight: 700; }
 .jf-stat__sub { font-size: 1rem; color: var(--text-sub); }
 .jf-sec { margin: 2.5rem 0; padding-top: 1rem; border-top: 3px solid var(--border); }
