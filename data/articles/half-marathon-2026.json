@@ -13,6 +13,10 @@
   "updatedAt": "2026-10-31",
   "category": "イベント",
   "valueScore": "B",
+  "homeDate": {
+    "kind": "開催",
+    "date": "2026-12-20"
+  },
   "eventDates": [
     "2026-12-20"
   ],

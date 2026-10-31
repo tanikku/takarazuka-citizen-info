@@ -8,6 +8,10 @@
   "publishedAt": "2026-09-19",
   "category": "行政・くらし",
   "valueScore": "B",
+  "homeDate": {
+    "kind": "実施",
+    "date": "2026-11-08"
+  },
   "eventDates": [
     "2026-11-08"
   ],

@@ -3391,3 +3391,9 @@ html[data-theme="dark"] .jf-hero__tag, html[data-theme="dark"] .jf-h2__no { colo
 .jf-profile__region { font-size: 1rem; font-weight: 400; color: var(--text-sub); }
 .jf-profile .jf-profile__text { margin: 0 0 0.4em; line-height: 1.7; }
 .jf-profile .jf-profile__src { margin: 0; font-size: 1rem; color: var(--text-sub); }
+
+/* トップ「注目・新着ニュース」：理由ラベルと基準日、サイトのお知らせ */
+.reason-tag { display:inline-block; margin-right:6px; padding:1px 7px; border-radius:4px; font-size:.75rem; font-weight:700; line-height:1.5; vertical-align:baseline; background:var(--accent-soft); color:var(--accent); border:1px solid var(--accent); }
+.featured-asof { margin:-2px 0 8px; }
+.site-notices { margin-top:12px; padding-top:8px; border-top:1px dashed var(--border, #d8d8d8); }
+.site-notices-title { margin:0 0 4px; font-size:.8rem; opacity:.75; }

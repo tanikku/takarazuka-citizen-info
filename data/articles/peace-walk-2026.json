@@ -8,6 +8,10 @@
   "updatedAt": "2026-10-31",
   "category": "子育て",
   "valueScore": "A",
+  "homeDate": {
+    "kind": "開催",
+    "date": "2026-11-07"
+  },
   "eventDates": [
     "2026-11-07"
   ],

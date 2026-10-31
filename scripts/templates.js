@@ -4,6 +4,7 @@ import { fileURLToPath } from "node:url";
 import { articleStatusNotice } from "./lib/article-status.js";
 import { isArticleIndexable } from "./lib/indexing.js";
 import { contentVersion } from "./lib/asset-version.js";
+import { reasonLabel, monthDayLabel } from "./lib/home-news.js";
 
 // フェーズ17：回遊率向上のための「おすすめページ」「人気コンテンツ」データ（JSON管理）
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -188,7 +189,7 @@ function contactCtaPanel() {
 }
 
 const QUICK_ACCESS_ITEMS = [
-  { href: "/#today-topic", icon: "calendar", label: "今日の宝塚" },
+  { href: "/#featured-news", icon: "calendar", label: "注目ニュース" },
   { href: "/category/shigikai", icon: "building", label: "市議会" },
   { href: "/category/bohan", icon: "shield", label: "防犯" },
   { href: "/events/", icon: "calendar", label: "イベント" },
@@ -540,24 +541,22 @@ function articleStatusBox(article) {
   return `\n<p class="article-status article-status-${notice.status}" role="note"><span class="status-tag status-${notice.status}">${escapeHtml(notice.label)}</span>${escapeHtml(notice.message)}</p>`;
 }
 
-function headlineRow(article) {
+// reasonTag: 注目枠だけが付ける「なぜ今載っているか」（新着・更新・日付など）。一覧用の headlineRow は付けない
+function headlineRowWith(article, reasonTag) {
   const categoryMeta = findCategory(article.category);
   const photo = findPhotoForText(`${article.title} ${article.summary ?? ""}`);
+  const reason = reasonTag ? `<span class="reason-tag">${escapeHtml(reasonTag)}</span>` : "";
   return `<a class="headline-row" href="/articles/${article.slug}">
 <div class="headline-thumb">${thumbHtml(photo, categoryMeta ? categoryMeta.icon : "newspaper")}</div>
 <div>
-  <p class="headline-title">${sourceBadge(article.sourceName)}<span class="topic-tag">${escapeHtml(article.category)}</span>${statusTag(article)}${escapeHtml(article.title)}</p>
+  <p class="headline-title">${reason}${sourceBadge(article.sourceName)}<span class="topic-tag">${escapeHtml(article.category)}</span>${statusTag(article)}${escapeHtml(article.title)}</p>
   <p class="headline-meta">${escapeHtml(article.publishedAt)}・${escapeHtml(article.sourceName)}</p>
 </div>
 </a>`;
 }
 
-function topNewsPanel(topArticles) {
-  const items = topArticles.slice(0, 3).map(headlineRow).join("\n");
-  return `<div class="panel">
-<p class="panel-title">${icon("newspaper")}トップニュース</p>
-${items || '<p class="empty-state">まだ記事がありません</p>'}
-</div>`;
+function headlineRow(article) {
+  return headlineRowWith(article, "");
 }
 
 // サイト自体のお知らせ（新機能追加等）を一時的に表示する。公式ニュース記事とは別枠のため data/articles/ は使わず、期限（until）を過ぎたら自動的に非表示にする
@@ -571,24 +570,20 @@ function siteNoticeRow(notice) {
 </a>`;
 }
 
-// 当日の記事が無い日は、空欄の代わりに最新記事（latestArticles）を「本日の新着なし」と明示して出す
-function todayTopicPanel(todayArticles, activeNotices = [], latestArticles = []) {
-  const noticeItems = activeNotices.map(siteNoticeRow).join("\n");
-  if (todayArticles.length === 0 && activeNotices.length === 0 && latestArticles.length === 0) {
-    return `<div class="panel" id="today-topic">
-<p class="panel-title">${icon("calendar")}今日の宝塚トピック</p>
-<p class="empty-state">本日の新しい記事はまだありません</p>
-</div>`;
-  }
-  const latestHtml =
-    todayArticles.length === 0 && latestArticles.length > 0
-      ? `<p class="panel-note">本日の新着記事はまだありません。最新の記事をご紹介します</p>\n${latestArticles.map(headlineRow).join("\n")}`
-      : "";
-  const items = todayArticles.map(headlineRow).join("\n");
-  return `<div class="panel" id="today-topic">
-<p class="panel-title">${icon("calendar")}今日の宝塚トピック</p>
-${noticeItems}
-${items}${latestHtml}
+// 「注目・新着ニュース」1枠。選定は lib/home-news.js（新着・明示された近い日付）。
+// 候補が無い日は古い記事で埋めず、その旨を言う。サイトのお知らせはニュースと区別して下に小さく出す。
+// 表示は「ビルド時点」の日付で決まる静的な結果なので、基準日を明示する（再ビルドされるまで古い日付のまま残ることが読者に分かるように）。
+function featuredNewsPanel(featuredNews, activeNotices, todayKey) {
+  const items = featuredNews.map(({ article, reason }) => headlineRowWith(article, reasonLabel(reason))).join("\n");
+  const body = items || `<p class="empty-state">この1週間に、新しい注目記事はありません。</p>
+<p class="panel-note"><a href="#recent-articles">→ 新着記事を見る</a></p>`;
+  const notices = activeNotices.length > 0 ? `<div class="site-notices"><p class="site-notices-title">サイトからのお知らせ</p>${activeNotices.map(siteNoticeRow).join("\n")}</div>` : "";
+  return `<div class="panel" id="featured-news">
+<span id="today-topic"></span>
+<p class="panel-title">${icon("newspaper")}注目・新着ニュース</p>
+<p class="panel-note featured-asof">${escapeHtml(monthDayLabel(todayKey))}時点の情報です</p>
+${body}
+${notices}
 </div>`;
 }
 
@@ -610,7 +605,7 @@ function fieldReportPanel(fieldReportPhoto) {
 }
 
 // 上段の左枠（以前は「今日の宝塚トピック」があった場所）に「宝塚の実力」の予告バナーを置く。
-// 「今日の宝塚トピック」はトップニュースの下へ移した（indexPage）。記事の選択・表示内容は変えていない
+// 「今日の宝塚トピック」と「トップニュース」は「注目・新着ニュース」1枠に統合した（featuredNewsPanel / lib/home-news.js）
 function todayRow(fieldReportPhoto, categoryPageKeys) {
   return `<div class="today-row">
 ${jitsuryokuBannerPanel()}
@@ -686,7 +681,7 @@ ${showMoreLink ? '<p class="panel-note"><a href="/ranking/">新着記事をも�
 function recentCombinedFeed(publishedArticles, categoryPageKeys) {
   const items = publishedArticles.slice(0, 10).map(headlineRow).join("\n");
   const browseLink = categoryPageKeys.size > 0 ? `<p class="panel-note"><a href="#category-panel">→ もっと見る（カテゴリー別に探す）</a></p>` : "";
-  return `<div class="panel">
+  return `<div class="panel" id="recent-articles">
 <p class="panel-title">${icon("bell")}新着記事</p>
 ${items || '<p class="empty-state">まだ記事がありません</p>'}
 ${browseLink}
@@ -745,8 +740,8 @@ ${articleCard}
 </div>`;
 }
 
-function shigikaiCornerPanel({ hasGianPage, gikaiArticles }) {
-  if (!hasGianPage && gikaiArticles.length === 0) return "";
+function shigikaiCornerPanel({ hasGianPage, gikaiArticles, gikaiNotices = [] }) {
+  if (!hasGianPage && gikaiArticles.length === 0 && gikaiNotices.length === 0) return "";
 
   const announcement = hasGianPage
     ? `<div class="corner-announce">${icon("bell")}<span><strong>NEW</strong>議案の採決結果・議員別の表決結果がわかる「議案採決一覧」を公開しました</span></div>`
@@ -762,28 +757,29 @@ function shigikaiCornerPanel({ hasGianPage, gikaiArticles }) {
 </a>`
     : "";
   const items = gikaiArticles.slice(0, 3).map(gikaiRow).join("\n");
+  const notices = gikaiNotices.map((n) => `<p class="panel-note gikai-notice"><a href="${escapeHtml(n.href)}">${escapeHtml(n.text)}</a></p>`).join("\n");
 
   return `<div class="panel shigikai-corner">
 <p class="panel-title">${icon("building")}市議会情報</p>
 ${announcement}
 ${cta}
 ${items}
+${notices}
 <p class="panel-note"><a href="/category/shigikai">→ 市議会ウォッチ一覧へ</a></p>
 </div>`;
 }
 
-export function indexPage({ topArticles, todayArticles, categoryPageKeys, publishedArticles, ranking, weather, todayCounts, fieldReportPhoto, dateLabel, siteUrl, hasGianPage = false, activeNotices = [] }) {
-  // 同じ記事を「今日の宝塚トピック」「トップニュース」「新着記事」で重ねて出さない。上の枠から順に表示済みを除く
-  const latestArticles = todayArticles.length === 0 ? topArticles.slice(0, 2) : [];
+export function indexPage({ featuredNews, todayKey, categoryPageKeys, publishedArticles, ranking, weather, todayCounts, fieldReportPhoto, dateLabel, siteUrl, hasGianPage = false, activeNotices = [], gikaiNotices = [] }) {
+  // 同じ記事を「注目・新着ニュース」「市議会情報」「新着記事」で重ねて出さない。上の枠から順に表示済みを除く
+  // （注目枠は選定側で決まるので、重複を避けるために古い記事が繰り上がることはない。市議会情報は次の新しい市議会記事が出る）
   const explainerPanel = editorExplainerPanel(publishedArticles.find((a) => a.slug === EDITOR_EXPLAINER_SLUG));
-  const shown = new Set([...todayArticles, ...latestArticles].map((a) => a.slug));
-  // 解説コーナーに出す記事は、トップニュース・新着記事では重ねて出さない
+  const shown = new Set(featuredNews.map(({ article }) => article.slug));
+  // 解説コーナーに出す記事は、新着記事では重ねて出さない
   if (explainerPanel) shown.add(EDITOR_EXPLAINER_SLUG);
   const notShown = (a) => !shown.has(a.slug);
-  // 市議会情報は最新の市議会記事を出す枠なので、今日の宝塚トピックとの重複だけを除き、トップニュースとの重複は許す（重複を避けるために古い記事を繰り上げない）
-  const gikaiArticles = publishedArticles.filter((a) => a.category === "市議会" && notShown(a)).slice(0, 3);
-  const topNewsArticles = topArticles.filter(notShown).slice(0, 3);
-  [...topNewsArticles, ...gikaiArticles].forEach((a) => shown.add(a.slug));
+  // 最新の市議会記事3件のうち、注目枠に出したものだけを除く。足りない分を古い市議会記事で補わない（不自然な繰り上げをしない）
+  const gikaiArticles = publishedArticles.filter((a) => a.category === "市議会").slice(0, 3).filter(notShown);
+  gikaiArticles.forEach((a) => shown.add(a.slug));
   // 新着記事は検索対象（noindexでない）の記事だけ。noindexの記事も記事ページ自体は公開のまま
   const recentArticles = publishedArticles.filter((a) => notShown(a) && isArticleIndexable(a));
 
@@ -794,9 +790,8 @@ ${quickAccessPanel()}
 ${todayRow(fieldReportPhoto, categoryPageKeys)}
 <div class="grid-2">
   <div class="col-main">
-    ${topNewsPanel(topNewsArticles)}
-    ${todayTopicPanel(todayArticles, activeNotices, latestArticles)}
-    ${shigikaiCornerPanel({ hasGianPage, gikaiArticles })}
+    ${featuredNewsPanel(featuredNews, activeNotices, todayKey)}
+    ${shigikaiCornerPanel({ hasGianPage, gikaiArticles, gikaiNotices })}
     ${explainerPanel}
     ${guideNavPanel()}
     ${recentCombinedFeed(recentArticles, categoryPageKeys)}

@@ -8,6 +8,10 @@
   "updatedAt": "2026-10-18",
   "category": "教育",
   "valueScore": "A",
+  "homeDate": {
+    "kind": "締切",
+    "date": "2026-11-27"
+  },
   "eventDates": [
     "2026-10-01",
     "2026-11-27"

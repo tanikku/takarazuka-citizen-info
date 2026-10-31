@@ -8,7 +8,7 @@ import { fileURLToPath } from "node:url";
 import { indexPage } from "../templates.js";
 
 const CSS = fs.readFileSync(path.join(path.dirname(fileURLToPath(import.meta.url)), "..", "..", "assets", "style.css"), "utf8");
-const ARGS = { topArticles: [], todayArticles: [], categoryPageKeys: new Set(), publishedArticles: [], ranking: null, weather: null, todayCounts: {}, fieldReportPhoto: null, dateLabel: "2026年10月25日(日)", siteUrl: "https://takarazuka-today.jp" };
+const ARGS = { featuredNews: [], todayKey: "2026-10-25", categoryPageKeys: new Set(), publishedArticles: [], ranking: null, weather: null, todayCounts: {}, fieldReportPhoto: null, dateLabel: "2026年10月25日(日)", siteUrl: "https://takarazuka-today.jp" };
 
 test("トップのh1は1つで、日付バーの中にある（重複して出さない）", () => {
   const html = indexPage(ARGS);

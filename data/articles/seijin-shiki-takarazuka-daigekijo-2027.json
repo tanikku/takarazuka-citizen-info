@@ -23,6 +23,10 @@
   "updatedAt": "2026-10-18",
   "category": "行政・くらし",
   "valueScore": "A",
+  "homeDate": {
+    "kind": "開催",
+    "date": "2027-01-11"
+  },
   "eventDates": [
     "2027-01-11"
   ],

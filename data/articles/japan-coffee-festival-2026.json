@@ -9,6 +9,11 @@
   "updatedAt": "2026-11-01",
   "category": "文化・観光",
   "valueScore": "A",
+  "homeDate": {
+    "kind": "開催",
+    "date": "2026-11-03",
+    "endDate": "2026-11-08"
+  },
   "eventDates": [
     "2026-11-03",
     "2026-11-04",

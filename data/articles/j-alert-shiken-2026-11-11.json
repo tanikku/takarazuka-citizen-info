@@ -8,6 +8,10 @@
   "publishedAt": "2026-10-27",
   "category": "防災",
   "valueScore": "A",
+  "homeDate": {
+    "kind": "実施",
+    "date": "2026-11-11"
+  },
   "eventDates": [
     "2026-11-11"
   ],

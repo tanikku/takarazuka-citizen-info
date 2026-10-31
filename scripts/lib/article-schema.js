@@ -8,6 +8,7 @@
 // - 文字数の下限は設けない（短くても事実が正確なら成立する記事があるため）。
 import { CATEGORIES } from "../templates.js";
 import { ARTICLE_STATUSES, isArticleStatus } from "./article-status.js";
+import { HOME_DATE_KINDS } from "./home-news.js";
 import { INDEXING_VALUES, isIndexingValue } from "./indexing.js";
 import { isNonEmptyString, isHttpsUrl, validateTableCell } from "./table.js";
 import { validateExplainerImage } from "./explainer-image.js";
@@ -307,6 +308,23 @@ export function validateArticle(article, context = {}) {
     // 日付は「いつ終了・受付終了・復旧したか」を表すため、状態が終わっていない記事には意味を持たない
     if (article.status === undefined || article.status === "active") {
       errors.push("statusDate は status が ended / closed / resolved のときだけ設定できます");
+    }
+  }
+
+  // トップ「注目・新着ニュース」に「近づいている日付」として載せるための、編集者が明示する日付（lib/home-news.js）。
+  // eventDates は催しの日付・募集期間・締切などが混在していて意味を読み取れないため、選定には使わない。
+  if (article.homeDate !== undefined) {
+    const h = article.homeDate;
+    if (typeof h !== "object" || h === null || Array.isArray(h)) {
+      errors.push("homeDate は { kind, date, endDate? } のオブジェクトである必要があります");
+    } else {
+      for (const key of Object.keys(h)) if (!["kind", "date", "endDate"].includes(key)) errors.push(`homeDate に未知のキーがあります: ${key}`);
+      if (!HOME_DATE_KINDS.includes(h.kind)) errors.push(`homeDate.kind は ${HOME_DATE_KINDS.join(" / ")} のいずれかです: ${h.kind}`);
+      if (!isValidDateString(h.date)) errors.push(`homeDate.date が YYYY-MM-DD 形式の実在する日付ではありません: ${h.date}`);
+      if (h.endDate !== undefined) {
+        if (!isValidDateString(h.endDate)) errors.push(`homeDate.endDate が YYYY-MM-DD 形式の実在する日付ではありません: ${h.endDate}`);
+        else if (isValidDateString(h.date) && h.endDate <= h.date) errors.push("homeDate.endDate は homeDate.date より後の日付にしてください（単日なら省略）");
+      }
     }
   }
 

@@ -44,6 +44,7 @@ import { zaiseiPageLastmod } from "./lib/zaisei-lastmod.js";
 import { loadZaiseiKessan } from "./lib/zaisei-kessan.js";
 import { pickFieldReportPhoto, isRankingFresh, buildFieldReportGallery } from "./lib/home-features.js";
 import { validateExplainerImage, availableExplainerImage } from "./lib/explainer-image.js";
+import { selectHomeNews, jstDateKey } from "./lib/home-news.js";
 import { loadFeature, jitsuryokuFeaturePage, FEATURE_POSE_FILES } from "./lib/jitsuryoku-feature.js";
 import { loadEpisodes, selectEpisodes, resolveNow, resolveApproverKey, episodePage, episodeListHtml, episodeDate } from "./lib/series-episodes.js";
 
@@ -82,7 +83,12 @@ const SITE_NOTICES = [
   { text: "サイト内検索を追加しました。ページ上部の検索窓からキーワードで探せます", href: "/search", until: "2026-08-06" },
   { text: "おでかけガイドに6ページ追加（宝塚北SA・武田尾温泉・宝塚温泉・廃線ハイキング・あいあいパーク・ダリア園）", href: "/category/kanko", until: "2026-08-07" },
   { text: "市議会「議案採決一覧」に令和8年第3回定例会（9月）を追加しました。9月1日議決分を掲載中で、会期中に順次更新します", href: "/category/shigikai/gian", until: "2026-09-15" },
-  { text: "市議会12月定例会の予定：会期は11月18日〜12月23日、一般質問は12月11日・14日・15日（16日は予備日）の予定です（市議会日程による予定で、変更される場合があります）", href: "/category/shigikai", until: "2026-12-16" },
+];
+
+// 市議会の日程などの案内。サイト自体のお知らせではなく市議会についての情報なので、「市議会情報」の枠に出す（until を過ぎると自動的に消える）。
+// 日程は市議会公式の資料で確認できたものだけを書く（会期：市公式「市議会の会期」2026年10月13日更新。一般質問の日程は12月分の公式PDFが未公開のため載せない）
+const GIKAI_NOTICES = [
+  { text: "12月定例会：会期は11月18日〜12月23日（36日間）です（市議会公式の会期日程による。変更される場合があります）", href: "/category/shigikai", until: "2026-12-16" },
 ];
 
 function loadArticles() {
@@ -258,8 +264,7 @@ function todayDateLabel() {
 }
 
 function todayDateKey() {
-  const now = new Date();
-  return now.toLocaleDateString("en-CA", { timeZone: "Asia/Tokyo" }); // YYYY-MM-DD
+  return jstDateKey(new Date()); // YYYY-MM-DD（日本時間）
 }
 
 function writeFile(relativePath, content) {
@@ -483,8 +488,10 @@ function main() {
   const featuredArticles = publishedArticles.filter((a) => HOMEPAGE_FEATURE_SCORES.has(a.valueScore));
 
   const todayKey = todayDateKey();
-  const todayArticles = featuredArticles.filter((a) => a.publishedAt === todayKey);
+  // トップの「注目・新着ニュース」。S/Aの中から、鮮度・近い予定・継続中の重要情報で選ぶ（lib/home-news.js）
+  const featuredNews = selectHomeNews(featuredArticles, todayKey);
   const activeNotices = SITE_NOTICES.filter((n) => todayKey <= n.until);
+  const gikaiNotices = GIKAI_NOTICES.filter((n) => todayKey <= n.until);
   const ranking = loadRanking();
   const giinList = loadGiin();
   const guides = loadGuides();
@@ -543,8 +550,8 @@ function main() {
   writeFile(
     "index.html",
     indexPage({
-      topArticles: featuredArticles,
-      todayArticles,
+      featuredNews,
+      todayKey,
       categoryPageKeys,
       publishedArticles,
       ranking,
@@ -555,6 +562,7 @@ function main() {
       siteUrl: SITE_URL,
       hasGianPage: gianSessions.length > 0,
       activeNotices,
+      gikaiNotices,
     }),
   );
 

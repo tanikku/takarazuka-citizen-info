@@ -22,6 +22,10 @@
   "publishedAt": "2026-10-23",
   "category": "イベント",
   "valueScore": "A",
+  "homeDate": {
+    "kind": "開催",
+    "date": "2026-11-08"
+  },
   "eventDates": [
     "2026-11-08"
   ],
