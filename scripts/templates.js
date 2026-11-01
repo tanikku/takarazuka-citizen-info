@@ -469,7 +469,8 @@ function articleItemsHtml(items) {
       list.push(item);
     } else {
       flush();
-      parts.push(photoFigureHtml(item.photo));
+      // { table } は節の位置に出す表。スマホでは行をカード状に積む（.article-section 配下だけ。既存記事の比較表は変えない）
+      parts.push(item.table ? guideTableHtml(item.table, { stacked: true }) : photoFigureHtml(item.photo));
     }
   }
   flush();

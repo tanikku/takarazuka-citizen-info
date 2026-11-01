@@ -2415,6 +2415,68 @@ a:focus-visible, button:focus-visible {
   }
 }
 
+/* 記事の節に置く表（sections.items の { table }）。ガイドの表と同じ見た目で、スマホでは行をカード状に積む。
+   .article-section 配下だけに掛け、記事末尾の比較表（comparisonTables）は変えない */
+.article-section .table-scroll {
+  margin: 12px 0;
+}
+
+@media (max-width: 600px) {
+  .article-section .guide-table--stack thead {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+  }
+
+  .article-section .guide-table--stack,
+  .article-section .guide-table--stack tbody,
+  .article-section .guide-table--stack tr,
+  .article-section .guide-table--stack th,
+  .article-section .guide-table--stack td {
+    display: block;
+    width: auto;
+  }
+
+  .article-section .guide-table--stack {
+    background: none;
+  }
+
+  .article-section .guide-table--stack caption {
+    display: block;
+    width: auto;
+  }
+
+  .article-section .guide-table--stack tr {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    margin-bottom: 8px;
+    overflow: hidden;
+  }
+
+  .article-section .guide-table--stack tbody th {
+    background: var(--accent-soft);
+    border-bottom: 1px solid var(--border);
+    word-break: normal;
+  }
+
+  .article-section .guide-table--stack td {
+    border-bottom: 0;
+    padding-top: 6px;
+    padding-bottom: 6px;
+  }
+
+  .article-section .guide-table--stack td::before {
+    content: attr(data-label);
+    display: block;
+    font-size: 0.72rem;
+    font-weight: 800;
+    color: var(--text-sub);
+  }
+}
+
 /* 行政手続きガイドの目的別カード（guide.quickLinks）。見出しと一覧は .contact-cards を共用し、
    カード全体を押せるリンクにする（タップ領域は44px以上） */
 .quick-link {

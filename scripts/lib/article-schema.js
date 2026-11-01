@@ -10,7 +10,7 @@ import { CATEGORIES } from "../templates.js";
 import { ARTICLE_STATUSES, isArticleStatus } from "./article-status.js";
 import { HOME_DATE_KINDS } from "./home-news.js";
 import { INDEXING_VALUES, isIndexingValue } from "./indexing.js";
-import { isNonEmptyString, isHttpsUrl, validateTableCell } from "./table.js";
+import { isNonEmptyString, isHttpsUrl, validateTableCell, validateGuideTable } from "./table.js";
 import { validateExplainerImage } from "./explainer-image.js";
 
 const REQUIRED_STRING_FIELDS = ["slug", "title", "summary", "sourceUrl", "sourceName", "publishedAt", "category", "valueScore"];
@@ -86,7 +86,7 @@ function validateArticlePhoto(p, label, errors) {
   if (!isNonEmptyString(p.caption)) errors.push(`${label}.caption が空です`);
 }
 
-// items は文字列（箇条書き）と { photo } の混在を認める。生HTMLは受け付けない
+// items は文字列（箇条書き）、{ photo }、{ table } の混在を認める。{ table } はその節の位置に置く2〜3列の表（ガイドの表と同じ検証・描画）。生HTMLは受け付けない
 function validateSectionItems(items, label, errors) {
   if (!Array.isArray(items)) {
     errors.push(`${label} は配列である必要があります`);
@@ -101,8 +101,10 @@ function validateSectionItems(items, label, errors) {
       if (!isNonEmptyString(item)) errors.push(`${label}[${i}] が空です`);
     } else if (item && typeof item === "object" && !Array.isArray(item) && Object.keys(item).length === 1 && "photo" in item) {
       validateArticlePhoto(item.photo, `${label}[${i}].photo`, errors);
+    } else if (item && typeof item === "object" && !Array.isArray(item) && Object.keys(item).length === 1 && "table" in item) {
+      validateGuideTable(item.table, `${label}[${i}].table`, errors);
     } else {
-      errors.push(`${label}[${i}] は文字列か { photo } である必要があります`);
+      errors.push(`${label}[${i}] は文字列か { photo }・{ table } である必要があります`);
     }
   });
 }
