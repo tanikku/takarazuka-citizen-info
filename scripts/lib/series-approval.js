@@ -135,7 +135,8 @@ export async function runApprove({ slug, approvedBy, dir, repoRoot, keyFile, rin
   out(`署名する鍵  : 指紋 ${plan.fingerprint}`);
   out(`承認の種類  : ${plan.kind}`);
   out("本文の見出し:");
-  for (const s of ep.content.sections) out(`  - ${s.heading}（${s.paragraphs.join("").length}文字）`);
+  // 図解つきの回（blocks）は paragraphs を持たない。確認用の表示だけの行で、署名・検証・ハッシュには関係しない
+  for (const s of ep.content.sections) out(`  - ${s.heading}（${Array.isArray(s.blocks) ? `${s.blocks.length}ブロック` : `${s.paragraphs.join("").length}文字`}）`);
   out(`出典        : ${ep.content.sources.length}件`);
   out("────────────────────────────────────────");
   out("この内容を公開してよいと確認できた場合だけ、回の識別子をそのまま入力してください。それ以外の入力では何も書き込みません。");

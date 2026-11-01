@@ -15,6 +15,7 @@ import fs from "node:fs";
 import path from "node:path";
 import crypto from "node:crypto";
 import { layout, escapeHtml } from "../templates.js";
+import { validateBlocks, renderBlocks } from "./series-blocks.js";
 
 export const EPISODE_STATUSES = ["draft", "scheduled", "published"];
 // 承認の対象にしない項目。公開状態・予約・保留・承認そのものは、本文の承認とは別に管理する（権限の分離）
@@ -143,7 +144,17 @@ export function validateEpisodeShape(ep) {
   if (!EPISODE_STATUSES.includes(ep.status)) errors.push(`status は ${EPISODE_STATUSES.join(" / ")} のいずれかです`);
   if (ep.hold !== undefined && typeof ep.hold !== "boolean") errors.push("hold は true / false です");
   const c = ep.content;
-  if (!c || !Array.isArray(c.sections) || c.sections.length === 0 || !c.sections.every((s) => typeof s?.heading === "string" && Array.isArray(s?.paragraphs) && s.paragraphs.every((p) => typeof p === "string"))) errors.push("content.sections（heading と paragraphs）が必要です");
+  // 各節は、paragraphs（文字列の配列）か blocks（図解つきの部品）のどちらかを持つ
+  const sectionOk = (s) => typeof s?.heading === "string" && ((Array.isArray(s?.paragraphs) && s.paragraphs.every((p) => typeof p === "string")) || Array.isArray(s?.blocks));
+  if (!c || !Array.isArray(c.sections) || c.sections.length === 0 || !c.sections.every(sectionOk)) errors.push("content.sections（heading と paragraphs または blocks）が必要です");
+  else if (c.sections.some((s) => Array.isArray(s.blocks)) || c.heroBlocks !== undefined) {
+    const ids = new Set();
+    if (c.heroBlocks !== undefined) errors.push(...validateBlocks(c.heroBlocks, "content.heroBlocks", ids));
+    c.sections.forEach((s, i) => { if (Array.isArray(s.blocks)) errors.push(...validateBlocks(s.blocks, `content.sections[${i}].blocks`, ids)); });
+    if (c.lead !== undefined && (typeof c.lead !== "string" || !c.lead.trim())) errors.push("content.lead は空でない文字列にしてください");
+    if (c.sourcesNote !== undefined && (typeof c.sourcesNote !== "string" || !c.sourcesNote.trim())) errors.push("content.sourcesNote は空でない文字列にしてください");
+    for (const k of ["checkedAt", "updatedAt"]) if (c[k] !== undefined && !DATE_RE.test(c[k])) errors.push(`content.${k} は YYYY-MM-DD にしてください`);
+  }
   if (!c || !Array.isArray(c.sources) || c.sources.length === 0 || !c.sources.every((s) => typeof s?.label === "string" && /^https:\/\//.test(s?.url ?? ""))) errors.push("content.sources（label と https の url）が必要です");
   if (ep.status === "published" && !DATE_RE.test(ep.publishedAt ?? "")) errors.push("published には publishedAt（YYYY-MM-DD）が必要です");
   return errors;
@@ -232,11 +243,42 @@ export const episodeDate = (ep) => (ep.publishedAt ?? ep.scheduledAt).slice(0, 1
 export const SERIES_HASH_META_NAME = "series-content-hash";
 export const contentHashMeta = (hash) => `<meta name="${SERIES_HASH_META_NAME}" content="${hash}">`;
 
+// 図解つき（blocks を持つ）記事の本体。第1弾と同じ .jf-* のデザイン。
+function richEpisodeBody(ep) {
+  const c = ep.content;
+  let no = 0;
+  const sections = c.sections.map((s, i) => {
+    const numbered = s.numbered !== false;
+    if (numbered) no += 1;
+    const inner = Array.isArray(s.blocks) ? renderBlocks(s.blocks) : s.paragraphs.map((p) => `<p>${escapeHtml(p)}</p>`).join("");
+    return `<section class="jf-sec" aria-labelledby="jf-h-${i}">
+<h2 id="jf-h-${i}" class="jf-h2">${numbered ? `<span class="jf-h2__no">${no}</span>` : ""}${escapeHtml(s.heading)}</h2>
+${inner}
+</section>`;
+  }).join("\n");
+  const dates = [`公開日：${jpDate(episodeDate(ep))}`, c.checkedAt ? `統計などの確認日：${jpDate(c.checkedAt)}` : "", c.updatedAt ? `更新日：${jpDate(c.updatedAt)}` : ""].filter(Boolean).join("　");
+  const ribbon = ep.status === "draft" ? `<p class="jf-draft" role="note">公開前の確認用ページです。検索には載せていません。</p>\n` : "";
+  const sources = `<ul class="jf-sources" role="list">${c.sources.map((x) => `<li><a href="${escapeHtml(x.url)}" target="_blank" rel="noopener">${escapeHtml(x.label)}</a></li>`).join("")}</ul>`;
+  return `<div class="jf">
+${ribbon}<header class="jf-hero">
+<p class="jf-hero__tag">宝塚の実力 第${ep.episode}回</p>
+<h1 class="jf-hero__title">${escapeHtml(ep.title)}</h1>
+<p class="jf-lead">${escapeHtml(c.lead ?? ep.description)}</p>
+<p class="jf-small">${dates}</p>
+${c.heroBlocks ? renderBlocks(c.heroBlocks) : ""}
+</header>
+${sections}
+<details class="jf-details"><summary>出典の一覧を見る</summary>${c.sourcesNote ? `<p class="jf-small">${escapeHtml(c.sourcesNote)}</p>` : ""}${sources}</details>
+<p class="jf-back"><a href="/jitsuryoku">「宝塚の実力」の企画紹介へ →</a>　<a href="/jitsuryoku/zeishu-shigoto">第1弾「宝塚の税収と仕事」へ →</a></p>
+</div>`;
+}
+
 export function episodePage(ep, siteUrl) {
   const canonicalUrl = `${siteUrl}/jitsuryoku/${ep.slug}`;
-  const sections = ep.content.sections.map((s) => `<section class="jf-sec"><h2 class="jf-h2">${escapeHtml(s.heading)}</h2>${s.paragraphs.map((p) => `<p>${escapeHtml(p)}</p>`).join("")}</section>`).join("\n");
+  const rich = ep.content.sections.some((s) => Array.isArray(s.blocks));
+  const sections = rich ? "" : ep.content.sections.map((s) => `<section class="jf-sec"><h2 class="jf-h2">${escapeHtml(s.heading)}</h2>${s.paragraphs.map((p) => `<p>${escapeHtml(p)}</p>`).join("")}</section>`).join("\n");
   const sources = `<ul class="jf-sources" role="list">${ep.content.sources.map((x) => `<li><a href="${escapeHtml(x.url)}" target="_blank" rel="noopener">${escapeHtml(x.label)}</a></li>`).join("")}</ul>`;
-  const bodyHtml = `<nav class="breadcrumb"><a href="/">トップ</a> &gt; <a href="/jitsuryoku">「宝塚の実力」</a> &gt; 第${ep.episode}回</nav>
+  const bodyHtml = rich ? `<nav class="breadcrumb"><a href="/">トップ</a> &gt; <a href="/jitsuryoku">「宝塚の実力」</a> &gt; 第${ep.episode}回</nav>\n${richEpisodeBody(ep)}` : `<nav class="breadcrumb"><a href="/">トップ</a> &gt; <a href="/jitsuryoku">「宝塚の実力」</a> &gt; 第${ep.episode}回</nav>
 <div class="jf">
 <header class="jf-hero"><p class="jf-hero__tag">宝塚の実力 第${ep.episode}回</p><h1 class="jf-hero__title">${escapeHtml(ep.title)}</h1><p class="jf-lead">${escapeHtml(ep.description)}</p><p class="jf-small">公開日：${jpDate(episodeDate(ep))}</p></header>
 ${sections}
@@ -248,6 +290,7 @@ ${sections}
     description: ep.description,
     bodyHtml,
     canonicalUrl,
+    noindex: ep.status === "draft",
     // 承認の署名で検証した原稿の内容ハッシュ。公開の確定（finalize）が、本番に出ている版がこの原稿であることを確かめるのに使う
     extraHeadHtml: `\n${contentHashMeta(contentHashOf(ep))}`,
     structuredData: {

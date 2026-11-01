@@ -3550,3 +3550,74 @@ html[data-theme="dark"] .jf-hero__tag, html[data-theme="dark"] .jf-h2__no { colo
 .featured-asof { margin:-2px 0 8px; }
 .site-notices { margin-top:12px; padding-top:8px; border-top:1px dashed var(--border, #d8d8d8); }
 .site-notices-title { margin:0 0 4px; font-size:.8rem; opacity:.75; }
+/* 第2回以降：2つの街を並べる図解の部品 */
+.jf-label--calc { color: var(--jf-fix); border-style: double; border-width: 4px; }
+.jf-label--unk { color: var(--text-sub); border-style: dotted; }
+.jf-key--a1, .jf-seg--a1 { background: var(--jf-fix) repeating-linear-gradient(90deg, rgba(255,255,255,.5) 0 3px, transparent 3px 6px); }
+.jf-key--a2, .jf-seg--a2 { background: var(--jf-ind); }
+.jf-key--a3, .jf-seg--a3 { background: var(--jf-cor) repeating-linear-gradient(45deg, rgba(255,255,255,.5) 0 3px, transparent 3px 6px); }
+.jf-key--nat, .jf-div__fill--nat { background: var(--jf-ind); }
+.jf-key--soc, .jf-div__fill--soc { background: var(--jf-cor) repeating-linear-gradient(45deg, rgba(255,255,255,.5) 0 3px, transparent 3px 6px); }
+.jf-grp { margin: 0.75rem 0 0; }
+.jf-grp + .jf-grp { margin-top: 1rem; padding-top: 0.5rem; border-top: 1px solid var(--border); }
+.jf-grp__title { font-size: 1.05rem; margin: 0 0 0.25em; }
+.jf-grp__delta { margin: 0.35em 0 0 !important; font-size: 1rem; font-weight: 700; }
+.jf-divs { list-style: none; padding: 0; margin: 0; }
+.jf-div { display: grid; grid-template-columns: 8em 1fr auto; gap: 0.5rem; align-items: center; padding: 0.25rem 0; }
+.jf-div__name { font-weight: 700; }
+.jf-div__track { position: relative; height: 1.5rem; background: var(--accent-soft); border-radius: 4px; overflow: hidden; }
+.jf-div__fill { position: absolute; top: 0; bottom: 0; }
+.jf-div__fill.is-neg { box-shadow: inset 0 0 0 2px var(--text); }
+.jf-div__zero { position: absolute; top: 0; bottom: 0; left: 50%; width: 3px; margin-left: -1.5px; background: var(--text); }
+.jf-div__val { font-weight: 700; min-width: 5.5em; text-align: right; font-variant-numeric: tabular-nums; }
+.jf-stats--duo { grid-template-columns: repeat(auto-fit, minmax(min(250px, 100%), 1fr)); }
+.jf-duo { display: flex; flex-wrap: wrap; gap: 0.25rem 1.25rem; margin: 0.2rem 0; }
+.jf-duo__v { display: flex; flex-direction: column; }
+.jf-stat--duo .jf-stat__num { font-size: 2rem; }
+.jf-table--text { min-width: 640px; }
+.jf-table .is-text, .jf-table--text td { text-align: left; white-space: normal; }
+.jf-table--text td.is-text { min-width: 14em; }
+.jf-next { margin-top: 2rem; border: 3px double var(--accent); border-radius: 12px; padding: 0.75rem 1rem; background: var(--accent-soft); }
+.jf-next p { margin-bottom: 0.4em; }
+.jf-next__tag { font-weight: 700; color: var(--accent); margin: 0 0 0.15em; }
+.jf-next__title { font-size: 1.25rem; font-weight: 700; margin: 0 0 0.4em; }
+@media (max-width: 480px) {
+  .jf-div { grid-template-columns: 1fr auto; row-gap: 0.1rem; }
+  .jf-div__name { grid-column: 1 / -1; }
+  .jf-div__val { min-width: 5em; }
+  .jf-grp .jf-bar { grid-template-columns: 1fr auto; row-gap: 0.1rem; }
+  .jf-grp .jf-bar__name { grid-column: 1 / -1; }
+  .jf-grp .jf-bar__val { min-width: 6em; }
+}
+/* 第2回以降：項目ごとに2つの市の記載を並べる（文章が長い比較用） */
+.jf-cmp { margin: 1rem 0; }
+.jf-cmp__cap { font-size: 1.05rem; margin: 0 0 0.5rem; }
+.jf-cmp__item { border: 2px solid var(--border); border-radius: 12px; background: var(--surface); padding: 0.6rem 0.9rem; margin-bottom: 0.75rem; }
+.jf-cmp__h { font-size: 1.05rem; margin: 0 0 0.4rem; }
+.jf-cmp__cells { display: grid; gap: 0.6rem; grid-template-columns: repeat(auto-fit, minmax(min(260px, 100%), 1fr)); }
+.jf-cmp__cell { border-left: 5px solid var(--jf-ind); padding: 0.1rem 0 0.1rem 0.75rem; }
+.jf-cmp__cell + .jf-cmp__cell { border-left-color: var(--jf-cor); border-left-style: double; }
+.jf-cmp__cell p { margin: 0 0 0.3em; font-size: 1rem; line-height: 1.75; }
+.jf-cmp__city { font-weight: 700; color: var(--text); }
+
+/* 第2回以降：複数の街の増減率を 0% 中心に比べる図（rate） */
+.jf-rates { list-style: none; padding: 0; margin: 0.5rem 0 0; }
+.jf-rate { display: grid; grid-template-columns: 9.5em 1fr auto; gap: 0.5rem; align-items: center; padding: 0.3rem 0; border-top: 1px solid var(--border); }
+.jf-rate:first-child { border-top: 0; }
+.jf-rate__name { font-weight: 700; display: flex; flex-wrap: wrap; gap: 0.1rem 0.4rem; align-items: baseline; }
+.jf-rate__tag { font-size: 0.8rem; font-weight: 700; border: 2px solid var(--text); border-radius: 4px; padding: 0 0.3em; line-height: 1.4; }
+.jf-rate__track { position: relative; height: 1.6rem; background: var(--accent-soft); border-radius: 4px; overflow: hidden; }
+.jf-rate__fill { position: absolute; top: 0; bottom: 0; }
+.jf-rate__zero { position: absolute; top: 0; bottom: 0; left: 50%; width: 3px; margin-left: -1.5px; background: var(--text); }
+.jf-rate__val { display: flex; flex-direction: column; align-items: flex-end; min-width: 7em; font-variant-numeric: tabular-nums; }
+.jf-rate__val b { font-size: 1.15rem; }
+.jf-rate__ppl { font-size: 0.9rem; color: var(--text-sub); }
+.jf-rate--focus .jf-rate__fill, .jf-key--rfocus { background: var(--jf-ind); box-shadow: inset 0 0 0 3px var(--text); }
+.jf-rate--peer .jf-rate__fill, .jf-key--rpeer { background: var(--jf-cor) repeating-linear-gradient(45deg, rgba(255,255,255,.55) 0 3px, transparent 3px 6px); }
+.jf-rate--other .jf-rate__fill, .jf-key--rother { background: var(--text-sub); opacity: 0.45; }
+.jf-rate--focus .jf-rate__name, .jf-rate--peer .jf-rate__name { font-size: 1.05rem; }
+.jf-rate--focus { background: var(--accent-soft); border-radius: 6px; padding-left: 0.4rem; padding-right: 0.4rem; }
+@media (max-width: 480px) {
+  .jf-rate { grid-template-columns: 1fr; row-gap: 0.15rem; }
+  .jf-rate__val { flex-direction: row; justify-content: flex-start; align-items: baseline; gap: 0.5em; min-width: 0; }
+}
