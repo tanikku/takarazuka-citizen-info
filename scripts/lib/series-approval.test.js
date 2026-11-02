@@ -147,7 +147,8 @@ test("承認：対話できない環境（CI・パイプ）では承認できな
   assert.equal(a.asked(), 0);
   assert.deepEqual(fs.readFileSync(s.file), before);
   // 実際のコマンドでも、標準入力が端末でなければ拒否する
-  const r = spawnSync(process.execPath, [TOOL, "approve", "ep2-sample", "--by", "運営者"], { input: "ep2-sample\n", encoding: "utf-8", env: { ...process.env, SERIES_APPROVER_KEY_FILE: s.keyFile } });
+  // 公開鍵はテスト用の鍵で上書きする。親環境（Cloudflare など）の SERIES_APPROVER_PUBLIC_KEY を引き継ぐと、その解析エラーが先に出て対話拒否を検証できない
+  const r = spawnSync(process.execPath, [TOOL, "approve", "ep2-sample", "--by", "運営者"], { input: "ep2-sample\n", encoding: "utf-8", env: { ...process.env, SERIES_APPROVER_KEY_FILE: s.keyFile, SERIES_APPROVER_PUBLIC_KEY: s.kp.pem } });
   assert.equal(r.status, 1);
   assert.match(r.stderr, /人が端末で操作/);
   assert.ok(!fs.existsSync(path.join(ROOT, "data", "jitsuryoku", "episodes", "ep2-sample.json")));
