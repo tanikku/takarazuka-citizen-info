@@ -34,6 +34,20 @@ function tmpDir() {
 }
 test.after(() => { for (const d of tmps) fs.rmSync(d, { recursive: true, force: true }); });
 
+// 連載が0件のリポジトリを一時フォルダに作り、その中の series-tool.js のパスを返す。
+// 実際のリポジトリには公開の手順で予約・公開済みの回が入るので、「連載0件」の CLI の動作はここで確かめる。
+// 写すのはツールの実行に要るものだけ（scripts、package.json、テンプレートが読み込む CSS と設定）。回のフォルダは空。
+function emptySeriesRepoTool() {
+  const d = tmpDir();
+  fs.cpSync(path.join(ROOT, "scripts"), path.join(d, "scripts"), { recursive: true });
+  fs.copyFileSync(path.join(ROOT, "package.json"), path.join(d, "package.json"));
+  fs.mkdirSync(path.join(d, "assets"));
+  fs.copyFileSync(path.join(ROOT, "assets", "style.css"), path.join(d, "assets", "style.css"));
+  fs.mkdirSync(path.join(d, "data", "jitsuryoku", "episodes"), { recursive: true });
+  for (const f of ["recommendations.json", "ad-config.json"]) fs.copyFileSync(path.join(ROOT, "data", f), path.join(d, "data", f));
+  return path.join(d, "scripts", "series-tool.js");
+}
+
 function newKey() {
   const kp = crypto.generateKeyPairSync("ed25519");
   return { ...kp, fingerprint: publicKeyFingerprint(kp.publicKey), pem: kp.publicKey.export({ type: "spki", format: "pem" }) };
@@ -316,9 +330,10 @@ test("検査（CI）：strict では、公開状態の回が検証できない�
   assert.ok(checkSeries([draft({ slug: "x", episode: 5 }), { ...draft(), slug: "ep2-sample" }, { ...draft(), episode: 2, slug: "ep2-dup" }], ctx()).errors.length > 0);
 });
 
-test("検査コマンド：既存の連載0件のリポジトリでは成功し、公開鍵の有無に影響されない", () => {
+test("検査コマンド：連載0件のリポジトリでは成功し、公開鍵の有無に影響されない", () => {
+  const emptyTool = emptySeriesRepoTool();
   for (const key of ["", "garbage"]) {
-    const r = spawnSync(process.execPath, [TOOL, "check", "--strict"], { encoding: "utf-8", env: { ...process.env, SERIES_APPROVER_PUBLIC_KEY: key, CF_PAGES: "" } });
+    const r = spawnSync(process.execPath, [emptyTool, "check", "--strict"], { encoding: "utf-8", env: { ...process.env, SERIES_APPROVER_PUBLIC_KEY: key, CF_PAGES: "" } });
     assert.equal(r.status, 0, r.stderr);
   }
   assert.equal(spawnSync(process.execPath, [TOOL, "help"], { encoding: "utf-8" }).status, 0);
@@ -645,7 +660,8 @@ test("deploy検査：公開済み記事の承認不整合・書き換え・日�
 });
 
 test("deploy検査コマンド：連載0件では公開鍵の有無によらず成功する。strictとの同時指定は拒否。既存の通常検査・strictの動作は変わらない", () => {
-  const run = (args, key) => spawnSync(process.execPath, [TOOL, "check", ...args], { encoding: "utf-8", env: { ...process.env, SERIES_APPROVER_PUBLIC_KEY: key, CF_PAGES: "1" } });
+  const emptyTool = emptySeriesRepoTool();
+  const run = (args, key) => spawnSync(process.execPath, [emptyTool, "check", ...args], { encoding: "utf-8", env: { ...process.env, SERIES_APPROVER_PUBLIC_KEY: key, CF_PAGES: "1" } });
   for (const key of ["", "garbage"]) {
     for (const args of [["--deploy"], ["--strict"], []]) assert.equal(run(args, key).status, 0, `${args.join(" ") || "通常"} / 鍵=${key || "なし"}`);
   }

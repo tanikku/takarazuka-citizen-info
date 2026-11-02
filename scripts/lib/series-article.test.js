@@ -7,7 +7,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { validateBlocks, renderBlock, renderBlocks, tableRowValues, BLOCK_POSES } from "./series-blocks.js";
 import { validateEpisodeShape, episodePage, contentHashOf, decideEpisode, selectEpisodes, loadEpisodes, parseScheduledAt, SERIES_HASH_META_NAME } from "./series-episodes.js";
-import { generateKeyPair, runApprove } from "./series-approval.js";
+import { generateKeyPair, runApprove, signEpisode } from "./series-approval.js";
 import { FEATURE_POSE_FILES, jitsuryokuFeaturePage } from "./jitsuryoku-feature.js";
 
 const ROOT = path.join(path.dirname(fileURLToPath(import.meta.url)), "..", "..");
@@ -16,6 +16,13 @@ const EP_FILE = path.join(ROOT, "data", "jitsuryoku", "episodes", "population-ta
 const FIRST = JSON.parse(fs.readFileSync(path.join(ROOT, "data", "jitsuryoku", "zeishu-shigoto.json"), "utf-8"));
 const ep = JSON.parse(fs.readFileSync(EP_FILE, "utf-8"));
 const c = ep.content;
+// PM が承認の対象として確定した原稿の内容ハッシュと予約日時（status・承認・公開日は対象外）
+const APPROVED_CONTENT_HASH = "3a6687645a624abe10099c20571d185ba7ecb798dcc9d22580a88dfff5f9dd23";
+const SCHEDULED_AT = "2026-11-07T10:15:00+09:00";
+// 実原稿から公開の状態（status・承認・公開日）を外した下書きの形。原稿は draft → scheduled（署名）→ published と進むので、
+// 状態に左右されない表示・内容のテストはこちらを使う
+const { approval: _approval, publishedAt: _publishedAt, ...epContent } = ep;
+const draftEp = { ...epContent, status: "draft" };
 
 // ====================================================================
 // 部品（汎用）
@@ -89,20 +96,82 @@ test("キャラクター：ポーズ画像は第1弾と同じ素材で、実在�
 // ====================================================================
 // 記事の形・承認の対象・ページの出力
 // ====================================================================
-test("記事の形：検査を通り、下書き（draft）で、承認も公開済みの記録もない。公開判定は『非公開』のまま", () => {
+test("記事の形：実原稿は検査を通り、承認の対象（内容ハッシュ）と予約日時が確定値のまま。draft・scheduled・published の各状態の条件を満たし、公開鍵の無い判定では公開されない", () => {
   assert.deepEqual(validateEpisodeShape(ep), []);
   assert.equal(path.basename(EP_FILE, ".json"), ep.slug);
-  assert.equal(ep.status, "draft");
   assert.equal(ep.episode, 2);
-  assert.equal(ep.approval, undefined, "承認・署名はまだ行わない");
-  assert.equal(ep.publishedAt, undefined);
   assert.notEqual(ep.hold, true);
+  assert.equal(ep.scheduledAt, SCHEDULED_AT);
   assert.equal(parseScheduledAt(ep.scheduledAt).ok, true, "予約日時は土曜10:15 JSTの枠");
-  const d = decideEpisode(ep, { now: new Date("2030-01-01T00:00:00Z"), approverPublicKey: null });
-  assert.deepEqual([d.publish, d.reason], [false, "draft"]);
-  const sel = selectEpisodes(loadEpisodes(path.dirname(EP_FILE)), { now: new Date("2030-01-01T00:00:00Z"), approverPublicKey: null, reservedSlugs: [FIRST.slug] });
+  assert.equal(contentHashOf(ep), APPROVED_CONTENT_HASH, "承認の対象の内容が、確定原稿から1文字も変わっていない");
+  assert.ok(["draft", "scheduled", "published"].includes(ep.status), `想定外の状態: ${ep.status}`);
+
+  const far = new Date("2030-01-01T00:00:00Z");
+  const d = decideEpisode(ep, { now: far, approverPublicKey: null });
+  assert.equal(d.publish, false, "公開鍵の無い判定では、どの状態でも公開されない");
+  if (ep.status === "draft") {
+    assert.equal(ep.approval, undefined, "下書きには承認が無い");
+    assert.equal(ep.publishedAt, undefined);
+    assert.equal(d.reason, "draft");
+  } else {
+    if (ep.status === "scheduled") assert.equal(ep.publishedAt, undefined, "公開日は公開の確定（finalize）で付く");
+    if (ep.status === "published") {
+      assert.ok(ep.approval, "公開済みの回には承認が必須");
+      assert.equal(ep.publishedAt, ep.scheduledAt.slice(0, 10), "公開日は署名された予約日と同じ日");
+    }
+    if (ep.approval) {
+      // 承認は今の内容と予約日時に結びついている。署名そのものは本物の公開鍵で CI の check --strict と Pages の check --deploy が検証する
+      assert.equal(ep.approval.contentHash, APPROVED_CONTENT_HASH);
+      assert.equal(ep.approval.scheduledAt, SCHEDULED_AT);
+      if (ep.status === "scheduled") assert.ok(Date.parse(ep.approval.approvedAt) < Date.parse(SCHEDULED_AT), "署名は予約日時より前");
+      assert.equal(d.reason, ep.status === "published" ? "published-but-approver-key-missing" : "approver-key-missing");
+    } else {
+      assert.equal(d.reason, "not-approved", "署名の無い予約は公開されない");
+    }
+  }
+  const sel = selectEpisodes(loadEpisodes(path.dirname(EP_FILE)), { now: far, approverPublicKey: null, reservedSlugs: [FIRST.slug] });
   assert.deepEqual(sel.publish, []);
-  assert.deepEqual(sel.errors, []);
+  // 公開済みを名乗る回が検証できないときはビルドを止める（直前の本番を残す）。それ以外の状態では止めない
+  assert.equal(sel.errors.length > 0, ep.status === "published");
+});
+
+test("公開の状態ごとの判定（実原稿・使い捨て鍵）：未署名の予約は出ず、署名した予約は予約日時から出る。公開済みは公開日が合うときだけ有効。原稿の改ざん・署名の破損は拒否する", () => {
+  const kp = crypto.generateKeyPairSync("ed25519");
+  const key = kp.publicKey;
+  const slot = Date.parse(SCHEDULED_AT);
+  const at = (ms) => new Date(ms);
+  const before = new Date("2026-11-06T12:00:00+09:00");
+  const decide = (e, ms, k = key) => decideEpisode(e, { now: at(ms), approverPublicKey: k });
+
+  // 下書き：鍵があっても公開しない
+  assert.deepEqual(decide(draftEp, slot + 1000), { publish: false, reason: "draft" });
+  // 予約・未署名：公開しない
+  const unsigned = { ...draftEp, status: "scheduled" };
+  assert.equal(decide(unsigned, slot + 1000).reason, "not-approved");
+  // 予約・署名済み：内容ハッシュは確定値、1秒前は出さず予約日時ちょうどから出す
+  const signed = signEpisode(unsigned, { now: before, privateKey: kp.privateKey, approvedBy: "テスト承認者" });
+  assert.equal(signed.approval.contentHash, APPROVED_CONTENT_HASH);
+  assert.deepEqual(validateEpisodeShape(signed), []);
+  assert.equal(decide(signed, slot - 1000).publish, false);
+  assert.deepEqual(decide(signed, slot), { publish: true, reason: "due" });
+  // 公開済み：公開日が予約日と一致すれば有効。食い違いはビルドを止める
+  const published = { ...signed, status: "published", publishedAt: "2026-11-07" };
+  assert.deepEqual(validateEpisodeShape(published), []);
+  assert.deepEqual(decide(published, slot + 3600 * 1000), { publish: true, reason: "published" });
+  const wrongDate = decide({ ...published, publishedAt: "2026-11-08" }, slot + 3600 * 1000);
+  assert.deepEqual([wrongDate.publish, wrongDate.reason, wrongDate.blocking], [false, "published-date-mismatch", true]);
+  // 改ざん：本文を1文字でも変えると、予約は出ず、公開済みはビルドを止める
+  const tampered = { ...signed, content: { ...signed.content, sections: signed.content.sections.map((s, i) => (i === 0 ? { ...s, heading: `${s.heading}x` } : s)) } };
+  assert.equal(decide(tampered, slot + 1000).reason, "content-changed-after-approval");
+  const tamperedPub = decide({ ...tampered, status: "published", publishedAt: "2026-11-07" }, slot + 1000);
+  assert.deepEqual([tamperedPub.publish, tamperedPub.blocking], [false, true]);
+  // 予約日時の書き換え・署名の破損・別の鍵は拒否する
+  assert.equal(decide({ ...signed, scheduledAt: "2026-11-14T10:15:00+09:00" }, Date.parse("2026-11-14T10:15:00+09:00")).reason, "schedule-changed-after-approval");
+  const sig = signed.approval.signature;
+  const broken = { ...signed, approval: { ...signed.approval, signature: `${sig.slice(0, -4)}${sig.slice(-4) === "AAAA" ? "BBBB" : "AAAA"}` } };
+  assert.equal(decide(broken, slot + 1000).reason, "approval-signature-invalid");
+  const otherKey = crypto.generateKeyPairSync("ed25519").publicKey;
+  assert.equal(decide(signed, slot + 1000, otherKey).reason, "approval-signature-invalid");
 });
 
 test("承認の対象：図のデータ・表・本文のどこを1つ変えても内容ハッシュが変わる（承認後の書き換えを検出できる）", () => {
@@ -126,13 +195,13 @@ test("承認の対象：図のデータ・表・本文のどこを1つ変えて�
 });
 
 test("ページの出力：下書きは確認用の帯と noindex、公開される状態では出ない。内容ハッシュのメタ・公開日・確認日・章番号が出る", () => {
-  const html = episodePage(ep, SITE);
+  const html = episodePage(draftEp, SITE);
   assert.match(html, /<meta name="robots" content="noindex">/);
   assert.ok(html.includes("公開前の確認用ページです"));
-  assert.ok(html.includes(`<meta name="${SERIES_HASH_META_NAME}" content="${contentHashOf(ep)}">`));
+  assert.ok(html.includes(`<meta name="${SERIES_HASH_META_NAME}" content="${contentHashOf(draftEp)}">`));
   assert.ok(html.includes("公開日：2026年11月7日") && html.includes("統計などの確認日：2026年11月1日"));
   assert.ok(!html.includes("更新日："), "更新日は、更新したときだけ表示する");
-  const live = episodePage({ ...ep, status: "scheduled" }, SITE);
+  const live = episodePage({ ...draftEp, status: "scheduled" }, SITE);
   assert.ok(!live.includes("noindex") && !live.includes("公開前の確認用ページです"));
   const nums = [...html.matchAll(/<span class="jf-h2__no">(\d+)<\/span>/g)].map((m) => Number(m[1]));
   assert.deepEqual(nums, [1, 2, 3, 4, 5], "5章構成（6つの街の比較＋2つの街の深掘り4章）。まとめは番号なし");
@@ -371,7 +440,7 @@ test("本文の数字：小数・1,000以上の数字は、すべて図・表の
 });
 
 test("本文の数字：主要な数字（見出しの数字・図の説明・まとめ）が、原表の値から正しく計算されている", () => {
-  const html = episodePage(ep, SITE);
+  const html = episodePage(draftEp, SITE);
   const must = [
     "9,275人（4.1%）減りました", "15,237人（7.6%）増えました", "886世帯（0.9%）減り", "8,100世帯（9.7%）増えました", "51,102人増えて約1.31倍", "8,543人（3.8%）減っています",
     "30.2%、流山市が22.4%", "18.3%、流山市が13.8%", "24.3%減り", "7.0%減りました", "16.1%減り", "2.8%増えました", "5年間で9.8%増",
@@ -464,7 +533,7 @@ test("6つの街：本文の結果（増えた2市・減った4市・全国）�
   const f = rateFig();
   assert.deepEqual(f.rows.filter((r) => r.to > r.from).map((r) => r.label).sort(), ["流山市", "茅ヶ崎市"].sort());
   assert.deepEqual(f.rows.filter((r) => r.to < r.from).map((r) => r.label).sort(), ["伊丹市", "厚木市", "宝塚市", "松本市"].sort());
-  const plain = episodePage(ep, SITE).replace(/<[^>]+>/g, "");
+  const plain = episodePage(draftEp, SITE).replace(/<[^>]+>/g, "");
   for (const s of ["増えたのは流山市と茅ヶ崎市の2市です", "厚木市、伊丹市、松本市、宝塚市の4市は減りました", "3,173,571人（2.5%）の減少です", "全国の代表ではない", "増えたのは2つの街、減ったのは4つの街"]) assert.ok(plain.includes(s), s);
   // 数字は図と表に任せ、本文では繰り返さない（6市の人数の羅列を本文に置かない）
   const ch1 = c.sections[0].blocks.filter((b) => b.t === "p").map((b) => b.text).join("");
@@ -502,7 +571,7 @@ test("承認の手順：図解つきの回でも approve が最後まで動き�
     const ring = [crypto.createPublicKey(publicKeyPem)];
     const dir = path.join(tmp, "episodes"); fs.mkdirSync(dir);
     const file = path.join(dir, `${ep.slug}.json`);
-    fs.writeFileSync(file, JSON.stringify({ ...ep, status: "scheduled" }, null, 2));
+    fs.writeFileSync(file, JSON.stringify({ ...draftEp, status: "scheduled" }, null, 2));
     const lines = [];
     const before = new Date("2026-11-06T12:00:00+09:00");
     const r = await runApprove({ slug: ep.slug, approvedBy: "テスト承認者", dir, repoRoot: ROOT, keyFile, ring, now: before, interactive: true, ask: async () => ep.slug, out: (l) => lines.push(l) });
@@ -520,7 +589,7 @@ test("承認の手順：図解つきの回でも approve が最後まで動き�
     const held = loadEpisodes(dir).map((e) => ({ ...e, hold: true }));
     assert.equal(sel(slotMs + 1000, held).publish.length, 0);
     // 予約日時を過ぎてからの承認はできない（署名は予約日時の前に済ませる）
-    fs.writeFileSync(file, JSON.stringify({ ...ep, status: "scheduled" }, null, 2));
+    fs.writeFileSync(file, JSON.stringify({ ...draftEp, status: "scheduled" }, null, 2));
     await assert.rejects(() => runApprove({ slug: ep.slug, approvedBy: "テスト承認者", dir, repoRoot: ROOT, keyFile, ring, now: new Date(slotMs), interactive: true, ask: async () => ep.slug, out: () => {} }), /予約日時を過ぎています/);
   } finally {
     fs.rmSync(tmp, { recursive: true, force: true });
@@ -557,12 +626,12 @@ test("編集監査3・4：第1章の冒頭で比較対象（第1弾の5つの街
 
 test("編集監査5：出典の名称は各公表元の表記に従う旨を、出典一覧の前に1回だけ示し、出典4・6の題名は変えない", () => {
   assert.equal(c.sourcesNote, "出典の名称は各公表元の表記に従っています。");
-  const html = episodePage(ep, SITE);
+  const html = episodePage(draftEp, SITE);
   assert.equal(html.split("出典の名称は各公表元の表記に従っています").length - 1, 1, "1回だけ");
   assert.ok(html.indexOf("出典の名称は各公表元の表記に従っています") < html.indexOf('<ul class="jf-sources"'), "出典一覧の前");
   assert.ok(c.sources[3].label.includes("人口等基本集計結果」（確定値）") && c.sources[5].label.includes("人口等基本集計結果（確定値）」"), "出典4・6の題名は各市の表記のまま");
   assert.equal(c.sources.length, 21, "出典21件");
-  assert.ok(validateEpisodeShape({ ...ep, content: { ...c, sourcesNote: " " } }).length > 0, "空の注記は形式エラー");
+  assert.ok(validateEpisodeShape({ ...draftEp, content: { ...c, sourcesNote: " " } }).length > 0, "空の注記は形式エラー");
 });
 
 test("編集監査6：持ち家割合と民営借家の増加は、別々の文（別の数字）で示し、関係があるように書かない", () => {
@@ -672,7 +741,7 @@ test("分量：本文（図・表・比較カード・吹き出し・折りた�
   const body = (html) => strip(html.slice(html.indexOf('<div class="jf">'), html.indexOf("</main>") > 0 ? html.indexOf("</main>") : undefined)).length;
   const first = jitsuryokuFeaturePage(FIRST, SITE);
   assert.ok(first.length > 1000);
-  const n2 = body(episodePage(ep, SITE));
+  const n2 = body(episodePage(draftEp, SITE));
   const n1 = body(first);
   assert.ok(n2 <= n1 * 1.35, `第2弾 ${n2}字 / 第1弾 ${n1}字`);
   assert.ok(renderBlocks(blocks.filter((b) => b.t === "p")).length > 0);

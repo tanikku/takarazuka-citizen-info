@@ -3,7 +3,7 @@
   "episode": 2,
   "title": "人口が増える街、減る街。宝塚と流山は何が違う？",
   "description": "同じ6つの街の2020年と2025年の国勢調査で、人口が増えたのは流山市と茅ヶ崎市、減ったのは宝塚市など4市でした。人口がほぼ同じ宝塚市と流山市を、年齢構成、自然増減と社会増減、住宅から、公的な統計で並べて確かめます。",
-  "status": "draft",
+  "status": "scheduled",
   "scheduledAt": "2026-11-07T10:15:00+09:00",
   "content": {
     "lead": "第1弾と同じ6つの街のうち、2020年から2025年に人口が増えたのは流山市と茅ヶ崎市の2市で、宝塚市を含む4市は減りました。人口がほぼ同じ宝塚市と流山市を、年齢構成や人口が動く中身から詳しく見ます。理由までは、統計だけでは言い切れません。",
@@ -1925,5 +1925,12 @@
       }
     ],
     "sourcesNote": "出典の名称は各公表元の表記に従っています。"
+  },
+  "approval": {
+    "approvedBy": "宝塚Today運営者",
+    "approvedAt": "2026-11-02T23:11:48+09:00",
+    "contentHash": "3a6687645a624abe10099c20571d185ba7ecb798dcc9d22580a88dfff5f9dd23",
+    "scheduledAt": "2026-11-07T10:15:00+09:00",
+    "signature": "TIN02UxDTCUO8lnXLGt4Q3oIqi0aWnLg6aODWgwKMvOp/iubqKZPQ648yk6sSvEc9R4K10CHJyjXAWCDxA6ADw=="
   }
 }
