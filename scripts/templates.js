@@ -1189,7 +1189,7 @@ const ODEKAKE_GUIDE_CARDS = [
   { href: "/category/kanko/tezuka-museum-guide", photo: "/photos/001015682_tezukakinenkan2015.jpg", label: "手塚治虫記念館ガイド", sub: "アクセス・入館案内・館内のみどころ" },
   { href: "/category/kanko/nakayamadera-guide", photo: "/photos/nakayamadera-gate-20261003-1200x630.webp", label: "中山寺ガイド", sub: "安産祈願・戌の日・アクセス" },
   { href: "/category/kanko/kiyoshikojin-guide", photo: "/photos/kiyoshikojin-gate-20261003-1200x630.webp", label: "清荒神清澄寺ガイド", sub: "境内案内・参道商店街・アクセス" },
-  { href: "/category/kanko/takedao-onsen-guide", photo: "/photos/001015680_takedao2b.jpg", label: "武田尾温泉ガイド", sub: "武庫川渓谷の秘湯。日帰り入浴・足湯" },
+  { href: "/category/kanko/takedao-onsen-guide", photo: "/photos/takedao-tsuribashi-gorge-20261103-1200x630.webp", label: "武田尾温泉ガイド", sub: "武庫川渓谷の秘湯。日帰り入浴・足湯" },
   { href: "/category/kanko/takarazuka-onsen-guide", photo: "/photos/001015682_mukogawa.jpg", label: "宝塚温泉ガイド", sub: "宝塚駅近くの歴史ある街なか温泉" },
   { href: "/category/kanko/aiaipark-guide", photo: "/photos/001015682_aiaipark2011.jpg", label: "あいあいパークガイド", sub: "植木のまち山本の園芸拠点。入場無料" },
   { href: "/category/kanko/dahlia-en-guide", photo: "/photos/dahlia-field-orange-20261017-1200x630.webp", label: "宝塚ダリア園ガイド", sub: "約300種10万本のダリア。花摘み体験も" },

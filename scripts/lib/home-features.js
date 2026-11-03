@@ -56,6 +56,12 @@ export function isRankingFresh(data, todayKey, maxAgeDays = RANKING_MAX_AGE_DAYS
 // 写真のキャプション・寸法・取材日は各ガイドのデータから読む（ここに複製しない）。一覧で切り抜かれないよう横長の写真だけを選ぶ
 export const FIELD_REPORT_GALLERY = [
   {
+    guide: "takedao-onsen-guide",
+    place: "武田尾温泉",
+    photos: ["/photos/takedao-azare-entrance-20261103.webp", "/photos/takedao-azare-fork-sign-20261103.webp"],
+    article: { href: "/articles/takedao-azare-higaeri-2026", label: "現地取材の記事を読む" },
+  },
+  {
     guide: "dahlia-en-guide",
     place: "宝塚ダリア園",
     photos: ["/photos/dahlia-field-mountain-20261017.webp", "/photos/dahlia-pastel-bee-20261017.webp", "/photos/dahlia-area2-goldrush-20261017.webp"],
