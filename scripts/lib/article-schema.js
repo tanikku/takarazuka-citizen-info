@@ -86,7 +86,26 @@ function validateArticlePhoto(p, label, errors) {
   if (!isNonEmptyString(p.caption)) errors.push(`${label}.caption が空です`);
 }
 
-// items は文字列（箇条書き）、{ photo }、{ table } の混在を認める。{ table } はその節の位置に置く2〜3列の表（ガイドの表と同じ検証・描画）。生HTMLは受け付けない
+// 手順 { steps: [{ title, text }] }。番号付きの段階表示（2〜6段）。任意HTMLは受け付けない
+function validateSteps(steps, label, errors) {
+  if (!Array.isArray(steps) || steps.length < 2 || steps.length > 6) {
+    errors.push(`${label} は2〜6件の配列である必要があります`);
+    return;
+  }
+  steps.forEach((st, i) => validatePlainObject(st, ["title", "text"], `${label}[${i}]`, errors));
+}
+
+// 指定したキーだけを持ち、すべて空でない文字列のオブジェクトか
+function validatePlainObject(o, keys, label, errors) {
+  if (!o || typeof o !== "object" || Array.isArray(o)) {
+    errors.push(`${label} はオブジェクトである必要があります`);
+    return;
+  }
+  for (const k of Object.keys(o)) if (!keys.includes(k)) errors.push(`${label} に未知のキーがあります: ${k}`);
+  for (const k of keys) if (!isNonEmptyString(o[k])) errors.push(`${label}.${k} が空です`);
+}
+
+// items は文字列（箇条書き）、{ photo }、{ table }、{ steps } の混在を認める。{ table } はその節の位置に置く2〜3列の表（ガイドの表と同じ検証・描画）。生HTMLは受け付けない
 function validateSectionItems(items, label, errors) {
   if (!Array.isArray(items)) {
     errors.push(`${label} は配列である必要があります`);
@@ -103,8 +122,10 @@ function validateSectionItems(items, label, errors) {
       validateArticlePhoto(item.photo, `${label}[${i}].photo`, errors);
     } else if (item && typeof item === "object" && !Array.isArray(item) && Object.keys(item).length === 1 && "table" in item) {
       validateGuideTable(item.table, `${label}[${i}].table`, errors);
+    } else if (item && typeof item === "object" && !Array.isArray(item) && Object.keys(item).length === 1 && "steps" in item) {
+      validateSteps(item.steps, `${label}[${i}].steps`, errors);
     } else {
-      errors.push(`${label}[${i}] は文字列か { photo }・{ table } である必要があります`);
+      errors.push(`${label}[${i}] は文字列か { photo }・{ table }・{ steps } である必要があります`);
     }
   });
 }
@@ -127,6 +148,26 @@ function validateRelatedGuides(guides, errors) {
   });
 }
 
+// 節の id（冒頭の目的別カード quickLinks のリンク先）。ページ内の他の id と衝突しにくいよう英小文字始まりに限る
+const SECTION_ID_PATTERN = /^[a-z][a-z0-9-]{1,40}$/;
+// テンプレートが記事ページに出す固定の id。節の id と重なるとページ内リンクや aria の参照先が壊れる
+const RESERVED_SECTION_IDS = new Set(["quick-links-title", "site-search-form"]);
+
+// 冒頭の目的別カード。ガイドの quickLinks と同じ形・同じ描画で、リンク先は同じ記事の節（sections[].id）だけ
+const ARTICLE_QUICK_LINK_ICONS = ["building", "newspaper", "user", "child", "ticket"];
+function validateArticleQuickLinks(q, sections, errors) {
+  if (!q || typeof q !== "object" || Array.isArray(q)) return errors.push("quickLinks はオブジェクトにしてください");
+  for (const k of Object.keys(q)) if (k !== "heading" && k !== "links") errors.push(`quickLinks に未知のキーがあります: ${k}`);
+  if (!isNonEmptyString(q.heading)) errors.push("quickLinks.heading は空でない文字列にしてください");
+  if (!Array.isArray(q.links) || q.links.length < 1 || q.links.length > 4) return errors.push("quickLinks.links は1〜4件にしてください");
+  const ids = new Set((Array.isArray(sections) ? sections : []).map((s) => s?.id).filter(Boolean));
+  q.links.forEach((l, i) => {
+    validatePlainObject(l, ["icon", "tag", "title", "desc", "href"], `quickLinks.links[${i}]`, errors);
+    if (!ARTICLE_QUICK_LINK_ICONS.includes(l?.icon)) errors.push(`quickLinks.links[${i}].icon は ${ARTICLE_QUICK_LINK_ICONS.join(" / ")} のいずれかにしてください`);
+    if (typeof l?.href !== "string" || !l.href.startsWith("#") || !ids.has(l.href.slice(1))) errors.push(`quickLinks.links[${i}].href は同じ記事の節（#id）にしてください`);
+  });
+}
+
 function validateSections(sections, errors) {
   if (!Array.isArray(sections)) {
     errors.push("sections は配列である必要があります");
@@ -136,6 +177,7 @@ function validateSections(sections, errors) {
     errors.push("sections が空です（存在する場合は1件以上必要）");
     return;
   }
+  const ids = new Set();
   sections.forEach((s, i) => {
     const at = `sections[${i}]`;
     if (!s || typeof s !== "object" || Array.isArray(s)) {
@@ -147,10 +189,22 @@ function validateSections(sections, errors) {
     const hasParagraphs = s.paragraphs !== undefined;
     const hasItems = s.items !== undefined;
     const hasQuestions = s.questions !== undefined;
+    const hasFaq = s.faq !== undefined;
+    if (s.id !== undefined) {
+      if (typeof s.id !== "string" || !SECTION_ID_PATTERN.test(s.id)) errors.push(`${at}.id は英小文字で始まる英小文字・数字・ハイフンにしてください: ${s.id}`);
+      else if (RESERVED_SECTION_IDS.has(s.id)) errors.push(`${at}.id はページが使う id と重なるため使えません: ${s.id}`);
+      else if (ids.has(s.id)) errors.push(`sections の id が重複しています: ${s.id}`);
+      else ids.add(s.id);
+    }
+    if (s.collapsed !== undefined && !isNonEmptyString(s.collapsed)) errors.push(`${at}.collapsed は折りたたみの見出し（空でない文字列）にしてください`);
     // 見出しだけのsection・中身が0件のsectionを禁止する
-    if (!hasParagraphs && !hasItems && !hasQuestions) {
-      errors.push(`${at} に paragraphs も items も questions もありません（見出しのみのsectionは作成できません）`);
+    if (!hasParagraphs && !hasItems && !hasQuestions && !hasFaq) {
+      errors.push(`${at} に paragraphs も items も questions も faq もありません（見出しのみのsectionは作成できません）`);
       return;
+    }
+    if (hasFaq) {
+      if (!Array.isArray(s.faq) || s.faq.length === 0) errors.push(`${at}.faq は1件以上の配列である必要があります`);
+      else s.faq.forEach((f, j) => validatePlainObject(f, ["q", "a"], `${at}.faq[${j}]`, errors));
     }
     if (hasParagraphs) validateStringArray(s.paragraphs, `${at}.paragraphs`, errors);
     if (hasItems) validateSectionItems(s.items, `${at}.items`, errors);
@@ -336,6 +390,7 @@ export function validateArticle(article, context = {}) {
   }
 
   if (article.sections !== undefined) validateSections(article.sections, errors);
+  if (article.quickLinks !== undefined) validateArticleQuickLinks(article.quickLinks, article.sections, errors);
   if (article.relatedArticles !== undefined) validateRelatedArticles(article.relatedArticles, article, publishedSlugs, errors);
   if (article.sources !== undefined) validateSources(article.sources, article, errors);
   if (article.comparisonTables !== undefined) validateComparisonTables(article.comparisonTables, errors);

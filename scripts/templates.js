@@ -371,11 +371,18 @@ ${t.sourceUrl ? `<p class="panel-note">出典：<a href="${escapeHtml(t.sourceUr
       ? "\n" +
         article.sections
           .map(
-            (s) => `<section class="article-section${Array.isArray(s.questions) ? " article-section--questions" : ""}">
+            (s) => {
+              const body = `${(s.paragraphs ?? []).map((p) => `<p>${escapeHtml(p)}</p>`).join("\n")}
+${articleItemsHtml(s.items ?? [])}${Array.isArray(s.questions) ? questionListHtml(s.questions) : ""}${Array.isArray(s.faq) ? articleFaqHtml(s.faq) : ""}`;
+              // collapsed を持つ節は、見出しだけを見せて本文を折りたたむ（古い時点の資料など、必要な人だけが開く情報）
+              const content = s.collapsed ? `<details class="article-collapse"><summary>${escapeHtml(s.collapsed)}</summary>
+${body}
+</details>` : body;
+              return `<section class="article-section${Array.isArray(s.questions) ? " article-section--questions" : ""}"${s.id ? ` id="${escapeHtml(s.id)}"` : ""}>
 <h2>${escapeHtml(s.heading)}</h2>
-${(s.paragraphs ?? []).map((p) => `<p>${escapeHtml(p)}</p>`).join("\n")}
-${articleItemsHtml(s.items ?? [])}${Array.isArray(s.questions) ? questionListHtml(s.questions) : ""}
-</section>`
+${content}
+</section>`;
+            }
           )
           .join("\n")
       : "";
@@ -428,7 +435,7 @@ ${article.relatedGuides.map((href) => recommendationCard(findRecommendation(href
 <h1>${escapeHtml(article.title)}</h1>
 <p class="article-meta">${escapeHtml(article.publishedAt)}${updatedAtHtml}</p>${articleStatusBox(article)}${figureBeforePoints}
 ${aiEditorialBadge}
-${keyPointsBox}
+${quickLinksHtml(article.quickLinks)}${keyPointsBox}
 <p class="article-summary">${escapeHtml(article.summary)}</p>${figureAfterSummary}${sectionsHtml}
 ${comparisonTablesHtml}
 ${giinLinkBox}
@@ -457,6 +464,23 @@ ${recommendedPagesPanel(categoryMeta?.key ?? "", `/articles/${article.slug}`)}`;
 
 // 記事 sections の items。連続する文字列は1つの箇条書きにまとめ、{ photo } は箇条書きの間に写真として挟む。
 // 写真のない記事は従来どおり <ul> 1つだけになる
+// 番号付きの手順（{ steps }）。番号は ol の順序で表し、色だけに頼らない
+function articleStepsHtml(steps) {
+  return `<ol class="article-steps">
+${steps.map((st) => `<li class="article-step"><p class="article-step-title">${escapeHtml(st.title)}</p><p class="article-step-text">${escapeHtml(st.text)}</p></li>`).join("\n")}
+</ol>`;
+}
+
+// 記事の節のよくある質問（sections[].faq）。ガイドのFAQと同じ見た目で、答えも含めてすべてescapeする
+function articleFaqHtml(faq) {
+  return `<div class="article-faq">
+${faq.map((f) => `<div class="faq-item">
+<p class="faq-q">Q. ${escapeHtml(f.q)}</p>
+<div class="faq-a"><p>${escapeHtml(f.a)}</p></div>
+</div>`).join("\n")}
+</div>`;
+}
+
 function articleItemsHtml(items) {
   const parts = [];
   let list = [];
@@ -470,7 +494,9 @@ function articleItemsHtml(items) {
     } else {
       flush();
       // { table } は節の位置に出す表。スマホでは行をカード状に積む（.article-section 配下だけ。既存記事の比較表は変えない）
-      parts.push(item.table ? guideTableHtml(item.table, { stacked: true }) : photoFigureHtml(item.photo));
+      if (item.table) parts.push(guideTableHtml(item.table, { stacked: true }));
+      else if (item.steps) parts.push(articleStepsHtml(item.steps));
+      else parts.push(photoFigureHtml(item.photo));
     }
   }
   flush();
@@ -2651,7 +2677,7 @@ ${c.note ? `<p class="contact-cards-note">${escapeHtml(c.note)}</p>` : ""}
 // 見出しと一覧の見た目は連絡先カードと共通。アイコンとラベルを併記し、色だけに頼らない
 function quickLinksHtml(q) {
   if (!q) return "";
-  return `<nav class="contact-cards quick-links" aria-labelledby="quick-links-title">
+  return `<nav class="contact-cards quick-links${q.links.length === 4 ? " quick-links--four" : ""}" aria-labelledby="quick-links-title">
 <h2 id="quick-links-title">${icon("search")}${escapeHtml(q.heading)}</h2>
 <ul class="contact-cards-list">
 ${q.links

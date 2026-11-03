@@ -2540,6 +2540,97 @@ a:focus-visible, button:focus-visible {
   line-height: 1.5;
 }
 
+/* 記事の目的別カードが4件のときは、PCで2列×2段にする（3列だと1件だけ次の段に残るため） */
+@media (min-width: 768px) {
+  .quick-links--four .contact-cards-list {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* 記事の節の手順表示（sections[].items の { steps }）。番号は ol の順序から出し、色だけに頼らない */
+.article-steps {
+  list-style: none;
+  counter-reset: article-step;
+  margin: 12px 0;
+  padding: 0;
+  display: grid;
+  gap: 10px;
+}
+
+.article-step {
+  counter-increment: article-step;
+  position: relative;
+  padding: 12px 14px 12px 54px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+}
+
+.article-step::before {
+  content: counter(article-step);
+  position: absolute;
+  left: 14px;
+  top: 12px;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: #fff;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.article-section .article-step p {
+  margin: 0;
+}
+
+.article-section .article-step-title {
+  font-weight: 800;
+}
+
+.article-section .article-step-text {
+  margin-top: 2px;
+  font-size: 0.9rem;
+  color: var(--text-sub);
+}
+
+/* 記事の節の折りたたみ（sections[].collapsed）。古い時点の資料など、必要な人だけが開く */
+.article-collapse {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0 14px;
+  background: var(--surface);
+}
+
+.article-collapse > summary {
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.article-collapse[open] > summary {
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 10px;
+}
+
+/* 記事の節のよくある質問（sections[].faq）。見た目はガイドのFAQ（.faq-item）を共用する */
+.article-faq {
+  margin: 12px 0;
+}
+
+.article-faq .faq-q {
+  margin: 0;
+}
+
+.article-section .faq-a p {
+  margin: 0;
+}
+
+
 /* カテゴリ一覧の見出し（h1）と、記事一覧へ移動するページ内リンク */
 .category-title {
   display: flex;
