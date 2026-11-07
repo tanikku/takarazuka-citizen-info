@@ -161,7 +161,7 @@ test("副バナー：第1弾へのカードは主バナーの外に置き、カ�
   assert.ok(sub.includes('href="/jitsuryoku/zeishu-shigoto"'));
   assert.equal((sub.match(/<a /g) ?? []).length, 1, "カードの中に別のリンクが無い");
   const t2 = textOf(sub);
-  for (const s of ["第1弾", "宝塚の税収と仕事、ほかの街とどう違う？", "第1弾を読む →"]) assert.ok(t2.includes(s), s);
+  for (const s of ["第1弾", "連載の最初の記事", "宝塚の税収と仕事、ほかの街とどう違う？", "市税の内訳や市内の仕事を、統計で比べます。", "第1弾を読む →"]) assert.ok(t2.includes(s), s);
   assert.ok(!/<svg|<img|<canvas/.test(sub), "グラフに見える図を入れない");
 });
 

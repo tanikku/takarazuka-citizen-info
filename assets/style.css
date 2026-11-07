@@ -3142,14 +3142,15 @@ a:focus-visible, button:focus-visible {
   flex: 1;
 }
 
-/* トップの副バナー（第1弾）。主バナーと別のカードとして、1000px以上は上段の下に全幅で置く */
+/* トップの中型カード（第1弾）。主バナーの直下に、主バナーと同じ幅で置く */
 .jitsuryoku-sub {
   position: relative;
   display: grid;
-  gap: 4px 14px;
+  gap: 6px;
+  align-content: center;
   justify-items: start;
   overflow: hidden;
-  padding: 12px 16px;
+  padding: 16px 20px;
   border: 1px solid #b9d0ec;
   border-radius: 10px;
   background: linear-gradient(115deg, #eef5fd 0%, #dcebfb 55%, #c6ddf6 100%);
@@ -3172,17 +3173,24 @@ a:focus-visible, button:focus-visible {
 .jitsuryoku-sub::after {
   content: "";
   position: absolute;
-  top: -44px;
-  right: -28px;
-  width: 132px;
-  height: 132px;
-  border: 14px solid rgba(255, 255, 255, 0.5);
+  right: -44px;
+  bottom: -64px;
+  width: 176px;
+  height: 176px;
+  border: 18px solid rgba(255, 255, 255, 0.5);
   border-radius: 50%;
 }
 
 .jitsuryoku-sub > span {
   position: relative;
   z-index: 1;
+}
+
+.jitsuryoku-sub__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 10px;
 }
 
 .jitsuryoku-sub__label {
@@ -3195,22 +3203,41 @@ a:focus-visible, button:focus-visible {
   letter-spacing: 0.04em;
 }
 
+.jitsuryoku-sub__note {
+  color: #3c5382;
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
 .jitsuryoku-sub__title {
-  font-size: 1.05rem;
+  font-size: 1.25rem;
   font-weight: 800;
+  line-height: 1.4;
+  text-wrap: balance;
+  word-break: auto-phrase;
+}
+
+.jitsuryoku-sub__desc {
+  color: #33466f;
+  font-size: 0.9rem;
   line-height: 1.5;
   text-wrap: balance;
   word-break: auto-phrase;
 }
 
 .jitsuryoku-sub__more {
+  margin-top: 6px;
+  padding: 7px 18px;
+  border-radius: 999px;
+  background: #14285a;
+  color: #ffffff;
   font-size: 0.95rem;
   font-weight: 800;
   white-space: nowrap;
 }
 
 .jitsuryoku-sub:hover .jitsuryoku-sub__more {
-  text-decoration: underline;
+  background: #24417f;
 }
 
 .jitsuryoku-sub:focus-visible {
@@ -3218,7 +3245,8 @@ a:focus-visible, button:focus-visible {
   outline-offset: 2px;
 }
 
-@media (min-width: 600px) and (max-width: 999px) {
+/* 左列が中型カードのぶん高くなる。右列は2段にまたがらせ、中身は元の大きさのまま上に寄せる */
+@media (min-width: 600px) {
   .today-row--with-sub .jitsuryoku-banner,
   .today-row--with-sub .jitsuryoku-sub {
     grid-column: 1;
@@ -3230,27 +3258,11 @@ a:focus-visible, button:focus-visible {
   }
 }
 
+/* 主バナーは1000px以上で中身を絶対配置にしていて自分の高さを持たない。
+   右列が2段にまたがると高さの基準が無くなるため、右列の本来の高さ377pxを指定する */
 @media (min-width: 1000px) {
   .today-row--with-sub .jitsuryoku-banner {
-    grid-column: 1;
-    grid-row: 1;
-  }
-
-  .today-row--with-sub .today-row-side {
-    grid-column: 2;
-    grid-row: 1;
-  }
-
-  .jitsuryoku-sub {
-    grid-column: 1 / -1;
-    grid-row: 2;
-    grid-template-columns: auto 1fr auto;
-    align-items: center;
-    padding: 14px 20px;
-  }
-
-  .jitsuryoku-sub__more {
-    margin-right: 64px;
+    min-height: 377px;
   }
 }
 

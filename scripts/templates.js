@@ -895,11 +895,12 @@ function jitsuryokuBannerPanel(latest = null) {
 </section>`;
 }
 
-// 第2弾以降が公開されたとき、トップで第1弾へ案内する副バナー。主バナーの外に置く独立したリンク
+// 第2弾以降が公開されたとき、トップで第1弾へ案内する中型カード。主バナーの外に置く独立したリンク
 function jitsuryokuSubBanner() {
   return `<a class="jitsuryoku-sub" href="/${JITSURYOKU_SLUG}/zeishu-shigoto">
-<span class="jitsuryoku-sub__label">第1弾</span>
+<span class="jitsuryoku-sub__head"><span class="jitsuryoku-sub__label">第1弾</span><span class="jitsuryoku-sub__note">連載の最初の記事</span></span>
 <span class="jitsuryoku-sub__title">宝塚の税収と仕事、ほかの街とどう違う？</span>
+<span class="jitsuryoku-sub__desc">市税の内訳や市内の仕事を、統計で比べます。</span>
 <span class="jitsuryoku-sub__more">第1弾を読む →</span>
 </a>`;
 }
