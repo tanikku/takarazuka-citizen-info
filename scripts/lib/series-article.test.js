@@ -17,7 +17,7 @@ const FIRST = JSON.parse(fs.readFileSync(path.join(ROOT, "data", "jitsuryoku", "
 const ep = JSON.parse(fs.readFileSync(EP_FILE, "utf-8"));
 const c = ep.content;
 // PM が承認の対象として確定した原稿の内容ハッシュと予約日時（status・承認・公開日は対象外）
-const APPROVED_CONTENT_HASH = "3a6687645a624abe10099c20571d185ba7ecb798dcc9d22580a88dfff5f9dd23";
+const APPROVED_CONTENT_HASH = "8bafb3f2e33e9c3928aa15c0fd0efdcd91a11574c0069a3f719762e5c5451b08";
 const SCHEDULED_AT = "2026-11-07T10:15:00+09:00";
 // 実原稿から公開の状態（status・承認・公開日）を外した下書きの形。原稿は draft → scheduled（署名）→ published と進むので、
 // 状態に左右されない表示・内容のテストはこちらを使う
@@ -200,7 +200,7 @@ test("ページの出力：下書きは確認用の帯と noindex、公開され
   assert.ok(html.includes("公開前の確認用ページです"));
   assert.ok(html.includes(`<meta name="${SERIES_HASH_META_NAME}" content="${contentHashOf(draftEp)}">`));
   assert.ok(html.includes("公開日：2026年11月7日") && html.includes("統計などの確認日：2026年11月1日"));
-  assert.ok(!html.includes("更新日："), "更新日は、更新したときだけ表示する");
+  assert.ok(html.includes("更新日：2026年11月7日"), "公開後に内容を変えた回は更新日を表示する");
   const live = episodePage({ ...draftEp, status: "scheduled" }, SITE);
   assert.ok(!live.includes("noindex") && !live.includes("公開前の確認用ページです"));
   const nums = [...html.matchAll(/<span class="jf-h2__no">(\d+)<\/span>/g)].map((m) => Number(m[1]));
@@ -712,7 +712,7 @@ test("日付：公開日・確認日・予約日の整合。本文の日付は�
     }
   }
   assert.ok(texts().join("\n").includes("2026年10月8日更新"));
-  assert.equal(c.updatedAt, undefined);
+  assert.equal(c.updatedAt, "2026-11-07");
 });
 
 test("出典：すべて https で重複がなく、本文中の出典は、末尾の出典一覧にも載っている。人口動態の出典は3か年分が揃う", () => {
@@ -733,6 +733,19 @@ test("次回予告：第3弾「市議会の全体像」。サイト内の既存�
   assert.ok(next.title.includes("第3弾") && next.title.includes("市議会の全体像"));
   assert.equal(next.href, "/category/shigikai");
   assert.ok(!/\d/.test(next.text), "予告に数字を入れない");
+});
+
+test("子育て関連の比較：見出しと説明を調査した2項目に合わせ、子育て支援全体の評価としない", () => {
+  const all = JSON.stringify(c);
+  assert.ok(!all.includes("子育て施策"), "調査範囲より広い表現を残さない");
+  const sec = c.sections.find((s) => s.heading === "住まい・通勤・子育て関連の制度・状況は？");
+  assert.ok(sec, "章見出し");
+  const i = sec.blocks.findIndex((b) => b.t === "compare");
+  assert.ok(sec.blocks.some((b) => b.t === "h3" && b.text === "子ども医療費助成と保育所等の待機児童"));
+  assert.ok(sec.blocks[i].caption.startsWith("子ども医療費助成制度と待機児童数の比較"));
+  assert.equal(sec.blocks[i - 1].text, "比較するのはこの2項目だけで、子育て支援全体の評価ではありません。", "表の直前");
+  assert.ok(sec.blocks[i + 1].items[0].startsWith("この2項目は、各市の公式ページの記載です。"), "表の直後");
+  assert.ok(all.includes("住宅事情や医療費助成・待機児童数と、転入や出生との関係。"));
 });
 
 test("分量：本文（図・表・比較カード・吹き出し・折りたたみを除く）は、第1弾の1.35倍以内で、読み切れる長さ", () => {
