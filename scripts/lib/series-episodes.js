@@ -305,11 +305,21 @@ ${sections}
   });
 }
 
+// トップのバナーと企画紹介ページの告知用。selectEpisodes の publish（公開判定を通った回）だけを渡す
+export function latestEpisodeNotice(episodes) {
+  const ep = [...episodes].sort((a, b) => b.episode - a.episode)[0];
+  if (!ep) return null;
+  const date = episodeDate(ep);
+  return { episode: ep.episode, slug: ep.slug, title: ep.title, date, dateLabel: jpDate(date) };
+}
+
 // 企画紹介ページの「これまでの連載」。公開できる回が1つも無いときは空文字を返し、既存の出力を変えない。
-export function episodeListHtml(episodes) {
+// firstEpisode は仕組みの対象外の第1弾。{ slug, title, date } を渡すと一覧の末尾に並べる
+export function episodeListHtml(episodes, firstEpisode = null) {
   if (episodes.length === 0) return "";
-  const items = [...episodes].sort((a, b) => b.episode - a.episode).map((ep) => `<li><a href="/jitsuryoku/${escapeHtml(ep.slug)}">第${ep.episode}回　${escapeHtml(ep.title)}</a>（${jpDate(episodeDate(ep))}）</li>`).join("");
-  return `<h2 class="guide-q" style="font-size:1rem;">これまでの連載</h2>\n<ul>${items}</ul>\n`;
+  const items = [...episodes].sort((a, b) => b.episode - a.episode).map((ep) => `<li><a href="/jitsuryoku/${escapeHtml(ep.slug)}">第${ep.episode}弾　${escapeHtml(ep.title)}</a>（${jpDate(episodeDate(ep))}）</li>`);
+  if (firstEpisode) items.push(`<li><a href="/jitsuryoku/${escapeHtml(firstEpisode.slug)}">第1弾　${escapeHtml(firstEpisode.title)}</a>（${jpDate(firstEpisode.date)}）</li>`);
+  return `<h2 id="series-list" class="guide-q" style="font-size:1rem;">これまでの連載</h2>\n<ul>${items.join("")}</ul>\n`;
 }
 
 // 承認者の公開鍵（PEM。鍵の更新中は複数を並べてよい）。リポジトリの外（ビルド環境の変数）から受け取る。無い・不正なときは null（予約・公開済みは出さない）

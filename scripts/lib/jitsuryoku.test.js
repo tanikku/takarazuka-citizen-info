@@ -5,7 +5,7 @@ import assert from "node:assert/strict";
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { jitsuryokuPage, indexPage, JITSURYOKU_SLUG, JITSURYOKU_TITLE, JITSURYOKU_DESCRIPTION } from "../templates.js";
+import { jitsuryokuPage, indexPage, jitsuryokuMeta, jitsuryokuUpdatedDate, JITSURYOKU_SLUG, JITSURYOKU_TITLE, JITSURYOKU_DESCRIPTION } from "../templates.js";
 
 const ROOT = path.join(path.dirname(fileURLToPath(import.meta.url)), "..", "..");
 const SITE = "https://takarazuka-today.jp";
@@ -126,7 +126,47 @@ test("バナー画像：公開対象は文字なしの画像1枚だけ（文字�
   assert.doesNotMatch(build, /jitsuryoku-banner/);
 });
 
-test("sitemap の lastmod は固定値（ビルド日ではない）", () => {
+test("sitemap の lastmod はビルド日ではなく、最新回の公開日までしか進まない", () => {
   const build = fs.readFileSync(path.join(ROOT, "scripts", "build.js"), "utf8");
-  assert.match(build, /\$\{SITE_URL\}\/\$\{JITSURYOKU_SLUG\}`, lastmod: "2026-10-30"/);
+  assert.match(build, /\$\{SITE_URL\}\/\$\{JITSURYOKU_SLUG\}`, lastmod: jitsuryokuUpdatedDate\(latestEpisodeNotice\(seriesEpisodes\)\)/);
+  assert.equal(jitsuryokuUpdatedDate(), "2026-10-30");
+  assert.equal(jitsuryokuUpdatedDate({ date: "2026-11-07" }), "2026-11-07");
+  assert.equal(jitsuryokuUpdatedDate({ date: "2026-10-01" }), "2026-10-30");
+});
+
+const LATEST = { episode: 2, slug: "population-takarazuka-nagareyama", title: "人口が増える街、減る街。宝塚と流山は何が違う？", date: "2026-11-07", dateLabel: "2026年11月7日" };
+const homeLatest = (latestEpisode) => indexPage({ featuredNews: [], todayKey: "2026-11-07", categoryPageKeys: new Set(), publishedArticles: [], ranking: null, weather: null, todayCounts: {}, fieldReportPhoto: null, dateLabel: "2026年11月7日", siteUrl: SITE, latestEpisode });
+const bannerOf = (html) => {
+  const start = html.indexOf('<section class="jitsuryoku-banner"');
+  return html.slice(start, html.indexOf("</section>", start));
+};
+
+test("バナー：最新回があれば第N弾公開とタイトルを出し、最新回へ直接リンクする（第1弾を読むのままにしない）", () => {
+  const b = bannerOf(homeLatest(LATEST));
+  const t = textOf(b).replace(/\s/g, "");
+  for (const s of ["第2弾公開", "第2弾を読む", LATEST.title]) assert.ok(t.includes(s), s);
+  assert.ok(!t.includes("第1弾"));
+  assert.ok(b.includes(`href="/jitsuryoku/${LATEST.slug}"`));
+  assert.ok(!b.includes("zeishu-shigoto"));
+});
+
+test("バナー：回のタイトルはエスケープする", () => {
+  assert.ok(bannerOf(homeLatest({ ...LATEST, title: "<b>A&B</b>" })).includes("&lt;b&gt;A&amp;B&lt;/b&gt;"));
+});
+
+test("企画紹介ページ：最新回の告知・第1弾へのリンク・連載一覧への案内があり、更新日とtitle・descriptionがそろう", () => {
+  const p = jitsuryokuPage(SITE, '<h2 id="series-list">これまでの連載</h2>', LATEST);
+  const t = textOf(p);
+  assert.ok(p.indexOf("第2弾を公開しました") < p.indexOf("企画の目的"), "冒頭に出す");
+  assert.ok(p.includes(`<a href="/jitsuryoku/${LATEST.slug}">${LATEST.title}</a>`));
+  assert.ok(p.includes('href="/jitsuryoku/zeishu-shigoto"'));
+  assert.ok(p.indexOf('href="#series-list"') < p.indexOf("企画の目的"), "上部から連載一覧へ案内する");
+  assert.ok(p.includes('id="series-list"'));
+  assert.ok(t.includes("最終更新日：2026年11月7日"));
+  assert.doesNotMatch(t, /公開日は決まっていません|第1弾を公開しました/);
+  const meta = jitsuryokuMeta(LATEST);
+  assert.equal(meta.title, "「宝塚の実力」企画紹介・第2弾公開");
+  assert.ok(meta.description.endsWith("第2弾まで公開しています。"));
+  assert.ok(meta.description.length >= 70 && meta.description.length <= 160);
+  assert.ok(p.includes(`<title>${meta.title}｜Takarazuka Today</title>`) && p.includes(meta.description));
 });

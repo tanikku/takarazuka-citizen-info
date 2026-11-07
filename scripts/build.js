@@ -20,8 +20,8 @@ import {
   guideCharactersPage,
   GUIDE_CHARACTERS_SLUG,
   JITSURYOKU_SLUG,
-  JITSURYOKU_TITLE,
-  JITSURYOKU_DESCRIPTION,
+  jitsuryokuMeta,
+  jitsuryokuUpdatedDate,
   jitsuryokuPage,
   GUIDE_CHARACTERS_TITLE,
   GUIDE_CHARACTERS_DESCRIPTION,
@@ -46,7 +46,7 @@ import { pickFieldReportPhoto, isRankingFresh, buildFieldReportGallery } from ".
 import { validateExplainerImage, availableExplainerImage } from "./lib/explainer-image.js";
 import { selectHomeNews, jstDateKey } from "./lib/home-news.js";
 import { loadFeature, jitsuryokuFeaturePage, FEATURE_POSE_FILES } from "./lib/jitsuryoku-feature.js";
-import { loadEpisodes, selectEpisodes, resolveNow, resolveApproverKey, episodePage, episodeListHtml, episodeDate } from "./lib/series-episodes.js";
+import { loadEpisodes, selectEpisodes, resolveNow, resolveApproverKey, episodePage, episodeListHtml, episodeDate, latestEpisodeNotice } from "./lib/series-episodes.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.join(__dirname, "..");
@@ -285,8 +285,8 @@ function buildSitemap(publishedArticles, categoryPageKeys, giinWithArticles, gui
     { loc: `${SITE_URL}/privacy`, lastmod: today },
     { loc: `${SITE_URL}/about`, lastmod: today },
     { loc: `${SITE_URL}/${GUIDE_CHARACTERS_SLUG}`, lastmod: "2026-10-16" },
-    // 企画紹介ページの更新日は固定値（ビルド日にしない）。内容を実質更新したときだけ書き換える
-    { loc: `${SITE_URL}/${JITSURYOKU_SLUG}`, lastmod: "2026-10-30" },
+    // 企画紹介ページの更新日はビルド日にせず、新しい回の公開でだけ進める
+    { loc: `${SITE_URL}/${JITSURYOKU_SLUG}`, lastmod: jitsuryokuUpdatedDate(latestEpisodeNotice(seriesEpisodes)) },
     ...(jitsuryokuFeature?.status === "published" ? [{ loc: `${SITE_URL}/${JITSURYOKU_SLUG}/${jitsuryokuFeature.slug}`, lastmod: jitsuryokuFeature.lastUpdated }] : []),
     ...seriesEpisodes.map((ep) => ({ loc: `${SITE_URL}/${JITSURYOKU_SLUG}/${ep.slug}`, lastmod: episodeDate(ep) })),
     { loc: `${SITE_URL}/${FIELD_PHOTO_SLUG}`, lastmod: today },
@@ -442,10 +442,9 @@ function buildSearchIndex({ publishedArticles, categorySections, guides, gianSes
       url: `/${FIELD_PHOTO_SLUG}`,
     },
     {
-      title: JITSURYOKU_TITLE,
-      description: JITSURYOKU_DESCRIPTION,
+      ...jitsuryokuMeta(latestEpisodeNotice(seriesEpisodes)),
       category: "",
-      keywords: "宝塚の実力 比較 5都市 伊丹 厚木 茅ヶ崎 流山 松本 統計 第1弾",
+      keywords: `宝塚の実力 比較 5都市 伊丹 厚木 茅ヶ崎 流山 松本 統計 第1弾${seriesEpisodes.map((ep) => ` 第${ep.episode}弾`).join("")}`,
       url: `/${JITSURYOKU_SLUG}`,
     },
     ...seriesEpisodes.map((ep) => ({ title: ep.title, description: ep.description, category: "", keywords: "宝塚の実力 連載", url: `/${JITSURYOKU_SLUG}/${ep.slug}` })),
@@ -535,6 +534,7 @@ function main() {
   });
   if (seriesSelection.errors.length > 0) throw new Error(`連載の公開判定でエラー: ${seriesSelection.errors.join(" / ")}`);
   const seriesEpisodes = seriesSelection.publish;
+  const latestEpisode = latestEpisodeNotice(seriesEpisodes);
 
   // カテゴリーごとに、公開対象（S/A/B）の記事をまとめる。記事が1件以上、またはガイドページがある場合のみカテゴリーページを生成する
   const categorySections = CATEGORIES.map((cat) => ({
@@ -563,6 +563,7 @@ function main() {
       hasGianPage: gianSessions.length > 0,
       activeNotices,
       gikaiNotices,
+      latestEpisode,
     }),
   );
 
@@ -596,7 +597,7 @@ function main() {
   writeFile("privacy.html", privacyPage(SITE_URL));
   writeFile("about.html", aboutPage(SITE_URL));
   writeFile(`${GUIDE_CHARACTERS_SLUG}.html`, guideCharactersPage(SITE_URL));
-  writeFile(`${JITSURYOKU_SLUG}.html`, jitsuryokuPage(SITE_URL, episodeListHtml(seriesEpisodes)));
+  writeFile(`${JITSURYOKU_SLUG}.html`, jitsuryokuPage(SITE_URL, episodeListHtml(seriesEpisodes, jitsuryokuFeature?.status === "published" ? { slug: jitsuryokuFeature.slug, title: jitsuryokuFeature.title, date: jitsuryokuFeature.lastUpdated } : null), latestEpisode));
   for (const ep of seriesEpisodes) writeFile(`${JITSURYOKU_SLUG}/${ep.slug}.html`, episodePage(ep, SITE_URL));
   if (jitsuryokuFeature) writeFile(`${JITSURYOKU_SLUG}/${jitsuryokuFeature.slug}.html`, jitsuryokuFeaturePage(jitsuryokuFeature, SITE_URL));
   writeFile(`${FIELD_PHOTO_SLUG}.html`, photoGalleryPage(buildFieldReportGallery(guides), SITE_URL));

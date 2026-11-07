@@ -633,9 +633,9 @@ function fieldReportPanel(fieldReportPhoto) {
 
 // 上段の左枠（以前は「今日の宝塚トピック」があった場所）に「宝塚の実力」の予告バナーを置く。
 // 「今日の宝塚トピック」と「トップニュース」は「注目・新着ニュース」1枠に統合した（featuredNewsPanel / lib/home-news.js）
-function todayRow(fieldReportPhoto, categoryPageKeys) {
+function todayRow(fieldReportPhoto, categoryPageKeys, latestEpisode) {
   return `<div class="today-row">
-${jitsuryokuBannerPanel()}
+${jitsuryokuBannerPanel(latestEpisode)}
 <div class="today-row-side">
 ${fieldReportPanel(fieldReportPhoto)}
 ${categoryPanel(categoryPageKeys)}
@@ -796,7 +796,7 @@ ${notices}
 </div>`;
 }
 
-export function indexPage({ featuredNews, todayKey, categoryPageKeys, publishedArticles, ranking, weather, todayCounts, fieldReportPhoto, dateLabel, siteUrl, hasGianPage = false, activeNotices = [], gikaiNotices = [] }) {
+export function indexPage({ featuredNews, todayKey, categoryPageKeys, publishedArticles, ranking, weather, todayCounts, fieldReportPhoto, dateLabel, siteUrl, hasGianPage = false, activeNotices = [], gikaiNotices = [], latestEpisode = null }) {
   // 同じ記事を「注目・新着ニュース」「市議会情報」「新着記事」で重ねて出さない。上の枠から順に表示済みを除く
   // （注目枠は選定側で決まるので、重複を避けるために古い記事が繰り上がることはない。市議会情報は次の新しい市議会記事が出る）
   const explainerPanel = editorExplainerPanel(publishedArticles.find((a) => a.slug === EDITOR_EXPLAINER_SLUG));
@@ -814,7 +814,7 @@ export function indexPage({ featuredNews, todayKey, categoryPageKeys, publishedA
 ${searchBoxPanel()}
 ${quickAccessPanel()}
 <div class="weather-standalone-row">${weatherPanel(weather)}${contactCtaPanel()}</div>
-${todayRow(fieldReportPhoto, categoryPageKeys)}
+${todayRow(fieldReportPhoto, categoryPageKeys, latestEpisode)}
 <div class="grid-2">
   <div class="col-main">
     ${featuredNewsPanel(featuredNews, activeNotices, todayKey)}
@@ -859,30 +859,53 @@ ${todayRow(fieldReportPhoto, categoryPageKeys)}
 }
 
 // 新企画「宝塚の実力」の予告バナー（トップページ）と企画紹介ページ。
-// 比較結果・未監査の数字はここに書かない。公開日も約束しない（調査段階であることだけを示す）
+// 比較結果・未監査の数字はここに書かない。次回の公開日も約束しない。
+// latestEpisode は公開判定を通った回から作る（lib/series-episodes.js の latestEpisodeNotice）。無いときは第1弾を案内する
 export const JITSURYOKU_SLUG = "jitsuryoku";
 export const JITSURYOKU_TITLE = "「宝塚の実力」企画紹介・第1弾公開";
 export const JITSURYOKU_DESCRIPTION =
   "宝塚Todayの新企画「宝塚の実力」の紹介ページです。人口・産業・税収・暮らしを、伊丹・厚木・茅ヶ崎・流山・松本の5市と公的な統計で比べる調査の目的と、出典と調査年を重視する調査のルールを説明します。第1弾を公開しています。";
+const JITSURYOKU_BASE_UPDATED = "2026-10-30";
+
+export function jitsuryokuMeta(latest = null) {
+  if (!latest) return { title: JITSURYOKU_TITLE, description: JITSURYOKU_DESCRIPTION };
+  return {
+    title: JITSURYOKU_TITLE.replace("第1弾公開", `第${latest.episode}弾公開`),
+    description: JITSURYOKU_DESCRIPTION.replace("第1弾を公開しています。", `第${latest.episode}弾まで公開しています。`),
+  };
+}
+
+// 企画紹介ページの更新日は、新しい回の公開でだけ進める（ビルド日にしない）
+export function jitsuryokuUpdatedDate(latest = null) {
+  return latest && latest.date > JITSURYOKU_BASE_UPDATED ? latest.date : JITSURYOKU_BASE_UPDATED;
+}
 
 // 画像は写真・グラフィック部分だけ（文字なし）で、イメージ。見出し・コピー・「調査中」はPC・スマホともHTMLの文字で出す。
 // 画像内に文言を埋め込まない（公開日の約束や、結論を先取りする文言を画像に残さないため）
-function jitsuryokuBannerPanel() {
-  return `<section class="jitsuryoku-banner" aria-label="新企画の予告">
-<a class="jitsuryoku-banner__link" href="/${JITSURYOKU_SLUG}/zeishu-shigoto">
-<span class="jitsuryoku-banner__head"><span class="jitsuryoku-banner__label">第1弾公開</span><span class="jitsuryoku-banner__title">宝塚の<em>実力</em></span></span>
-<span class="jitsuryoku-banner__body"><span class="jitsuryoku-banner__copy">宝塚を、知っているつもりだった。</span><span class="jitsuryoku-banner__sub">同じくらいの規模の街と<wbr>比べたら、<wbr>何が見える？</span><span class="jitsuryoku-banner__pill">人口・税収・産業・暮らし。<wbr><strong>5都市</strong>と比較する独自調査。</span><span class="jitsuryoku-banner__more">第1弾を読む →</span></span>
+function jitsuryokuBannerPanel(latest = null) {
+  const number = latest?.episode ?? 1;
+  const slug = latest ? escapeHtml(latest.slug) : "zeishu-shigoto";
+  const sub = latest ? escapeHtml(latest.title).replace(/[、。]/g, "$&<wbr>") : "同じくらいの規模の街と<wbr>比べたら、<wbr>何が見える？";
+  return `<section class="jitsuryoku-banner" aria-label="${latest ? `宝塚の実力 第${number}弾公開` : "新企画の予告"}">
+<a class="jitsuryoku-banner__link" href="/${JITSURYOKU_SLUG}/${slug}">
+<span class="jitsuryoku-banner__head"><span class="jitsuryoku-banner__label">第${number}弾公開</span><span class="jitsuryoku-banner__title">宝塚の<em>実力</em></span></span>
+<span class="jitsuryoku-banner__body"><span class="jitsuryoku-banner__copy">宝塚を、知っているつもりだった。</span><span class="jitsuryoku-banner__sub">${sub}</span><span class="jitsuryoku-banner__pill">人口・税収・産業・暮らし。<wbr><strong>5都市</strong>と比較する独自調査。</span><span class="jitsuryoku-banner__more">第${number}弾を読む →</span></span>
 <span class="jitsuryoku-banner__visual"><img src="/img/jitsuryoku-visual.webp" alt="" width="962" height="724" loading="lazy" decoding="async"><span class="jitsuryoku-banner__imgnote">※AI生成イメージ（実際の景観とは異なります）</span></span>
 </a>
 </section>`;
 }
 
-export function jitsuryokuPage(siteUrl, seriesListHtml = "") {
+export function jitsuryokuPage(siteUrl, seriesListHtml = "", latest = null) {
+  const first = `<a href="/jitsuryoku/zeishu-shigoto">宝塚の税収と仕事、ほかの街とどう違う？</a>`;
+  const notice = latest
+    ? `<div class="rule-card"><strong>第${latest.episode}弾を公開しました。</strong><a href="/jitsuryoku/${escapeHtml(latest.slug)}">${escapeHtml(latest.title)}</a>（${latest.dateLabel}公開）。第1弾の${first}も、続けて読めます。今後も、ほかのテーマの調査を続けます。<br><a href="#series-list">これまでの連載を見る ↓</a></div>`
+    : `<div class="rule-card"><strong>第1弾を公開しました。</strong>${first}（市税・昼間の人口・市内の仕事・小売業）。今後も、ほかのテーマの調査を続けます。</div>`;
+  const { title, description } = jitsuryokuMeta(latest);
   const contentHtml = `
-<p class="updated-at">最終更新日：2026年10月30日</p>
+<p class="updated-at">最終更新日：${latest && jitsuryokuUpdatedDate(latest) === latest.date ? latest.dateLabel : "2026年10月30日"}</p>
 <p class="jitsuryoku-lead">宝塚を、知っているつもりだった。</p>
 <p>毎日の暮らしの中で、宝塚市のことは分かっているつもりでも、データで見ると意外な姿が見えてくることがあります。この企画は、宝塚市を、規模や性格が近い他の都市と、公的な統計で並べて見直す調査です。</p>
-<div class="rule-card"><strong>第1弾を公開しました。</strong><a href="/jitsuryoku/zeishu-shigoto">宝塚の税収と仕事、ほかの街とどう違う？</a>（市税・昼間の人口・市内の仕事・小売業）。今後も、ほかのテーマの調査を続けます。公開日は決まっていません。</div>
+${notice}
 
 ${staticSectionHeading("企画の目的")}
 <ul>
@@ -929,8 +952,8 @@ ${seriesListHtml}${staticSectionHeading("関連するページ")}
   return staticInfoPage({
     slug: JITSURYOKU_SLUG,
     breadcrumbLabel: "「宝塚の実力」",
-    title: JITSURYOKU_TITLE,
-    description: JITSURYOKU_DESCRIPTION,
+    title,
+    description,
     panelTitle: "「宝塚の実力」企画紹介",
     panelIcon: "newspaper",
     contentHtml,

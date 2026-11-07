@@ -8,7 +8,7 @@ import { fileURLToPath } from "node:url";
 import {
   parseJstDateTime, parseScheduledAt, contentHashOf, signApproval, verifyApproval, checkApproval,
   validateEpisodeShape, decideEpisode, selectEpisodes, loadEpisodes, resolveNow, resolveApproverKey,
-  episodePage, episodeListHtml, episodeDate,
+  episodePage, episodeListHtml, episodeDate, latestEpisodeNotice,
 } from "./series-episodes.js";
 import { jitsuryokuPage } from "../templates.js";
 import { loadFeature, jitsuryokuFeaturePage } from "./jitsuryoku-feature.js";
@@ -285,6 +285,29 @@ test("出力：公開できる回だけが、ページ・過去回一覧に出�
   assert.match(list, /これまでの連載/);
   assert.match(jitsuryokuPage(SITE, list), /href="\/jitsuryoku\/ep2-sample"/);
   assert.equal(episodeDate(ep), "2026-11-07");
+});
+
+test("最新回の告知：公開判定を通った回の中で最大の回だけを選び、未承認・予約前・保留は出さない", () => {
+  assert.equal(latestEpisodeNotice([]), null);
+  const ep2 = approve(draft());
+  const ep3 = (over = {}) => draft({ slug: "ep3-sample", episode: 3, title: "第3回のテスト", scheduledAt: SLOT2, ...over });
+  const pick = (ep, ms) => latestEpisodeNotice(selectEpisodes([ep2, ep], ctx(ms)).publish);
+  const after3 = SLOT2_UTC - SLOT_UTC + SEC;
+  assert.equal(pick(approve(ep3()), after3).slug, "ep3-sample", "公開後は第3回");
+  assert.equal(pick(approve(ep3()), after3 - 2 * SEC).slug, "ep2-sample", "予約時刻の前");
+  assert.equal(pick(ep3(), after3).slug, "ep2-sample", "未承認");
+  assert.equal(pick({ ...approve(ep3()), hold: true }, after3).slug, "ep2-sample", "保留");
+  assert.equal(pick(approve(ep3({ status: "draft" })), after3).slug, "ep2-sample", "下書き");
+  assert.deepEqual(latestEpisodeNotice([ep2]), { episode: 2, slug: "ep2-sample", title: "第2回のテスト", date: "2026-11-07", dateLabel: "2026年11月7日" });
+});
+
+test("連載一覧：第N弾の表記で新しい順に並べ、第1弾を末尾に出す。連載が無ければ第1弾があっても空のまま", () => {
+  const first = { slug: "zeishu-shigoto", title: "第1弾の題", date: "2026-10-30" };
+  const list = episodeListHtml([approve(draft())], first);
+  assert.ok(list.includes('id="series-list"'));
+  assert.ok(list.indexOf("第2弾　第2回のテスト") < list.indexOf("第1弾　第1弾の題"));
+  assert.ok(list.includes('href="/jitsuryoku/zeishu-shigoto"') && list.includes("2026年10月30日"));
+  assert.equal(episodeListHtml([], first), "");
 });
 
 test("既存の第1弾：公開判定の対象外で、ページの出力が変わらない", () => {
