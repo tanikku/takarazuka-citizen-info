@@ -634,9 +634,9 @@ function fieldReportPanel(fieldReportPhoto) {
 // 上段の左枠（以前は「今日の宝塚トピック」があった場所）に「宝塚の実力」の予告バナーを置く。
 // 「今日の宝塚トピック」と「トップニュース」は「注目・新着ニュース」1枠に統合した（featuredNewsPanel / lib/home-news.js）
 function todayRow(fieldReportPhoto, categoryPageKeys, latestEpisode) {
-  return `<div class="today-row">
+  return `<div class="today-row${latestEpisode ? " today-row--with-sub" : ""}">
 ${jitsuryokuBannerPanel(latestEpisode)}
-<div class="today-row-side">
+${latestEpisode ? `${jitsuryokuSubBanner()}\n` : ""}<div class="today-row-side">
 ${fieldReportPanel(fieldReportPhoto)}
 ${categoryPanel(categoryPageKeys)}
 </div>
@@ -893,6 +893,15 @@ function jitsuryokuBannerPanel(latest = null) {
 <span class="jitsuryoku-banner__visual"><img src="/img/jitsuryoku-visual.webp" alt="" width="962" height="724" loading="lazy" decoding="async"><span class="jitsuryoku-banner__imgnote">※AI生成イメージ（実際の景観とは異なります）</span></span>
 </a>
 </section>`;
+}
+
+// 第2弾以降が公開されたとき、トップで第1弾へ案内する副バナー。主バナーの外に置く独立したリンク
+function jitsuryokuSubBanner() {
+  return `<a class="jitsuryoku-sub" href="/${JITSURYOKU_SLUG}/zeishu-shigoto">
+<span class="jitsuryoku-sub__label">第1弾</span>
+<span class="jitsuryoku-sub__title">宝塚の税収と仕事、ほかの街とどう違う？</span>
+<span class="jitsuryoku-sub__more">第1弾を読む →</span>
+</a>`;
 }
 
 export function jitsuryokuPage(siteUrl, seriesListHtml = "", latest = null) {

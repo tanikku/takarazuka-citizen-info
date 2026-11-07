@@ -240,7 +240,8 @@ export function renderBlock(b) {
     case "details": return `<details class="jf-details"><summary>${esc(b.summary)}</summary>${b.blocks.map(renderBlock).join("\n")}</details>`;
     case "sum": return `<div class="jf-sum">${b.boxes.map((x) => `<section class="jf-sum__box jf-sum__box--${x.kind}"><h3>${x.kind === "next" ? "" : label(x.kind)}${esc(x.title)}</h3><ul>${x.items.map((t) => `<li>${rich(t)}</li>`).join("")}</ul></section>`).join("")}</div>`;
     case "next": return `<aside class="jf-next" aria-label="次回予告"><p class="jf-next__tag">次回予告</p><p class="jf-next__title">${esc(b.title)}</p><p>${rich(b.text)}</p>${b.href ? `<p><a href="${esc(b.href)}">${esc(b.linkText)}</a></p>` : ""}</aside>`;
-    case "stats": return `<ul class="jf-stats jf-stats--duo" role="list" aria-label="${esc(b.aria)}">${b.items.map((x) => `<li class="jf-stat jf-stat--duo"><span class="jf-stat__lbl">${esc(x.label)}</span><span class="jf-duo">${x.values.map((v) => `<span class="jf-duo__v"><span class="jf-stat__city">${esc(v.city)}</span><b class="jf-stat__num">${esc(v.num)}</b></span>`).join("")}</span><span class="jf-stat__sub">${esc(x.sub)}</span></li>`).join("")}</ul>`;
+    // 見出し末尾の（期間）だけを別の行にして、3カードの改行位置をそろえる。文字列は変えない
+    case "stats": return `<ul class="jf-stats jf-stats--duo" role="list" aria-label="${esc(b.aria)}">${b.items.map((x) => `<li class="jf-stat jf-stat--duo"><span class="jf-stat__lbl">${esc(x.label).replace(/（[^（）]*）$/, '<span class="jf-stat__period">$&</span>')}</span><span class="jf-duo">${x.values.map((v) => `<span class="jf-duo__v"><span class="jf-stat__city">${esc(v.city)}</span><b class="jf-stat__num">${esc(v.num)}</b></span>`).join("")}</span><span class="jf-stat__sub">${esc(x.sub)}</span></li>`).join("")}</ul>`;
     default: throw new Error(`不明なブロック: ${b.t}`);
   }
 }

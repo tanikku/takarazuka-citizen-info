@@ -301,6 +301,15 @@ test("最新回の告知：公開判定を通った回の中で最大の回だ�
   assert.deepEqual(latestEpisodeNotice([ep2]), { episode: 2, slug: "ep2-sample", title: "第2回のテスト", date: "2026-11-07", dateLabel: "2026年11月7日" });
 });
 
+test("図解つきの回：記事上部に第1弾と連載一覧へのリンクがあり、記事下部のリンクも残る", () => {
+  const ep = approve(draft({ content: { ...draft().content, sections: [{ heading: "見出し", blocks: [{ t: "p", text: "本文です。" }] }] } }));
+  const html = episodePage(ep, SITE);
+  const nav = html.slice(html.indexOf('<nav class="jf-series-nav"'), html.indexOf("</nav>", html.indexOf('<nav class="jf-series-nav"')));
+  assert.ok(nav.includes('href="/jitsuryoku/zeishu-shigoto"') && nav.includes('href="/jitsuryoku#series-list"'));
+  assert.ok(html.indexOf('class="jf-series-nav"') < html.indexOf('class="jf-sec"'), "最初の章より上");
+  assert.ok(html.slice(html.indexOf('class="jf-back"')).includes('href="/jitsuryoku/zeishu-shigoto"'));
+});
+
 test("連載一覧：第N弾の表記で新しい順に並べ、第1弾を末尾に出す。連載が無ければ第1弾があっても空のまま", () => {
   const first = { slug: "zeishu-shigoto", title: "第1弾の題", date: "2026-10-30" };
   const list = episodeListHtml([approve(draft())], first);

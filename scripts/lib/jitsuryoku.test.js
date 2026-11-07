@@ -137,7 +137,7 @@ test("sitemap の lastmod はビルド日ではなく、最新回の公開日ま
 const LATEST = { episode: 2, slug: "population-takarazuka-nagareyama", title: "人口が増える街、減る街。宝塚と流山は何が違う？", date: "2026-11-07", dateLabel: "2026年11月7日" };
 const homeLatest = (latestEpisode) => indexPage({ featuredNews: [], todayKey: "2026-11-07", categoryPageKeys: new Set(), publishedArticles: [], ranking: null, weather: null, todayCounts: {}, fieldReportPhoto: null, dateLabel: "2026年11月7日", siteUrl: SITE, latestEpisode });
 const bannerOf = (html) => {
-  const start = html.indexOf('<section class="jitsuryoku-banner"');
+  const start = html.indexOf('<section class="jitsuryoku-banner');
   return html.slice(start, html.indexOf("</section>", start));
 };
 
@@ -145,9 +145,29 @@ test("バナー：最新回があれば第N弾公開とタイトルを出し、�
   const b = bannerOf(homeLatest(LATEST));
   const t = textOf(b).replace(/\s/g, "");
   for (const s of ["第2弾公開", "第2弾を読む", LATEST.title]) assert.ok(t.includes(s), s);
-  assert.ok(!t.includes("第1弾"));
+  assert.ok(!textOf(b.slice(0, b.indexOf("</a>"))).includes("第1弾"), "主リンクの中は最新回だけ");
   assert.ok(b.includes(`href="/jitsuryoku/${LATEST.slug}"`));
-  assert.ok(!b.includes("zeishu-shigoto"));
+  assert.ok(!b.slice(0, b.indexOf("</a>")).includes("zeishu-shigoto"));
+});
+
+test("副バナー：第1弾へのカードは主バナーの外に置き、カード全体が1つのリンクで、リンクを入れ子にしない", () => {
+  const h = homeLatest(LATEST);
+  const b = bannerOf(h);
+  assert.deepEqual([...b.matchAll(/<a [^>]*href="([^"]+)"/g)].map((m) => m[1]), [`/jitsuryoku/${LATEST.slug}`], "主バナーの中のリンクは最新回だけ");
+  const start = h.indexOf('<a class="jitsuryoku-sub"');
+  const sub = h.slice(start, h.indexOf("</a>", start));
+  assert.ok(start > h.indexOf("</section>", h.indexOf('<section class="jitsuryoku-banner')), "主バナーを閉じた後");
+  assert.ok(start < h.indexOf('class="today-row-side"'), "読み上げ順でも主バナーの直後");
+  assert.ok(sub.includes('href="/jitsuryoku/zeishu-shigoto"'));
+  assert.equal((sub.match(/<a /g) ?? []).length, 1, "カードの中に別のリンクが無い");
+  const t2 = textOf(sub);
+  for (const s of ["第1弾", "宝塚の税収と仕事、ほかの街とどう違う？", "第1弾を読む →"]) assert.ok(t2.includes(s), s);
+  assert.ok(!/<svg|<img|<canvas/.test(sub), "グラフに見える図を入れない");
+});
+
+test("副バナー：最新回が無いときは出さない（主バナーが第1弾を案内する）", () => {
+  const h = homeLatest(null);
+  assert.ok(!h.includes('class="jitsuryoku-sub"') && !h.includes("today-row--with-sub"));
 });
 
 test("バナー：回のタイトルはエスケープする", () => {

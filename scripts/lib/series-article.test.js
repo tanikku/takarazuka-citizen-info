@@ -737,7 +737,7 @@ test("次回予告：第3弾「市議会の全体像」。サイト内の既存�
 
 test("分量：本文（図・表・比較カード・吹き出し・折りたたみを除く）は、第1弾の1.35倍以内で、読み切れる長さ", () => {
   // 2つの街だけの構成では1.15倍で作っていた。6つの街の比較の章を加える構成変更（PM決定）に合わせて上限を1.35倍にした。これ以上は増やさない
-  const strip = (h) => h.replace(/<script[\s\S]*?<\/script>/g, "").replace(/<details[\s\S]*?<\/details>/g, "").replace(/<figure[\s\S]*?<\/figure>/g, "").replace(/<table[\s\S]*?<\/table>/g, "").replace(/<section class="jf-cmp"[\s\S]*?<\/section>/g, "").replace(/<div class="jf-say[\s\S]*?<\/p><\/div>/g, "").replace(/<[^>]+>/g, "").replace(/\s+/g, " ");
+  const strip = (h) => h.replace(/<script[\s\S]*?<\/script>/g, "").replace(/<nav[\s\S]*?<\/nav>/g, "").replace(/<details[\s\S]*?<\/details>/g, "").replace(/<figure[\s\S]*?<\/figure>/g, "").replace(/<table[\s\S]*?<\/table>/g, "").replace(/<section class="jf-cmp"[\s\S]*?<\/section>/g, "").replace(/<div class="jf-say[\s\S]*?<\/p><\/div>/g, "").replace(/<[^>]+>/g, "").replace(/\s+/g, " ");
   const body = (html) => strip(html.slice(html.indexOf('<div class="jf">'), html.indexOf("</main>") > 0 ? html.indexOf("</main>") : undefined)).length;
   const first = jitsuryokuFeaturePage(FIRST, SITE);
   assert.ok(first.length > 1000);

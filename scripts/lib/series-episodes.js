@@ -265,6 +265,7 @@ ${ribbon}<header class="jf-hero">
 <h1 class="jf-hero__title">${escapeHtml(ep.title)}</h1>
 <p class="jf-lead">${escapeHtml(c.lead ?? ep.description)}</p>
 <p class="jf-small">${dates}</p>
+<nav class="jf-series-nav" aria-label="「宝塚の実力」の連載"><a href="/jitsuryoku/zeishu-shigoto">第1弾「税収と仕事」を読む</a><a href="/jitsuryoku#series-list">連載の一覧を見る</a></nav>
 ${c.heroBlocks ? renderBlocks(c.heroBlocks) : ""}
 </header>
 ${sections}

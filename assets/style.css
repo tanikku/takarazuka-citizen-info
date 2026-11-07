@@ -3142,6 +3142,118 @@ a:focus-visible, button:focus-visible {
   flex: 1;
 }
 
+/* トップの副バナー（第1弾）。主バナーと別のカードとして、1000px以上は上段の下に全幅で置く */
+.jitsuryoku-sub {
+  position: relative;
+  display: grid;
+  gap: 4px 14px;
+  justify-items: start;
+  overflow: hidden;
+  padding: 12px 16px;
+  border: 1px solid #b9d0ec;
+  border-radius: 10px;
+  background: linear-gradient(115deg, #eef5fd 0%, #dcebfb 55%, #c6ddf6 100%);
+  color: #14285a;
+  text-decoration: none;
+}
+
+.jitsuryoku-sub::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 60%;
+  background-image: radial-gradient(circle, rgba(20, 40, 90, 0.14) 1.5px, transparent 1.7px);
+  background-size: 14px 14px;
+  mask-image: linear-gradient(to right, transparent, #000);
+}
+
+.jitsuryoku-sub::after {
+  content: "";
+  position: absolute;
+  top: -44px;
+  right: -28px;
+  width: 132px;
+  height: 132px;
+  border: 14px solid rgba(255, 255, 255, 0.5);
+  border-radius: 50%;
+}
+
+.jitsuryoku-sub > span {
+  position: relative;
+  z-index: 1;
+}
+
+.jitsuryoku-sub__label {
+  padding: 2px 12px;
+  border-radius: 999px;
+  background: #c8102e;
+  color: #ffffff;
+  font-size: 0.9rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+}
+
+.jitsuryoku-sub__title {
+  font-size: 1.05rem;
+  font-weight: 800;
+  line-height: 1.5;
+  text-wrap: balance;
+  word-break: auto-phrase;
+}
+
+.jitsuryoku-sub__more {
+  font-size: 0.95rem;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.jitsuryoku-sub:hover .jitsuryoku-sub__more {
+  text-decoration: underline;
+}
+
+.jitsuryoku-sub:focus-visible {
+  outline: 3px solid #c8102e;
+  outline-offset: 2px;
+}
+
+@media (min-width: 600px) and (max-width: 999px) {
+  .today-row--with-sub .jitsuryoku-banner,
+  .today-row--with-sub .jitsuryoku-sub {
+    grid-column: 1;
+  }
+
+  .today-row--with-sub .today-row-side {
+    grid-column: 2;
+    grid-row: 1 / span 2;
+  }
+}
+
+@media (min-width: 1000px) {
+  .today-row--with-sub .jitsuryoku-banner {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  .today-row--with-sub .today-row-side {
+    grid-column: 2;
+    grid-row: 1;
+  }
+
+  .jitsuryoku-sub {
+    grid-column: 1 / -1;
+    grid-row: 2;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    padding: 14px 20px;
+  }
+
+  .jitsuryoku-sub__more {
+    margin-right: 64px;
+  }
+}
+
 .jitsuryoku-banner__link {
   position: relative;
   display: grid;
@@ -3570,10 +3682,20 @@ html[data-theme="dark"] .jf-hero__tag, html[data-theme="dark"] .jf-h2__no { colo
 .jf-div__fill.is-neg { box-shadow: inset 0 0 0 2px var(--text); }
 .jf-div__zero { position: absolute; top: 0; bottom: 0; left: 50%; width: 3px; margin-left: -1.5px; background: var(--text); }
 .jf-div__val { font-weight: 700; min-width: 5.5em; text-align: right; font-variant-numeric: tabular-nums; }
-.jf-stats--duo { grid-template-columns: repeat(auto-fit, minmax(min(250px, 100%), 1fr)); }
-.jf-duo { display: flex; flex-wrap: wrap; gap: 0.25rem 1.25rem; margin: 0.2rem 0; }
-.jf-duo__v { display: flex; flex-direction: column; }
-.jf-stat--duo .jf-stat__num { font-size: 2rem; }
+.jf-series-nav { display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 0.5rem 0 0.75rem; }
+.jf-series-nav a { display: inline-flex; align-items: center; min-height: 44px; padding: 0.3rem 0.9rem; border: 2px solid var(--accent); border-radius: 999px; font-weight: 700; color: var(--text); text-decoration: none; }
+.jf-series-nav a:hover { background: var(--accent-soft); }
+.jf-stats--duo { grid-template-columns: minmax(0, 1fr); }
+.jf-stat--duo { min-width: 0; }
+.jf-stat__period { display: block; margin-left: -0.5em; white-space: nowrap; }
+.jf-duo { display: grid; gap: 0.1rem; margin: 0.2rem 0; }
+.jf-duo__v { display: flex; align-items: baseline; justify-content: space-between; gap: 0.75rem; }
+.jf-stat--duo .jf-stat__city { white-space: nowrap; }
+.jf-stat--duo .jf-stat__num { font-size: clamp(1.75rem, 2.6vw, 2rem); text-align: right; white-space: nowrap; font-variant-numeric: tabular-nums; }
+@media (min-width: 740px) {
+  .jf-stats--duo { grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); }
+  .jf-stat--duo { display: grid; grid-row: span 3; grid-template-rows: subgrid; row-gap: 0.2rem; }
+}
 .jf-table--text { min-width: 640px; }
 .jf-table .is-text, .jf-table--text td { text-align: left; white-space: normal; }
 .jf-table--text td.is-text { min-width: 14em; }
