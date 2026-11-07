@@ -1,6 +1,6 @@
 {
   "default": [
-    { "href": "/livecam", "label": "武庫川ライブカメラ", "sub": "河川の様子をリアルタイムで確認できます", "icon": "videoCamera" },
+    { "href": "/livecam", "label": "武庫川ライブカメラ", "sub": "武庫川のライブカメラ画像や水位情報を確認できます", "icon": "videoCamera" },
     { "href": "/category/kurashi/gomi-guide", "label": "ゴミ出し完全ガイド", "sub": "分別ルール・収集日をまとめました", "icon": "flame" },
     { "href": "/category/kurashi/kitsuen-guide", "label": "喫煙所ガイド", "sub": "公共喫煙所の場所・利用時間", "icon": "building" },
     { "href": "/category/kyoiku/guide", "label": "学校情報ガイド", "sub": "校区確認・転入学手続きをまとめました", "icon": "book" },
@@ -15,7 +15,7 @@
       { "href": "/category/kyoiku/suisougaku-guide", "label": "吹奏楽コンクールガイド", "sub": "西阪神地区大会の結果・大会情報", "icon": "book" }
     ],
     "bosai": [
-      { "href": "/livecam", "label": "武庫川ライブカメラ", "sub": "河川の様子をリアルタイムで確認できます", "icon": "videoCamera" },
+      { "href": "/livecam", "label": "武庫川ライブカメラ", "sub": "武庫川のライブカメラ画像や水位情報を確認できます", "icon": "videoCamera" },
       { "href": "/category/bosai/guide", "label": "防災ガイド", "sub": "警戒レベル・避難場所・非常持ち出し品", "icon": "shield" }
     ],
     "bohan": [
@@ -60,7 +60,7 @@
       { "href": "/category/kanko/takarazuka-onsen-guide", "label": "宝塚温泉ガイド", "sub": "宝塚駅近くの歴史ある街なか温泉", "icon": "sun" },
       { "href": "/category/kanko/aiaipark-guide", "label": "あいあいパークガイド", "sub": "植木のまち山本の園芸拠点。入場無料", "icon": "flame" },
       { "href": "/category/kanko/dahlia-en-guide", "label": "宝塚ダリア園ガイド", "sub": "約300種10万本のダリア。花摘み体験も", "icon": "flame" },
-      { "href": "/livecam", "label": "武庫川ライブカメラ", "sub": "河川の様子をリアルタイムで確認できます", "icon": "videoCamera" }
+      { "href": "/livecam", "label": "武庫川ライブカメラ", "sub": "武庫川のライブカメラ画像や水位情報を確認できます", "icon": "videoCamera" }
     ]
   }
 }
