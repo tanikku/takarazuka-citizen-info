@@ -25,6 +25,10 @@
   "publishedAt": "2026-11-08",
   "category": "イベント",
   "valueScore": "A",
+  "homeDate": {
+    "kind": "開催",
+    "date": "2026-11-08"
+  },
   "eventLocation": "末広中央公園",
   "ogImage": "/photos/shimin-matsuri-overview-20261108-1200x630.webp",
   "relatedArticles": [
