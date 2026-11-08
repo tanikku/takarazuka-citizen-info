@@ -28,7 +28,10 @@
     }
   ],
   "publishedAt": "2026-10-23",
-  "updatedAt": "2026-11-07",
+  "updatedAt": "2026-11-08",
+  "relatedArticles": [
+    "takarazuka-shimin-matsuri-2026-report"
+  ],
   "category": "イベント",
   "valueScore": "A",
   "homeDate": {
@@ -40,6 +43,12 @@
   ],
   "eventLocation": "末広中央公園",
   "sections": [
+    {
+      "heading": "11月8日の現地取材レポート",
+      "paragraphs": [
+        "宝塚Todayでは、11月8日の会場の様子を写真付きで紹介しています。現地レポートは、この記事の末尾にある『関連記事』からご覧いただけます。"
+      ]
+    },
     {
       "heading": "開催日時と場所",
       "items": [
