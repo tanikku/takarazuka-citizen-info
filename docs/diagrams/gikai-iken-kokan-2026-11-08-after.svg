@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="800" height="450" viewBox="0 0 800 450">
+  <!-- 第16回意見交換会の開催後の要点（2026年11月10日時点）。キャラクターは assets/characters/poses の公式素材をそのまま配置する -->
+  <rect width="800" height="450" fill="#fdf8ec"/>
+  <circle cx="40" cy="20" r="150" fill="#e6f0fb"/>
+  <circle cx="770" cy="30" r="120" fill="#fbf0d6"/>
+  <circle cx="790" cy="440" r="110" fill="#eaf5ee"/>
+  <g font-family="'Yu Gothic UI','Yu Gothic','Meiryo',sans-serif">
+    <text x="400" y="48" text-anchor="middle" font-size="29" font-weight="700" fill="#c8384c">第16回 宝塚市議会 意見交換会</text>
+
+    <rect x="148" y="66" width="504" height="64" rx="12" fill="#ffffff" stroke="#d14a5a" stroke-width="2.5"/>
+    <rect x="160" y="83" width="30" height="30" rx="7" fill="#d14a5a"/>
+    <text x="175" y="105" text-anchor="middle" font-size="19" font-weight="700" fill="#ffffff">1</text>
+    <text x="202" y="92" font-size="15" font-weight="700" fill="#c8384c">開催日（時刻は市議会の事前の案内）</text>
+    <text x="202" y="119" font-size="20" font-weight="700" fill="#2a2a2a">2026年11月8日（日）14:00〜16:00</text>
+
+    <rect x="148" y="138" width="504" height="84" rx="12" fill="#ffffff" stroke="#2f74c0" stroke-width="2.5"/>
+    <rect x="160" y="155" width="30" height="30" rx="7" fill="#2f74c0"/>
+    <text x="175" y="177" text-anchor="middle" font-size="19" font-weight="700" fill="#ffffff">2</text>
+    <text x="202" y="164" font-size="15" font-weight="700" fill="#2f74c0">5つのテーマ</text>
+    <text x="202" y="189" font-size="17" font-weight="700" fill="#2a2a2a">部活動地域展開／観光・にぎわい／防災</text>
+    <text x="202" y="212" font-size="17" font-weight="700" fill="#2a2a2a">子ども・子育て／福祉の拠点づくり</text>
+
+    <rect x="148" y="230" width="504" height="80" rx="12" fill="#ffffff" stroke="#2b8a5b" stroke-width="2.5"/>
+    <rect x="160" y="249" width="30" height="30" rx="7" fill="#2b8a5b"/>
+    <text x="175" y="271" text-anchor="middle" font-size="19" font-weight="700" fill="#ffffff">3</text>
+    <text x="202" y="256" font-size="15" font-weight="700" fill="#2b8a5b">参加者（議員の報告）</text>
+    <text x="202" y="281" font-size="20" font-weight="700" fill="#2a2a2a">市民25人</text>
+    <text x="202" y="302" font-size="17" font-weight="700" fill="#3a3a3a">田中こう議員の11月9日の報告／公式発表ではない</text>
+
+    <rect x="148" y="318" width="504" height="80" rx="12" fill="#ffffff" stroke="#d9822b" stroke-width="2.5"/>
+    <rect x="160" y="337" width="30" height="30" rx="7" fill="#d9822b"/>
+    <text x="175" y="359" text-anchor="middle" font-size="19" font-weight="700" fill="#ffffff">4</text>
+    <text x="202" y="344" font-size="15" font-weight="700" fill="#c06d1c">市議会の公式記録</text>
+    <text x="202" y="369" font-size="20" font-weight="700" fill="#2a2a2a">11月10日時点で未掲載</text>
+    <text x="202" y="390" font-size="17" font-weight="700" fill="#3a3a3a">市議会のページは開催前の案内のまま</text>
+
+    <text x="400" y="432" text-anchor="middle" font-size="17" font-weight="700" fill="#4a4a4a">2026年11月10日時点の情報です</text>
+  </g>
+  <image href="../../assets/characters/poses/takara-madoka-guide.webp" x="18" y="228" width="111" height="211"/>
+  <image href="../../assets/characters/poses/takara-wan-board.webp" x="660" y="250" width="138" height="180"/>
+</svg>
