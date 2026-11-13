@@ -19,7 +19,7 @@ import { validateBlocks, renderBlocks } from "./series-blocks.js";
 
 export const EPISODE_STATUSES = ["draft", "scheduled", "published"];
 // 承認の対象にしない項目。公開状態・予約・保留・承認そのものは、本文の承認とは別に管理する（権限の分離）
-const CONTROL_KEYS = ["status", "scheduledAt", "hold", "approval", "publishedAt"];
+const CONTROL_KEYS = ["status", "scheduledAt", "plannedAt", "hold", "approval", "publishedAt"];
 const SLUG_RE = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 const DATETIME_RE = /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2})\+09:00$/;
 const DATE_RE = /^\d{4}-\d{2}-\d{2}$/;
@@ -133,6 +133,43 @@ export function checkApproval(episode, approverPublicKey) {
   return { ok: true };
 }
 
+// ---------- 承認記録方式（v3。第3回以降） ----------
+// 運営者の端末操作（秘密鍵・署名コマンド）を要らなくした方式。運営者がチャットなどで「公開してよい」と明示したあとに、
+// Claude Code が approval（記録）を書き、status を published にして反映する。
+//   - 承認記録は、承認した原稿の内容ハッシュに結びつく。承認のあとに本文を1文字でも変えると、ハッシュが合わず公開されない。
+//   - 公開日（publishedAt）は土曜日だけ。未来の日付は、その日になるまで公開しない（時刻は固定しない）。
+//   - 署名ではないため、リポジトリに書き込める人が偽の承認記録を作れる。偽造は防げず、うっかりの公開・承認後の編集・
+//     承認の書き忘れを防ぐ方式である。第2回（署名済み）は従来の署名検証のままで、この方式に降格できない（第3回以降だけ）。
+export const APPROVAL_V3 = "operator-approval-v3";
+export const V3_MIN_EPISODE = 3;
+export const isV3Approval = (ep) => ep?.approval && typeof ep.approval === "object" && ep.approval.method === APPROVAL_V3;
+const jstDateOf = (now) => new Date(now.getTime() + JST_OFFSET_MS).toISOString().slice(0, 10);
+export function isSaturdayDate(s) {
+  if (typeof s !== "string" || !DATE_RE.test(s)) return false;
+  const d = new Date(`${s}T00:00:00Z`);
+  return !Number.isNaN(d.getTime()) && d.toISOString().slice(0, 10) === s && d.getUTCDay() === 6;
+}
+export function checkApprovalV3(ep) {
+  const a = ep.approval;
+  if (!isV3Approval(ep)) return { ok: false, reason: "not-approved" };
+  if (!Number.isInteger(ep.episode) || ep.episode < V3_MIN_EPISODE) return { ok: false, reason: "v3-not-allowed-for-this-episode" };
+  if (typeof a.signature === "string" && a.signature) return { ok: false, reason: "v3-with-signature" };
+  if (typeof a.approvedBy !== "string" || !a.approvedBy.trim() || !parseJstDateTime(a.approvedAt).ok || typeof a.evidence !== "string" || !a.evidence.trim() || !/^[0-9a-f]{64}$/.test(a.contentHash ?? "")) {
+    return { ok: false, reason: "approval-malformed" };
+  }
+  if (a.contentHash !== contentHashOf(ep)) return { ok: false, reason: "content-changed-after-approval" };
+  return { ok: true };
+}
+function decideV3(ep, now) {
+  if (ep.status !== "published") return { publish: false, reason: "v3-requires-published" }; // 予約（scheduled）は署名方式だけ。v3 の記録では出さない
+  const c = checkApprovalV3(ep);
+  if (!c.ok) return { publish: false, reason: `published-but-${c.reason}`, blocking: true };
+  if (!isSaturdayDate(ep.publishedAt)) return { publish: false, reason: "published-but-not-saturday", blocking: true };
+  if (parseJstDateTime(ep.approval.approvedAt).ms > now.getTime()) return { publish: false, reason: "published-but-approved-in-future", blocking: true };
+  if (ep.publishedAt > jstDateOf(now)) return { publish: false, reason: "before-publication-date" };
+  return { publish: true, reason: "published" };
+}
+
 // ---------- 形式の検査 ----------
 export function validateEpisodeShape(ep) {
   const errors = [];
@@ -167,6 +204,7 @@ export function decideEpisode(ep, { now, approverPublicKey } = {}) {
   const shape = validateEpisodeShape(ep);
   if (shape.length > 0) return { publish: false, reason: "invalid-episode", detail: shape };
   if (ep.status === "draft") return { publish: false, reason: "draft" };
+  if (isV3Approval(ep)) return decideV3(ep, now);
 
   const approval = checkApproval(ep, approverPublicKey);
   if (!approval.ok) {
@@ -238,7 +276,7 @@ export function resolveNow(env = process.env) {
 
 // ---------- 出力 ----------
 const jpDate = (s) => { const [y, m, d] = s.split("-").map(Number); return `${y}年${m}月${d}日`; };
-export const episodeDate = (ep) => (ep.publishedAt ?? ep.scheduledAt).slice(0, 10);
+export const episodeDate = (ep) => (ep.publishedAt ?? ep.scheduledAt ?? ep.plannedAt ?? "").slice(0, 10);
 
 export const SERIES_HASH_META_NAME = "series-content-hash";
 export const contentHashMeta = (hash) => `<meta name="${SERIES_HASH_META_NAME}" content="${hash}">`;

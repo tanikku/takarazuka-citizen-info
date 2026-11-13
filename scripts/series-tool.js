@@ -3,7 +3,7 @@ import path from "node:path";
 import readline from "node:readline";
 import { fileURLToPath } from "node:url";
 import { loadEpisodes, resolveNow, resolveApproverKey, publicKeyFingerprint } from "./lib/series-episodes.js";
-import { runApprove, generateKeyPair, runFinalize, checkSeries } from "./lib/series-approval.js";
+import { runApprove, generateKeyPair, runFinalize, checkSeries, recordApprovalV3, publishV3, runVerifyLive } from "./lib/series-approval.js";
 
 const SITE_URL = "https://takarazuka-today.jp"; // build.js の SITE_URL と同じ値（本番の公開確認に使う）
 
@@ -13,6 +13,13 @@ const out = (line = "") => console.log(line);
 
 const HELP = `使い方: node scripts/series-tool.js <コマンド>
 
+【第3回以降の公開（承認記録方式）】運営者の端末操作・秘密鍵は要りません。運営者が「公開してよい」と明示したあとに、Claude Code が行います。
+  record-approval <slug> --by <承認者名> --evidence <根拠>
+                                    原稿の内容ハッシュに結びつけた承認記録を書く（draft のまま。根拠は、運営者がいつ・どこで承認したか）
+  publish <slug> [--date YYYY-MM-DD]  承認記録が有効なときだけ、published にして公開日（土曜日・省略時は今日）を書く
+  verify <slug>                     公開後に、本番のページと内容ハッシュが承認した原稿と一致するかを確かめる（書き込みなし）
+
+【第2回の署名方式（従来。第2回の公開を保つための検証。新しい回では使いません）】
   keygen --out <秘密鍵のファイル>   承認用の鍵を作る。秘密鍵はリポジトリの外のファイルにだけ保存し、公開鍵と指紋を表示する
   approve <slug> [--by <承認者名>]  原稿を確認して承認する（署名を approval に書き込む）。端末での対話が必須
   check [--strict | --deploy]       公開状態の回の承認を検証する。問題があれば終了コード 1
@@ -35,7 +42,7 @@ function parseArgs(argv) {
   const rest = [];
   for (let i = 0; i < argv.length; i++) {
     const a = argv[i];
-    if (a === "--out" || a === "--by") flags[a.slice(2)] = argv[++i];
+    if (a === "--out" || a === "--by" || a === "--evidence" || a === "--date") flags[a.slice(2)] = argv[++i];
     else if (a.startsWith("--")) flags[a.slice(2)] = true;
     else rest.push(a);
   }
@@ -81,6 +88,25 @@ async function main() {
         out,
       });
       return 0;
+    }
+    case "record-approval": {
+      const slug = rest[0];
+      if (!slug) throw new Error("slug を指定してください");
+      const r = recordApprovalV3({ slug, approvedBy: flags.by, evidence: flags.evidence, dir: EPISODES_DIR, now: new Date() });
+      out(`承認記録を書きました: ${slug}（承認日時 ${r.approval.approvedAt} / 内容ハッシュ ${r.approval.contentHash.slice(0, 12)}…）。status は draft のままです。`);
+      return 0;
+    }
+    case "publish": {
+      const slug = rest[0];
+      if (!slug) throw new Error("slug を指定してください");
+      const r = publishV3({ slug, publishedAt: flags.date, dir: EPISODES_DIR, now: new Date() });
+      out(`published にしました: ${slug}（公開日 ${r.publishedAt} / 内容ハッシュ ${r.contentHash.slice(0, 12)}…）。続けて check・test・build を実行してください。`);
+      return 0;
+    }
+    case "verify": {
+      const slug = rest[0];
+      if (!slug) throw new Error("slug を指定してください");
+      return runVerifyLive({ dir: EPISODES_DIR, slug, siteUrl: SITE_URL, fetchFn: fetch, out, err: (l) => console.error(l) });
     }
     case "check": {
       const result = checkSeries(loadEpisodes(EPISODES_DIR), { now, approverPublicKey: resolveApproverKey(env), strict: Boolean(flags.strict), deploy: Boolean(flags.deploy) });

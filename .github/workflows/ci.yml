@@ -8,7 +8,8 @@ name: CI
 # この CI が動くのは、人の push と pull request。
 #
 # 公開鍵（SERIES_APPROVER_PUBLIC_KEY）は秘密ではないので、Secrets ではなく Variables（vars）に置く。
-# 秘密鍵はこのワークフローにも、リポジトリのどこにも置かない（承認は運営者の端末でだけ行う）。
+# 秘密鍵はこのワークフローにも、リポジトリのどこにも置かない。公開鍵は第2回（署名方式）の検証に使う。
+# 第3回以降は承認記録方式（docs/SERIES_PUBLISHING.md）で、運営者の端末操作は要らない。
 on:
   pull_request:
   push:
@@ -40,7 +41,7 @@ jobs:
 
       - run: npm test
 
-      # 連載の公開状態（scheduled / published）の回が、いまの公開鍵で検証できる承認を持つことを確かめる。
+      # 連載の公開状態（scheduled / published）の回が、有効な承認（第2回は署名、第3回以降は承認記録）を持つことを確かめる。
       # 公開鍵が無い・承認が崩れている・公開済みの回が書き換えられている場合は、ここで失敗する。
       - name: Verify series approvals
         run: node scripts/series-tool.js check --strict

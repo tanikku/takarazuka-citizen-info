@@ -8,6 +8,7 @@ import crypto from "node:crypto";
 import {
   contentHashOf, signApproval, verifyApproval, parseScheduledAt, parseJstDateTime, validateEpisodeShape, decideEpisode, selectEpisodes,
   asKeyRing, publicKeyFingerprint, loadEpisodes, SERIES_HASH_META_NAME,
+  APPROVAL_V3, V3_MIN_EPISODE, isV3Approval, isSaturdayDate, checkApprovalV3,
 } from "./series-episodes.js";
 
 const JST_OFFSET_MS = 9 * 60 * 60 * 1000;
@@ -230,9 +231,54 @@ export function applyFinalize(dir, targets, { now, approverPublicKey }) {
   return done;
 }
 
+// ---------- 承認記録方式（v3）の操作 ----------
+// 運営者が「公開してよい」と明示したあとに、Claude Code が使う。端末での対話・秘密鍵は要らない。
+// 1) record-approval : 原稿の内容ハッシュに結びつけた承認記録を書く（status は draft のまま）
+// 2) publish         : 承認記録が有効なときだけ、status を published・publishedAt を土曜日にして書く
+export function recordApprovalV3({ slug, approvedBy, evidence, dir, now = new Date() }) {
+  const { file, ep } = readEpisodeFile(dir, slug);
+  if (!Number.isInteger(ep.episode) || ep.episode < V3_MIN_EPISODE) throw new Error(`第${V3_MIN_EPISODE}回より前の回は、この方式では承認できません（署名方式のままです）`);
+  if (ep.status !== "draft") throw new Error("承認記録は draft の回にだけ書けます（公開済み・予約済みの回は変更しません）");
+  if (typeof approvedBy !== "string" || !approvedBy.trim()) throw new Error("承認者名（--by）が必要です");
+  if (typeof evidence !== "string" || evidence.trim().length < 10) throw new Error("承認の根拠（--evidence）が必要です。運営者がいつ・どこで公開を承認したかを書いてください");
+  const shape = validateEpisodeShape(ep);
+  if (shape.length > 0) throw new Error(`原稿の形式に問題があります: ${shape.join(" / ")}`);
+  const approval = { method: APPROVAL_V3, approvedBy: approvedBy.trim(), approvedAt: formatJst(now), contentHash: contentHashOf(ep), evidence: evidence.trim() };
+  writeJsonAtomic(file, { ...ep, approval });
+  return { file, approval };
+}
+
+export function publishV3({ slug, publishedAt, dir, now = new Date() }) {
+  const { file, ep } = readEpisodeFile(dir, slug);
+  if (!isV3Approval(ep)) throw new Error("承認記録（record-approval）がありません。運営者の公開承認を得てから記録してください");
+  if (ep.status === "published") throw new Error("すでに published です");
+  if (ep.status !== "draft") throw new Error("draft の回だけ公開できます");
+  const c = checkApprovalV3(ep);
+  if (!c.ok) throw new Error(`承認記録が有効ではありません（${c.reason}）。原稿を変えた場合は、運営者の再承認が必要です`);
+  const jstToday = new Date(now.getTime() + JST_OFFSET_MS).toISOString().slice(0, 10);
+  const date = publishedAt ?? jstToday;
+  if (!isSaturdayDate(date)) throw new Error(`公開日は土曜日だけです（${date}）`);
+  if (date > jstToday) throw new Error(`公開日が未来です（${date}）。その日になってから公開してください`);
+  const next = { ...ep, status: "published", publishedAt: date };
+  delete next.plannedAt;
+  const d = decideEpisode(next, { now });
+  if (!d.publish) throw new Error(`公開すると出力されないため、書き込みを中止しました（${d.reason}）`);
+  writeJsonAtomic(file, next);
+  return { file, publishedAt: date, contentHash: contentHashOf(next) };
+}
+
+// 公開後の確認：本番のページが配信され、内容ハッシュが承認した原稿と一致するかを確かめる（書き込みはしない）
+export async function runVerifyLive({ dir, slug, siteUrl, fetchFn = fetch, out, err }) {
+  const { ep } = readEpisodeFile(dir, slug);
+  const [r] = await verifyLive([{ slug, contentHash: contentHashOf(ep) }], { siteUrl, fetchFn });
+  if (r.live) { out(`本番OK: ${r.url}（${r.detail}）`); return 0; }
+  err(`本番を確認できません: ${r.url}（${r.detail}）`);
+  return 1;
+}
+
 // ---------- 検査（CI・手元の確認） ----------
 // strict では、公開状態の回（scheduled / published）が、いまの公開鍵で検証できる承認を持つことまで求める。
-const OK_REASONS = new Set(["draft", "not-yet-due", "on-hold", "due", "published"]);
+const OK_REASONS = new Set(["draft", "not-yet-due", "on-hold", "due", "published", "before-publication-date"]);
 
 // 承認の署名が「あるのに」いまの公開鍵で検証できないものを見つける（Pages 向けの検査で使う）。
 // 署名が無い・空の承認は「未承認」で、ここでは問題にしない（予約は非公開のまま、サイトのビルドは続ける）。
@@ -261,6 +307,10 @@ export function checkSeries(episodes, { now, approverPublicKey, strict = false, 
   const sel = selectEpisodes(episodes, { now, approverPublicKey });
   errors.push(...sel.errors);
   const live = episodes.filter((e) => e && !e.__loadError && e.status !== "draft");
+  // 公開済みの回が消えるのを防ぐ：第N回が公開されるなら、2〜N-1回もすべて公開される状態であること
+  const publishedNumbers = new Set(sel.publish.map((e) => e.episode));
+  const maxPublished = Math.max(0, ...publishedNumbers);
+  for (let n = 2; n < maxPublished; n++) if (!publishedNumbers.has(n)) errors.push(`第${n}回が公開されません（第${maxPublished}回より前の回が欠けています。公開済みの回が消える変更は止めます）`);
   if (deploy) {
     for (const ep of live) {
       const v = verifyStoredApproval(ep, approverPublicKey);
