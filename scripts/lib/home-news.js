@@ -46,10 +46,30 @@ function homeDateDistance(homeDate, todayKey) {
   return null;
 }
 
+// 連載「宝塚の実力」の公開済みの回を、新着の候補（記事と同じ「公開から7日未満」）として表すための擬似記事。
+// 渡す回は、ビルドの公開判定（selectEpisodes）を通ったものだけ。ここでも status が published でないものは捨てる（未公開・承認前は出さない）。
+// 日付は公開日（publishedAt）。slug は記事と衝突しない名前にする。
+export function seriesNewsItem(ep, dateKey) {
+  return {
+    slug: `series-${ep.slug}`,
+    series: true,
+    episode: ep.episode,
+    title: ep.title,
+    href: `/jitsuryoku/${ep.slug}`,
+    publishedAt: dateKey,
+    sourceName: "宝塚Today「宝塚の実力」",
+    category: "宝塚の実力",
+    valueScore: "A",
+  };
+}
+
 /**
+ * 連載の回（seriesEpisodes）は、公開から7日未満の最新の1回だけが候補になる（枠を占領しない）。
+ * 枠が空いていればそこに入る。枠が埋まっているときは、通常の「新着」（優先度2）のうち最も古いものと入れ替わる場合だけ。
+ * 「まもなく」（優先度1）や、明示された近い日付（優先度3。締切・受付など）の記事は、連載のために押し出さない。
  * @returns {{article: object, reason: {kind: "soon"|"new"|"upcoming", homeDate?: object}}[]}
  */
-export function selectHomeNews(articles, todayKey) {
+export function selectHomeNews(articles, todayKey, seriesEpisodes = []) {
   const picked = [];
   for (const article of articles) {
     if (EXCLUDED_STATUSES.has(article.status)) continue;
@@ -68,22 +88,40 @@ export function selectHomeNews(articles, todayKey) {
     if (candidate) picked.push({ article, ...candidate });
   }
   // 優先度 → 日付（近い予定は早い順、新着は新しい順）→ 重要度 S 先 → slug（決定的にするため）
-  picked.sort((a, b) => {
+  const compare = (a, b) => {
     if (a.priority !== b.priority) return a.priority - b.priority;
     const dateOrder = a.priority === 1 || a.priority === 3 ? a.sortKey.localeCompare(b.sortKey) : b.sortKey.localeCompare(a.sortKey);
     if (dateOrder !== 0) return dateOrder;
     if (a.article.valueScore !== b.article.valueScore) return a.article.valueScore === "S" ? -1 : 1;
     return a.article.slug.localeCompare(b.article.slug);
-  });
+  };
+  picked.sort(compare);
   const seen = new Set();
-  const result = [];
+  let top = [];
   for (const c of picked) {
     if (seen.has(c.article.slug)) continue;
     seen.add(c.article.slug);
-    result.push({ article: c.article, reason: c.reason });
-    if (result.length >= HOME_NEWS_MAX) break;
+    top.push(c);
+    if (top.length >= HOME_NEWS_MAX) break;
   }
-  return result;
+
+  // 連載：公開済み・今日までに公開・7日未満の最新の1回
+  const seriesCand = seriesEpisodes
+    .filter((ep) => ep && ep.status === "published" && typeof ep.publishedAt === "string" && /^\d{4}-\d{2}-\d{2}$/.test(ep.publishedAt))
+    .map((ep) => seriesNewsItem(ep, ep.publishedAt))
+    .filter((item) => { const age = daysAgo(todayKey, item.publishedAt); return age >= 0 && age <= FRESH_DAYS - 1; })
+    .sort((a, b) => b.publishedAt.localeCompare(a.publishedAt) || b.episode - a.episode)[0];
+  if (seriesCand && !seen.has(seriesCand.slug)) {
+    const cand = { article: seriesCand, priority: 2, sortKey: seriesCand.publishedAt, reason: { kind: "new" } };
+    if (top.length < HOME_NEWS_MAX) top.push(cand);
+    else {
+      let idx = -1;
+      top.forEach((c, i) => { if (c.priority === 2) idx = i; }); // 優先度2のうち最後（＝最も古い新着）
+      if (idx >= 0 && compare(cand, top[idx]) < 0) top[idx] = cand;
+    }
+    top.sort(compare);
+  }
+  return top.map((c) => ({ article: c.article, reason: c.reason }));
 }
 
 // 日付キーを「M月D日」にする（理由ラベル用）

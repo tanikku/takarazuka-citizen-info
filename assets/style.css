@@ -3142,20 +3142,19 @@ a:focus-visible, button:focus-visible {
   flex: 1;
 }
 
-/* トップの中型カード（第1弾）。主バナーの直下に、主バナーと同じ幅で置く */
+/* トップの「これまでの回」カード。最新回の主バナーの直下に、主バナーと同じ幅で置く。回ごとのリンクと、連載の一覧へのリンクを持つ */
 .jitsuryoku-sub {
   position: relative;
   display: grid;
-  gap: 6px;
+  gap: 10px;
   align-content: center;
-  justify-items: start;
+  justify-items: stretch;
   overflow: hidden;
   padding: 16px 20px;
   border: 1px solid #b9d0ec;
   border-radius: 10px;
   background: linear-gradient(115deg, #eef5fd 0%, #dcebfb 55%, #c6ddf6 100%);
   color: #14285a;
-  text-decoration: none;
 }
 
 .jitsuryoku-sub::before {
@@ -3168,6 +3167,7 @@ a:focus-visible, button:focus-visible {
   background-image: radial-gradient(circle, rgba(20, 40, 90, 0.14) 1.5px, transparent 1.7px);
   background-size: 14px 14px;
   mask-image: linear-gradient(to right, transparent, #000);
+  pointer-events: none;
 }
 
 .jitsuryoku-sub::after {
@@ -3179,9 +3179,10 @@ a:focus-visible, button:focus-visible {
   height: 176px;
   border: 18px solid rgba(255, 255, 255, 0.5);
   border-radius: 50%;
+  pointer-events: none;
 }
 
-.jitsuryoku-sub > span {
+.jitsuryoku-sub > * {
   position: relative;
   z-index: 1;
 }
@@ -3191,6 +3192,7 @@ a:focus-visible, button:focus-visible {
   flex-wrap: wrap;
   align-items: center;
   gap: 4px 10px;
+  margin: 0;
 }
 
 .jitsuryoku-sub__label {
@@ -3205,44 +3207,88 @@ a:focus-visible, button:focus-visible {
 
 .jitsuryoku-sub__note {
   color: #3c5382;
-  font-size: 0.85rem;
-  font-weight: 700;
+  font-size: 0.95rem;
+  font-weight: 800;
 }
 
-.jitsuryoku-sub__title {
-  font-size: 1.25rem;
+.jitsuryoku-sub__list {
+  display: grid;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.jitsuryoku-sub__item {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: baseline;
+  gap: 2px 10px;
+  min-height: 44px;
+  padding: 9px 12px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.78);
+  color: #14285a;
+  text-decoration: none;
+}
+
+.jitsuryoku-sub__item:hover {
+  background: #ffffff;
+}
+
+.jitsuryoku-sub__no {
+  color: #c8102e;
   font-weight: 800;
+  white-space: nowrap;
+}
+
+.jitsuryoku-sub__ttl {
+  font-weight: 700;
   line-height: 1.4;
   text-wrap: balance;
   word-break: auto-phrase;
 }
 
-.jitsuryoku-sub__desc {
-  color: #33466f;
-  font-size: 0.9rem;
-  line-height: 1.5;
-  text-wrap: balance;
-  word-break: auto-phrase;
+.jitsuryoku-sub__date {
+  color: #3c5382;
+  font-size: 0.8rem;
+  white-space: nowrap;
 }
 
 .jitsuryoku-sub__more {
-  margin-top: 6px;
-  padding: 7px 18px;
+  display: inline-flex;
+  align-items: center;
+  justify-self: start;
+  min-height: 44px;
+  padding: 0 18px;
   border-radius: 999px;
   background: #14285a;
   color: #ffffff;
   font-size: 0.95rem;
   font-weight: 800;
+  text-decoration: none;
   white-space: nowrap;
 }
 
-.jitsuryoku-sub:hover .jitsuryoku-sub__more {
+.jitsuryoku-sub__more:hover {
   background: #24417f;
 }
 
-.jitsuryoku-sub:focus-visible {
+.jitsuryoku-sub__item:focus-visible,
+.jitsuryoku-sub__more:focus-visible {
   outline: 3px solid #c8102e;
   outline-offset: 2px;
+}
+
+/* 狭い幅では、日付を題名の下に回す */
+@media (max-width: 480px) {
+  .jitsuryoku-sub__item {
+    grid-template-columns: auto 1fr;
+  }
+
+  .jitsuryoku-sub__date {
+    grid-column: 2;
+  }
 }
 
 /* 左列が中型カードのぶん高くなる。右列は2段にまたがらせ、中身は元の大きさのまま上に寄せる */
@@ -3324,6 +3370,27 @@ a:focus-visible, button:focus-visible {
 .jitsuryoku-banner__title em {
   font-style: normal;
   color: #ff6b81;
+}
+
+/* 最新回があるとき：連載名は小さな見出し、回の見出しを主役にする */
+.jitsuryoku-banner__series {
+  font-size: 1.05rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  color: #dfe6f7;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.6);
+}
+
+.jitsuryoku-banner__series em {
+  font-style: normal;
+  color: #ff6b81;
+}
+
+.jitsuryoku-banner__title--episode {
+  font-size: clamp(1.6rem, 7.4cqw, 2.7rem);
+  line-height: 1.25;
+  text-wrap: balance;
+  word-break: auto-phrase;
 }
 
 .jitsuryoku-banner__body {

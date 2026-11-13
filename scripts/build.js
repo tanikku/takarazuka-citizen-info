@@ -488,7 +488,6 @@ function main() {
 
   const todayKey = todayDateKey();
   // トップの「注目・新着ニュース」。S/Aの中から、鮮度・近い予定・継続中の重要情報で選ぶ（lib/home-news.js）
-  const featuredNews = selectHomeNews(featuredArticles, todayKey);
   const activeNotices = SITE_NOTICES.filter((n) => todayKey <= n.until);
   const gikaiNotices = GIKAI_NOTICES.filter((n) => todayKey <= n.until);
   const ranking = loadRanking();
@@ -535,6 +534,15 @@ function main() {
   if (seriesSelection.errors.length > 0) throw new Error(`連載の公開判定でエラー: ${seriesSelection.errors.join(" / ")}`);
   const seriesEpisodes = seriesSelection.publish;
   const latestEpisode = latestEpisodeNotice(seriesEpisodes);
+  // トップの「注目・新着ニュース」。通常記事に加えて、公開済みの連載の最新回（7日未満）を、枠を占領しない形で含める。
+  // seriesEpisodes は公開判定を通った回だけなので、未公開・承認前の回は入らない（lib/home-news.js）
+  const featuredNews = selectHomeNews(featuredArticles, todayKey, seriesEpisodes);
+  // トップの「これまでの回」カード：最新回を除く公開済みの回を新しい順に、第1弾（仕組みの対象外）を末尾に並べる
+  const md = (key) => { const [, m, d] = key.split("-").map(Number); return `${m}月${d}日`; };
+  const seriesPrevious = [
+    ...[...seriesEpisodes].sort((a, b) => b.episode - a.episode).filter((ep) => ep.slug !== latestEpisode?.slug).map((ep) => ({ episode: ep.episode, slug: ep.slug, title: ep.title, dateLabel: md(episodeDate(ep)) })),
+    ...(jitsuryokuFeature?.status === "published" && latestEpisode ? [{ episode: 1, slug: jitsuryokuFeature.slug, title: jitsuryokuFeature.title, dateLabel: md(jitsuryokuFeature.lastUpdated) }] : []),
+  ];
 
   // カテゴリーごとに、公開対象（S/A/B）の記事をまとめる。記事が1件以上、またはガイドページがある場合のみカテゴリーページを生成する
   const categorySections = CATEGORIES.map((cat) => ({
@@ -564,6 +572,7 @@ function main() {
       activeNotices,
       gikaiNotices,
       latestEpisode,
+      seriesPrevious,
     }),
   );
 

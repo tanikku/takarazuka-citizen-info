@@ -217,3 +217,62 @@ test("実データ：homeDate の日付は記事のタイトル・本文に現�
     }
   }
 });
+
+// ====================================================================
+// 連載「宝塚の実力」を新着に含める
+// ====================================================================
+const ep = (slug, episode, publishedAt, over = {}) => ({ slug, episode, title: `第${episode}回のタイトル`, status: "published", publishedAt, ...over });
+
+test("連載：公開から7日未満の最新の回が、枠が空いていれば新着に入る（記事ではなく連載ページへのリンク情報つき）", () => {
+  const r = selectHomeNews([art("a", { publishedAt: "2026-10-31" })], TODAY, [ep("ep3", 3, "2026-11-01")]);
+  assert.deepEqual(slugs(r), ["series-ep3", "a"]);
+  assert.equal(r[0].article.series, true);
+  assert.equal(r[0].article.href, "/jitsuryoku/ep3");
+  assert.equal(r[0].article.episode, 3);
+  assert.equal(label(r), "新着");
+});
+
+test("連載：未公開（draft・scheduled）・未来の公開日・7日以上前の回は出さない（承認前の連載は絶対に出ない）", () => {
+  const list = [art("a", { publishedAt: "2026-10-31" })];
+  for (const bad of [ep("e", 3, "2026-11-01", { status: "draft" }), ep("e", 3, "2026-11-01", { status: "scheduled" }), ep("e", 3, "2026-11-08"), ep("e", 3, "2026-10-25"), ep("e", 3, undefined), ep("e", 3, "2026/11/01")]) {
+    assert.deepEqual(slugs(selectHomeNews(list, TODAY, [bad])), ["a"], JSON.stringify(bad));
+  }
+  assert.deepEqual(slugs(selectHomeNews(list, TODAY, [])), ["a"]);
+  assert.deepEqual(slugs(selectHomeNews(list, TODAY)), ["a"], "第3引数なし（従来の呼び出し）も同じ");
+});
+
+test("連載：枠は3件のまま。連載は最新の1回だけで、複数の回が新着でも1枠だけ", () => {
+  const r = selectHomeNews([], TODAY, [ep("e2", 2, "2026-10-30"), ep("e3", 3, "2026-11-01")]);
+  assert.deepEqual(slugs(r), ["series-e3"]);
+  const full = selectHomeNews([art("a", { publishedAt: "2026-10-31" }), art("b", { publishedAt: "2026-10-30" }), art("c", { publishedAt: "2026-10-29" })], TODAY, [ep("e2", 2, "2026-10-30"), ep("e3", 3, "2026-11-01")]);
+  assert.equal(full.length, HOME_NEWS_MAX);
+  assert.equal(full.filter((x) => x.article.series).length, 1);
+});
+
+test("連載：枠が埋まっているときは、最も古い通常の新着と入れ替わる。まもなく（優先度1）と近づく日付（優先度3）の記事は押し出さない", () => {
+  const soon = art("soon", { publishedAt: "2026-10-01", homeDate: { kind: "開催", date: "2026-11-02" } });
+  const upcoming = art("upc", { publishedAt: "2026-10-01", homeDate: { kind: "受付", date: "2026-11-10", endDate: "2026-11-20" } });
+  const n1 = art("n1", { publishedAt: "2026-10-31" });
+  const n2 = art("n2", { publishedAt: "2026-10-29" });
+  const r = selectHomeNews([soon, upcoming, n1, n2], TODAY, [ep("e3", 3, "2026-11-01")]);
+  assert.deepEqual(slugs(r), ["soon", "series-e3", "n1"], "最も古い新着（n2）だけが外れ、まもなくの記事は残る");
+  // 優先度1・3だけで枠が埋まっていれば、連載は入らない
+  const s2 = art("soon2", { publishedAt: "2026-10-01", homeDate: { kind: "開催", date: "2026-11-03" } });
+  const full = selectHomeNews([soon, s2, upcoming], TODAY, [ep("e3", 3, "2026-11-01")]);
+  assert.deepEqual(slugs(full), ["soon", "soon2", "upc"]);
+});
+
+test("連載：実際の11月14日の並び（保育・市民祭り・市営住宅）で、行政の締切記事を残し、最も古い新着（市民祭り）と入れ替わる", () => {
+  const nursery = art("nursery", { publishedAt: "2026-11-11" });
+  const festival = art("festival", { publishedAt: "2026-11-08" });
+  const housing = art("housing", { publishedAt: "2026-10-27", homeDate: { kind: "受付", date: "2026-11-09", endDate: "2026-11-20" } });
+  const r = selectHomeNews([nursery, festival, housing], "2026-11-14", [ep("ep3", 3, "2026-11-14")]);
+  assert.deepEqual(slugs(r), ["series-ep3", "nursery", "housing"]);
+  assert.deepEqual(kinds(r), ["new", "new", "upcoming"]);
+});
+
+test("連載：同じ日付なら記事が先、連載は重複して出ない", () => {
+  const r = selectHomeNews([art("a", { publishedAt: "2026-11-01" })], TODAY, [ep("e3", 3, "2026-11-01"), ep("e3", 3, "2026-11-01")]);
+  assert.equal(r.filter((x) => x.article.series).length, 1);
+  assert.equal(new Set(slugs(r)).size, r.length);
+});

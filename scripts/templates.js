@@ -79,6 +79,7 @@ const ICON_PATHS = {
   clock: '<circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 16 14"/>',
   sun: '<circle cx="12" cy="12" r="4"/><line x1="12" y1="2" x2="12" y2="4"/><line x1="12" y1="20" x2="12" y2="22"/><line x1="4" y1="12" x2="2" y2="12"/><line x1="22" y1="12" x2="20" y2="12"/><line x1="5" y1="5" x2="6.5" y2="6.5"/><line x1="17.5" y1="17.5" x2="19" y2="19"/><line x1="5" y1="19" x2="6.5" y2="17.5"/><line x1="17.5" y1="6.5" x2="19" y2="5"/>',
   moon: '<path d="M21 12.5A9 9 0 1 1 11.5 3a7 7 0 0 0 9.5 9.5z"/>',
+  chart: '<line x1="4" y1="20" x2="20" y2="20"/><rect x="6" y="11" width="3" height="9" rx="0.5"/><rect x="11" y="5" width="3" height="15" rx="0.5"/><rect x="16" y="14" width="3" height="6" rx="0.5"/>',
   newspaper: '<rect x="3" y="5" width="14" height="16" rx="1.5"/><line x1="6" y1="9" x2="14" y2="9"/><line x1="6" y1="12.5" x2="14" y2="12.5"/><line x1="6" y1="16" x2="11" y2="16"/><path d="M17 8h3a1 1 0 0 1 1 1v10a2 2 0 0 1-2 2H7"/>',
   videoCamera: '<rect x="2" y="6" width="13" height="12" rx="1.5"/><path d="M15 10l6-3v10l-6-3z"/><circle cx="6" cy="9" r="0.6" fill="currentColor" stroke="none"/>',
   ticket: '<path d="M3 8a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v2a2 2 0 0 0 0 4v2a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-2a2 2 0 0 0 0-4z"/><line x1="13" y1="6" x2="13" y2="18" stroke-dasharray="2 2"/>',
@@ -586,6 +587,18 @@ function headlineRow(article) {
   return headlineRowWith(article, "");
 }
 
+// 連載「宝塚の実力」の公開済みの回の新着行。通常記事と同じ見た目で、記事ではなく連載のページへ飛ぶ
+function seriesHeadlineRow(item, reasonTag) {
+  const reason = reasonTag ? `<span class="reason-tag">${escapeHtml(reasonTag)}</span>` : "";
+  return `<a class="headline-row" href="${escapeHtml(item.href)}">
+<div class="headline-thumb">${icon("chart")}</div>
+<div>
+  <p class="headline-title">${reason}<span class="topic-tag">宝塚の実力 第${item.episode}弾</span>${escapeHtml(item.title)}</p>
+  <p class="headline-meta">${escapeHtml(item.publishedAt)}・${escapeHtml(item.sourceName)}</p>
+</div>
+</a>`;
+}
+
 // サイト自体のお知らせ（新機能追加等）を一時的に表示する。公式ニュース記事とは別枠のため data/articles/ は使わず、期限（until）を過ぎたら自動的に非表示にする
 function siteNoticeRow(notice) {
   return `<a class="headline-row" href="${escapeHtml(notice.href)}">
@@ -601,7 +614,7 @@ function siteNoticeRow(notice) {
 // 候補が無い日は古い記事で埋めず、その旨を言う。サイトのお知らせはニュースと区別して下に小さく出す。
 // 表示は「ビルド時点」の日付で決まる静的な結果なので、基準日を明示する（再ビルドされるまで古い日付のまま残ることが読者に分かるように）。
 function featuredNewsPanel(featuredNews, activeNotices, todayKey) {
-  const items = featuredNews.map(({ article, reason }) => headlineRowWith(article, reasonLabel(reason))).join("\n");
+  const items = featuredNews.map(({ article, reason }) => (article.series ? seriesHeadlineRow(article, reasonLabel(reason)) : headlineRowWith(article, reasonLabel(reason)))).join("\n");
   const body = items || `<p class="empty-state">この1週間に、新しい注目記事はありません。</p>
 <p class="panel-note"><a href="#recent-articles">→ 新着記事を見る</a></p>`;
   const notices = activeNotices.length > 0 ? `<div class="site-notices"><p class="site-notices-title">サイトからのお知らせ</p>${activeNotices.map(siteNoticeRow).join("\n")}</div>` : "";
@@ -633,10 +646,10 @@ function fieldReportPanel(fieldReportPhoto) {
 
 // 上段の左枠（以前は「今日の宝塚トピック」があった場所）に「宝塚の実力」の予告バナーを置く。
 // 「今日の宝塚トピック」と「トップニュース」は「注目・新着ニュース」1枠に統合した（featuredNewsPanel / lib/home-news.js）
-function todayRow(fieldReportPhoto, categoryPageKeys, latestEpisode) {
+function todayRow(fieldReportPhoto, categoryPageKeys, latestEpisode, seriesPrevious = []) {
   return `<div class="today-row${latestEpisode ? " today-row--with-sub" : ""}">
 ${jitsuryokuBannerPanel(latestEpisode)}
-${latestEpisode ? `${jitsuryokuSubBanner()}\n` : ""}<div class="today-row-side">
+${latestEpisode ? `${jitsuryokuSubBanner(seriesPrevious)}\n` : ""}<div class="today-row-side">
 ${fieldReportPanel(fieldReportPhoto)}
 ${categoryPanel(categoryPageKeys)}
 </div>
@@ -796,7 +809,7 @@ ${notices}
 </div>`;
 }
 
-export function indexPage({ featuredNews, todayKey, categoryPageKeys, publishedArticles, ranking, weather, todayCounts, fieldReportPhoto, dateLabel, siteUrl, hasGianPage = false, activeNotices = [], gikaiNotices = [], latestEpisode = null }) {
+export function indexPage({ featuredNews, todayKey, categoryPageKeys, publishedArticles, ranking, weather, todayCounts, fieldReportPhoto, dateLabel, siteUrl, hasGianPage = false, activeNotices = [], gikaiNotices = [], latestEpisode = null, seriesPrevious = [] }) {
   // 同じ記事を「注目・新着ニュース」「市議会情報」「新着記事」で重ねて出さない。上の枠から順に表示済みを除く
   // （注目枠は選定側で決まるので、重複を避けるために古い記事が繰り上がることはない。市議会情報は次の新しい市議会記事が出る）
   const explainerPanel = editorExplainerPanel(publishedArticles.find((a) => a.slug === EDITOR_EXPLAINER_SLUG));
@@ -814,7 +827,7 @@ export function indexPage({ featuredNews, todayKey, categoryPageKeys, publishedA
 ${searchBoxPanel()}
 ${quickAccessPanel()}
 <div class="weather-standalone-row">${weatherPanel(weather)}${contactCtaPanel()}</div>
-${todayRow(fieldReportPhoto, categoryPageKeys, latestEpisode)}
+${todayRow(fieldReportPhoto, categoryPageKeys, latestEpisode, seriesPrevious)}
 <div class="grid-2">
   <div class="col-main">
     ${featuredNewsPanel(featuredNews, activeNotices, todayKey)}
@@ -880,29 +893,48 @@ export function jitsuryokuUpdatedDate(latest = null) {
   return latest && latest.date > JITSURYOKU_BASE_UPDATED ? latest.date : JITSURYOKU_BASE_UPDATED;
 }
 
+// 回のタイトル「宝塚市議会の全体像：25人は何を決め、どう話し合っているのか」を、見出し（：の前）と副題（：の後）に分ける。
+// 「：」が無いタイトルは、全体を見出しにする（副題なし）。原稿（承認の対象）は変えず、表示のときだけ分ける。
+export function splitEpisodeTitle(title) {
+  const i = String(title).indexOf("：");
+  return i > 0 ? { main: title.slice(0, i), sub: title.slice(i + 1) } : { main: title, sub: "" };
+}
+const wbrBreaks = (s) => escapeHtml(s).replace(/[、。]/g, "$&<wbr>");
+
 // 画像は写真・グラフィック部分だけ（文字なし）で、イメージ。見出し・コピー・「調査中」はPC・スマホともHTMLの文字で出す。
-// 画像内に文言を埋め込まない（公開日の約束や、結論を先取りする文言を画像に残さないため）
+// 画像内に文言を埋め込まない（公開日の約束や、結論を先取りする文言を画像に残さないため）。
+// 最新回があるときは、その回の見出しを主役にし、連載名「宝塚の実力」は小さな見出しにする（第1弾の紹介コピーや「5都市と比較」は出さない）。
 function jitsuryokuBannerPanel(latest = null) {
   const number = latest?.episode ?? 1;
   const slug = latest ? escapeHtml(latest.slug) : "zeishu-shigoto";
-  const sub = latest ? escapeHtml(latest.title).replace(/[、。]/g, "$&<wbr>") : "同じくらいの規模の街と<wbr>比べたら、<wbr>何が見える？";
-  return `<section class="jitsuryoku-banner" aria-label="${latest ? `宝塚の実力 第${number}弾公開` : "新企画の予告"}">
+  if (!latest) {
+    return `<section class="jitsuryoku-banner" aria-label="新企画の予告">
 <a class="jitsuryoku-banner__link" href="/${JITSURYOKU_SLUG}/${slug}">
 <span class="jitsuryoku-banner__head"><span class="jitsuryoku-banner__label">第${number}弾公開</span><span class="jitsuryoku-banner__title">宝塚の<em>実力</em></span></span>
-<span class="jitsuryoku-banner__body"><span class="jitsuryoku-banner__copy">宝塚を、知っているつもりだった。</span><span class="jitsuryoku-banner__sub">${sub}</span><span class="jitsuryoku-banner__pill">人口・税収・産業・暮らし。<wbr><strong>5都市</strong>と比較する独自調査。</span><span class="jitsuryoku-banner__more">第${number}弾を読む →</span></span>
+<span class="jitsuryoku-banner__body"><span class="jitsuryoku-banner__copy">宝塚を、知っているつもりだった。</span><span class="jitsuryoku-banner__sub">同じくらいの規模の街と<wbr>比べたら、<wbr>何が見える？</span><span class="jitsuryoku-banner__pill">人口・税収・産業・暮らし。<wbr><strong>5都市</strong>と比較する独自調査。</span><span class="jitsuryoku-banner__more">第${number}弾を読む →</span></span>
+<span class="jitsuryoku-banner__visual"><img src="/img/jitsuryoku-visual.webp" alt="" width="962" height="724" loading="lazy" decoding="async"><span class="jitsuryoku-banner__imgnote">※AI生成イメージ（実際の景観とは異なります）</span></span>
+</a>
+</section>`;
+  }
+  const { main, sub } = splitEpisodeTitle(latest.title);
+  return `<section class="jitsuryoku-banner jitsuryoku-banner--episode" aria-label="宝塚の実力 第${number}弾公開">
+<a class="jitsuryoku-banner__link" href="/${JITSURYOKU_SLUG}/${slug}">
+<span class="jitsuryoku-banner__head"><span class="jitsuryoku-banner__label">第${number}弾公開</span><span class="jitsuryoku-banner__series">宝塚の<em>実力</em></span><span class="jitsuryoku-banner__title jitsuryoku-banner__title--episode">${wbrBreaks(main)}</span></span>
+<span class="jitsuryoku-banner__body">${sub ? `<span class="jitsuryoku-banner__sub">${wbrBreaks(sub)}</span>` : ""}<span class="jitsuryoku-banner__pill">公的な統計・資料で、<wbr>宝塚のいまを数字で見る連載です。</span><span class="jitsuryoku-banner__more">第${number}弾を読む →</span></span>
 <span class="jitsuryoku-banner__visual"><img src="/img/jitsuryoku-visual.webp" alt="" width="962" height="724" loading="lazy" decoding="async"><span class="jitsuryoku-banner__imgnote">※AI生成イメージ（実際の景観とは異なります）</span></span>
 </a>
 </section>`;
 }
 
-// 第2弾以降が公開されたとき、トップで第1弾へ案内する中型カード。主バナーの外に置く独立したリンク
-function jitsuryokuSubBanner() {
-  return `<a class="jitsuryoku-sub" href="/${JITSURYOKU_SLUG}/zeishu-shigoto">
-<span class="jitsuryoku-sub__head"><span class="jitsuryoku-sub__label">第1弾</span><span class="jitsuryoku-sub__note">連載の最初の記事</span></span>
-<span class="jitsuryoku-sub__title">宝塚の税収と仕事、ほかの街とどう違う？</span>
-<span class="jitsuryoku-sub__desc">市税の内訳や市内の仕事を、統計で比べます。</span>
-<span class="jitsuryoku-sub__more">第1弾を読む →</span>
-</a>`;
+// 第2弾以降が公開されたとき、トップに出す「これまでの回」の一覧カード（最新回の主バナーの直下）。
+// previous は新しい順の [{ episode, slug, title, dateLabel }]。第1弾を含む。カード全体はリンクではなく、回ごとのリンクと「連載の一覧」へのリンクを持つ
+function jitsuryokuSubBanner(previous = []) {
+  const items = previous.map((p) => `<li><a class="jitsuryoku-sub__item" href="/${JITSURYOKU_SLUG}/${escapeHtml(p.slug)}"><span class="jitsuryoku-sub__no">第${p.episode}弾</span><span class="jitsuryoku-sub__ttl">${escapeHtml(p.title)}</span><span class="jitsuryoku-sub__date">${escapeHtml(p.dateLabel)}</span></a></li>`).join("");
+  return `<section class="jitsuryoku-sub" aria-labelledby="jitsuryoku-sub-title">
+<p class="jitsuryoku-sub__head"><span class="jitsuryoku-sub__label">宝塚の実力</span><span id="jitsuryoku-sub-title" class="jitsuryoku-sub__note">これまでの回</span></p>
+${items ? `<ul class="jitsuryoku-sub__list" role="list">${items}</ul>` : ""}
+<a class="jitsuryoku-sub__more" href="/${JITSURYOKU_SLUG}#series-list">連載の一覧を見る →</a>
+</section>`;
 }
 
 export function jitsuryokuPage(siteUrl, seriesListHtml = "", latest = null) {
