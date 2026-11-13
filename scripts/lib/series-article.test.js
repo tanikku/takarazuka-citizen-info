@@ -130,7 +130,9 @@ test("記事の形：実原稿は検査を通り、承認の対象（内容ハ�
     }
   }
   const sel = selectEpisodes(loadEpisodes(path.dirname(EP_FILE)), { now: far, approverPublicKey: null, reservedSlugs: [FIRST.slug] });
-  assert.deepEqual(sel.publish, []);
+  // 公開鍵が無いと、署名方式の回（第2回）は公開されない。承認記録方式（v3。第3回以降）の回は、鍵なしでも承認記録が有効なら公開される
+  assert.deepEqual(sel.publish.filter((e) => e.episode === ep.episode), []);
+  assert.ok(sel.publish.every((e) => e.approval?.method === "operator-approval-v3" && e.episode >= 3), "鍵なしで公開されるのは承認記録方式の回だけ");
   // 公開済みを名乗る回が検証できないときはビルドを止める（直前の本番を残す）。それ以外の状態では止めない
   assert.equal(sel.errors.length > 0, ep.status === "published");
 });
