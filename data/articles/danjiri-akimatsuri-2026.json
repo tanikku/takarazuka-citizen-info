@@ -1,14 +1,14 @@
 {
   "slug": "danjiri-akimatsuri-2026",
   "title": "宝塚市内のだんじり秋祭り、10月から11月に各地区で曳行　見物は徒歩か公共交通機関で、駐車場はありません",
-  "summary": "市が案内した曳行の予定日は、11月1日の口谷で最後となりました。各地区で予定どおり曳行が行われたかどうか（雨天・荒天による中止や変更を含む）は、市の案内ページに記載がなく、確認できていません。以下は予定を案内した当時の内容です。宝塚市内の各地区で、10月から11月にかけてだんじり秋祭り（地車の曳行）が予定されています。市の案内による曳行日は、10月10日・11日の上安倉・安倉南・小林・大原野中部、10月16日・17日の川面東・川面南・川面西、10月17日・18日の米谷、10月23日・24日の山本・中山寺・上中筋、10月24日の伊孑志、10月24日・25日の小濱・中筋南・平井・丸橋、11月1日の口谷です。各地区や神社には駐車場がないため、見物は徒歩か公共交通機関を利用し、周辺への路上駐車は控えるよう市は呼びかけています。当日は露店の出店も予定されていません。曳行時間は目安で前後することがあり、雨天・荒天の場合は中止・変更になることがあります。曳行時間や宮入時間、多くの地区の曳行ルート図は、市公式サイトでPDFが公開されています。",
-  "description": "宝塚市内のだんじり秋祭り（地車曳行）の2026年の日程を地区別にまとめました。駐車場はなく、見物は徒歩か公共交通機関で。ルート図は市公式PDFで確認できます。",
-  "sourceUrl": "https://www.city.takarazuka.hyogo.jp/1060683/1060708/1062145/1057626/1057627.html",
-  "sourceName": "宝塚市公式サイト",
+  "summary": "市が案内した曳行の予定日は、11月1日の口谷で最後となりました。各地区で予定どおり曳行が行われたかどうか（雨天・荒天による中止や変更を含む）は、市の案内ページに記載がなく、確認できていません。以下は予定を案内した当時の内容です。宝塚市内の各地区で、10月から11月にかけてだんじり秋祭り（地車の曳行）が予定されています。市の案内による曳行日は、10月10日・11日の上安倉・安倉南・小林・大原野中部、10月16日・17日の川面東・川面南・川面西、10月17日・18日の米谷、10月23日・24日の山本・中山寺・上中筋、10月24日の伊孑志、10月24日・25日の小濱・中筋南・平井・丸橋、11月1日の口谷です。各地区や神社には駐車場がないため、見物は徒歩か公共交通機関を利用し、周辺への路上駐車は控えるよう市は呼びかけています。当日は露店の出店も予定されていません。曳行時間は目安で前後することがあり、雨天・荒天の場合は中止・変更になることがあります。曳行時間や宮入時間、多くの地区の曳行ルート図は、市公式サイトにPDFが公開されていましたが、祭りの終了後に市のページごと閲覧できなくなりました（2026年11月13日に確認）。",
+  "description": "宝塚市内のだんじり秋祭り（地車曳行）の2026年の日程を地区別にまとめました。駐車場はなく、見物は徒歩か公共交通機関で。市公式ページはすでに閲覧できないため、保存版を参照しています。",
+  "sourceUrl": "https://web.archive.org/web/20260924160346/https://www.city.takarazuka.hyogo.jp/1060683/1060708/1062145/1057626/1057627.html",
+  "sourceName": "宝塚市公式サイト（現在は閲覧できないため、インターネットアーカイブの保存版）",
   "sources": [
     {
-      "url": "https://www.city.takarazuka.hyogo.jp/_res/projects/default_project/_page_/001/057/627/2026danjiri.pdf",
-      "label": "宝塚市公式サイト「2026宝塚だんじり秋祭り曳行情報」（PDF、曳行時間・宮入時間など）"
+      "url": "https://web.archive.org/web/20261013225930/https://www.city.takarazuka.hyogo.jp/_res/projects/default_project/_page_/001/057/627/2026danjiri.pdf",
+      "label": "宝塚市「2026宝塚だんじり秋祭り曳行情報」（PDF、令和8年9月24日現在。市のページは現在閲覧できず、インターネットアーカイブの保存版）"
     }
   ],
   "publishedAt": "2026-10-13",
@@ -36,34 +36,12 @@
         [
           "川面東",
           "10月16日（金）・17日（土）",
-          {
-            "links": [
-              {
-                "text": "ルート図を見る（3地区共通）",
-                "href": "https://www.city.takarazuka.hyogo.jp/_res/projects/default_project/_page_/001/057/627/2026kawamo3.pdf"
-              },
-              {
-                "text": "曳行表を見る",
-                "href": "https://www.city.takarazuka.hyogo.jp/_res/projects/default_project/_page_/001/057/627/2026kawamohigashi.pdf"
-              }
-            ]
-          }
+          "市公式のPDFは現在閲覧できません"
         ],
         [
           "川面南",
           "10月16日（金）・17日（土）",
-          {
-            "links": [
-              {
-                "text": "ルート図を見る（3地区共通）",
-                "href": "https://www.city.takarazuka.hyogo.jp/_res/projects/default_project/_page_/001/057/627/2026kawamo3.pdf"
-              },
-              {
-                "text": "曳行表を見る",
-                "href": "https://www.city.takarazuka.hyogo.jp/_res/projects/default_project/_page_/001/057/627/2026kawamominami.pdf"
-              }
-            ]
-          }
+          "市公式のPDFは現在閲覧できません"
         ],
         [
           "川面西",
@@ -71,12 +49,8 @@
           {
             "links": [
               {
-                "text": "ルート図を見る（3地区共通）",
-                "href": "https://www.city.takarazuka.hyogo.jp/_res/projects/default_project/_page_/001/057/627/2026kawamo3.pdf"
-              },
-              {
-                "text": "曳行表を見る",
-                "href": "https://www.city.takarazuka.hyogo.jp/_res/projects/default_project/_page_/001/057/627/2026kawamonishi.pdf"
+                "text": "曳行表を見る（保存版）",
+                "href": "https://web.archive.org/web/20261013183152/https://www.city.takarazuka.hyogo.jp/_res/projects/default_project/_page_/001/057/627/2026kawamonishi.pdf"
               }
             ]
           }
@@ -84,26 +58,12 @@
         [
           "米谷",
           "10月17日（土）・18日（日）",
-          {
-            "links": [
-              {
-                "text": "ルート図を見る",
-                "href": "https://www.city.takarazuka.hyogo.jp/_res/projects/default_project/_page_/001/057/627/2026maitani.pdf"
-              }
-            ]
-          }
+          "市公式のPDFは現在閲覧できません"
         ],
         [
           "山本",
           "10月23日（金）・24日（土）",
-          {
-            "links": [
-              {
-                "text": "ルート図を見る",
-                "href": "https://www.city.takarazuka.hyogo.jp/_res/projects/default_project/_page_/001/057/627/2026yamamoto.pdf"
-              }
-            ]
-          }
+          "市公式のPDFは現在閲覧できません"
         ],
         [
           "中山寺",
@@ -111,8 +71,8 @@
           {
             "links": [
               {
-                "text": "ルート図を見る",
-                "href": "https://www.city.takarazuka.hyogo.jp/_res/projects/default_project/_page_/001/057/627/2026nakayamadera.pdf"
+                "text": "ルート図を見る（保存版）",
+                "href": "https://web.archive.org/web/20261013224836/https://www.city.takarazuka.hyogo.jp/_res/projects/default_project/_page_/001/057/627/2026nakayamadera.pdf"
               }
             ]
           }
@@ -120,38 +80,17 @@
         [
           "上中筋",
           "10月23日（金）・24日（土）",
-          {
-            "links": [
-              {
-                "text": "ルート図を見る",
-                "href": "https://www.city.takarazuka.hyogo.jp/_res/projects/default_project/_page_/001/057/627/2026kaminakasuji.pdf"
-              }
-            ]
-          }
+          "市公式のPDFは現在閲覧できません"
         ],
         [
           "伊孑志",
           "10月24日（土）",
-          {
-            "links": [
-              {
-                "text": "ルート図を見る",
-                "href": "https://www.city.takarazuka.hyogo.jp/_res/projects/default_project/_page_/001/057/627/2026isoshi.pdf"
-              }
-            ]
-          }
+          "市公式のPDFは現在閲覧できません"
         ],
         [
           "小濱",
           "10月24日（土）・25日（日）",
-          {
-            "links": [
-              {
-                "text": "ルート図・曳行表を見る",
-                "href": "https://www.city.takarazuka.hyogo.jp/_res/projects/default_project/_page_/001/057/627/2026kohama.pdf"
-              }
-            ]
-          }
+          "市公式のPDFは現在閲覧できません"
         ],
         [
           "中筋南",
@@ -159,8 +98,8 @@
           {
             "links": [
               {
-                "text": "ルート図を見る",
-                "href": "https://www.city.takarazuka.hyogo.jp/_res/projects/default_project/_page_/001/057/627/2026nakasujiminami.pdf"
+                "text": "ルート図を見る（保存版）",
+                "href": "https://web.archive.org/web/20261013175656/https://www.city.takarazuka.hyogo.jp/_res/projects/default_project/_page_/001/057/627/2026nakasujiminami.pdf"
               }
             ]
           }
@@ -168,26 +107,12 @@
         [
           "平井",
           "10月24日（土）・25日（日）",
-          {
-            "links": [
-              {
-                "text": "ルート図を見る",
-                "href": "https://www.city.takarazuka.hyogo.jp/_res/projects/default_project/_page_/001/057/627/2026hirai.pdf"
-              }
-            ]
-          }
+          "市公式のPDFは現在閲覧できません"
         ],
         [
           "丸橋",
           "10月24日（土）・25日（日）",
-          {
-            "links": [
-              {
-                "text": "ルート図を見る",
-                "href": "https://www.city.takarazuka.hyogo.jp/_res/projects/default_project/_page_/001/057/627/2026maruhashi.pdf"
-              }
-            ]
-          }
+          "市公式のPDFは現在閲覧できません"
         ],
         [
           "口谷",
@@ -200,8 +125,8 @@
           {
             "links": [
               {
-                "text": "ルート図を見る",
-                "href": "https://www.city.takarazuka.hyogo.jp/_res/projects/default_project/_page_/001/057/627/2026kamiakura.pdf"
+                "text": "ルート図を見る（保存版）",
+                "href": "https://web.archive.org/web/20261013223041/https://www.city.takarazuka.hyogo.jp/_res/projects/default_project/_page_/001/057/627/2026kamiakura.pdf"
               }
             ]
           }
@@ -209,26 +134,12 @@
         [
           "安倉南",
           "10月10日（土）・11日（日）",
-          {
-            "links": [
-              {
-                "text": "ルート図を見る",
-                "href": "https://www.city.takarazuka.hyogo.jp/_res/projects/default_project/_page_/001/057/627/2026akuraminami.pdf"
-              }
-            ]
-          }
+          "市公式のPDFは現在閲覧できません"
         ],
         [
           "小林",
           "10月10日（土）・11日（日）",
-          {
-            "links": [
-              {
-                "text": "ルート図を見る",
-                "href": "https://www.city.takarazuka.hyogo.jp/_res/projects/default_project/_page_/001/057/627/2026obayashi.pdf"
-              }
-            ]
-          }
+          "市公式のPDFは現在閲覧できません"
         ],
         [
           "大原野中部",
@@ -236,8 +147,8 @@
           "市公式ページにルート図の掲載なし"
         ]
       ],
-      "sourceUrl": "https://www.city.takarazuka.hyogo.jp/1060683/1060708/1062145/1057626/1057627.html",
-      "sourceLabel": "宝塚市公式サイト「令和8年(2026年)だんじり秋祭り(曳行日)のお知らせ」（2026年10月13日更新）"
+      "sourceUrl": "https://web.archive.org/web/20260924160346/https://www.city.takarazuka.hyogo.jp/1060683/1060708/1062145/1057626/1057627.html",
+      "sourceLabel": "宝塚市公式サイト「令和8年(2026年)だんじり秋祭り(曳行日)のお知らせ」（インターネットアーカイブの保存版。2026年9月24日更新の内容。市のページは現在閲覧できません）"
     }
   ],
   "sections": [
@@ -255,8 +166,8 @@
     {
       "heading": "曳行時間とルート図の確認先",
       "paragraphs": [
-        "下の日程表から、地区ごとの曳行ルート図・曳行表（宝塚市公式のPDF）を直接開けます。スマートフォンでは、PDFを開いたあと拡大して確認してください。ルート図が市公式ページに掲載されていない地区は、その旨を表に記しています。市のページ更新によりPDFのリンク先が変わる場合があります。",
-        "地区ごとの曳行時間・宮入時間などは、市公式サイトの「2026宝塚だんじり秋祭り曳行情報」（PDF）にまとめられています。当日の曳行ルートや時間は変更になる場合があるため、出かける前に市公式ページでも最新の情報を確認してください。問い合わせ先は宝塚市産業文化部観光にぎわい課（電話0797-77-2012）です。"
+        "市の「だんじり秋祭り（曳行日）のお知らせ」ページと地区別のルート図PDFは、2026年11月13日の時点で閲覧できなくなっています。市のページは、だんじりイベント情報の一覧にも載っていません。この記事の日程表は、市が令和8年（2026年）9月24日現在として公表していたPDFと、同日のお知らせページの保存版で内容を確認しました。",
+        "保存版を開けるのは、全体の曳行情報（曳行時間・宮入時間・神社の所在地）と、上安倉・川面西・中筋南・中山寺の資料です。そのほかの地区のルート図は、保存版を確認できていないため、表には載せていません。地区ごとの情報は、各地区の保存会のSNSなどで確認してください。問い合わせ先は宝塚市産業文化部観光にぎわい課（電話0797-77-2012）です。"
       ]
     }
   ],
@@ -267,5 +178,5 @@
   },
   "status": "ended",
   "statusDate": "2026-11-01",
-  "updatedAt": "2026-11-03"
+  "updatedAt": "2026-11-13"
 }
