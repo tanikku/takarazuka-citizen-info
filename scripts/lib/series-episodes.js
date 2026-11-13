@@ -297,7 +297,7 @@ ${inner}
   const dates = [`公開日：${jpDate(episodeDate(ep))}`, c.checkedAt ? `統計などの確認日：${jpDate(c.checkedAt)}` : "", c.updatedAt ? `更新日：${jpDate(c.updatedAt)}` : ""].filter(Boolean).join("　");
   const ribbon = ep.status === "draft" ? `<p class="jf-draft" role="note">公開前の確認用ページです。検索には載せていません。</p>\n` : "";
   const sources = `<ul class="jf-sources" role="list">${c.sources.map((x) => `<li><a href="${escapeHtml(x.url)}" target="_blank" rel="noopener">${escapeHtml(x.label)}</a></li>`).join("")}</ul>`;
-  return `<div class="jf">
+  return `<div class="jf${ep.episode >= 3 ? " jf--phrase" : ""}">
 ${ribbon}<header class="jf-hero">
 <p class="jf-hero__tag">宝塚の実力 第${ep.episode}回</p>
 <h1 class="jf-hero__title">${escapeHtml(ep.title)}</h1>

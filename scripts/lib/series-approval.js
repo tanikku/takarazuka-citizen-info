@@ -267,6 +267,55 @@ export function publishV3({ slug, publishedAt, dir, now = new Date() }) {
   return { file, publishedAt: date, contentHash: contentHashOf(next) };
 }
 
+// 公開済みの回（承認記録方式）の本文を、運営者の明示的な再承認のもとで差し替える。
+//   - 公開済みの原稿を直接編集すると、内容ハッシュが承認と合わず、ビルドが止まる（承認のない変更は公開されない）。
+//   - 差し替えの正式な手順は、このコマンドだけ。原稿ファイル（--from）の本文を取り込み、新しい内容ハッシュに結びつけた新しい承認記録を書く。
+//   - 旧版の承認は、新しい承認記録の supersedes に残す（何から何への差し替えかを、あとから確認できる）。
+//   - 書き込みは、公開状態・公開日を変えずに、1つのファイルを一度に置き換える。置き換えたあとも公開されることを確かめてから書く。
+//   - 署名方式の回（第2回）は対象外。承認記録の偽装を防ぐため、原稿ファイルに承認（approval）を含めることも拒否する。
+const REVISION_CONTROL_KEYS = ["status", "publishedAt", "plannedAt", "scheduledAt", "hold"];
+
+export function reviseV3({ slug, fromFile, approvedBy, evidence, operatorReapproval, dir, now = new Date(), dryRun = false }) {
+  const { file, ep } = readEpisodeFile(dir, slug);
+  if (!isV3Approval(ep) || !Number.isInteger(ep.episode) || ep.episode < V3_MIN_EPISODE) {
+    throw new Error(`承認記録方式（第${V3_MIN_EPISODE}回以降）の公開済みの回だけ改訂できます。署名方式の回（第2回）は改訂できません`);
+  }
+  if (ep.status !== "published") throw new Error("改訂できるのは published の回だけです。draft の回は record-approval → publish で公開します");
+  const cur = decideEpisode(ep, { now });
+  if (!cur.publish) throw new Error(`いまの公開状態が有効ではないため、改訂できません（${cur.reason}）。先に原因を直してください`);
+  if (operatorReapproval !== true) throw new Error("--operator-reapproval が必要です。運営者が、この改訂版の公開を明示的に再承認したときだけ指定します");
+  if (typeof approvedBy !== "string" || !approvedBy.trim()) throw new Error("承認者名（--by）が必要です");
+  if (typeof evidence !== "string" || evidence.trim().length < 10) throw new Error("再承認の根拠（--evidence）が必要です。運営者が、いつ・どこで、改訂版の公開を承認したかを書いてください");
+  if (evidence.trim() === ep.approval.evidence) throw new Error("再承認の根拠が、前回の承認と同じです。今回の再承認の根拠を書いてください");
+  if (typeof fromFile !== "string" || !fromFile) throw new Error("改訂版の原稿ファイル（--from）が必要です");
+  let rev;
+  try { rev = JSON.parse(fs.readFileSync(fromFile, "utf-8")); } catch { throw new Error("改訂版の原稿ファイルを読めません"); }
+  if (!rev || typeof rev !== "object" || Array.isArray(rev)) throw new Error("改訂版の原稿ファイルの形式が不正です");
+  if ("approval" in rev) throw new Error("改訂版の原稿ファイルに承認（approval）を含めることはできません。承認は、このコマンドだけが書きます");
+  if (rev.slug !== ep.slug || rev.episode !== ep.episode) throw new Error("改訂版の slug・回の番号が、公開中の回と一致しません");
+  const next = {};
+  for (const [k, v] of Object.entries(rev)) if (!REVISION_CONTROL_KEYS.includes(k)) next[k] = v;
+  next.status = "published";
+  next.publishedAt = ep.publishedAt; // 公開日は、最初に公開した日のまま
+  const newHash = contentHashOf(next);
+  if (newHash === ep.approval.contentHash) throw new Error("本文が公開中の版と同じです（内容ハッシュが同じ）。差し替える内容がありません");
+  const shape = validateEpisodeShape(next);
+  if (shape.length > 0) throw new Error(`改訂版の形式に問題があります: ${shape.join(" / ")}`);
+  const approvedAt = formatJst(now);
+  next.approval = {
+    method: APPROVAL_V3,
+    approvedBy: approvedBy.trim(),
+    approvedAt,
+    contentHash: newHash,
+    evidence: evidence.trim(),
+    supersedes: { contentHash: ep.approval.contentHash, approvedAt: ep.approval.approvedAt, evidence: ep.approval.evidence },
+  };
+  const d = decideEpisode(next, { now });
+  if (!d.publish) throw new Error(`差し替えると公開されなくなるため、書き込みを中止しました（${d.reason}）`);
+  if (!dryRun) writeJsonAtomic(file, next);
+  return { file, written: !dryRun, from: ep.approval.contentHash, to: newHash, approvedAt, publishedAt: next.publishedAt };
+}
+
 // 公開後の確認：本番のページが配信され、内容ハッシュが承認した原稿と一致するかを確かめる（書き込みはしない）
 export async function runVerifyLive({ dir, slug, siteUrl, fetchFn = fetch, out, err }) {
   const { ep } = readEpisodeFile(dir, slug);

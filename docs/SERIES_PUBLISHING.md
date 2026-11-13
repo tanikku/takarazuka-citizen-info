@@ -10,6 +10,16 @@
 5. `npm test`、`check --strict`、`check --deploy`、`npm run build` が通ることを確かめ、その回のJSONだけを commit・通常 push。
 6. CI と Cloudflare Pages を確認し、`node scripts/series-tool.js verify <slug>` で本番の内容ハッシュが承認した原稿と一致することを確かめる。
 
+## 公開済みの回の本文を改訂するとき（revise）
+公開済みの回の本文を直接編集してはいけない。内容ハッシュが承認と合わなくなり、ビルドが止まる（承認のない変更は公開されない）。改訂は、次の手順だけで行う。
+1. 改訂版の原稿ファイル（承認を含まない。公開中のリポジトリの外で作る）を作り、独立監査とPM確認を終える。
+2. 運営者が、チャットなどで、**改訂版の公開を明示的に再承認**する（最初の公開承認は流用できない）。
+3. Claude Code が実行する：`node scripts/series-tool.js revise <slug> --from <原稿ファイル> --by <承認者名> --evidence "<今回の再承認がいつ・どこにあったか>" --operator-reapproval`（先に `--check` を付けて、書き込まずに確認できる）。
+4. コマンドは、本文を取り込み、新しい内容ハッシュに結びつけた承認記録を書く。公開状態と公開日は変えない。旧版の承認は `supersedes` に残る。公開されなくなる変更は、書き込む前に止める。
+5. `npm test`、`check --strict`、`check --deploy`、`npm run build` を通し、その回のJSONだけを commit・通常 push。CI・Cloudflare を確認し、`verify` で本番の内容ハッシュを確かめる。
+- 旧版は、新しい承認と公開が終わるまで、そのまま公開され続ける（差し替えは1つのファイルの置き換えで、commit・push まで本番は変わらない）。
+- 次は拒否される：再承認の宣言（`--operator-reapproval`）がない／承認者や今回の根拠がない／根拠が前回と同じ／承認（approval）を含む原稿／本文が同じ／slugや回が違う／draft の回／署名方式の回（第2回）／いまの公開状態が有効でない回。
+
 ## 防ぐこと
 - **無承認の公開**：承認記録（承認者・承認日時・根拠・内容ハッシュ）が無い／欠けている `published` は、ビルドを止める。`draft` と `scheduled` は出さない。
 - **承認後の編集**：承認記録は原稿の内容ハッシュに結びつく。承認後に本文を変えると公開されない（再承認が必要）。`status`・`publishedAt`・`plannedAt` は制御項目でハッシュに入らない。

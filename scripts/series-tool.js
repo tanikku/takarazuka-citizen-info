@@ -3,7 +3,7 @@ import path from "node:path";
 import readline from "node:readline";
 import { fileURLToPath } from "node:url";
 import { loadEpisodes, resolveNow, resolveApproverKey, publicKeyFingerprint } from "./lib/series-episodes.js";
-import { runApprove, generateKeyPair, runFinalize, checkSeries, recordApprovalV3, publishV3, runVerifyLive } from "./lib/series-approval.js";
+import { runApprove, generateKeyPair, runFinalize, checkSeries, recordApprovalV3, publishV3, reviseV3, runVerifyLive } from "./lib/series-approval.js";
 
 const SITE_URL = "https://takarazuka-today.jp"; // build.js の SITE_URL と同じ値（本番の公開確認に使う）
 
@@ -17,6 +17,9 @@ const HELP = `使い方: node scripts/series-tool.js <コマンド>
   record-approval <slug> --by <承認者名> --evidence <根拠>
                                     原稿の内容ハッシュに結びつけた承認記録を書く（draft のまま。根拠は、運営者がいつ・どこで承認したか）
   publish <slug> [--date YYYY-MM-DD]  承認記録が有効なときだけ、published にして公開日（土曜日・省略時は今日）を書く
+  revise <slug> --from <原稿ファイル> --by <承認者名> --evidence <根拠> --operator-reapproval [--check]
+                                    公開済みの回の本文を、運営者の明示的な再承認のもとで差し替える（新しい内容ハッシュの承認記録を書く。公開状態・公開日は変えない）。
+                                    --check : 書き込まずに、差し替えできるかと新しいハッシュだけを確認する。第2回（署名方式）は対象外
   verify <slug>                     公開後に、本番のページと内容ハッシュが承認した原稿と一致するかを確かめる（書き込みなし）
 
 【第2回の署名方式（従来。第2回の公開を保つための検証。新しい回では使いません）】
@@ -42,7 +45,7 @@ function parseArgs(argv) {
   const rest = [];
   for (let i = 0; i < argv.length; i++) {
     const a = argv[i];
-    if (a === "--out" || a === "--by" || a === "--evidence" || a === "--date") flags[a.slice(2)] = argv[++i];
+    if (a === "--out" || a === "--by" || a === "--evidence" || a === "--date" || a === "--from") flags[a.slice(2)] = argv[++i];
     else if (a.startsWith("--")) flags[a.slice(2)] = true;
     else rest.push(a);
   }
@@ -101,6 +104,13 @@ async function main() {
       if (!slug) throw new Error("slug を指定してください");
       const r = publishV3({ slug, publishedAt: flags.date, dir: EPISODES_DIR, now: new Date() });
       out(`published にしました: ${slug}（公開日 ${r.publishedAt} / 内容ハッシュ ${r.contentHash.slice(0, 12)}…）。続けて check・test・build を実行してください。`);
+      return 0;
+    }
+    case "revise": {
+      const slug = rest[0];
+      if (!slug) throw new Error("slug を指定してください");
+      const r = reviseV3({ slug, fromFile: flags.from, approvedBy: flags.by, evidence: flags.evidence, operatorReapproval: flags["operator-reapproval"] === true, dir: EPISODES_DIR, now: new Date(), dryRun: Boolean(flags.check) });
+      out(`${r.written ? "差し替えました" : "（確認のみ・書き込みなし）差し替えできます"}: ${slug}（内容ハッシュ ${r.from.slice(0, 12)}… → ${r.to.slice(0, 12)}…、承認日時 ${r.approvedAt}、公開日 ${r.publishedAt} のまま）。${r.written ? "続けて check・test・build を実行してください。" : ""}`);
       return 0;
     }
     case "verify": {

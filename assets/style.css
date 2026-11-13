@@ -3822,3 +3822,70 @@ html[data-theme="dark"] .jf-hero__tag, html[data-theme="dark"] .jf-h2__no { colo
   .jf-rate { grid-template-columns: 1fr; row-gap: 0.15rem; }
   .jf-rate__val { flex-direction: row; justify-content: flex-start; align-items: baseline; gap: 0.5em; min-width: 0; }
 }
+
+/* ===== 「宝塚の実力」第3回以降の読みやすさ（2026-11-14）=====
+   第1・2弾の表示は変えない：次のルールは、第3回以降のページの枠（.jf--phrase）と、データで指定した部品（labels:top・phrase・compact）だけに効く。
+   文字を小さくして詰め込まず、改行の位置（文節）と、項目名・表の置き方で読みやすくする。 */
+.jf--phrase { overflow-wrap: anywhere; }
+.jf--phrase p,
+.jf--phrase li,
+.jf--phrase .jf-figure__desc,
+.jf--phrase .jf-unit,
+.jf--phrase .jf-say__bubble,
+.jf--phrase .jf-source {
+  word-break: auto-phrase;
+  text-wrap: pretty;
+}
+.jf--phrase .jf-hero__title,
+.jf--phrase .jf-h2,
+.jf--phrase .jf-figure__title,
+.jf--phrase .jf-grp__title,
+.jf--phrase .jf-sum__box h3 {
+  word-break: auto-phrase;
+  text-wrap: balance;
+}
+
+/* 項目名が長いグラフ：項目名を棒の上に1行で出し、棒は全幅で使う（幅に関係なく同じ並び） */
+.jf-bars--top .jf-bar { grid-template-columns: minmax(0, 1fr) auto; row-gap: 0.15rem; }
+.jf-bars--top .jf-bar__name { grid-column: 1 / -1; word-break: auto-phrase; text-wrap: balance; line-height: 1.4; }
+.jf-bars--top .jf-bar__val { min-width: 3.5em; }
+.jf-bars--top .jf-bar + .jf-bar { margin-top: 0.35rem; }
+
+/* 冒頭の数値カード：見出しを文節で折り返し、補足は短く。3枚の数値の高さをそろえる */
+.jf-stats--phrase .jf-stat__lbl,
+.jf-stats--phrase .jf-stat__sub { word-break: auto-phrase; text-wrap: balance; }
+.jf-stats--phrase .jf-stat__period { display: inline; margin-left: 0; white-space: normal; }
+.jf-stats--phrase .jf-stat--duo .jf-stat__city { white-space: normal; text-wrap: balance; }
+
+/* 数値の表：スクロールさせず、列の見出しと行の見出しを折り返して画面幅に収める */
+.jf-table-wrap--compact { overflow-x: visible; }
+.jf-table--compact { min-width: 0; width: 100%; table-layout: auto; font-size: 0.95rem; }
+.jf-table--compact th,
+.jf-table--compact td { padding: 0.35em 0.45em; white-space: normal; word-break: auto-phrase; overflow-wrap: anywhere; }
+.jf-table--compact th[scope="row"] { position: static; white-space: normal; min-width: 6.5em; }
+.jf-table--compact thead th:first-child,
+.jf-table--compact caption { position: static; }
+.jf-table--compact td { font-variant-numeric: tabular-nums; }
+.jf-table--compact td.is-text { min-width: 0; }
+@media (max-width: 480px) {
+  .jf-table--compact { font-size: 0.9rem; }
+  .jf-table--compact th,
+  .jf-table--compact td { padding: 0.3em 0.35em; }
+}
+
+/* 吹き出し：幅いっぱいに広げ、狭い画面では人物の画像を小さくして、1行あたりの文字数を確保する */
+.jf--phrase .jf-say__bubble { flex: 1 1 0; min-width: 0; }
+@media (max-width: 480px) {
+  .jf--phrase .jf-say { gap: 0.5rem; }
+  .jf--phrase .jf-say__img { max-height: 84px; max-width: 64px; }
+}
+
+/* 数値の表：数字は途中で折り返さず、見出しは文節で、文章の列は文節（必要なときだけ途中）で折り返す。
+   それでも画面幅に収まらない表は、切れずに横へスクロールできるようにする */
+.jf--phrase .jf-table--compact thead th { overflow-wrap: normal; }
+.jf--phrase .jf-table--compact td.is-text { overflow-wrap: anywhere; }
+.jf--phrase .jf-table--compact th[scope="row"] { overflow-wrap: normal; }
+.jf-table--compact td:not(.is-text) { white-space: nowrap; overflow-wrap: normal; }
+@media (max-width: 480px) {
+  .jf-table-wrap--compact { overflow-x: auto; }
+}

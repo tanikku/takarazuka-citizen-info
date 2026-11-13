@@ -14,7 +14,7 @@ const LABELS = { fact: "事実", calc: "計算値", idea: "考察", hypo: "未�
 const BOX_KINDS = ["fact", "idea", "hypo", "next"];
 const SEG_CLASSES = ["a1", "a2", "a3", "nat", "soc"];
 const RATE_ROLES = ["focus", "peer", "other"];
-const TABLE_KINDS = ["text", "num", "delta", "pct", "sub", "add", "ratio"];
+const TABLE_KINDS = ["text", "num", "delta", "pct", "sub", "add", "ratio", "per"];
 const WHO = { madoka: "まどか", wan: "たからワン" };
 
 const esc = (s) => String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
@@ -39,6 +39,10 @@ export function validateBlocks(blocks, where = "blocks", ids = new Set()) {
     const need = (cond, msg) => { if (!cond) errors.push(`${at}(${b?.t}): ${msg}`); };
     if (!b || typeof b !== "object") { errors.push(`${at}: オブジェクトが必要です`); return; }
     const figId = () => { need(/^[a-z][a-z0-9-]*$/.test(b.id ?? ""), "id は英小文字・数字・ハイフンにしてください"); need(!ids.has(b.id), `id「${b.id}」が重複しています`); ids.add(b.id); };
+    // 第3回以降の表示の指定（任意）。指定がなければ従来の表示のまま
+    if (b.t === "bars") need(b.labels === undefined || b.labels === "top", "labels は top（項目名を棒の上に出す）だけです");
+    if (b.t === "stats") need(b.phrase === undefined || typeof b.phrase === "boolean", "phrase は true / false です");
+    if (b.t === "table") need(b.compact === undefined || typeof b.compact === "boolean", "compact は true / false です");
     switch (b.t) {
       case "p": need(isStr(b.text), "text が必要です"); need(b.k === undefined || b.k in LABELS, "k は fact/calc/idea/hypo/unk のいずれかです"); break;
       case "h3": need(isStr(b.text), "text が必要です"); break;
@@ -94,7 +98,7 @@ export function validateBlocks(blocks, where = "blocks", ids = new Set()) {
         need(Array.isArray(b.rows) && b.rows.length > 0, "rows が必要です");
         const cols = b.cols ?? [];
         cols.forEach((c, ci) => {
-          if (["delta", "pct", "sub", "add", "ratio"].includes(c.kind)) need(Number.isInteger(c.a) && Number.isInteger(c.b) && c.a >= 0 && c.b >= 0 && c.a < ci && c.b < ci && ["num", "delta", "sub", "add"].includes(cols[c.a]?.kind) && ["num", "delta", "sub", "add"].includes(cols[c.b]?.kind), `列${ci}の a/b は、左にある数値の列を指してください`);
+          if (["delta", "pct", "sub", "add", "ratio", "per"].includes(c.kind)) need(Number.isInteger(c.a) && Number.isInteger(c.b) && c.a >= 0 && c.b >= 0 && c.a < ci && c.b < ci && ["num", "delta", "sub", "add"].includes(cols[c.a]?.kind) && ["num", "delta", "sub", "add"].includes(cols[c.b]?.kind), `列${ci}の a/b は、左にある数値の列を指してください`);
         });
         for (const r of b.rows ?? []) {
           need(Array.isArray(r) && r.length === cols.length, "行の列数が cols と一致していません");
@@ -136,6 +140,7 @@ export function tableRowValues(cols, row) {
       else if (c.kind === "pct") out.push(((b - a) / a) * 100);
       else if (c.kind === "sub") out.push(a - b);
       else if (c.kind === "add") out.push(a + b);
+      else if (c.kind === "per") out.push(b === 0 ? null : a / b); // per: a ÷ b（たとえば人口 ÷ 議員数。1人あたりの人数）
       else out.push((a / b) * 100); // ratio: a ÷ b × 100
     }
   });
@@ -146,6 +151,7 @@ const fmtCell = (c, v) => {
   if (c.kind === "text") return esc(v);
   if (c.kind === "pct") return fmtSignedPct(v);
   if (c.kind === "ratio") return fmtPct(v, c.dec ?? 1);
+  if (c.kind === "per") return n0(v);
   if (c.kind === "delta" || c.kind === "sub" || c.kind === "add") return fmtSigned(v);
   if (c.dec) return v.toLocaleString("ja-JP", { minimumFractionDigits: c.dec, maximumFractionDigits: c.dec });
   return n0(v);
@@ -168,7 +174,7 @@ function barsHtml(b) {
       const from = g.rows[g.delta.a].value, to = g.rows[g.delta.b].value;
       delta = `<p class="jf-grp__delta">${label("calc")}${esc(g.delta.label)}：${fmtSigned(to - from)}${esc(b.suffix ?? "")}（${fmtSignedPct(((to - from) / from) * 100)}）</p>`;
     }
-    return `<div class="jf-grp"><h3 class="jf-grp__title">${esc(g.title)}</h3><ul class="jf-bars" role="list">${rows}</ul>${delta}</div>`;
+    return `<div class="jf-grp"><h3 class="jf-grp__title">${esc(g.title)}</h3><ul class="jf-bars${b.labels === "top" ? " jf-bars--top" : ""}" role="list">${rows}</ul>${delta}</div>`;
   }).join("");
   return figure(b, `${groups}${b.unit ? `<p class="jf-unit">${esc(b.unit)}</p>` : ""}`);
 }
@@ -219,7 +225,7 @@ function tableHtml(b) {
     const vals = tableRowValues(b.cols, r);
     return `<tr>${b.cols.map((c, i) => (i === 0 && c.kind === "text" ? `<th scope="row">${esc(vals[i])}</th>` : `<td${c.kind === "text" ? ' class="is-text"' : ""}>${c.kind === "text" ? rich(vals[i]) : fmtCell(c, vals[i])}</td>`)).join("")}</tr>`;
   }).join("");
-  return `<div class="jf-table-wrap" tabindex="0" role="region" aria-label="表（幅が足りないときは横にスクロールできます）"><table class="jf-table${b.textual ? " jf-table--text" : ""}"><caption>${esc(b.caption)}</caption><thead>${head}</thead><tbody>${body}</tbody></table></div>${b.note ? `<p class="jf-small">${rich(b.note)}</p>` : ""}`;
+  return `<div class="jf-table-wrap${b.compact ? " jf-table-wrap--compact" : ""}" tabindex="0" role="region" aria-label="表（幅が足りないときは横にスクロールできます）"><table class="jf-table${b.textual ? " jf-table--text" : ""}${b.compact ? " jf-table--compact" : ""}"><caption>${esc(b.caption)}</caption><thead>${head}</thead><tbody>${body}</tbody></table></div>${b.note ? `<p class="jf-small">${rich(b.note)}</p>` : ""}`;
 }
 
 export function renderBlock(b) {
@@ -241,7 +247,7 @@ export function renderBlock(b) {
     case "sum": return `<div class="jf-sum">${b.boxes.map((x) => `<section class="jf-sum__box jf-sum__box--${x.kind}"><h3>${x.kind === "next" ? "" : label(x.kind)}${esc(x.title)}</h3><ul>${x.items.map((t) => `<li>${rich(t)}</li>`).join("")}</ul></section>`).join("")}</div>`;
     case "next": return `<aside class="jf-next" aria-label="次回予告"><p class="jf-next__tag">次回予告</p><p class="jf-next__title">${esc(b.title)}</p><p>${rich(b.text)}</p>${b.href ? `<p><a href="${esc(b.href)}">${esc(b.linkText)}</a></p>` : ""}</aside>`;
     // 見出し末尾の（期間）だけを別の行にして、3カードの改行位置をそろえる。文字列は変えない
-    case "stats": return `<ul class="jf-stats jf-stats--duo" role="list" aria-label="${esc(b.aria)}">${b.items.map((x) => `<li class="jf-stat jf-stat--duo"><span class="jf-stat__lbl">${esc(x.label).replace(/（[^（）]*）$/, '<span class="jf-stat__period">$&</span>')}</span><span class="jf-duo">${x.values.map((v) => `<span class="jf-duo__v"><span class="jf-stat__city">${esc(v.city)}</span><b class="jf-stat__num">${esc(v.num)}</b></span>`).join("")}</span><span class="jf-stat__sub">${esc(x.sub)}</span></li>`).join("")}</ul>`;
+    case "stats": return `<ul class="jf-stats jf-stats--duo${b.phrase ? " jf-stats--phrase" : ""}" role="list" aria-label="${esc(b.aria)}">${b.items.map((x) => `<li class="jf-stat jf-stat--duo"><span class="jf-stat__lbl">${esc(x.label).replace(/（[^（）]*）$/, '<span class="jf-stat__period">$&</span>')}</span><span class="jf-duo">${x.values.map((v) => `<span class="jf-duo__v"><span class="jf-stat__city">${esc(v.city)}</span><b class="jf-stat__num">${esc(v.num)}</b></span>`).join("")}</span><span class="jf-stat__sub">${esc(x.sub)}</span></li>`).join("")}</ul>`;
     default: throw new Error(`不明なブロック: ${b.t}`);
   }
 }

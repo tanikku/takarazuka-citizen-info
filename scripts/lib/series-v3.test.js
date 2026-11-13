@@ -9,7 +9,7 @@ import path from "node:path";
 import {
   contentHashOf, signApproval, decideEpisode, selectEpisodes, validateEpisodeShape, checkApprovalV3, isSaturdayDate, APPROVAL_V3, episodeDate,
 } from "./series-episodes.js";
-import { recordApprovalV3, publishV3, checkSeries, runVerifyLive } from "./series-approval.js";
+import { recordApprovalV3, publishV3, reviseV3, checkSeries, runVerifyLive } from "./series-approval.js";
 
 const SAT = "2026-11-14"; // 土曜日
 const NOW = new Date("2026-11-14T03:00:00Z"); // 2026-11-14 12:00 JST
@@ -221,4 +221,113 @@ test("検証：verify は本番の内容ハッシュが承認した原稿と一�
 test("形式：v3の第3回の published には publishedAt が必要", () => {
   assert.ok(validateEpisodeShape({ ...published(), publishedAt: undefined }).some((m) => m.includes("publishedAt")));
   assert.deepEqual(validateEpisodeShape(published()), []);
+});
+
+// ---------- 公開済みの回の改訂（revise） ----------
+const REAPPROVAL = "運営者が2026-11-14のチャットで、改訂版の公開を再承認";
+function revFile(over = {}, dir = null) {
+  const e = ep();
+  const rev = { ...e, content: { ...e.content, sections: [{ heading: "見出し", paragraphs: ["改訂した本文です。"] }] }, status: "draft", plannedAt: "2026-11-21", ...over };
+  const d = dir ?? fs.mkdtempSync(path.join(os.tmpdir(), "series-rev-src-"));
+  const f = path.join(d, "rev.json");
+  fs.writeFileSync(f, JSON.stringify(rev));
+  return { f, d };
+}
+const reviseArgs = (dir, f, over = {}) => ({ slug: "ep3-sample", fromFile: f, approvedBy: "宝塚Today運営者", evidence: REAPPROVAL, operatorReapproval: true, dir, now: new Date("2026-11-15T03:00:00Z"), ...over });
+
+test("改訂：運営者の再承認のもとで、本文だけが差し替わる。公開状態・公開日は変わらず、旧版の承認が supersedes に残る", () => {
+  const dir = tmpDir(published());
+  const src = revFile();
+  try {
+    const before = read(dir);
+    const r = reviseV3(reviseArgs(dir, src.f));
+    const after = read(dir);
+    assert.equal(r.written, true);
+    assert.equal(r.from, before.approval.contentHash);
+    assert.notEqual(r.to, r.from);
+    assert.deepEqual([after.status, after.publishedAt, "plannedAt" in after], ["published", SAT, false], "公開状態・公開日は最初のまま");
+    assert.equal(after.content.sections[0].paragraphs[0], "改訂した本文です。");
+    assert.equal(after.approval.contentHash, contentHashOf(after));
+    assert.equal(after.approval.approvedAt, "2026-11-15T12:00:00+09:00");
+    assert.equal(after.approval.evidence, REAPPROVAL);
+    assert.deepEqual(after.approval.supersedes, { contentHash: before.approval.contentHash, approvedAt: before.approval.approvedAt, evidence: before.approval.evidence });
+    assert.equal(decideEpisode(after, { now: new Date("2026-11-15T03:00:00Z") }).publish, true);
+    assert.deepEqual(checkSeries([signedEp2(), after], { now: new Date("2026-11-15T03:00:00Z"), approverPublicKey: approver.publicKey, strict: true }).errors, []);
+  } finally { fs.rmSync(dir, { recursive: true, force: true }); fs.rmSync(src.d, { recursive: true, force: true }); }
+});
+
+test("改訂：--check（dryRun）は書き込まず、差し替えできるかと新しいハッシュだけを返す", () => {
+  const dir = tmpDir(published());
+  const src = revFile();
+  const before = fs.readFileSync(path.join(dir, "ep3-sample.json"), "utf8");
+  try {
+    const r = reviseV3(reviseArgs(dir, src.f, { dryRun: true }));
+    assert.equal(r.written, false);
+    assert.equal(fs.readFileSync(path.join(dir, "ep3-sample.json"), "utf8"), before);
+  } finally { fs.rmSync(dir, { recursive: true, force: true }); fs.rmSync(src.d, { recursive: true, force: true }); }
+});
+
+test("改訂：再承認の宣言・承認者・今回の根拠がなければ拒否する（承認の偽装・流用の防止）。拒否のときファイルは変わらない", () => {
+  const dir = tmpDir(published());
+  const src = revFile();
+  const before = fs.readFileSync(path.join(dir, "ep3-sample.json"), "utf8");
+  try {
+    assert.throws(() => reviseV3(reviseArgs(dir, src.f, { operatorReapproval: false })), /--operator-reapproval/);
+    assert.throws(() => reviseV3(reviseArgs(dir, src.f, { operatorReapproval: undefined })), /--operator-reapproval/);
+    assert.throws(() => reviseV3(reviseArgs(dir, src.f, { approvedBy: "" })), /承認者名/);
+    assert.throws(() => reviseV3(reviseArgs(dir, src.f, { evidence: "短い" })), /根拠/);
+    assert.throws(() => reviseV3(reviseArgs(dir, src.f, { evidence: undefined })), /根拠/);
+    assert.throws(() => reviseV3(reviseArgs(dir, src.f, { evidence: "運営者がチャットで公開を承認（2026-11-14）" })), /前回の承認と同じ/);
+    assert.throws(() => reviseV3(reviseArgs(dir, undefined)), /--from/);
+    assert.equal(fs.readFileSync(path.join(dir, "ep3-sample.json"), "utf8"), before);
+  } finally { fs.rmSync(dir, { recursive: true, force: true }); fs.rmSync(src.d, { recursive: true, force: true }); }
+});
+
+test("改訂：対象は承認記録方式の公開済みの回だけ（draft・第2回の署名方式・公開状態が壊れた回は拒否）", () => {
+  const src = revFile();
+  const cases = [
+    [tmpDir(withApproval(ep())), /published の回だけ/],
+    [tmpDir({ ...signedEp2(), slug: "ep3-sample" }), /署名方式の回/],
+    [tmpDir(published({}, { contentHash: "0".repeat(64) })), /有効ではない/],
+  ];
+  try {
+    for (const [dir, re] of cases) {
+      try { assert.throws(() => reviseV3(reviseArgs(dir, src.f)), re); } finally { fs.rmSync(dir, { recursive: true, force: true }); }
+    }
+    const dir2 = tmpDir({ ...signedEp2(), slug: "ep2-sample" });
+    try { assert.throws(() => reviseV3({ ...reviseArgs(dir2, src.f), slug: "ep2-sample" }), /署名方式の回/); } finally { fs.rmSync(dir2, { recursive: true, force: true }); }
+  } finally { fs.rmSync(src.d, { recursive: true, force: true }); }
+});
+
+test("改訂：原稿ファイルの不備は拒否する（承認の同梱・本文が同じ・slugや回が違う・形式の誤り）", () => {
+  const dir = tmpDir(published());
+  const before = fs.readFileSync(path.join(dir, "ep3-sample.json"), "utf8");
+  const dirs = [];
+  const mk = (over) => { const r = revFile(over); dirs.push(r.d); return r.f; };
+  try {
+    assert.throws(() => reviseV3(reviseArgs(dir, mk({ approval: { method: APPROVAL_V3, approvedBy: "x", approvedAt: "2026-11-15T10:00:00+09:00", contentHash: "a".repeat(64), evidence: "偽の承認のつもり" } }))), /承認（approval）を含める/);
+    assert.throws(() => reviseV3(reviseArgs(dir, mk({ content: ep().content }))), /同じ/);
+    assert.throws(() => reviseV3(reviseArgs(dir, mk({ slug: "other-slug" }))), /一致しません/);
+    assert.throws(() => reviseV3(reviseArgs(dir, mk({ episode: 4 }))), /一致しません/);
+    assert.throws(() => reviseV3(reviseArgs(dir, mk({ content: { sections: [], sources: [] } }))), /形式/);
+    assert.throws(() => reviseV3(reviseArgs(dir, path.join(os.tmpdir(), "no-such-file.json"))), /読めません/);
+    assert.equal(fs.readFileSync(path.join(dir, "ep3-sample.json"), "utf8"), before);
+  } finally { fs.rmSync(dir, { recursive: true, force: true }); for (const d of dirs) fs.rmSync(d, { recursive: true, force: true }); }
+});
+
+test("改訂：原稿ファイルの status・公開日・予定日は取り込まない（公開状態を原稿から変えられない）", () => {
+  const dir = tmpDir(published());
+  const src = revFile({ status: "draft", publishedAt: "2030-01-05", plannedAt: "2031-01-01", hold: true });
+  try {
+    reviseV3(reviseArgs(dir, src.f));
+    const after = read(dir);
+    assert.deepEqual([after.status, after.publishedAt, after.hold, "plannedAt" in after], ["published", SAT, undefined, false]);
+  } finally { fs.rmSync(dir, { recursive: true, force: true }); fs.rmSync(src.d, { recursive: true, force: true }); }
+});
+
+test("改訂：公開済みの原稿を直接編集しただけでは公開されない（revise を通らない変更は止まる）", () => {
+  const e = published();
+  const edited = { ...e, content: { ...e.content, sections: [{ heading: "見出し", paragraphs: ["直接書き換えた本文"] }] } };
+  const d = decideEpisode(edited, { now: new Date("2026-11-15T03:00:00Z") });
+  assert.deepEqual([d.publish, d.reason, d.blocking], [false, "published-but-content-changed-after-approval", true]);
 });
