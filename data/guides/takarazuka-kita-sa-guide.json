@@ -5,7 +5,7 @@
   "cardPhoto": "/photos/takarazuka-kita-sa-entrance-20261103-1200x630.webp",
   "cardPhotoAlt": "「宝塚北」の文字がある、赤い屋根の建物の入口",
   "photoCredit": "宝塚北サービスエリアの建物の入口（2026年11月3日 宝塚Today撮影）",
-  "fieldReport": ["取材日：2026年11月3日", "掲載写真は宝塚Todayが2026年11月3日に撮影した、宝塚北サービスエリアの外観です。一般道からの利用と、ドッグランの様子は運営者の現地取材によります（写真の撮影範囲は外観です）。"],
+  "fieldReport": ["取材日：2026年11月3日", "掲載写真は宝塚Todayが2026年11月3日に撮影した、宝塚北サービスエリアの外観と駐車場です。一般道からの利用とドッグランの様子は運営者の現地取材によります（ドッグランの写真はありません。駐車場の写真が、一般道側か高速道路側かは、写真からは区別できません）。"],
   "title": "宝塚北サービスエリアガイド（アクセス・営業時間・一般道からの利用方法）",
   "cardSummary": "新名神の西日本最大級SA。一般道からも利用できるウェルカムゲート情報も",
   "lead": "新名神高速道路の宝塚北サービスエリア（宝塚市玉瀬）について、アクセス・駐車場・営業時間・施設内容と、高速道路に乗らず一般道から利用できるウェルカムゲートの情報をまとめました。店舗の最新情報は公式サイトでご確認ください。",
@@ -29,8 +29,7 @@
         "宝塚北サービスエリア（宝塚北SA）は、2018年に開業した新名神高速道路のサービスエリアです。上り線・下り線共用の集約型で、西日本最大級の規模を誇ります",
         "所在地は宝塚市玉瀬字奥之焼1-125。建物は宝塚の「花のみち」周辺をイメージした南欧風のデザインで、「ハイウェイの宝島」をコンセプトに運営されています",
         "宝塚が生誕の地である手塚治虫のキャラクターグッズの販売やオブジェの展示があり、宝塚らしさを感じられるサービスエリアです",
-        "詳細は<a href=\"https://www.takarazukakita-sa.jp/\" target=\"_blank\" rel=\"noopener\">宝塚北サービスエリア公式サイト</a>および<a href=\"https://www.w-holdings.co.jp/sapa/01070/\" target=\"_blank\" rel=\"noopener\">NEXCO西日本のSA・PA情報サイト</a>でご確認ください",
-      { "photo": {"src": "/photos/takarazuka-kita-sa-arcade-20261103.webp", "width": 1600, "height": 1200, "alt": "アーチ状の回廊が続く、黄色い壁と赤い屋根の建物", "caption": "アーチ状の回廊のある建物（2026年11月3日 宝塚Today撮影）"} }
+        "詳細は<a href=\"https://www.takarazukakita-sa.jp/\" target=\"_blank\" rel=\"noopener\">宝塚北サービスエリア公式サイト</a>および<a href=\"https://www.w-holdings.co.jp/sapa/01070/\" target=\"_blank\" rel=\"noopener\">NEXCO西日本のSA・PA情報サイト</a>でご確認ください"
     ]
     },
     {
@@ -43,8 +42,7 @@
         "<strong>手塚治虫キャラクターのオブジェ：</strong>館内外にリボンの騎士などのオブジェがあり、記念撮影スポットになっています",
         "<strong>ドッグラン：</strong>ノーリードで利用できるドッグランがあり、屋外テラス席では愛犬と一緒に過ごせます（<a href=\"https://www.w-holdings.co.jp/sapa/01070/facility/\" target=\"_blank\" rel=\"noopener\">NEXCO西日本のSA・PA情報サイト</a>）",
         "館内の設備配置は<a href=\"https://www.takarazukakita-sa.jp/guide/\" target=\"_blank\" rel=\"noopener\">公式サイト「施設ガイド」</a>でご確認ください",
-        "出店店舗は入れ替わることがあります。最新の店舗情報は<a href=\"https://www.takarazukakita-sa.jp/\" target=\"_blank\" rel=\"noopener\">公式サイト</a>でご確認ください。",
-      { "photo": {"src": "/photos/takarazuka-kita-sa-promenade-20261103.webp", "width": 1600, "height": 1200, "alt": "街灯が並ぶ、広い石畳の通路と駐車場", "caption": "石畳の通路と駐車場（2026年11月3日 宝塚Today撮影）"} }
+        "出店店舗は入れ替わることがあります。最新の店舗情報は<a href=\"https://www.takarazukakita-sa.jp/\" target=\"_blank\" rel=\"noopener\">公式サイト</a>でご確認ください。"
     ]
     },
     {
@@ -63,7 +61,8 @@
         "ウェルカムゲート側には「お客さま駐車場」（104台）があります（NEXCO西日本公式サイト）",
         "具体的なアクセス経路は<a href=\"https://www.takarazukakita-sa.jp/access/\" target=\"_blank\" rel=\"noopener\">公式サイト「交通アクセス」</a>でご確認ください",
         "市内北部（西谷地区）からの買い物・食事スポットとしても利用されています",
-        "<strong>現地取材（2026年11月3日）：</strong>武田尾方面から一般道を通り、ウェルカムゲート経由で利用しました。高速道路には入らず、一般道利用者用の駐車場を利用できました。駐車場の空き状況や混雑は、日や時間で変わります。"
+        "<strong>現地取材（2026年11月3日）：</strong>武田尾方面から一般道を通り、ウェルカムゲート経由で利用しました。高速道路には入らず、一般道利用者用の駐車場を利用できました。駐車場の空き状況や混雑は、日や時間で変わります。",
+      { "photo": {"src": "/photos/takarazuka-kita-sa-parking-20261103.webp", "width": 1600, "height": 1200, "alt": "駐車場と、その奥に見える黄色い壁と赤い屋根の建物", "caption": "SAの駐車場のようす。一般道利用者用の駐車場かどうかは、写真からは区別できません（2026年11月3日 宝塚Today撮影）"} }
       ]
     },
     {

@@ -41,8 +41,7 @@
         "所在地：〒665-8558　兵庫県宝塚市栄町1-1-57（<a href=\"https://kageki.hankyu.co.jp/theater/takarazuka/\" target=\"_blank\" rel=\"noopener\">宝塚歌劇公式サイト「宝塚大劇場」</a>）",
         "問い合わせ：宝塚歌劇インフォメーションセンター（0570-00-5100）",
         "客席数の少ない「バウホール」も併設されており、大劇場より近い距離で観劇できる公演も上演されています",
-        "託児施設「チャイルドルーム」（予約制）が利用できます。詳細は<a href=\"https://kageki.hankyu.co.jp/theater/takarazuka/floormap.html\" target=\"_blank\" rel=\"noopener\">公式サイトのフロアマップ</a>でご確認ください",
-      { "photo": {"src": "/photos/takarazuka-gekijo-archway-20261103.webp", "width": 1600, "height": 1200, "alt": "アーチの向こうに見える宝塚大劇場", "caption": "アーチ越しに見た宝塚大劇場（2026年11月3日 宝塚Today撮影）"} }
+        "託児施設「チャイルドルーム」（予約制）が利用できます。詳細は<a href=\"https://kageki.hankyu.co.jp/theater/takarazuka/floormap.html\" target=\"_blank\" rel=\"noopener\">公式サイトのフロアマップ</a>でご確認ください"
     ]
     },
     {
@@ -56,7 +55,8 @@
         "飛行機利用の場合：伊丹空港からモノレールで蛍池駅へ、阪急宝塚線に乗り換えて約35分／神戸空港からポートライナーで三宮駅へ、阪急に乗り換えて約25分",
         "最新の運行状況・時刻・詳しいアクセスマップは<a href=\"https://kageki.hankyu.co.jp/theater/takarazuka/map.html\" target=\"_blank\" rel=\"noopener\">宝塚歌劇公式サイト「劇場アクセス」</a>でご確認ください。",
         "<strong>現地取材（2026年11月3日）：</strong>花のみちから、宝塚ホテルと宝塚大劇場の外観・内部を訪れました（館内では通路を撮影しています）。その後、手塚治虫記念館の方面へ歩いて移動しました。観劇はしていないため、公演や座席についての感想はありません。",
-      { "photo": {"src": "/photos/takarazuka-hananomichi-20261103.webp", "width": 1600, "height": 1200, "alt": "「花乃みち」と刻まれた石碑のある並木道", "caption": "「花乃みち」の石碑がある並木道（2026年11月3日 宝塚Today撮影）"} }]
+      { "photo": {"src": "/photos/takarazuka-hananomichi-20261103.webp", "width": 1600, "height": 1200, "alt": "「花乃みち」と刻まれた石碑のある並木道", "caption": "「花乃みち」の石碑がある並木道（2026年11月3日 宝塚Today撮影）"} },
+      { "photo": {"src": "/photos/takarazuka-gekijo-signpost-20261103.webp", "width": 1600, "height": 1200, "alt": "「宝塚大劇場」「宝塚バウホール」と矢印が書かれた案内標識", "caption": "大劇場とバウホールへの案内標識（2026年11月3日 宝塚Today撮影）"} }]
     },
     {
       "id": "parking",
