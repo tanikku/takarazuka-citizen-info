@@ -2,13 +2,15 @@
   "categoryKey": "kanko",
   "slug": "takarazuka-onsen-guide",
   "icon": "sun",
-  "cardPhoto": "/photos/001015682_mukogawa.jpg",
-  "photoCredit": "写真提供：宝塚市オープンデータ",
+  "cardPhoto": "/photos/takarazuka-onsen-mukogawa-20261103-1200x630.webp",
+  "cardPhotoAlt": "武庫川沿いに並ぶ、宝塚温泉街の宿泊施設",
+  "photoCredit": "武庫川沿いの宝塚温泉街（2026年11月3日 宝塚Today撮影）",
+  "fieldReport": ["取材日：2026年11月3日（街なかの外観）", "掲載写真は宝塚Todayが2026年11月3日に撮影した、武庫川沿いの街なかの外観です。浴場や館内の撮影ではありません。"],
   "title": "宝塚温泉ガイド（日帰り入浴・歴史・アクセス）",
   "cardSummary": "宝塚駅近くの歴史ある温泉。日帰り入浴できる施設をまとめました",
   "lead": "宝塚駅から徒歩圏内、武庫川沿いに湧く宝塚温泉について、歴史・泉質・日帰り入浴できる施設・アクセスをまとめました。観劇や観光とあわせて楽しめる街なか温泉です。営業状況・料金など変動する情報は各施設の公式サイトでご確認ください。",
   "disclosure": "本ページは宝塚市国際観光協会・宝塚市・各施設公式サイトの公開情報をもとに作成しています。営業状況・料金の最新情報は必ず各施設の公式サイトでご確認ください。",
-  "updatedAt": "2026-07-24",
+  "updatedAt": "2026-11-14",
   "toc": [
     { "id": "about", "label": "宝塚温泉とは" },
     { "id": "onsen", "label": "泉質・効能" },
@@ -26,8 +28,9 @@
         "宝塚温泉は、武庫川右岸・宝来橋の南詰あたりに湧く温泉で、その起源は鎌倉時代にさかのぼると伝えられています",
         "明治時代に温泉場として整備され、大正時代の宝塚少女歌劇（現在の宝塚歌劇）の誕生とともに温泉街として大きく発展しました。「宝塚」が歌劇と温泉の街として知られるようになった原点です",
         "現在は武庫川沿いのホテルで温泉入浴が楽しめ、観劇・観光とあわせた「街なか温泉」として親しまれています",
-        "詳細は<a href=\"https://kanko-takarazuka.jp/special/onsen/\" target=\"_blank\" rel=\"noopener\">宝塚市国際観光協会「宝塚の温泉」</a>でご確認ください"
-      ]
+        "詳細は<a href=\"https://kanko-takarazuka.jp/special/onsen/\" target=\"_blank\" rel=\"noopener\">宝塚市国際観光協会「宝塚の温泉」</a>でご確認ください",
+      { "photo": {"src": "/photos/takarazuka-onsen-hotel-bridge-20261103.webp", "width": 1600, "height": 1200, "alt": "武庫川沿いに建つ、茶色いレンガ調の大きな宿泊施設", "caption": "武庫川沿いに建つ宿泊施設（2026年11月3日 宝塚Today撮影）"} }
+    ]
     },
     {
       "id": "onsen",
@@ -80,8 +83,9 @@
         "<strong>宝塚大劇場：</strong>徒歩約5〜10分。観劇とセットで楽しめます（<a href=\"/category/kanko/takarazuka-kageki-guide\">宝塚歌劇ガイド</a>）",
         "<strong>手塚治虫記念館：</strong>宝塚大橋を渡って徒歩圏内です（<a href=\"/category/kanko/tezuka-museum-guide\">手塚治虫記念館ガイド</a>）",
         "<strong>花のみち：</strong>宝塚駅から大劇場へ続く桜並木の遊歩道です",
-        "<strong>武田尾温泉：</strong>同じ宝塚市内の渓谷の温泉。JRで2駅の小旅行が楽しめます（<a href=\"/category/kanko/takedao-onsen-guide\">武田尾温泉ガイド</a>）"
-      ]
+        "<strong>武田尾温泉：</strong>同じ宝塚市内の渓谷の温泉。JRで2駅の小旅行が楽しめます（<a href=\"/category/kanko/takedao-onsen-guide\">武田尾温泉ガイド</a>）",
+      { "photo": {"src": "/photos/takarazuka-onsen-mukogawa-view-20261103.webp", "width": 1600, "height": 1200, "alt": "武庫川の向こうに見える、温泉街の建物", "caption": "武庫川の橋から見た温泉街（2026年11月3日 宝塚Today撮影）"} }
+    ]
     }
   ],
   "faq": [

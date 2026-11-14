@@ -2,13 +2,15 @@
   "categoryKey": "kanko",
   "slug": "tezuka-museum-guide",
   "icon": "book",
-  "cardPhoto": "/photos/001015682_tezukakinenkan2015.jpg",
-  "photoCredit": "写真提供：宝塚市オープンデータ",
+  "cardPhoto": "/photos/tezuka-museum-tower-20261103-1200x630.webp",
+  "cardPhotoAlt": "手塚治虫記念館の円筒形の塔と入口の外観",
+  "photoCredit": "手塚治虫記念館の外観（2026年11月3日 宝塚Today撮影）",
+  "fieldReport": ["取材日：2026年11月3日（外観のみ）", "掲載写真は宝塚Todayが2026年11月3日に撮影した記念館の外観です。館内のようすは今回の撮影の対象外で、館内の情報は公式サイトの公開情報によります。"],
   "title": "手塚治虫記念館ガイド（アクセス・入館案内・館内のみどころ）",
   "cardSummary": "アクセス・開館時間・入館方法・館内フロアのみどころ（2026年12月〜2027年3月4日は長期休館）",
   "lead": "宝塚市武庫川町にある宝塚市立手塚治虫記念館について、アクセス・駐車場・開館時間・入館方法・館内のみどころなど、訪れる前に知っておきたい情報をまとめました。2026年12月1日から2027年3月4日までは長期休館です。企画展・料金など変動する情報は公式サイトでご確認ください。",
   "disclosure": "本ページは宝塚市立手塚治虫記念館公式サイトの公開情報をもとに作成しています。企画展・料金・開館時間の最新情報は必ず公式サイトでご確認ください。",
-  "updatedAt": "2026-10-29",
+  "updatedAt": "2026-11-14",
   "toc": [
     { "id": "kyukan", "label": "長期休館と入館料の改定" },
     { "id": "about", "label": "手塚治虫記念館とは" },
@@ -66,8 +68,9 @@
       "items": [
         "手塚治虫記念館は1994年に開館した宝塚市立の記念館です。手塚治虫が唱え続けてきた「自然への愛」「生命の尊さ」をテーマに、青少年の夢と希望を未来へ広げていくことを目的として設立されました",
         "手塚治虫は宝塚市で幼少期を過ごしたことで知られ、記念館は宝塚大劇場に近い武庫川沿いに位置しています",
-        "詳細は<a href=\"https://tezukaosamu.net/jp/museum/\" target=\"_blank\" rel=\"noopener\">手塚治虫記念館公式サイト（tezukaosamu.net）</a>および<a href=\"https://www.city.takarazuka.hyogo.jp/tezuka/\" target=\"_blank\" rel=\"noopener\">宝塚市立手塚治虫記念館公式サイト</a>でご確認ください"
-      ]
+        "詳細は<a href=\"https://tezukaosamu.net/jp/museum/\" target=\"_blank\" rel=\"noopener\">手塚治虫記念館公式サイト（tezukaosamu.net）</a>および<a href=\"https://www.city.takarazuka.hyogo.jp/tezuka/\" target=\"_blank\" rel=\"noopener\">宝塚市立手塚治虫記念館公式サイト</a>でご確認ください",
+      { "photo": {"src": "/photos/tezuka-museum-phoenix-tower-20261103.webp", "width": 1600, "height": 1200, "alt": "入口前の鳥のモニュメントと、虹色の帯のある円筒形の塔", "caption": "入口前のモニュメントと記念館の塔（2026年11月3日 宝塚Today撮影）"} }
+    ]
     },
     {
       "id": "access",
@@ -76,8 +79,9 @@
         "所在地：〒665-0844　兵庫県宝塚市武庫川町7-65",
         "JR・阪急「宝塚駅」から：花のみちを徒歩約10分",
         "阪急「宝塚南口駅」から：宝塚大橋を渡り徒歩約7分",
-        "詳しいアクセスマップは<a href=\"https://www.city.takarazuka.hyogo.jp/tezuka/4000018/4000038.html\" target=\"_blank\" rel=\"noopener\">公式サイト「交通アクセス」</a>でご確認ください。"
-      ]
+        "詳しいアクセスマップは<a href=\"https://www.city.takarazuka.hyogo.jp/tezuka/4000018/4000038.html\" target=\"_blank\" rel=\"noopener\">公式サイト「交通アクセス」</a>でご確認ください。",
+      { "photo": {"src": "/photos/tezuka-museum-street-view-20261103.webp", "width": 1600, "height": 1200, "alt": "通りの先に見える、記念館の円筒形の塔", "caption": "通りから見た記念館の外観（2026年11月3日 宝塚Today撮影）"} }
+    ]
     },
     {
       "id": "parking",

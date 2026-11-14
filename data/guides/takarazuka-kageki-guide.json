@@ -2,13 +2,15 @@
   "categoryKey": "kanko",
   "slug": "takarazuka-kageki-guide",
   "icon": "ticket",
-  "cardPhoto": "/photos/001015682_takarazukadaigekizyou.jpg",
-  "photoCredit": "写真提供：宝塚市オープンデータ",
+  "cardPhoto": "/photos/takarazuka-gekijo-facade-20261103-1200x630.webp",
+  "cardPhotoAlt": "「宝塚歌劇」の看板がある宝塚大劇場の外観",
+  "photoCredit": "宝塚大劇場の外観（2026年11月3日 宝塚Today撮影）",
+  "fieldReport": ["取材日：2026年11月3日（外観・周辺・館内の通路）", "掲載写真は宝塚Todayが2026年11月3日に撮影した、宝塚大劇場の外観・周辺・館内の通路です。公演の内容や座席からの見え方は撮影していません。"],
   "title": "宝塚歌劇ガイド（宝塚大劇場のアクセス・チケット購入・館内施設）",
   "cardSummary": "宝塚大劇場のアクセス・駐車場・チケット購入方法・初めての観劇ガイド",
   "lead": "宝塚市栄町にある宝塚大劇場について、アクセス・駐車場・チケット購入方法・館内施設など、初めて観劇する方にも役立つ情報をまとめました。公演日程・料金など変動する情報は公式サイトでご確認ください。",
   "disclosure": "本ページは宝塚歌劇公式サイトの公開情報をもとに作成しています。公演スケジュール・料金・座席等の最新情報は必ず宝塚歌劇公式サイトでご確認ください。",
-  "updatedAt": "2026-07-23",
+  "updatedAt": "2026-11-14",
   "changelog": [
     { "date": "2026-07-23", "note": "宝塚大劇場について・アクセス・駐車場・営業時間・チケット購入方法・館内施設・初めて観劇する方への各セクションに、公式サイトの該当ページへのリンクを追加" }
   ],
@@ -39,8 +41,9 @@
         "所在地：〒665-8558　兵庫県宝塚市栄町1-1-57（<a href=\"https://kageki.hankyu.co.jp/theater/takarazuka/\" target=\"_blank\" rel=\"noopener\">宝塚歌劇公式サイト「宝塚大劇場」</a>）",
         "問い合わせ：宝塚歌劇インフォメーションセンター（0570-00-5100）",
         "客席数の少ない「バウホール」も併設されており、大劇場より近い距離で観劇できる公演も上演されています",
-        "託児施設「チャイルドルーム」（予約制）が利用できます。詳細は<a href=\"https://kageki.hankyu.co.jp/theater/takarazuka/floormap.html\" target=\"_blank\" rel=\"noopener\">公式サイトのフロアマップ</a>でご確認ください"
-      ]
+        "託児施設「チャイルドルーム」（予約制）が利用できます。詳細は<a href=\"https://kageki.hankyu.co.jp/theater/takarazuka/floormap.html\" target=\"_blank\" rel=\"noopener\">公式サイトのフロアマップ</a>でご確認ください",
+      { "photo": {"src": "/photos/takarazuka-gekijo-archway-20261103.webp", "width": 1600, "height": 1200, "alt": "アーチの向こうに見える宝塚大劇場", "caption": "アーチ越しに見た宝塚大劇場（2026年11月3日 宝塚Today撮影）"} }
+    ]
     },
     {
       "id": "access",
@@ -51,8 +54,9 @@
         "神戸（三宮）方面から：阪急神戸三宮駅から「大阪梅田行」特急に乗り、西宮北口駅で今津線に乗り換えて約35分",
         "新幹線利用の場合：新大阪駅からJR京都線で大阪駅へ（約5分）、福知山線に乗り換え／新神戸駅から地下鉄西神・山手線で三宮駅へ（約10分）、阪急に乗り換え",
         "飛行機利用の場合：伊丹空港からモノレールで蛍池駅へ、阪急宝塚線に乗り換えて約35分／神戸空港からポートライナーで三宮駅へ、阪急に乗り換えて約25分",
-        "最新の運行状況・時刻・詳しいアクセスマップは<a href=\"https://kageki.hankyu.co.jp/theater/takarazuka/map.html\" target=\"_blank\" rel=\"noopener\">宝塚歌劇公式サイト「劇場アクセス」</a>でご確認ください。"
-      ]
+        "最新の運行状況・時刻・詳しいアクセスマップは<a href=\"https://kageki.hankyu.co.jp/theater/takarazuka/map.html\" target=\"_blank\" rel=\"noopener\">宝塚歌劇公式サイト「劇場アクセス」</a>でご確認ください。",
+      { "photo": {"src": "/photos/takarazuka-hananomichi-20261103.webp", "width": 1600, "height": 1200, "alt": "「花乃みち」と刻まれた石碑のある並木道", "caption": "「花乃みち」の石碑がある並木道（2026年11月3日 宝塚Today撮影）"} }
+    ]
     },
     {
       "id": "parking",
@@ -94,8 +98,9 @@
         "<strong>売店・カフェ：</strong>ラウンジ（幕間休憩のみ営業）、ボヌール（ジェラートショップ）、劇場売店（菓子・飲料）",
         "<strong>ショップ：</strong>キャトルレーヴ（宝塚歌劇公式グッズ）、レビューショップ（オリジナル菓子）、宝塚レビュー郵便局（オリジナル消印）",
         "<strong>その他：</strong>宝塚歌劇の殿堂（入館料500円）、Salon de Takarazuka（衣装での写真撮影）、チャイルドルーム（託児施設・予約制）",
-        "各施設の営業時間・場所は<a href=\"https://kageki.hankyu.co.jp/theater/takarazuka/floormap.html\" target=\"_blank\" rel=\"noopener\">宝塚歌劇公式サイト「フロアマップ」</a>でご確認ください"
-      ],
+        "各施設の営業時間・場所は<a href=\"https://kageki.hankyu.co.jp/theater/takarazuka/floormap.html\" target=\"_blank\" rel=\"noopener\">宝塚歌劇公式サイト「フロアマップ」</a>でご確認ください",
+      { "photo": {"src": "/photos/takarazuka-gekijo-concourse-20261103.webp", "width": 1600, "height": 1200, "alt": "大きなシャンデリアのある、館内の広い通路", "caption": "館内の通路（2026年11月3日 宝塚Today撮影）"} }
+    ],
       "notes": ["営業時間・詳細は施設により異なります。最新情報は公式サイトのフロアマップでご確認ください。"]
     },
     {

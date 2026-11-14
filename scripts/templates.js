@@ -1248,15 +1248,15 @@ function guideCharactersPanel() {
 
 // フェーズ18〜22：宝塚おでかけガイドシリーズへの導線。既存.guide-cardデザインを流用し、シリーズ追加ごとにカードを増やす（順序は検索需要を考慮）
 const ODEKAKE_GUIDE_CARDS = [
-  { href: "/category/kanko/takarazuka-kageki-guide", photo: "/photos/001015682_takarazukadaigekizyou.jpg", label: "宝塚歌劇ガイド", sub: "宝塚大劇場のアクセス・チケット購入・館内施設" },
+  { href: "/category/kanko/takarazuka-kageki-guide", photo: "/photos/takarazuka-gekijo-facade-20261103-1200x630.webp", label: "宝塚歌劇ガイド", sub: "宝塚大劇場のアクセス・チケット購入・館内施設" },
   { href: "/category/kanko/hanshin-keibajo-guide", photo: "/photos/hanshin-keibajo.jpg", label: "阪神競馬場ガイド", sub: "アクセス・駐車場・ファミリー向け情報" },
-  { href: "/category/kanko/takarazuka-kita-sa-guide", photo: "/photos/takarazuka-kita-sa.jpg", label: "宝塚北サービスエリアガイド", sub: "西日本最大級SA。一般道からの利用方法も" },
+  { href: "/category/kanko/takarazuka-kita-sa-guide", photo: "/photos/takarazuka-kita-sa-entrance-20261103-1200x630.webp", label: "宝塚北サービスエリアガイド", sub: "西日本最大級SA。一般道からの利用方法も" },
   { href: "/category/kanko/haisen-hiking-guide", photo: "/photos/001015680_takedaomomizi2013.jpg", label: "武田尾廃線ハイキングガイド", sub: "トンネルと鉄橋を歩く人気コース" },
-  { href: "/category/kanko/tezuka-museum-guide", photo: "/photos/001015682_tezukakinenkan2015.jpg", label: "手塚治虫記念館ガイド", sub: "アクセス・入館案内・館内のみどころ" },
+  { href: "/category/kanko/tezuka-museum-guide", photo: "/photos/tezuka-museum-tower-20261103-1200x630.webp", label: "手塚治虫記念館ガイド", sub: "アクセス・入館案内・館内のみどころ" },
   { href: "/category/kanko/nakayamadera-guide", photo: "/photos/nakayamadera-gate-20261003-1200x630.webp", label: "中山寺ガイド", sub: "安産祈願・戌の日・アクセス" },
   { href: "/category/kanko/kiyoshikojin-guide", photo: "/photos/kiyoshikojin-gate-20261003-1200x630.webp", label: "清荒神清澄寺ガイド", sub: "境内案内・参道商店街・アクセス" },
   { href: "/category/kanko/takedao-onsen-guide", photo: "/photos/takedao-tsuribashi-gorge-20261103-1200x630.webp", label: "武田尾温泉ガイド", sub: "武庫川渓谷の秘湯。日帰り入浴・足湯" },
-  { href: "/category/kanko/takarazuka-onsen-guide", photo: "/photos/001015682_mukogawa.jpg", label: "宝塚温泉ガイド", sub: "宝塚駅近くの歴史ある街なか温泉" },
+  { href: "/category/kanko/takarazuka-onsen-guide", photo: "/photos/takarazuka-onsen-mukogawa-20261103-1200x630.webp", label: "宝塚温泉ガイド", sub: "宝塚駅近くの歴史ある街なか温泉" },
   { href: "/category/kanko/aiaipark-guide", photo: "/photos/001015682_aiaipark2011.jpg", label: "あいあいパークガイド", sub: "植木のまち山本の園芸拠点。入場無料" },
   { href: "/category/kanko/dahlia-en-guide", photo: "/photos/dahlia-field-orange-20261017-1200x630.webp", label: "宝塚ダリア園ガイド", sub: "約300種10万本のダリア。花摘み体験も" },
 ];
