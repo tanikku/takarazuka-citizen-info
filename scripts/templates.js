@@ -1425,7 +1425,7 @@ function eventRow(occurrence) {
   const categoryMeta = findCategory(article.category);
   const photo = findPhotoForText(`${article.title} ${article.summary ?? ""}`);
   const dateLabel = new Date(`${date}T00:00:00+09:00`).toLocaleDateString("ja-JP", { timeZone: "Asia/Tokyo", month: "long", day: "numeric", weekday: "short" });
-  return `<a class="headline-row" href="/articles/${article.slug}">
+  return `<a class="headline-row" href="/articles/${article.slug}" data-date="${escapeHtml(date)}">
 <div class="headline-thumb">${thumbHtml(photo, categoryMeta ? categoryMeta.icon : "calendar")}</div>
 <div>
   <p class="headline-title">${escapeHtml(dateLabel)}　${statusTag(article)}${escapeHtml(article.title)}</p>
@@ -1434,45 +1434,78 @@ function eventRow(occurrence) {
 </a>`;
 }
 
+// 静的ビルドのため、「今日・今週末・今月」の振り分けは閲覧時にブラウザで行う（ビルド日の判定を固定表示しない）。
+// JavaScriptが無効な場合は、各行の開催日と「更新時点」を明示した一覧として表示する。
 export function eventsPage({ todayEvents, thisWeekend, thisMonth, siteUrl }) {
   const canonicalUrl = `${siteUrl}/events/`;
 
-  const todayItems = todayEvents.map(eventRow).join("\n") || '<p class="empty-state">本日開催のイベントはありません</p>';
-  const weekendItems = thisWeekend.map(eventRow).join("\n") || '<p class="empty-state">今週末開催予定のイベントはまだ登録されていません</p>';
-  const monthItems = thisMonth.map(eventRow).join("\n") || '<p class="empty-state">今月開催予定のイベントはまだ登録されていません</p>';
+  const seen = new Set();
+  const occurrences = [];
+  for (const o of [...todayEvents, ...thisWeekend, ...thisMonth]) {
+    const key = `${o.article.slug}|${o.date}`;
+    if (seen.has(key)) continue;
+    seen.add(key);
+    occurrences.push(o);
+  }
+  occurrences.sort((a, b) => (a.date < b.date ? -1 : a.date > b.date ? 1 : 0));
+  const builtLabel = new Date().toLocaleDateString("ja-JP", { timeZone: "Asia/Tokyo", year: "numeric", month: "long", day: "numeric" });
+  const rows = occurrences.map(eventRow).join("\n");
 
   const bodyHtml = `<nav class="breadcrumb"><a href="/">トップ</a> &gt; イベントカレンダー</nav>
 <div class="page-content">
-<div class="event-tabs" role="tablist">
+<p class="panel-note">宝塚市・兵庫県・兵庫県警が公開した情報のうち、開催日が明記されているイベントを、開催日の順に並べています。このページはサイトの更新時に作り直しており、最終更新は${escapeHtml(builtLabel)}です。終了した催しは載せていません。開催の有無や内容の最新情報は、各記事の出典元でご確認ください。</p>
+<div class="event-tabs" role="tablist" style="display:none">
 <button class="event-tab is-active" type="button" data-tab="today" role="tab" aria-selected="true">今日</button>
 <button class="event-tab" type="button" data-tab="weekend" role="tab" aria-selected="false">今週末</button>
 <button class="event-tab" type="button" data-tab="month" role="tab" aria-selected="false">今月</button>
 </div>
-<div class="panel event-tabpanel" id="event-panel-today" data-tabpanel="today">
-<p class="panel-title">${icon("calendar")}今日のイベント</p>
-${todayItems}
+<div class="panel" id="event-panel">
+<p class="panel-title">${icon("calendar")}<span id="event-panel-title">${escapeHtml(builtLabel)}の更新時点で登録されている、今月末までのイベント</span></p>
+<div id="event-list">
+${rows}
 </div>
-<div class="panel event-tabpanel" id="event-panel-weekend" data-tabpanel="weekend" hidden>
-<p class="panel-title">${icon("calendar")}今週末のイベント</p>
-${weekendItems}
+<p class="empty-state" id="event-empty"${rows ? ' style="display:none"' : ""}>${escapeHtml(builtLabel)}の更新時点で、今月末までに開催予定のイベントは登録されていません</p>
 </div>
-<div class="panel event-tabpanel" id="event-panel-month" data-tabpanel="month" hidden>
-<p class="panel-title">${icon("calendar")}今月のイベント</p>
-${monthItems}
-</div>
-<p class="panel-note">掲載しているイベントは、宝塚市・兵庫県・兵庫県警が公開した情報のうち、開催日が明記されているものです。最新情報は出典元をご確認ください。</p>
 </div>
 <script>
 (function(){
   var tabs = document.querySelectorAll(".event-tab");
+  var rows = document.querySelectorAll("#event-list [data-date]");
+  var title = document.getElementById("event-panel-title");
+  var empty = document.getElementById("event-empty");
+  if (!tabs.length || !title || !empty) return;
+  function jstToday(){ return new Intl.DateTimeFormat("en-CA", { timeZone: "Asia/Tokyo", year: "numeric", month: "2-digit", day: "2-digit" }).format(new Date()); }
+  var todayKey = jstToday();
+  var current = "today";
+  function addDays(key, n){ var p = key.split("-"); var d = new Date(Date.UTC(+p[0], +p[1] - 1, +p[2] + n)); return d.toISOString().slice(0, 10); }
+  function dow(key){ var p = key.split("-"); return new Date(Date.UTC(+p[0], +p[1] - 1, +p[2])).getUTCDay(); }
+  var labels = { today: ["今日のイベント", "このページの更新時点（${escapeHtml(builtLabel)}）で登録されているイベントの中に、今日開催のものはありません"], weekend: ["今週末のイベント", "このページの更新時点（${escapeHtml(builtLabel)}）で登録されているイベントの中に、今週末開催のものはありません"], month: ["今月のイベント", "このページの更新時点（${escapeHtml(builtLabel)}）で登録されているイベントの中に、今月これから開催のものはありません"] };
+  function match(tab, key){
+    if (key < todayKey) return false;
+    if (tab === "today") return key === todayKey;
+    if (tab === "weekend") { var w = dow(key); return key <= addDays(todayKey, 7) && (w === 0 || w === 6); }
+    return key.slice(0, 7) === todayKey.slice(0, 7);
+  }
+  function show(tab){
+    todayKey = jstToday();
+    current = tab;
+    var n = 0;
+    rows.forEach(function(r){ var ok = match(tab, r.getAttribute("data-date")); r.style.display = ok ? "" : "none"; if (ok) n++; });
+    title.textContent = labels[tab][0];
+    empty.textContent = labels[tab][1];
+    empty.style.display = n > 0 ? "none" : "";
+  }
   tabs.forEach(function(tab){
     tab.addEventListener("click", function(){
       tabs.forEach(function(t){ t.classList.remove("is-active"); t.setAttribute("aria-selected","false"); });
       tab.classList.add("is-active");
       tab.setAttribute("aria-selected","true");
-      document.querySelectorAll(".event-tabpanel").forEach(function(p){ p.hidden = p.dataset.tabpanel !== tab.dataset.tab; });
+      show(tab.dataset.tab);
     });
   });
+  document.querySelector(".event-tabs").style.display = "";
+  document.addEventListener("visibilitychange", function(){ if (!document.hidden) show(current); });
+  show("today");
 })();
 </script>`;
 
@@ -2307,7 +2340,7 @@ ${recommendedPagesPanel("shigikai", canonicalUrl.replace(siteUrl, ""))}
 const SUISOUGAKU_FAQ = [
   {
     q: "西阪神地区大会・県大会・全国大会はどう違うのですか？",
-    a: "兵庫県吹奏楽コンクールは、地区大会 → 県大会 → 関西大会 → （部門により）全国大会という順に勝ち進むトーナメント形式です。部門は中学校・高校だけでなく、大学・職場・一般の部もあります。宝塚市内の学校・団体は「西阪神地区」に属しており、まず西阪神地区大会に出場します。本ページは中学校・高校の部門を中心に扱っており、上位大会に進んだ場合の情報は判明次第追記します。",
+    a: "兵庫県吹奏楽コンクールは、地区大会 → 県大会 → 関西大会 → （部門により）全国大会という順に勝ち進むトーナメント形式です。部門は中学校・高校だけでなく、大学・職場・一般の部もあります。宝塚市内の学校・団体は「西阪神地区」に属しており、まず西阪神地区大会に出場します。本ページは中学校・高校の部門を中心に扱っており、上位大会の結果は、公式発表で確認できた範囲で各大会の欄に掲載しています。",
   },
   {
     q: "県大会へはどうすれば進めますか？",
@@ -2327,11 +2360,7 @@ const SUISOUGAKU_FAQ = [
   },
   {
     q: "この大会は一般の人も観覧できますか？",
-    a: "大会は公開で行われ、当日会場でチケットを購入すれば観覧できます（公式タイムテーブルに「チケット販売」の時間帯が記載されています）。詳細な観覧ルールは西阪神吹奏楽連盟の公式サイトでご確認ください。",
-  },
-  {
-    q: "入場料はいくらですか？",
-    a: "具体的な金額は西阪神吹奏楽連盟の公式サイト・当日会場でご確認ください。公式サイトに金額の記載がないため、本ページでは推測の金額は記載していません。",
+    a: "大会は公開で行われ、当日会場でチケットを購入すれば観覧できます（公式タイムテーブルに「チケット販売」の時間帯が記載されています）。入場料の金額は公式サイトに記載がないため、本ページには載せていません。金額や観覧のルールは、西阪神吹奏楽連盟の公式サイトや当日の会場でご確認ください。",
   },
   {
     q: "出演順（タイムテーブル）はどこで確認できますか？",
@@ -2339,11 +2368,11 @@ const SUISOUGAKU_FAQ = [
   },
   {
     q: "結果はいつ・どこで掲載されますか？",
-    a: "西阪神地区大会の結果は西阪神吹奏楽連盟の公式サイトに、県大会以降の結果は各大会の主催団体（兵庫県吹奏楽連盟・関西吹奏楽連盟・全日本吹奏楽連盟）の公式サイトに順次掲載されます。本ページでも判明次第追記する予定です。",
+    a: "西阪神地区大会の結果は西阪神吹奏楽連盟の公式サイトに、県大会以降の結果は各大会の主催団体（兵庫県吹奏楽連盟・関西吹奏楽連盟・全日本吹奏楽連盟）の公式サイトに順次掲載されます。本ページでは、公式発表で確認できた宝塚市内の学校・団体の結果を、各大会の欄に掲載しています。",
   },
   {
     q: "宝塚市内から何校参加しますか？",
-    a: "年度によって異なります。本ページの「宝塚市内出場校」の一覧に、公式タイムテーブルで確認できた最新の学校数を掲載しています。",
+    a: "年度によって異なります。本ページの地区大会の結果表で、「宝塚市内」のマークが付いている学校・団体が宝塚市内の出場校です。",
   },
 ];
 
@@ -2444,7 +2473,7 @@ ${current.districtResults.pendingNote ? `<p class="note-box">${escapeHtml(curren
 <div class="page-content">
 <div class="panel">
 <p class="panel-title">${icon("book")}宝塚市 吹奏楽コンクールガイド</p>
-<p>「兵庫県吹奏楽コンクール」は、<strong>地区大会 → 県大会 → 関西大会 → （部門により）全国大会</strong>という順に勝ち進む仕組みになっています。部門は中学校・高校だけでなく、大学・職場・一般の部もあり、宝塚市内では学校の吹奏楽部に加えて市民吹奏楽団（宝塚市吹奏楽団など）も一般の部で出場しています。宝塚市内の学校は「西阪神地区」に属しており、まず西阪神吹奏楽連盟が主催する西阪神地区大会に出場します。<strong>このページでは、このうち中学校・高校の部門を中心に</strong>、宝塚市内の出場校の情報を整理しています。県大会以降の結果も判明次第追記していきます。公式情報の整理のみを目的とし、評価・順位予想は行いません。</p>
+<p>「兵庫県吹奏楽コンクール」は、<strong>地区大会 → 県大会 → 関西大会 → （部門により）全国大会</strong>という順に勝ち進む仕組みになっています。部門は中学校・高校だけでなく、大学・職場・一般の部もあり、宝塚市内では学校の吹奏楽部に加えて市民吹奏楽団（宝塚市吹奏楽団など）も一般の部で出場しています。宝塚市内の学校は「西阪神地区」に属しており、まず西阪神吹奏楽連盟が主催する西阪神地区大会に出場します。<strong>このページでは、このうち中学校・高校の部門を中心に</strong>、宝塚市内の出場校の情報を整理しています。県大会・関西大会・全国大会については、公式発表で確認できた範囲で、宝塚市内の学校・団体の結果を各大会の欄に掲載しています。公式情報の整理のみを目的とし、評価・順位予想は行いません。</p>
 <p>学校の部活動だけでなく、市民による「宝塚市吹奏楽団」（1980年発足、約80名が毎週土曜日に市立東公民館で活動するアマチュア吹奏楽団）も、一般の部の団体として全日本吹奏楽コンクールの全国大会に出場した実績があります。宝塚市文化財団は、こうした音楽活動が盛んな様子を「音楽のまち・宝塚」と表現することがあります。</p>
 <p class="panel-note"><a href="${escapeHtml(current.officialUrl)}" target="_blank" rel="noopener">→ ${escapeHtml(current.organizerName)}公式サイトを見る</a></p>
 <p class="panel-note"><a href="http://www.zukasui.com/" target="_blank" rel="noopener">→ 宝塚市吹奏楽団 公式サイトを見る</a></p>
@@ -2900,27 +2929,31 @@ ${contentHtml}
 
 export function privacyPage(siteUrl) {
   const contentHtml = `
-<p class="updated-at">最終更新日：2026年8月28日</p>
+<p class="updated-at">最終更新日：2026年11月15日</p>
 <p>「Takarazuka Today（宝塚Today）」（以下「本サイト」）における、個人情報および利用者情報の取り扱いについて説明します。</p>
 
+${staticSectionHeading("運営者とお問い合わせ先")}
+<p>本サイトは個人により運営しています。運営体制や編集方針は<a href="/about">運営者情報</a>のページをご覧ください。本ポリシーや個人情報の取り扱いに関するご質問は、<a href="/contact">お問い合わせ</a>のページからご連絡ください。</p>
+
 ${staticSectionHeading("アクセス解析について")}
-<p>本サイトでは、Cloudflare Web Analyticsを利用してアクセス状況を解析しています。Cloudflare Web Analyticsは、Cookieを使用せず、個人を特定する情報を収集しない方式のアクセス解析サービスです。Google Analytics等、Cookieを用いるアクセス解析サービスは現時点で導入していません。</p>
+<p>本サイトでは、Cloudflare Web Analyticsを利用してアクセス状況を解析しています。提供元のCloudflareは、Cloudflare Web AnalyticsはCookieやlocalStorageなどの端末側の情報を使わずに利用状況を計測し、IPアドレスなどによる個人の識別（フィンガープリント）も行わないと説明しています（<a href="https://www.cloudflare.com/web-analytics/" target="_blank" rel="noopener">Cloudflare Web Analyticsの説明</a>）。Google Analytics等、Cookieを用いるアクセス解析サービスは現時点で導入していません。</p>
 
 ${staticSectionHeading("Cookie・localStorageについて")}
 <p>本サイトでは、ダークモード表示設定を保存するために、お使いの端末のlocalStorageを利用しています。この情報は、利用者を識別または追跡する目的では使用していません。</p>
 
-${staticSectionHeading("Google AdSense（第三者配信広告）について")}
-<p>本サイトは、Google AdSenseへの掲載審査に必要な基礎スクリプトを設置していますが、本ページの最終更新時点（2026年8月28日）では広告ユニットは設置しておらず、広告は表示されていません。</p>
-<p>Google公式のCookie利用に関する説明によれば、Cookieは広告の表示・クリックなど、Googleサーバーへの呼び出しを伴う操作の際に送信されるとされています。本サイトでは広告ユニットを表示していないため、通常はこれに該当する動作は発生しませんが、広告配信ネットワークに関する技術的な通信の性質上、Cookie等の送信が完全に発生しないことを保証するものではありません。</p>
-<p>今後、広告の表示を開始した場合、Googleを含む第三者配信事業者は、利用者が本サイトや他のウェブサイトを訪問した際の履歴に基づいて広告を配信するために、Cookieその他の技術を使用することがあります。これにより、利用者の興味・関心に応じた広告（パーソナライズ広告）が表示される場合があります。</p>
-<p>利用者は、Googleの<a href="https://adssettings.google.com/" target="_blank" rel="noopener">広告設定</a>ページから、Googleによるパーソナライズ広告の表示を無効にできます。Google以外の第三者配信事業者についても、<a href="https://optout.aboutads.info/" target="_blank" rel="noopener">www.aboutads.info</a>から一括してオプトアウトを設定できる場合があります。</p>
-<p>本サイトで実際に広告配信を開始する場合は、開始時点で本ページを更新し、その旨と当時点の実装内容を明記します。</p>
+${staticSectionHeading("Google AdSense（第三者配信の広告）について")}
+<p>本サイトは、Googleの広告配信サービス「Google AdSense」を利用しています。本ページの最終更新時点では、防災・防犯の情報など一部のページを除いてGoogle AdSenseのスクリプトを読み込んでいますが、広告ユニットは設置しておらず、広告は表示されていません。広告の表示を開始する場合は、その時点で本ページを更新します。</p>
+<p>本サイトで広告が表示される場合、Googleなどの第三者配信事業者は、Cookieを使用して、利用者が本サイトや他のウェブサイトに過去にアクセスした際の情報に基づいて広告を配信します。Googleが広告Cookieを使用することにより、利用者が本サイトや他のサイトにアクセスした際の情報に基づいて、Googleおよびそのパートナーが利用者に適切な広告を表示できるようになります。</p>
+<p>利用者は、Googleの<a href="https://adssettings.google.com/" target="_blank" rel="noopener">広告設定</a>でパーソナライズ広告を無効にできます。また、<a href="https://optout.aboutads.info/" target="_blank" rel="noopener">www.aboutads.info</a>にアクセスすれば、第三者配信事業者のCookieによるパーソナライズ広告の配信を無効にできます。</p>
+<p>Googleによるデータの利用については、Googleの<a href="https://policies.google.com/technologies/partner-sites?hl=ja" target="_blank" rel="noopener">「Googleのサービスを使用するサイトやアプリから収集した情報のGoogleによる使用」</a>をご覧ください。</p>
+
+${staticSectionHeading("お問い合わせフォームについて")}
+<p><a href="/contact">お問い合わせフォーム</a>では、お名前または団体名、メールアドレス、お問い合わせ種別、件名、内容を入力していただきます。入力された内容は、お問い合わせへの回答と必要な確認のためにのみ利用します。</p>
+<p>送信された内容は本サイトのサーバーには保存せず、メール配信サービス「Resend」を通じて運営者宛てのメールとして届きます（<a href="https://resend.com/legal/privacy-policy" target="_blank" rel="noopener">Resendのプライバシーポリシー</a>）。また、迷惑な自動送信を防ぐため、Cloudflareの「Turnstile」を利用しており、送信時の確認のために送信者のIPアドレスなどがCloudflareに送られます（<a href="https://www.cloudflare.com/privacypolicy/" target="_blank" rel="noopener">Cloudflareのプライバシーポリシー</a>）。</p>
+<p>取得した情報を、本人の同意なく第三者へ提供することはありません。ただし、法令に基づく場合と、上記のメール配信・送信確認のためにサービス提供元へ送られる場合を除きます。</p>
 
 ${staticSectionHeading("外部サイトへのリンクについて")}
 <p>本サイトの記事には、宝塚市、兵庫県、兵庫県警察などの出典元サイトへの外部リンクが含まれます。リンク先サイトにおける個人情報の取り扱いについては、本サイトは関与せず、各リンク先サイトのプライバシーポリシーが適用されます。</p>
-
-${staticSectionHeading("お問い合わせ情報の取り扱いについて")}
-<p>お問い合わせフォームなどを通じて提供された情報は、お問い合わせへの対応および必要な確認のために利用します。取得した情報を、本人の同意なく第三者へ提供することはありません。ただし、法令に基づく場合を除きます。</p>
 
 ${staticSectionHeading("本ポリシーの変更について")}
 <p>本ポリシーは、必要に応じて予告なく変更することがあります。変更後の内容は、本ページに掲載した時点から適用されます。</p>
@@ -2930,7 +2963,7 @@ ${staticSectionHeading("本ポリシーの変更について")}
     slug: "privacy",
     breadcrumbLabel: "プライバシーポリシー",
     title: "プライバシーポリシー",
-    description: "Takarazuka Todayにおけるアクセス解析・Cookie・将来の広告配信・外部リンク・お問い合わせ情報の取り扱いについて説明します。",
+    description: "Takarazuka Todayにおける運営者・お問い合わせ先、アクセス解析、Cookie・localStorage、Google AdSense、お問い合わせフォーム、外部リンクの取り扱いについて説明します。",
     panelTitle: "プライバシーポリシー",
     panelIcon: "newspaper",
     contentHtml,
