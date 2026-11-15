@@ -4,7 +4,7 @@
   "sessionTerm": "2026-05-22〜2026-06-25",
   "sourceUrl": "https://www.city.takarazuka.hyogo.jp/1060687/gikai/katsudo/1000795/1041633/1041642.html",
   "sourceLabel": "宝塚市議会「市長提出議案」「議員提出議案等」（令和8年第2回定例会）",
-  "updatedAt": "2026-06-27",
+  "updatedAt": "2026-11-15",
   "bills": [
     {
       "billNumber": "報告第2号",
@@ -31,7 +31,9 @@
       "resultDetail": "全員一致",
       "decidedAt": "2026-05-22",
       "committee": "－",
-      "citizenImpact": "国民健康保険税条例の改正が承認されました。"
+      "citizenImpact": "国民健康保険税に、国の「子ども・子育て支援納付金」に充てる分（子ども・子育て支援納付金課税額）を加える改正です。所得割は所得の0.29％、均等割は被保険者1人1,300円などで、2026年4月1日から施行し、2026年度分の国民健康保険税から適用されます（2026年3月31日に市長が専決処分し、議会が承認）。",
+      "detailUrl": "https://www.city.takarazuka.hyogo.jp/_res/projects/default_project/_page_/001/063/527/20260522_gian.pdf",
+      "detailLabel": "令和8年第2回定例会 提出議案（第1次送付分、PDF）を見る"
     },
     {
       "billNumber": "議員提出議案第13号",
@@ -40,7 +42,7 @@
       "resultDetail": "賛成多数",
       "decidedAt": "2026-05-22",
       "committee": "総務常任委員会",
-      "citizenImpact": "市議会議員の定数（人数）見直しに関する議案が、議会の修正を経て可決されました。",
+      "citizenImpact": "市議会議員の定数を変える条例改正です。議員から提出された案は定数を「24人」とする内容でしたが、総務常任委員会が「25人」に改める修正案を可決し、2026年5月22日の本会議で修正のとおり可決されました。いつの選挙から適用されるかは、現在の条例（例規集）でご確認ください（修正の内容は、市議会の「議員提出議案等」のページの修正案PDFによる）。",
       "detailUrl": "https://www2.city.takarazuka.hyogo.jp/reiki_int/reiki_honbun/k316RG00000724.html",
       "detailLabel": "現在の宝塚市議会議員定数条例（例規集）を見る"
     },
@@ -59,7 +61,9 @@
       "resultDetail": "全員一致",
       "decidedAt": "2026-06-25",
       "committee": "総務常任委員会",
-      "citizenImpact": "令和8年度一般会計に補正予算が追加されました。"
+      "citizenImpact": "令和8年度一般会計の予算を、3,284,308千円（約32億8,431万円）減らす補正予算です。補正後の総額は103,085,692千円（約1,030億8,569万円）です（補正予算説明書の歳入・歳出の合計による）。",
+      "detailUrl": "https://www.city.takarazuka.hyogo.jp/_res/projects/default_project/_page_/001/063/527/20260522_yosansetumeisyo.pdf",
+      "detailLabel": "議案第47号 一般会計補正予算説明書（PDF）を見る"
     },
     {
       "billNumber": "議案第48号",
@@ -85,7 +89,9 @@
       "resultDetail": "全員一致",
       "decidedAt": "2026-06-25",
       "committee": "総務常任委員会",
-      "citizenImpact": "市税条例が改正されました。"
+      "citizenImpact": "市税条例の改正で、公的年金などを受け取る人が支払者を通じて提出する申告書の対象（扶養親族などがいる人）の定め直しや、寄附金税額控除の計算に関する条文の改正などを含みます。施行日は項目ごとに分かれ、公布の日のほか、2027年1月1日、2027年4月1日、2028年1月1日などです（議案書の附則）。",
+      "detailUrl": "https://www.city.takarazuka.hyogo.jp/_res/projects/default_project/_page_/001/063/527/20260522_gian.pdf",
+      "detailLabel": "令和8年第2回定例会 提出議案（第1次送付分、PDF）を見る"
     },
     {
       "billNumber": "議案第51号",
@@ -130,9 +136,9 @@
       "resultDetail": "賛成多数",
       "decidedAt": "2026-06-25",
       "committee": "文教生活常任委員会",
-      "citizenImpact": "地域児童育成会（留守家庭児童会）に関する条例が、議会の修正を経て改正されました。",
-      "detailUrl": "https://www.city.takarazuka.hyogo.jp/1060680/1060699/1061569/1009267/1059137.html",
-      "detailLabel": "地域児童育成会（学童保育）の入所についてのページを見る"
+      "citizenImpact": "地域児童育成会（学童保育）の育成料（利用料）を見直す条例改正です。市の提案は月額8,000円から12,000円への引き上げでしたが、議会で修正されて可決され、市の案内では2027年4月から月額10,000円（延長保育料は2,000〜4,000円）になり、減免の対象も広がります。",
+      "detailUrl": "https://www.city.takarazuka.hyogo.jp/1060680/1060699/1061569/1009267/1063936.html",
+      "detailLabel": "市の「地域児童育成会等の利用料改定（令和9年度分から）について」を見る"
     },
     {
       "billNumber": "議案第56号",
@@ -157,7 +163,9 @@
       "resultDetail": "全員一致",
       "decidedAt": "2026-06-25",
       "committee": "文教生活常任委員会",
-      "citizenImpact": "市が関係する損害賠償の額が決定しました。"
+      "citizenImpact": "市立長尾中学校の野球部の練習で打ったボールが学校の外に飛び出し、隣の温室の天井ガラスを複数回壊した件で、教職員の指導が不十分だったとして、市が786,500円を賠償するものです（議案書）。",
+      "detailUrl": "https://www.city.takarazuka.hyogo.jp/_res/projects/default_project/_page_/001/063/527/20260522_gian.pdf",
+      "detailLabel": "令和8年第2回定例会 提出議案（第1次送付分、PDF）を見る"
     },
     {
       "billNumber": "議案第59号",
@@ -190,7 +198,9 @@
       "resultDetail": "全員一致",
       "decidedAt": "2026-06-25",
       "committee": "－",
-      "citizenImpact": "市が訴えを提起することが決定しました。"
+      "citizenImpact": "宝塚市の移住支援金（60万円）を受け取った人が、申請から3年未満で市外に転出したため、市が交付要綱にもとづいて全額の返還を求めたものの返還されなかったため、返還を求めて訴えを起こすものです（支払督促に異議が出され、訴えとして扱われたもの）。",
+      "detailUrl": "https://www.city.takarazuka.hyogo.jp/_res/projects/default_project/_page_/001/063/527/20260623giansankou.pdf",
+      "detailLabel": "提出議案に係る参考（第2次送付分、PDF）を見る"
     },
     {
       "billNumber": "議案第63号",
@@ -199,7 +209,9 @@
       "resultDetail": "全員一致",
       "decidedAt": "2026-06-25",
       "committee": "－",
-      "citizenImpact": "市が関係する損害賠償の額が決定しました。"
+      "citizenImpact": "市立病院で、転倒による右大腿骨の骨折を見落とし、その後の化膿性脊椎炎も診断できなかったとして、市が26,129,337円を賠償するものです（議案書と参考資料の内訳による）。",
+      "detailUrl": "https://www.city.takarazuka.hyogo.jp/_res/projects/default_project/_page_/001/063/527/20260623giansankou.pdf",
+      "detailLabel": "提出議案に係る参考（第2次送付分、PDF）を見る"
     },
     {
       "billNumber": "議案第64号",
