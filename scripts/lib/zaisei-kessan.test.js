@@ -107,9 +107,9 @@ test("決算セクション：主要数値・前年度比較・基準日・会�
   assert.match(s, /一般・特別会計合計/);
   assert.match(s, /原資料の単位は千円/);
   assert.match(s, /単純に比較できません/);
-  assert.match(sectionOf(html), /_page_\/001\/064\/172\/r7_kessangaiyou\.pdf/);
+  assert.match(sectionOf(html), /_page_\/001\/064\/172\/r7_kessangaiyou_\.pdf/);
   assert.match(sectionOf(html), /1045643\/1064316\.html/);
-  assert.match(s, /掲載ページの更新日：令和8年9月15日/);
+  assert.match(s, /掲載ページの更新日：令和8年11月12日/);
   assert.match(s, /掲載ページの更新日：令和8年10月22日/);
 });
 

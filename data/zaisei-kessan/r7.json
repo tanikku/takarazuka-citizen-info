@@ -2,7 +2,7 @@
   "fiscalYear": 2025,
   "fiscalYearLabel": "令和7年度（2025年度）",
   "unit": "千円",
-  "pageUpdatedAt": "2026-10-29",
+  "pageUpdatedAt": "2026-11-15",
   "authorization": {
     "status": "pending",
     "scheduledDate": "2026-11-18",
@@ -11,9 +11,9 @@
   "sources": [
     {
       "label": "宝塚市公式サイト「決算（令和7年度から）」・令和7年度決算概要（PDF）",
-      "url": "https://www.city.takarazuka.hyogo.jp/_res/projects/default_project/_page_/001/064/172/r7_kessangaiyou.pdf",
+      "url": "https://www.city.takarazuka.hyogo.jp/_res/projects/default_project/_page_/001/064/172/r7_kessangaiyou_.pdf",
       "listUrl": "https://www.city.takarazuka.hyogo.jp/1060687/1060727/1000137/1064172.html",
-      "pageUpdatedAt": "2026-09-15"
+      "pageUpdatedAt": "2026-11-12"
     },
     {
       "label": "宝塚市公式サイト「令和7年度決算書・決算事項別明細書・決算ダッシュボード」",
