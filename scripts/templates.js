@@ -442,8 +442,8 @@ ${comparisonTablesHtml}
 ${giinLinkBox}
 ${shigikaiDisclosure}
 ${adSlot("articleBottom", adsAllowed)}
-<p class="article-source">出典：<a href="${escapeHtml(article.sourceUrl)}" rel="noopener" target="_blank">${escapeHtml(article.sourceName)}</a>${article.sourceUnavailable ? "（掲載終了）" : ""}</p>
-${article.sourceUnavailable ? `<p class="empty-state" style="font-size:0.85rem;">※ 出典ページは掲載終了しています（期間限定のお知らせのため）。本文は掲載当時の公式発表内容を要約したものです。</p>` : ""}${additionalSourcesHtml}${relatedArticlesHtml}${relatedGuidesHtml}
+<p class="article-source">出典：<a href="${escapeHtml(article.sourceUrl)}" rel="noopener" target="_blank">${escapeHtml(article.sourceName)}</a>${article.sourceUnavailable ? "（リンク先を確認できません）" : ""}</p>
+${article.sourceUnavailable ? `<p class="empty-state" style="font-size:0.85rem;">※ 出典ページは現在閲覧できません。本文は過去に確認した公式発表の内容をもとにしています。</p>` : ""}${additionalSourcesHtml}${relatedArticlesHtml}${relatedGuidesHtml}
 <p class="x-follow-note">公式X：<a href="https://x.com/TakaTodayJP" target="_blank" rel="noopener">@TakaTodayJP</a><br>最新の更新情報や防災情報をお届けしています。</p>
 <p class="back-link"><a href="/">${icon("newspaper")}トップへ戻る</a></p>
 </article>
