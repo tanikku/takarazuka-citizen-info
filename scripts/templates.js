@@ -1092,6 +1092,18 @@ ${list.map(recommendationCard).join("\n")}
 </div>`;
 }
 
+// カテゴリ一覧の導入文（カテゴリ別）。そのカテゴリに実際に掲載しているガイド・記事の内容に合わせて書く
+const CATEGORY_INTROS = {
+  kurashi: "宝塚市の手続きや制度の変更、助成金、手数料の改定など、暮らしに関わる市の公式情報を整理しています。引っ越し・証明書の手続き、ごみ出し、公共施設、交通などはガイドに、締切や料金改定などのお知らせは記事一覧にまとめています。",
+  bohan: "詐欺や不審なメッセージ、空き巣・強盗、悪質な訪問販売などへの注意情報を、宝塚市や兵庫県警などの公式情報をもとに整理しています。緊急時の連絡先や相談窓口は防犯ガイドに、市などが出した注意喚起は記事一覧にまとめています。野生動物の目撃情報や、公的なサイトの不正アクセス・セキュリティに関するお知らせも載せています。",
+  bosai: "災害への備えと、災害や水道トラブルが起きたときに確認したい情報を扱います。避難場所や非常持ち出し品などは防災ガイドに、防災訓練の案内、濁水などの経過、市の防災制度のお知らせは記事一覧にまとめています。",
+  event: "宝塚市内で開かれる催しの記事を集めています。開催日が決まっている催しは、日付順の<a href=\"/events/\">イベントカレンダー</a>でも確認できます。開催が終わった催しには「終了」、申込が締め切られた催しには「受付終了」と表示しています。",
+  kosodate: "妊娠・出産から保育施設・学童保育、子どもの医療費助成や予防接種、子ども・若者の相談窓口まで、子育て中の家庭に関わる宝塚市の制度と手続きを扱います。申込期限のある手続きは記事一覧で、母子手帳や子育て支援の全体像はガイドで確認できます。",
+  kyoiku: "市立小・中学校の転校や区域外就学などの手続き、中学校部活動の地域移行、特認校制度など、学校に関わる宝塚市の情報を扱います。高校のオープンスクールや文化祭はガイドに、吹奏楽コンクールの結果などの話題は記事一覧にまとめています。",
+  kanko: "宝塚市内の寺社、温泉、ハイキングコース、文化施設などの案内と、期間のある展示や催しの情報を扱います。施設ごとのアクセスや営業時間はガイドに、展示・催しは記事一覧にまとめています。一部のガイドには、運営者が現地で撮影した写真を載せています。",
+  shigikai: "宝塚市議会の定例会で決まったことや議論された内容を、市議会が公開している資料や会議録をもとに整理しています。議案ごとの採決結果は議案採決一覧、市の財政状況は財政ウォッチ、議会の仕組みは「市議会のしくみ・このページの見方」で確認できます。",
+};
+
 export function categoryPage(category, articles, siteUrl, guidesForCategory = [], hasGianPage = false, hasZaiseiPage = false, hasSuisougakuPage = false) {
   const canonicalUrl = `${siteUrl}${categoryPath(category.key)}`;
   const isShigikai = category.key === "shigikai";
@@ -1149,6 +1161,7 @@ ${guideCards}`
   const bodyHtml = `<nav class="breadcrumb"><a href="/">トップ</a> &gt; ${escapeHtml(category.label)}</nav>
 <div class="page-content">
 <h1 class="category-title">${icon(category.icon)}${escapeHtml(category.label)}${isShigikai ? "ウォッチ" : ""}</h1>
+${CATEGORY_INTROS[category.key] ? `<p class="lead">${CATEGORY_INTROS[category.key]}</p>` : ""}
 ${jumpLink}
 ${entryCards}
 ${gianCta}
