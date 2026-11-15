@@ -3114,6 +3114,7 @@ export function photoGalleryPage(gallery, siteUrl) {
       const articleLink = g.article ? `　<a href="${escapeHtml(g.article.href)}">${escapeHtml(g.article.label)} →</a>` : "";
       return `${staticSectionHeading(g.place)}
 <p class="photo-gallery-meta">現地取材：${escapeHtml(g.reportedOn)}・写真：宝塚Today撮影</p>
+${g.note ? `<p><strong>現地で確認したこと：</strong>${escapeHtml(g.note)}</p>` : ""}
 <div class="photo-gallery">
 ${figures}
 </div>

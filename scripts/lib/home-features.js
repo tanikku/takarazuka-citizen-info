@@ -61,6 +61,31 @@ export const FIELD_REPORT_GALLERY = [
     photos: ["/photos/takedao-azare-entrance-20261103.webp", "/photos/takedao-azare-fork-sign-20261103.webp"],
     article: { href: "/articles/takedao-azare-higaeri-2026", label: "現地取材の記事を読む" },
   },
+  // 以下4か所の note は docs/FIELD_REPORTS.md（2026年11月3日の運営者の現地取材記録）にある内容だけを書く
+  {
+    guide: "takarazuka-kita-sa-guide",
+    place: "宝塚北サービスエリア",
+    photos: ["/photos/takarazuka-kita-sa-foodcourt-20261103.webp", "/photos/takarazuka-kita-sa-parking-20261103.webp"],
+    note: "武田尾方面から一般道を通り、ウェルカムゲート経由で利用しました。高速道路には入らず、一般道利用者用の駐車場を利用できました。ドッグランがあり、犬連れの利用者が多く見られました。",
+  },
+  {
+    guide: "takarazuka-onsen-guide",
+    place: "宝塚温泉",
+    photos: ["/photos/takarazuka-onsen-wakamizu-river-20261103.webp", "/photos/takarazuka-onsen-wilkinson-20261103.webp"],
+    note: "ホテル若水の周辺と、休館中のナチュールスパ宝塚の前を歩きました。外から見て歩いた範囲で、入浴や宿泊はしていません。",
+  },
+  {
+    guide: "takarazuka-kageki-guide",
+    place: "宝塚大劇場・花のみち",
+    photos: ["/photos/takarazuka-hananomichi-20261103.webp", "/photos/takarazuka-gekijo-signpost-20261103.webp"],
+    note: "花のみちから、宝塚ホテルと宝塚大劇場の外観・館内（ロビーや通路など）を訪れ、その後、手塚治虫記念館の方面へ歩いて移動しました。観劇はしていません。",
+  },
+  {
+    guide: "tezuka-museum-guide",
+    place: "手塚治虫記念館",
+    photos: ["/photos/tezuka-museum-phoenix-tower-20261103.webp", "/photos/tezuka-museum-street-view-20261103.webp"],
+    note: "外観を見て、この日は館内に入っていません。隣の宝塚市立文化芸術センターの広場では、この日、イベントが開かれていました（名称・開催期間は確認できていません）。",
+  },
   {
     guide: "dahlia-en-guide",
     place: "宝塚ダリア園",
@@ -122,6 +147,7 @@ export function buildFieldReportGallery(guides, gallery = FIELD_REPORT_GALLERY) 
       guideTitle: guide.title,
       photos,
       article: entry.article ?? null,
+      note: entry.note ?? null,
     };
   });
 }
