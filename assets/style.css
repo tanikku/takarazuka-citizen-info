@@ -420,6 +420,56 @@ html[data-theme="dark"] .guide-nav-panel {
   }
 }
 
+/* 4つの柱の入口（天気の下）。スマホは2列、768px以上は4列 */
+.pillar-row {
+  max-width: 1080px;
+  margin: 12px auto 0;
+  padding: 0 16px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.pillar-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 10px 12px;
+  min-width: 0;
+}
+
+.pillar-title {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 0 0 6px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--accent);
+}
+
+.pillar-links {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-size: 0.78rem;
+}
+
+.pillar-links a {
+  display: block;
+  padding: 6px 0;
+  color: var(--text);
+}
+
+@media (min-width: 768px) {
+  .pillar-row {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
 /* 今日の宝塚トピック＋フォトの並列表示 */
 .today-row {
   max-width: 1080px;

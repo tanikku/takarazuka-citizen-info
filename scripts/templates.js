@@ -189,8 +189,9 @@ function contactCtaPanel() {
   return `<a class="panel contact-cta-panel" href="/contact">${icon("mail")}<span>お問い合わせ</span></a>`;
 }
 
+// 先頭は生活ガイド（コンテンツ重視型への転換・第1回、2026-11-16）。ニュースは下の「注目・新着ニュース」枠から読める
 const QUICK_ACCESS_ITEMS = [
-  { href: "/#featured-news", icon: "calendar", label: "注目ニュース" },
+  { href: "/#kurashi-guide", icon: "book", label: "くらしガイド" },
   { href: "/category/shigikai", icon: "building", label: "市議会" },
   { href: "/category/bohan", icon: "shield", label: "防犯" },
   { href: "/events/", icon: "calendar", label: "イベント" },
@@ -719,7 +720,7 @@ ${showMoreLink ? '<p class="panel-note"><a href="/ranking/">新着記事をも�
 }
 
 function recentCombinedFeed(publishedArticles, categoryPageKeys) {
-  const items = publishedArticles.slice(0, 10).map(headlineRow).join("\n");
+  const items = publishedArticles.slice(0, RECENT_FEED_MAX).map(headlineRow).join("\n");
   const browseLink = categoryPageKeys.size > 0 ? `<p class="panel-note"><a href="#category-panel">→ もっと見る（カテゴリー別に探す）</a></p>` : "";
   return `<div class="panel" id="recent-articles">
 <p class="panel-title">${icon("bell")}新着記事</p>
@@ -733,13 +734,40 @@ const GUIDE_NAV_ITEMS = [
   { href: "/category/kosodate/guide", icon: "child", label: "子育て支援" },
   { href: "/category/bosai/guide", icon: "alert", label: "防災" },
   { href: "/category/kyoiku/guide", icon: "book", label: "学校情報" },
+  { href: "/category/kurashi/gyousei-tetsuzuki-guide", icon: "newspaper", label: "行政手続き" },
+  { href: "/category/kurashi/kotsu-guide", icon: "ticket", label: "交通" },
+  { href: "/category/kurashi/koreisha-guide", icon: "user", label: "高齢者・介護" },
+  { href: "/category/bohan/guide", icon: "shield", label: "防犯" },
 ];
+
+// 天気の下に置く「4つの柱」の入口。リンク先はどれも公開中の既存ページだけ（新しいページは作らない）
+const PILLAR_ITEMS = [
+  { icon: "book", title: "暮らしのガイド", links: [{ href: "/category/kurashi", label: "くらしのガイド・記事" }, { href: "/category/kosodate/guide", label: "子育て支援まとめ" }] },
+  { icon: "building", title: "まちカルテ", links: [{ href: "/area/", label: "町丁目別の生活情報" }, { href: "/area/sakasegawa/", label: "逆瀬川のまちカルテ" }] },
+  { icon: "camera", title: "現地取材・観光", links: [{ href: "/category/kanko", label: "観光ガイド・記事" }, { href: "/photo", label: "現地取材フォト" }] },
+  { icon: "chart", title: "宝塚の実力・市議会ウォッチ", links: [{ href: "/jitsuryoku", label: "宝塚の実力" }, { href: "/category/shigikai", label: "市議会ウォッチ" }] },
+];
+
+function pillarPanel() {
+  const cards = PILLAR_ITEMS.map(
+    (p) => `<div class="pillar-card">
+<p class="pillar-title">${icon(p.icon)}<span>${escapeHtml(p.title)}</span></p>
+<ul class="pillar-links">${p.links.map((l) => `<li><a href="${escapeHtml(l.href)}">${escapeHtml(l.label)} →</a></li>`).join("")}</ul>
+</div>`,
+  ).join("\n");
+  return `<nav class="pillar-row" aria-label="宝塚Todayの4つの柱">
+${cards}
+</nav>`;
+}
+
+// トップの新着記事の件数（2026-11-16に10件から5件へ。続きはカテゴリー別の一覧から）
+const RECENT_FEED_MAX = 5;
 
 function guideNavPanel() {
   const items = GUIDE_NAV_ITEMS.map(
     (g) => `<a class="guide-nav-tile" href="${g.href}">${icon(g.icon)}<span>${escapeHtml(g.label)}</span></a>`,
   ).join("\n");
-  return `<div class="panel guide-nav-panel">
+  return `<div class="panel guide-nav-panel" id="kurashi-guide">
 <p class="panel-title">${icon("newspaper")}くらしガイド</p>
 <div class="guide-nav">${items}</div>
 <p class="panel-note"><a href="/area/">まちカルテ — 町丁目ごとの生活情報 →</a></p>
@@ -827,6 +855,7 @@ export function indexPage({ featuredNews, todayKey, categoryPageKeys, publishedA
 ${searchBoxPanel()}
 ${quickAccessPanel()}
 <div class="weather-standalone-row">${weatherPanel(weather)}${contactCtaPanel()}</div>
+${pillarPanel()}
 ${todayRow(fieldReportPhoto, categoryPageKeys, latestEpisode, seriesPrevious)}
 <div class="grid-2">
   <div class="col-main">

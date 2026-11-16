@@ -236,8 +236,8 @@ test("noindex の記事が新着候補に混ざっても、新着記事は検索
   const recent = panelSlice(html, "新着記事</p>");
   for (const i of [6, 8, 10]) assert.equal(countLinks(recent, `n${i}`), 0, `n${i}`);
   const shownInRecent = list.filter((a) => countLinks(recent, a.slug) === 1).map((a) => a.slug);
-  assert.equal(shownInRecent.length, 10);
-  assert.deepEqual(shownInRecent, ["n3", "n4", "n5", "n7", "n9", "n11", "n12", "n13", "n14", "n15"]);
+  assert.equal(shownInRecent.length, 5);
+  assert.deepEqual(shownInRecent, ["n3", "n4", "n5", "n7", "n9"]);
 });
 
 test("候補が0件の日は古い記事で埋めず、「新着がない」と言って新着記事への導線を出す", () => {
