@@ -19,6 +19,7 @@
       { "href": "/category/bosai/guide", "label": "防災ガイド", "sub": "警戒レベル・避難場所・非常持ち出し品", "icon": "shield" }
     ],
     "bohan": [
+      { "href": "/category/bohan/guide", "label": "宝塚市 防犯ガイド", "sub": "緊急は110番、相談は#9110・188など。窓口の使い分けと市内の詐欺の注意情報をまとめました", "icon": "shield" },
       { "href": "/category/bohan", "label": "防犯の記事一覧", "sub": "兵庫県警・宝塚市の防犯情報まとめ", "icon": "shield" },
       { "href": "/category/bosai/guide", "label": "防災ガイド", "sub": "警戒レベル・避難場所・非常持ち出し品", "icon": "shield" },
       { "href": "/category/kurashi/koreisha-guide", "label": "高齢者向けガイド", "sub": "介護保険・見守りサービス", "icon": "user" }
