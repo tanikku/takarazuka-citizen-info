@@ -60,8 +60,29 @@ test("トップの天気の帯：気象庁の出典と代表地点の注記を�
   assert.ok(w.includes('id="weather"'));
   assert.ok(w.includes('<span class="ah-weather__temp">20℃</span>') && w.includes('<span class="ah-weather__area">神戸</span>'));
   assert.ok(w.includes("<span>12〜18時</span><b>50%</b>"));
-  assert.ok(w.includes('出典：<a href="https://www.jma.go.jp/bosai/forecast/" target="_blank" rel="noopener">気象庁</a>（2026-11-17発表・神戸（阪神地域代表地点））'));
+  assert.ok(w.includes('出典：<a href="https://www.jma.go.jp/bosai/forecast/" target="_blank" rel="noopener">気象庁</a>（2026-11-17発表・<wbr>神戸（阪神地域代表地点））'));
   assert.ok(home().includes("天気情報を取得できませんでした"));
+});
+
+test("共通ヘッダー：明朝体ロゴ・線画・ひとこと・検索・メニュー（主要ページ）・ダークモード切り替えを全ページで出し、旧背景画像は使わない", () => {
+  const article = articlePage({ slug: "t", title: "t", summary: "s", category: "行政・くらし", publishedAt: "2026-11-01", sourceName: "宝塚市公式サイト", sourceUrl: "https://www.city.takarazuka.hyogo.jp/", valueScore: "A" }, SITE);
+  for (const html of [home(), article]) {
+    const h = html.slice(html.indexOf('<header class="site-header">'), html.indexOf("</header>") + 9);
+    assert.ok(h.includes('<a href="/" class="sh-logo" aria-label="宝塚Today トップページ"><span class="sh-logo__text">宝塚<span class="sh-logo__en">Today</span></span>'));
+    assert.match(h, /<svg class="sh-logo__mark"[^>]*aria-hidden="true"/, "線画は飾りとして読み上げない");
+    assert.ok(h.includes("宝塚の「いま」と「暮らし」を<br>もっと身近に"));
+    assert.ok(h.includes('<a class="sh-act" href="/search">'), "検索への入口");
+    assert.ok(h.includes('<details class="sh-menu">') && h.includes('<nav class="sh-menu__panel" aria-label="サイトメニュー">'));
+    for (const href of ["/category/kurashi", "/category/bohan", "/category/bosai", "/category/event", "/category/kosodate", "/category/kyoiku", "/category/kanko", "/category/shigikai", "/livecam", "/events/", "/photo", "/jitsuryoku", "/area/", "/contact", "/about"]) assert.ok(h.includes(`<a href="${href}">`), href);
+    assert.equal((h.match(/data-theme-toggle/g) ?? []).length, 1, "ダークモードの切り替えは1つ");
+    assert.ok(h.indexOf("data-theme-toggle") < h.indexOf('<p class="sh-menu__group">カテゴリー</p>'), "ダークモードの切り替えはメニューの先頭（スマホでスクロールせずに見つかる位置）");
+    assert.ok(h.includes('aria-pressed="false"'));
+  }
+  const css = fs.readFileSync(path.join(ROOT, "assets", "style.css"), "utf8");
+  assert.doesNotMatch(css, /url\("\/img\/header-banner\.png"\)/, "1.6MBの背景画像を表示に使わない");
+  const js = fs.readFileSync(path.join(ROOT, "assets", "theme.js"), "utf8");
+  assert.match(js, /Escape/, "Esc でメニューを閉じる");
+  assert.match(js, /aria-pressed/, "切り替えの状態を反映する");
 });
 
 test("トップ専用のデザイン（body.ah-home）はトップだけに付け、記事ページには付けない", () => {

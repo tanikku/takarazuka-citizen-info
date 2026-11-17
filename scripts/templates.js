@@ -121,17 +121,47 @@ function themeInitScript() {
   return `(function(){try{var s=localStorage.getItem('theme');var t=s||((window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches)?'dark':'light');document.documentElement.setAttribute('data-theme',t);}catch(e){}})();`;
 }
 
+// 正式A案の共通ヘッダー（2026-11-17）。明るいクリーム色の帯に、明朝体のロゴ・建物の線画・ひとこと、右に検索とメニュー。
+// 以前の背景画像（/img/header-banner.png、1.6MB）は表示に使わない（トップの og:image としては引き続き使う）。
+// 建物の線画は特定の施設や公式ロゴを写さない、汎用の洋館風の形（宝塚Todayの独自の線画）。
+const HEADER_BUILDING_SVG = `<svg class="sh-logo__mark" viewBox="0 0 46 30" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true" focusable="false"><path d="M2 29h42"/><path d="M5 29V15h36v14"/><path d="M3 15l20-7 20 7"/><path d="M19 8V4h8v4"/><path d="M23 4V1"/><path d="M10 29v-6a2.5 2.5 0 0 1 5 0v6M20.5 29v-7a2.5 2.5 0 0 1 5 0v7M31 29v-6a2.5 2.5 0 0 1 5 0v6"/></svg>`;
+const MENU_ICON_SVG = `<svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true" focusable="false"><path d="M4 6h16M4 12h16M4 18h16"/></svg>`;
+// メニューに載せる主要ページ（どれも公開中の既存ページ）
+const HEADER_MENU_MORE = [
+  { href: "/livecam", label: "武庫川ライブカメラ・水位情報" },
+  { href: "/events/", label: "イベントカレンダー" },
+  { href: "/photo", label: "現地取材フォト" },
+  { href: "/jitsuryoku", label: "宝塚の実力（連載）" },
+  { href: "/area/", label: "まちカルテ" },
+  { href: "/contact", label: "お問い合わせ" },
+  { href: "/about", label: "運営者情報" },
+];
+
 function header() {
+  const cats = CATEGORIES.map((c) => `<li><a href="${categoryPath(c.key)}">${escapeHtml(c.label)}</a></li>`).join("");
+  const more = HEADER_MENU_MORE.map((m) => `<li><a href="${m.href}">${escapeHtml(m.label)}</a></li>`).join("");
   return `<header class="site-header">
-<div class="header-overlay">
-  <div class="header-row">
-    <a href="/" class="logo">Takarazuka Today<small>今日の宝塚を、3分で。</small></a>
-    <button class="theme-toggle" data-theme-toggle type="button" aria-label="ダークモード切り替え">
-      <span class="theme-icon theme-icon-sun">${icon("sun")}</span>
-      <span class="theme-icon theme-icon-moon">${icon("moon")}</span>
-    </button>
-  </div>
-  <p class="site-tagline"><span>宝塚の暮らしに役立つ情報を</span><span>毎日わかりやすくお届け</span></p>
+<div class="sh-inner">
+<a href="/" class="sh-logo" aria-label="宝塚Today トップページ"><span class="sh-logo__text">宝塚<span class="sh-logo__en">Today</span></span>${HEADER_BUILDING_SVG}</a>
+<p class="sh-tagline">宝塚の「いま」と「暮らし」を<br>もっと身近に</p>
+<div class="sh-actions">
+<a class="sh-act" href="/search">${icon("search")}<span>検索</span></a>
+<details class="sh-menu">
+<summary class="sh-act">${MENU_ICON_SVG}<span>メニュー</span></summary>
+<nav class="sh-menu__panel" aria-label="サイトメニュー">
+<p class="sh-menu__group">表示</p>
+<button class="theme-toggle" data-theme-toggle type="button" aria-pressed="false">
+  <span class="theme-icon theme-icon-sun">${icon("sun")}</span>
+  <span class="theme-icon theme-icon-moon">${icon("moon")}</span>
+  <span>ダークモード</span>
+</button>
+<p class="sh-menu__group">カテゴリー</p>
+<ul>${cats}</ul>
+<p class="sh-menu__group">そのほか</p>
+<ul>${more}</ul>
+</nav>
+</details>
+</div>
 </div>
 </header>`;
 }
@@ -183,7 +213,7 @@ function weatherStrip(weather) {
   return `<section class="ah-weather" id="weather" aria-label="今日の天気"><div class="ah-weather__bar">
 <div class="ah-weather__main"><span class="ah-weather__emoji" aria-hidden="true">${escapeHtml(weather.weatherEmoji)}</span><span class="ah-weather__label">今日の天気</span><span class="ah-weather__temp">${escapeHtml(weather.tempMax ?? "?")}℃</span><span class="ah-weather__area">${escapeHtml(area)}</span></div>
 ${pops}
-<p class="ah-weather__src">出典：<a href="${escapeHtml(weather.sourceUrl)}" target="_blank" rel="noopener">気象庁</a>（${escapeHtml(weather.forecastDate)}発表・${escapeHtml(weather.areaLabel)}）</p>
+<p class="ah-weather__src">出典：<a href="${escapeHtml(weather.sourceUrl)}" target="_blank" rel="noopener">気象庁</a>（${escapeHtml(weather.forecastDate)}発表・<wbr>${escapeHtml(weather.areaLabel)}）</p>
 </div></section>`;
 }
 

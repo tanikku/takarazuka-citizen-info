@@ -45,91 +45,191 @@ a {
   vertical-align: -0.2em;
 }
 
-/* ヘッダー（宝塚歌劇風ヒーローバナー） */
+/* 共通ヘッダー（正式A案、2026-11-17）。明るいクリーム色の帯。色は --ah-*（トップと共通の色）を使い、ダークモードにも対応する */
 .site-header {
-  border-bottom: 3px solid #6e1224;
-  background-image: url("/img/header-banner.png");
-  background-size: cover;
-  background-position: center;
-  background-color: #6e1224;
-}
-
-.header-overlay {
-  max-width: 760px;
-  margin: 0 auto;
-  min-height: 180px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  padding: 16px 0;
-}
-
-.header-row {
   position: relative;
+  z-index: 30;
+  background: var(--ah-bg);
+  border-bottom: 1px solid var(--ah-line);
+  color: var(--ah-text);
+}
+
+.sh-inner {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 10px 16px;
   display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.sh-logo {
+  display: inline-flex;
+  align-items: flex-end;
+  gap: 4px;
+  flex: none;
+  color: var(--ah-maroon);
+}
+
+.sh-logo__text {
+  font-family: var(--ah-serif);
+  font-weight: 700;
+  font-size: 1.75rem;
+  line-height: 1;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+}
+
+.sh-logo__en {
+  font-style: italic;
+}
+
+.sh-logo__mark {
+  width: 46px;
+  height: 30px;
+  flex: none;
+}
+
+.sh-tagline {
+  margin: 0;
+  min-width: 0;
+  font-size: 0.74rem;
+  line-height: 1.5;
+  color: var(--ah-text);
+}
+
+.sh-actions {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex: none;
+}
+
+.sh-act {
+  display: inline-flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 14px 18px;
-  margin: 0 16px;
-  text-align: center;
-}
-
-.logo {
-  font-size: 2.1rem;
-  font-weight: 800;
-  color: #6e1224;
-  text-shadow:
-    -1.5px -1.5px 0 #fff8ec,
-    1.5px -1.5px 0 #fff8ec,
-    -1.5px 1.5px 0 #fff8ec,
-    1.5px 1.5px 0 #fff8ec,
-    0 2px 6px rgba(0, 0, 0, 0.2);
-}
-
-.logo small {
-  display: block;
-  font-size: 0.95rem;
-  color: #9c1c33;
-  font-weight: 700;
-  text-shadow:
-    -1px -1px 0 #fff8ec,
-    1px -1px 0 #fff8ec,
-    -1px 1px 0 #fff8ec,
-    1px 1px 0 #fff8ec;
-}
-
-.site-tagline {
-  margin: 8px 16px 0;
-  padding: 0 18px;
-  font-size: 1rem;
-  font-weight: 800;
-  text-align: center;
-  color: #6e1224;
-  text-shadow:
-    -1px -1px 0 #fff8ec,
-    1px -1px 0 #fff8ec,
-    -1px 1px 0 #fff8ec,
-    1px 1px 0 #fff8ec;
-}
-
-.theme-toggle {
-  position: absolute;
-  right: 18px;
-  top: 50%;
-  transform: translateY(-50%);
-  border: 1px solid rgba(110, 18, 36, 0.4);
-  background: rgba(255, 248, 236, 0.7);
-  color: #6e1224;
-  border-radius: 6px;
-  padding: 8px;
+  min-width: 48px;
+  min-height: 48px;
+  padding: 2px 4px;
+  font-size: 0.66rem;
+  color: var(--ah-text);
   cursor: pointer;
+  list-style: none;
+  border-radius: 8px;
+}
+
+.sh-act .icon {
+  width: 24px;
+  height: 24px;
+  color: var(--ah-maroon);
+}
+
+.sh-act::-webkit-details-marker {
+  display: none;
+}
+
+.sh-act:focus-visible,
+.sh-menu__panel a:focus-visible,
+.sh-menu__panel button:focus-visible,
+.sh-logo:focus-visible {
+  outline: 3px solid var(--ah-focus);
+  outline-offset: 2px;
+}
+
+.sh-menu {
+  position: relative;
+}
+
+.sh-menu[open] > summary {
+  background: var(--ah-tile);
+}
+
+.sh-menu__panel {
+  position: absolute;
+  right: 0;
+  top: 52px;
+  width: min(300px, calc(100vw - 24px));
+  max-height: calc(100vh - 80px);
+  overflow-y: auto;
+  background: var(--ah-card);
+  border: 1px solid var(--ah-line);
+  border-radius: 14px;
+  padding: 8px;
+  box-shadow: 0 8px 24px rgba(60, 30, 10, 0.18);
+}
+
+.sh-menu__panel ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.sh-menu__panel a,
+.sh-menu__panel .theme-toggle {
   display: flex;
   align-items: center;
+  gap: 8px;
+  width: 100%;
+  min-height: 44px;
+  padding: 0 10px;
+  border: 0;
+  border-radius: 8px;
+  background: none;
+  font: inherit;
+  font-size: 0.9rem;
+  color: var(--ah-text);
+  text-align: left;
+  cursor: pointer;
+}
+
+.sh-menu__panel a:hover,
+.sh-menu__panel .theme-toggle:hover {
+  background: var(--ah-tile);
+}
+
+.sh-menu__group {
+  margin: 0;
+  padding: 6px 10px 2px;
+  font-size: 0.72rem;
+  color: var(--ah-sub);
+}
+
+.theme-toggle .icon {
+  color: var(--ah-maroon);
+}
+
+.theme-icon {
+  display: inline-flex;
 }
 
 .theme-icon-moon { display: none; }
 html[data-theme="dark"] .theme-icon-sun { display: none; }
-html[data-theme="dark"] .theme-icon-moon { display: block; }
+html[data-theme="dark"] .theme-icon-moon { display: inline-flex; }
+
+@media (max-width: 479px) {
+  .sh-inner {
+    flex-wrap: wrap;
+    row-gap: 2px;
+    padding: 8px 12px;
+  }
+
+  .sh-logo__text {
+    font-size: 1.5rem;
+  }
+
+  .sh-tagline {
+    order: 3;
+    flex-basis: 100%;
+    font-size: 0.7rem;
+  }
+
+  .sh-tagline br {
+    display: none;
+  }
+}
 
 .site-lead-sep {
   color: var(--text-sub);
@@ -155,73 +255,6 @@ html[data-theme="dark"] .theme-icon-moon { display: block; }
     row-gap: 0;
   }
 
-  /* 中央のロゴと重ならないよう、テーマ切替をヘッダーの右上へ */
-  .site-header {
-    position: relative;
-  }
-
-  .header-row {
-    position: static;
-  }
-
-  .theme-toggle {
-    top: 6px;
-    right: 6px;
-    transform: none;
-  }
-
-  /* スマホでは本文を早く見せるため、ヘッダーを約140pxに抑える。背景は cover なので、バナーの明るい帯
-     （画像の縦15〜84%）は高さ140pxなら約21〜118px。ロゴ2行（サイト名＋キャッチ）がこの帯に収まる大きさにし、
-     帯に収まらなくなる下部の2行タグラインはスマホでは出さない（PC・タブレットの表示は変えない） */
-  .header-overlay {
-    min-height: 140px;
-    padding: 0;
-  }
-
-  .header-row {
-    padding: 0 18px;
-  }
-
-  .site-tagline {
-    display: none;
-  }
-
-  /* 幅に応じて縮め、320pxでも語の途中で折り返さず、右上のテーマ切替と重ならないようにする */
-  .logo {
-    font-size: min(1.8rem, 7vw);
-    white-space: nowrap;
-  }
-
-  .logo small {
-    font-size: min(0.95rem, 4vw);
-  }
-
-  /* タップ領域を44×44pxにする */
-  .theme-toggle {
-    width: 44px;
-    height: 44px;
-    justify-content: center;
-    top: 4px;
-    right: 4px;
-  }
-}
-
-/* 601〜767px は背景が横幅基準で拡大され上下が切れるため、1行のタグラインが帯の下端から出ないよう余白を詰める */
-@media (min-width: 601px) and (max-width: 767px) {
-  .header-row {
-    padding: 6px 18px;
-  }
-
-  .site-tagline {
-    margin-top: 2px;
-  }
-}
-
-/* ロゴが2行に折り返す幅では、タグラインまで明るい帯に収まらないため出さない */
-@media (max-width: 359px) {
-  .site-tagline {
-    display: none;
-  }
 }
 
 .date-bar {
@@ -731,6 +764,8 @@ body.ah-home .qa-tile .icon {
 .ah-weather__src,
 .ah-weather__none {
   margin: 0;
+  word-break: keep-all;
+  overflow-wrap: anywhere;
   flex-basis: 100%;
   font-size: 0.66rem;
   color: var(--ah-sub);
