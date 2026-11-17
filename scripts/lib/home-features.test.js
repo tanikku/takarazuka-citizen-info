@@ -11,12 +11,14 @@ import { indexPage, rankingPage, RANKING_PAGE_NOINDEX, articlePage, guideCharact
 const ROOT = path.join(path.dirname(fileURLToPath(import.meta.url)), "..", "..");
 const SITE = "https://takarazuka-today.jp";
 
-test("トップの4本柱：見出し・説明文・リンク8件（既存の公開ページ）を出し、矢印は読み上げない", () => {
+test("トップの4本柱：ラベル・見出し・要約・リンク8件（既存の公開ページ）を出し、アイコンは使わず、矢印は読み上げない", () => {
   const html = home();
   const row = html.slice(html.indexOf('<nav class="pillar-row"'), html.indexOf("</nav>", html.indexOf('<nav class="pillar-row"')));
   const plain = row.replace(/<wbr>/g, "");
   for (const t of ["暮らしのガイド", "まちカルテ", "現地取材・観光", "宝塚の実力・市議会ウォッチ"]) assert.ok(plain.includes(`<p class="pillar-title">${t}</p>`), t);
-  for (const d of ["ゴミ・手続き・子育て", "町丁目ごとの生活情報", "現地の写真と観光ガイド", "統計と市議会の動き"]) assert.ok(plain.includes(`<p class="pillar-desc">${d}</p>`), d);
+  for (const d of ["ゴミ・手続き・子育ての情報をまとめています", "町丁目ごとの生活情報を確認できます", "実際に歩いた写真と観光ガイドをまとめています", "統計や議会の動きから宝塚を読み解きます"]) assert.ok(plain.includes(`<p class="pillar-desc">${d}</p>`), d);
+  assert.deepEqual([...plain.matchAll(/<p class="pillar-tag">([^<]+)<\/p>/g)].map((m) => m[1]), ["暮らし", "地域情報", "現地取材", "分析・記録"]);
+  assert.ok(!row.includes("<svg") && !row.includes("pillar-icon"), "4本柱にアイコンは出さない");
   assert.ok(!row.includes("|"), "改行位置の印（|）は表示しない");
   const hrefs = [...row.matchAll(/<a href="([^"]+)"/g)].map((m) => m[1]);
   assert.deepEqual(hrefs, ["/category/kurashi", "/category/kosodate/guide", "/area/", "/area/sakasegawa/", "/category/kanko", "/photo", "/jitsuryoku", "/category/shigikai"]);

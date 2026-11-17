@@ -741,12 +741,13 @@ const GUIDE_NAV_ITEMS = [
 ];
 
 // 天気の下に置く「4つの柱」の入口。リンク先はどれも公開中の既存ページだけ（新しいページは作らない）
+// 各カードは「ラベル → 見出し → 要約 → リンク2件」の順。アイコンは使わず、ラベル・罫線・文字の濃淡で区別する（2026-11-17）
 // 文言の「|」は狭い画面で改行してよい位置（表示しない）。「・」の後も改行してよい
 const PILLAR_ITEMS = [
-  { icon: "book", title: "暮らしのガイド", desc: "ゴミ・手続き・子育て", links: [{ href: "/category/kurashi", label: "くらしのガイド・記事" }, { href: "/category/kosodate/guide", label: "子育て支援|まとめ" }] },
-  { icon: "building", title: "まちカルテ", desc: "町丁目ごとの|生活情報", links: [{ href: "/area/", label: "町丁目別の|生活情報" }, { href: "/area/sakasegawa/", label: "逆瀬川の|まちカルテ" }] },
-  { icon: "camera", title: "現地取材・観光", desc: "現地の写真と|観光ガイド", links: [{ href: "/category/kanko", label: "観光ガイド・記事" }, { href: "/photo", label: "現地取材|フォト" }] },
-  { icon: "chart", title: "宝塚の実力・市議会ウォッチ", desc: "統計と|市議会の動き", links: [{ href: "/jitsuryoku", label: "宝塚の実力" }, { href: "/category/shigikai", label: "市議会|ウォッチ" }] },
+  { tag: "暮らし", title: "暮らしのガイド", desc: "ゴミ・手続き・子育ての|情報を|まとめています", links: [{ href: "/category/kurashi", label: "くらしのガイド・記事" }, { href: "/category/kosodate/guide", label: "子育て支援|まとめ" }] },
+  { tag: "地域情報", title: "まちカルテ", desc: "町丁目ごとの|生活情報を|確認できます", links: [{ href: "/area/", label: "町丁目別の|生活情報" }, { href: "/area/sakasegawa/", label: "逆瀬川の|まちカルテ" }] },
+  { tag: "現地取材", title: "現地取材・観光", desc: "実際に歩いた|写真と|観光ガイドを|まとめています", links: [{ href: "/category/kanko", label: "観光ガイド・記事" }, { href: "/photo", label: "現地取材|フォト" }] },
+  { tag: "分析・記録", title: "宝塚の実力・市議会ウォッチ", desc: "統計や|議会の動きから|宝塚を|読み解きます", links: [{ href: "/jitsuryoku", label: "宝塚の実力" }, { href: "/category/shigikai", label: "市議会|ウォッチ" }] },
 ];
 
 // 語の途中で折り返さないよう、「|」と「・」の後にだけ改行の候補（<wbr>）を置く（CSS の word-break: keep-all と組み合わせる）
@@ -755,7 +756,7 @@ const pillarText = (text) => text.split("|").map((part) => escapeHtml(part).repl
 function pillarPanel() {
   const cards = PILLAR_ITEMS.map(
     (p) => `<div class="pillar-card">
-<span class="pillar-icon">${icon(p.icon)}</span>
+<p class="pillar-tag">${escapeHtml(p.tag)}</p>
 <p class="pillar-title">${pillarText(p.title)}</p>
 <p class="pillar-desc">${pillarText(p.desc)}</p>
 <ul class="pillar-links">${p.links.map((l) => `<li><a href="${escapeHtml(l.href)}"><span class="pillar-label">${pillarText(l.label)}</span><span class="pillar-arrow" aria-hidden="true">›</span></a></li>`).join("")}</ul>

@@ -442,26 +442,31 @@ html[data-theme="dark"] .guide-nav-panel {
   flex-direction: column;
 }
 
-.pillar-icon {
+/* カード上部のラベル。右に細い罫線を伸ばし、案内図の見出しのように見せる */
+.pillar-tag {
   display: flex;
   align-items: center;
-  justify-content: center;
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
-  background: var(--accent-soft);
+  gap: 8px;
+  margin: 0;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  line-height: 1.4;
   color: var(--accent);
+  white-space: nowrap;
 }
 
-.pillar-icon .icon {
-  width: 16px;
-  height: 16px;
+.pillar-tag::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: var(--border);
 }
 
 /* 見出し・説明文・リンクは語の途中では折り返さない（<wbr> の位置でだけ改行する）。入りきらない場合だけ任意の位置で折り返す */
 .pillar-title {
-  margin: 6px 0 0;
-  font-size: 0.92rem;
+  margin: 4px 0 0;
+  font-size: 0.95rem;
   font-weight: 700;
   line-height: 1.35;
   color: var(--text);
@@ -470,9 +475,9 @@ html[data-theme="dark"] .guide-nav-panel {
 }
 
 .pillar-desc {
-  margin: 2px 0 4px;
+  margin: 3px 0 6px;
   font-size: 0.72rem;
-  line-height: 1.4;
+  line-height: 1.5;
   color: var(--text-sub);
   word-break: keep-all;
   overflow-wrap: anywhere;
