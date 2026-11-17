@@ -741,18 +741,24 @@ const GUIDE_NAV_ITEMS = [
 ];
 
 // 天気の下に置く「4つの柱」の入口。リンク先はどれも公開中の既存ページだけ（新しいページは作らない）
+// 文言の「|」は狭い画面で改行してよい位置（表示しない）。「・」の後も改行してよい
 const PILLAR_ITEMS = [
-  { icon: "book", title: "暮らしのガイド", links: [{ href: "/category/kurashi", label: "くらしのガイド・記事" }, { href: "/category/kosodate/guide", label: "子育て支援まとめ" }] },
-  { icon: "building", title: "まちカルテ", links: [{ href: "/area/", label: "町丁目別の生活情報" }, { href: "/area/sakasegawa/", label: "逆瀬川のまちカルテ" }] },
-  { icon: "camera", title: "現地取材・観光", links: [{ href: "/category/kanko", label: "観光ガイド・記事" }, { href: "/photo", label: "現地取材フォト" }] },
-  { icon: "chart", title: "宝塚の実力・市議会ウォッチ", links: [{ href: "/jitsuryoku", label: "宝塚の実力" }, { href: "/category/shigikai", label: "市議会ウォッチ" }] },
+  { icon: "book", title: "暮らしのガイド", desc: "ゴミ・手続き・子育て", links: [{ href: "/category/kurashi", label: "くらしのガイド・記事" }, { href: "/category/kosodate/guide", label: "子育て支援|まとめ" }] },
+  { icon: "building", title: "まちカルテ", desc: "町丁目ごとの|生活情報", links: [{ href: "/area/", label: "町丁目別の|生活情報" }, { href: "/area/sakasegawa/", label: "逆瀬川の|まちカルテ" }] },
+  { icon: "camera", title: "現地取材・観光", desc: "現地の写真と|観光ガイド", links: [{ href: "/category/kanko", label: "観光ガイド・記事" }, { href: "/photo", label: "現地取材|フォト" }] },
+  { icon: "chart", title: "宝塚の実力・市議会ウォッチ", desc: "統計と|市議会の動き", links: [{ href: "/jitsuryoku", label: "宝塚の実力" }, { href: "/category/shigikai", label: "市議会|ウォッチ" }] },
 ];
+
+// 語の途中で折り返さないよう、「|」と「・」の後にだけ改行の候補（<wbr>）を置く（CSS の word-break: keep-all と組み合わせる）
+const pillarText = (text) => text.split("|").map((part) => escapeHtml(part).replace(/・/g, "・<wbr>")).join("<wbr>");
 
 function pillarPanel() {
   const cards = PILLAR_ITEMS.map(
     (p) => `<div class="pillar-card">
-<p class="pillar-title">${icon(p.icon)}<span>${escapeHtml(p.title)}</span></p>
-<ul class="pillar-links">${p.links.map((l) => `<li><a href="${escapeHtml(l.href)}">${escapeHtml(l.label)} →</a></li>`).join("")}</ul>
+<span class="pillar-icon">${icon(p.icon)}</span>
+<p class="pillar-title">${pillarText(p.title)}</p>
+<p class="pillar-desc">${pillarText(p.desc)}</p>
+<ul class="pillar-links">${p.links.map((l) => `<li><a href="${escapeHtml(l.href)}"><span class="pillar-label">${pillarText(l.label)}</span><span class="pillar-arrow" aria-hidden="true">›</span></a></li>`).join("")}</ul>
 </div>`,
   ).join("\n");
   return `<nav class="pillar-row" aria-label="宝塚Todayの4つの柱">

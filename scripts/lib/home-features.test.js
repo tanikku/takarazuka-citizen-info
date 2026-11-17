@@ -11,6 +11,18 @@ import { indexPage, rankingPage, RANKING_PAGE_NOINDEX, articlePage, guideCharact
 const ROOT = path.join(path.dirname(fileURLToPath(import.meta.url)), "..", "..");
 const SITE = "https://takarazuka-today.jp";
 
+test("トップの4本柱：見出し・説明文・リンク8件（既存の公開ページ）を出し、矢印は読み上げない", () => {
+  const html = home();
+  const row = html.slice(html.indexOf('<nav class="pillar-row"'), html.indexOf("</nav>", html.indexOf('<nav class="pillar-row"')));
+  const plain = row.replace(/<wbr>/g, "");
+  for (const t of ["暮らしのガイド", "まちカルテ", "現地取材・観光", "宝塚の実力・市議会ウォッチ"]) assert.ok(plain.includes(`<p class="pillar-title">${t}</p>`), t);
+  for (const d of ["ゴミ・手続き・子育て", "町丁目ごとの生活情報", "現地の写真と観光ガイド", "統計と市議会の動き"]) assert.ok(plain.includes(`<p class="pillar-desc">${d}</p>`), d);
+  assert.ok(!row.includes("|"), "改行位置の印（|）は表示しない");
+  const hrefs = [...row.matchAll(/<a href="([^"]+)"/g)].map((m) => m[1]);
+  assert.deepEqual(hrefs, ["/category/kurashi", "/category/kosodate/guide", "/area/", "/area/sakasegawa/", "/category/kanko", "/photo", "/jitsuryoku", "/category/shigikai"]);
+  assert.equal((row.match(/<span class="pillar-arrow" aria-hidden="true">›<\/span>/g) ?? []).length, 8);
+});
+
 function home(overrides = {}) {
   return indexPage({
     featuredNews: [],
