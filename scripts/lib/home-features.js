@@ -26,6 +26,43 @@ export const FIELD_REPORT_PHOTOS = [
   },
 ];
 
+// トップのメインビジュアル（正式A案、2026-11-17）。宝塚Todayが現地で撮影した写真だけ（各ガイドの fieldReport に撮影の明記がある）。
+// 撮影地・撮影日はページに表示する。順番は表示順（1枚目が優先読み込み）。
+export const HERO_SLIDES = [
+  {
+    src: "/photos/takarazuka-gekijo-facade-20261103-1200x630.webp",
+    width: 1200,
+    height: 630,
+    alt: "宝塚大劇場の正面",
+    place: "宝塚大劇場",
+    shotOn: "2026年11月3日",
+  },
+  {
+    src: "/photos/takarazuka-hananomichi-20261103-800w.webp",
+    srcset: "/photos/takarazuka-hananomichi-20261103-800w.webp 800w, /photos/takarazuka-hananomichi-20261103.webp 1600w",
+    width: 800,
+    height: 600,
+    alt: "花のみちの石碑と並木道",
+    place: "花のみち",
+    shotOn: "2026年11月3日",
+  },
+  {
+    src: "/photos/takedao-tsuribashi-gorge-20261103-1200x630.webp",
+    width: 1200,
+    height: 630,
+    alt: "武田尾の吊り橋と武庫川の渓谷",
+    place: "武田尾の吊り橋",
+    shotOn: "2026年11月3日",
+  },
+];
+
+// トップの「独自連載（宝塚の実力）」カードの写真。連載の内容を写した写真ではないため、撮影地と撮影日をカードに添える
+export const SERIES_CARD_PHOTO = {
+  src: "/photos/takarazuka-onsen-mukogawa-20261103-1200x630.webp",
+  place: "武庫川",
+  shotOn: "2026年11月3日",
+};
+
 // "YYYY-MM-DD" の1970-01-01からの通算日。タイムゾーンに依存せず、年をまたいでも1日ずつ増える
 // （年内の通算日だと 12/31→1/1 で候補が戻ってしまう）
 function dayNumber(dateKey) {

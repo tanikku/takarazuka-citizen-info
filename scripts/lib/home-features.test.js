@@ -5,24 +5,69 @@ import assert from "node:assert/strict";
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { FIELD_REPORT_PHOTOS, pickFieldReportPhoto, isRankingFresh, RANKING_MAX_AGE_DAYS, FIELD_REPORT_GALLERY, buildFieldReportGallery } from "./home-features.js";
+import { FIELD_REPORT_PHOTOS, pickFieldReportPhoto, isRankingFresh, RANKING_MAX_AGE_DAYS, FIELD_REPORT_GALLERY, buildFieldReportGallery, HERO_SLIDES, SERIES_CARD_PHOTO } from "./home-features.js";
 import { indexPage, rankingPage, RANKING_PAGE_NOINDEX, articlePage, guideCharactersPage, photoGalleryPage } from "../templates.js";
 
 const ROOT = path.join(path.dirname(fileURLToPath(import.meta.url)), "..", "..");
 const SITE = "https://takarazuka-today.jp";
 
-test("トップの4本柱：ラベル・見出し・要約・リンク8件（既存の公開ページ）を出し、アイコンは使わず、矢印は読み上げない", () => {
+test("トップの4つの入口：ラベル・見出し・要約・リンク8件（既存の公開ページ）。主リンクと補助リンクの2つで、入れ子にせず、矢印は読み上げない", () => {
   const html = home();
   const row = html.slice(html.indexOf('<nav class="pillar-row"'), html.indexOf("</nav>", html.indexOf('<nav class="pillar-row"')));
   const plain = row.replace(/<wbr>/g, "");
-  for (const t of ["暮らしのガイド", "まちカルテ", "現地取材・観光", "宝塚の実力・市議会ウォッチ"]) assert.ok(plain.includes(`<p class="pillar-title">${t}</p>`), t);
+  assert.ok(html.includes('<h2 class="ah-sec-title" id="pillars-title"><span>宝塚Todayの4つの入口</span></h2>'));
+  assert.ok(row.startsWith('<nav class="pillar-row" aria-labelledby="pillars-title">'));
+  for (const t of ["暮らしのガイド", "まちカルテ", "現地取材・観光", "宝塚の実力・市議会ウォッチ"]) assert.ok(plain.includes(`<h3 class="pillar-title">${t}</h3>`), t);
   for (const d of ["ゴミ・手続き・子育ての情報をまとめています", "町丁目ごとの生活情報を確認できます", "実際に歩いた写真と観光ガイドをまとめています", "統計や議会の動きから宝塚を読み解きます"]) assert.ok(plain.includes(`<p class="pillar-desc">${d}</p>`), d);
   assert.deepEqual([...plain.matchAll(/<p class="pillar-tag">([^<]+)<\/p>/g)].map((m) => m[1]), ["暮らし", "地域情報", "現地取材", "分析・記録"]);
-  assert.ok(!row.includes("<svg") && !row.includes("pillar-icon"), "4本柱にアイコンは出さない");
+  assert.ok(!row.includes("<svg") && !row.includes("pillar-icon"), "4つの入口にアイコンは出さない");
   assert.ok(!row.includes("|"), "改行位置の印（|）は表示しない");
-  const hrefs = [...row.matchAll(/<a href="([^"]+)"/g)].map((m) => m[1]);
-  assert.deepEqual(hrefs, ["/category/kurashi", "/category/kosodate/guide", "/area/", "/area/sakasegawa/", "/category/kanko", "/photo", "/jitsuryoku", "/category/shigikai"]);
-  assert.equal((row.match(/<span class="pillar-arrow" aria-hidden="true">›<\/span>/g) ?? []).length, 8);
+  const links = [...row.matchAll(/<a class="(pillar-main|pillar-sub)" href="([^"]+)"/g)].map((m) => [m[1], m[2]]);
+  assert.deepEqual(links.map((l) => l[1]), ["/category/kurashi", "/category/kosodate/guide", "/area/", "/area/sakasegawa/", "/category/kanko", "/photo", "/jitsuryoku", "/category/shigikai"]);
+  assert.deepEqual(links.map((l) => l[0]), ["pillar-main", "pillar-sub", "pillar-main", "pillar-sub", "pillar-main", "pillar-sub", "pillar-main", "pillar-sub"]);
+  assert.equal((row.match(/<span class="pillar-arrow" aria-hidden="true">›<\/span>/g) ?? []).length, 4);
+  assert.ok(!/<a [^>]*>(?:(?!<\/a>)[\s\S])*<a /.test(row), "リンクを入れ子にしない");
+});
+
+test("トップのメインビジュアル：自前の写真3枚に撮影地・撮影日を出し、1枚目だけ優先読み込み。自動では切り替えない", () => {
+  const html = home();
+  assert.equal(HERO_SLIDES.length, 3);
+  const hero = html.slice(html.indexOf('<section class="ah-hero"'), html.indexOf("</section>", html.indexOf('<section class="ah-hero"')));
+  const imgs = hero.match(/<img [^>]+>/g);
+  assert.equal(imgs.length, 3);
+  HERO_SLIDES.forEach((s, i) => {
+    assert.ok(fs.existsSync(path.join(ROOT, "assets", s.src)), s.src);
+    assert.ok(/-2026\d{4}(-\d+x\d+|-800w)?\.webp$/.test(s.src), "宝塚Todayの撮影写真（日付入りのファイル名）だけ");
+    assert.ok(hero.includes(`<figcaption>${s.place}（${s.shotOn} 宝塚Today撮影）</figcaption>`), s.place);
+    if (i === 0) assert.ok(imgs[0].includes('fetchpriority="high"') && !imgs[0].includes("loading="));
+    else assert.ok(imgs[i].includes('loading="lazy"') && !imgs[i].includes("fetchpriority"));
+  });
+  for (const s of HERO_SLIDES) if (s.srcset) for (const part of s.srcset.split(",")) assert.ok(fs.existsSync(path.join(ROOT, "assets", part.trim().split(" ")[0])), part);
+  assert.ok(!hero.includes("jitsuryoku-visual"), "AI生成イメージをメインビジュアルに使わない");
+  const dots = html.slice(html.indexOf('<div class="ah-hero__dots"'), html.indexOf("</div>", html.indexOf('<div class="ah-hero__dots"')));
+  assert.equal((dots.match(/<button type="button" data-hero-slide="\d"/g) ?? []).length, 3);
+  assert.ok(dots.includes('aria-controls="ah-slide-1"') && dots.includes("自動では切り替わりません"));
+  const js = fs.readFileSync(path.join(ROOT, "assets", "hero.js"), "utf8");
+  assert.doesNotMatch(js, /setInterval|autoplay/, "自動再生しない");
+  assert.match(js, /ArrowRight/, "キーボードでも切り替えられる");
+  assert.ok(html.includes('<script src="/js/hero.js" defer></script>'));
+});
+
+test("トップの天気の帯：気象庁の出典と代表地点の注記を残し、データが無い日はその旨を出す", () => {
+  const weather = { weatherEmoji: "☀️", tempMax: "20", areaLabel: "神戸（阪神地域代表地点）", popBlocks: [{ label: "12〜18時", pop: "50" }], sourceUrl: "https://www.jma.go.jp/bosai/forecast/", forecastDate: "2026-11-17" };
+  const html = home({ weather });
+  const w = html.slice(html.indexOf('<section class="ah-weather"'), html.indexOf("</section>", html.indexOf('<section class="ah-weather"')));
+  assert.ok(w.includes('id="weather"'));
+  assert.ok(w.includes('<span class="ah-weather__temp">20℃</span>') && w.includes('<span class="ah-weather__area">神戸</span>'));
+  assert.ok(w.includes("<span>12〜18時</span><b>50%</b>"));
+  assert.ok(w.includes('出典：<a href="https://www.jma.go.jp/bosai/forecast/" target="_blank" rel="noopener">気象庁</a>（2026-11-17発表・神戸（阪神地域代表地点））'));
+  assert.ok(home().includes("天気情報を取得できませんでした"));
+});
+
+test("トップ専用のデザイン（body.ah-home）はトップだけに付け、記事ページには付けない", () => {
+  assert.ok(home().includes('<body class="ah-home">'));
+  const article = articlePage({ slug: "t", title: "t", summary: "s", category: "行政・くらし", publishedAt: "2026-11-01", sourceName: "宝塚市公式サイト", sourceUrl: "https://www.city.takarazuka.hyogo.jp/", valueScore: "A" }, SITE);
+  assert.ok(article.includes("<body>") && !article.includes("ah-home"));
 });
 
 function home(overrides = {}) {
@@ -72,9 +117,9 @@ test("年をまたいでも翌日は次の候補へ進む", () => {
 
 test("あいあいパークの日は、場所と撮影日（2026年10月16日）を出してガイドへリンクする", () => {
   const html = home({ fieldReportPhoto: FIELD_REPORT_PHOTOS[2] });
-  assert.ok(html.includes('<a class="photo-hero" href="/category/kanko/aiaipark-guide">'));
-  assert.ok(html.includes('<span class="photo-hero-title">あいあいパーク</span>'));
-  assert.ok(html.includes('<span class="photo-hero-credit">宝塚Today撮影｜2026年10月16日</span>'));
+  assert.ok(html.includes('<a class="ah-feature" href="/category/kanko/aiaipark-guide">'));
+  assert.ok(html.includes('<span class="ah-feature__title">あいあいパーク</span>'));
+  assert.ok(html.includes('<span class="ah-feature__sub">宝塚Today撮影｜2026年10月16日</span>'));
 });
 
 test("あいあいパークガイドは現地取材日と、駅から歩いた所要時間を実測として書く", () => {
@@ -97,12 +142,13 @@ test("あいあいパークガイドは現地取材日と、駅から歩いた�
   }
 });
 
-test("トップの写真欄は現地取材バッジ・場所・撮影者と撮影日を出し、旧クレジットは出さない", () => {
+test("トップの現地取材カードは現地取材バッジ・場所・撮影者と撮影日を出し、旧クレジットは出さない", () => {
   const html = home();
-  assert.ok(html.includes('<a class="photo-hero" href="/category/kanko/kiyoshikojin-guide">'));
-  assert.ok(html.includes('<span class="season-tag">現地取材</span>'));
-  assert.ok(html.includes('<span class="photo-hero-title">清荒神清澄寺・山門</span>'));
-  assert.ok(html.includes('<span class="photo-hero-credit">宝塚Today撮影｜2026年10月3日</span>'));
+  assert.ok(html.includes('<a class="ah-feature" href="/category/kanko/kiyoshikojin-guide">'));
+  assert.ok(html.includes('<span class="ah-feature__tag">現地取材</span>'));
+  assert.ok(html.includes('<span class="ah-feature__title">清荒神清澄寺・山門</span>'));
+  assert.ok(html.includes('<span class="ah-feature__sub">宝塚Today撮影｜2026年10月3日</span>'));
+  assert.ok(fs.existsSync(path.join(ROOT, "assets", SERIES_CARD_PHOTO.src)), "連載カードの写真");
   assert.ok(!html.includes("今日の宝塚フォト"));
   assert.ok(!html.includes("写真提供：宝塚市オープンデータ（CC BY 4.0）"));
 });

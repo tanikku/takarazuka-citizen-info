@@ -10,10 +10,11 @@ import { indexPage } from "../templates.js";
 const CSS = fs.readFileSync(path.join(path.dirname(fileURLToPath(import.meta.url)), "..", "..", "assets", "style.css"), "utf8");
 const ARGS = { featuredNews: [], todayKey: "2026-10-25", categoryPageKeys: new Set(), publishedArticles: [], ranking: null, weather: null, todayCounts: {}, fieldReportPhoto: null, dateLabel: "2026年10月25日(日)", siteUrl: "https://takarazuka-today.jp" };
 
-test("トップのh1は1つで、日付バーの中にある（重複して出さない）", () => {
+test("トップのh1は1つで、メインビジュアルの見出しにある（重複して出さない。正式A案）", () => {
   const html = indexPage(ARGS);
   assert.equal((html.match(/<h1[ >]/g) ?? []).length, 1);
-  assert.match(html, /<div class="date-bar">[\s\S]*?<h1 class="site-lead">宝塚市の暮らしに役立つ地域情報<\/h1><\/div>/);
+  assert.match(html, /<section class="ah-hero" aria-labelledby="ah-hero-title">[\s\S]*?<h1 class="ah-hero__title" id="ah-hero-title">宝塚の暮らし・地域・<br>まちの話題を、<wbr>やさしく詳しく<\/h1>/);
+  assert.ok(!html.includes('class="date-bar"'), "日付の帯は出さない");
 });
 
 test("スマホでもh1を隠さない（区切りの縦線だけ隠す）", () => {

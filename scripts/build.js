@@ -714,6 +714,8 @@ function main() {
   writeFile("search-index.json", JSON.stringify(searchIndex));
   writeFile("search.html", searchPage(SITE_URL));
   writeFile("js/search.js", fs.readFileSync(path.join(ASSETS_DIR, "search.js"), "utf-8"));
+  // トップのメインビジュアルの手動切り替え（正式A案）
+  writeFile("js/hero.js", fs.readFileSync(path.join(ASSETS_DIR, "hero.js"), "utf-8"));
 
   writeFile("css/style.css", fs.readFileSync(path.join(ASSETS_DIR, "style.css"), "utf-8"));
   writeFile("js/theme.js", fs.readFileSync(path.join(ASSETS_DIR, "theme.js"), "utf-8"));

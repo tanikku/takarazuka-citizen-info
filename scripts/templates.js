@@ -5,6 +5,7 @@ import { articleStatusNotice } from "./lib/article-status.js";
 import { isArticleIndexable } from "./lib/indexing.js";
 import { contentVersion } from "./lib/asset-version.js";
 import { reasonLabel, monthDayLabel } from "./lib/home-news.js";
+import { HERO_SLIDES, SERIES_CARD_PHOTO } from "./lib/home-features.js";
 
 // フェーズ17：回遊率向上のための「おすすめページ」「人気コンテンツ」データ（JSON管理）
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -142,36 +143,48 @@ function staticSectionHeading(text) {
   return `<h2 class="guide-q" style="font-size:1rem;">${escapeHtml(text)}</h2>`;
 }
 
-// トップページ唯一のh1。日付バー内の説明文をそのまま見出しにするため、
-// .site-lead 側でh1既定の太字・上下marginを打ち消して見た目を変えない。
-function dateBar(dateLabel) {
-  return `<div class="date-bar">${icon("calendar")}<span>${escapeHtml(dateLabel)}</span><span class="site-lead-sep">|</span><h1 class="site-lead">宝塚市の暮らしに役立つ地域情報</h1></div>`;
+// 正式A案（2026-11-17）：トップのメインビジュアル。ページで唯一の h1 をここに置く。
+// 写真は宝塚Todayが撮影した既存の写真だけで、撮影地・撮影日を必ず表示する（架空の景観・AI画像は使わない）。
+// 切り替えは手動だけ（自動再生しない）。横スクロールで切り替え、点のボタン（/js/hero.js）とキーボードの左右キーでも切り替えられる。
+// 1枚目だけ優先読み込みし、2枚目以降は遅延読み込みにする（LCP は1枚目）。
+function heroPanel(slides = HERO_SLIDES) {
+  const items = slides
+    .map((s, i) => {
+      const srcset = s.srcset ? ` srcset="${escapeHtml(s.srcset)}" sizes="(min-width: 768px) 1048px, 100vw"` : "";
+      const load = i === 0 ? ' fetchpriority="high"' : ' loading="lazy"';
+      return `<figure class="ah-slide" id="ah-slide-${i + 1}">
+<img src="${escapeHtml(s.src)}"${srcset} width="${s.width}" height="${s.height}" alt="${escapeHtml(s.alt)}"${load} decoding="async">
+<figcaption>${escapeHtml(s.place)}（${escapeHtml(s.shotOn)} 宝塚Today撮影）</figcaption>
+</figure>`;
+    })
+    .join("\n");
+  const dots = slides
+    .map((s, i) => `<button type="button" data-hero-slide="${i}" aria-controls="ah-slide-${i + 1}" aria-label="${i + 1}枚目：${escapeHtml(s.place)}"${i === 0 ? ' aria-current="true"' : ""}></button>`)
+    .join("");
+  return `<section class="ah-hero" aria-labelledby="ah-hero-title">
+<div class="ah-hero__track" id="ah-hero-track" tabindex="0" aria-label="宝塚Todayが撮影した写真（左右のキーまたは横スクロールで切り替え）">
+${items}
+</div>
+<div class="ah-hero__text"><h1 class="ah-hero__title" id="ah-hero-title">宝塚の暮らし・地域・<br>まちの話題を、<wbr>やさしく詳しく</h1><p class="ah-hero__lead">行政情報から街の魅力、現地取材まで。<br>宝塚の今を届ける地域メディアです。</p></div>
+</section>
+<div class="ah-hero__dots" role="group" aria-label="写真の切り替え（自動では切り替わりません）">${dots}</div>`;
 }
 
-
-function weatherPanel(weather) {
+// 正式A案の細い天気の帯。データは従来どおり data/weather.json（気象庁）。出典と代表地点の注記は残す
+function weatherStrip(weather) {
   if (!weather) {
-    return `<div class="panel" id="weather">
-<p class="panel-title">${icon("sun")}今日の天気</p>
-<p class="empty-state">天気情報を取得できませんでした</p>
-</div>`;
+    return `<section class="ah-weather" id="weather" aria-label="今日の天気"><div class="ah-weather__bar"><p class="ah-weather__none">天気情報を取得できませんでした</p></div></section>`;
   }
-
-  const popHtml =
+  const area = String(weather.areaLabel ?? "").split("（")[0];
+  const pops =
     weather.popBlocks && weather.popBlocks.length > 0
-      ? `<div class="weather-pop-row">
-${weather.popBlocks.map((b) => `<div class="weather-pop-block"><span class="weather-pop-time">${escapeHtml(b.label)}</span><span class="weather-pop-val">${escapeHtml(b.pop)}%</span></div>`).join("\n")}
-</div>`
+      ? `<div class="ah-weather__pop"><span>降水確率</span>${weather.popBlocks.map((b) => `<span>${escapeHtml(b.label)}</span><b>${escapeHtml(b.pop)}%</b>`).join("")}</div>`
       : "";
-
-  return `<div class="panel" id="weather">
-<p class="panel-title">${icon("sun")}今日の天気</p>
-<div class="weather-body">
-  <div class="weather-row"><span class="weather-emoji">${escapeHtml(weather.weatherEmoji)}</span><span class="weather-temp">${escapeHtml(weather.tempMax ?? "?")}℃</span><span class="weather-area">${escapeHtml(weather.areaLabel)}</span></div>
-  ${popHtml}
-</div>
-<p class="today-source">天気出典：<a href="${escapeHtml(weather.sourceUrl)}" target="_blank" rel="noopener">気象庁</a>（${escapeHtml(weather.forecastDate)}発表予報・宝塚市は阪神地域のため代表地点「神戸」のデータを表示・降水確率は6時間ごと）</p>
-</div>`;
+  return `<section class="ah-weather" id="weather" aria-label="今日の天気"><div class="ah-weather__bar">
+<div class="ah-weather__main"><span class="ah-weather__emoji" aria-hidden="true">${escapeHtml(weather.weatherEmoji)}</span><span class="ah-weather__label">今日の天気</span><span class="ah-weather__temp">${escapeHtml(weather.tempMax ?? "?")}℃</span><span class="ah-weather__area">${escapeHtml(area)}</span></div>
+${pops}
+<p class="ah-weather__src">出典：<a href="${escapeHtml(weather.sourceUrl)}" target="_blank" rel="noopener">気象庁</a>（${escapeHtml(weather.forecastDate)}発表・${escapeHtml(weather.areaLabel)}）</p>
+</div></section>`;
 }
 
 // フェーズ20：サイト内検索。/search-index.json（ビルド時自動生成）を/js/search.jsが読み込み、入力中に候補表示・Enterで/searchへ遷移する
@@ -183,10 +196,6 @@ ${icon("search")}
 </form>
 <div id="site-search-suggestions" class="search-suggestions" hidden></div>
 </div>`;
-}
-
-function contactCtaPanel() {
-  return `<a class="panel contact-cta-panel" href="/contact">${icon("mail")}<span>お問い合わせ</span></a>`;
 }
 
 // 先頭は生活ガイド（コンテンツ重視型への転換・第1回、2026-11-16）。ニュースは下の「注目・新着ニュース」枠から読める
@@ -211,7 +220,7 @@ function siteYear() {
   return new Date().toLocaleDateString("en-CA", { timeZone: "Asia/Tokyo" }).slice(0, 4);
 }
 
-export function layout({ title, description, bodyHtml, canonicalUrl, ogType = "website", structuredData = null, extraScripts = [], ogImage = null, adsAllowed = true, noindex = false, extraHeadHtml = "" }) {
+export function layout({ title, description, bodyHtml, canonicalUrl, ogType = "website", structuredData = null, extraScripts = [], ogImage = null, adsAllowed = true, noindex = false, extraHeadHtml = "", bodyClass = "" }) {
   const dataList = Array.isArray(structuredData) ? structuredData : structuredData ? [structuredData] : [];
   const jsonLdScript = dataList
     .map((data) => `<script type="application/ld+json">${JSON.stringify(data)}</script>`)
@@ -258,7 +267,7 @@ ${ogImageTags}
 <script>${themeInitScript()}</script>
 ${adsenseHeadScript}
 </head>
-<body>
+<body${bodyClass ? ` class="${escapeHtml(bodyClass)}"` : ""}>
 ${header()}
 <main>
 ${bodyHtml}
@@ -628,33 +637,29 @@ ${notices}
 </div>`;
 }
 
-// 旧「今日の宝塚フォト」の枠。宝塚Todayが現地で撮影した写真を、撮影日・場所と現地取材ガイドへのリンクつきで出す
-function fieldReportPanel(fieldReportPhoto) {
-  if (!fieldReportPhoto) return "";
+// 正式A案の写真付きカード2枚（現地取材・独自連載）。
+// 左：日替わりの現地取材写真（lib/home-features.js の pickFieldReportPhoto）。右：公開判定を通った「宝塚の実力」の最新回（無ければ第1弾）。
+// カード全体を1つのリンクにし、補助のリンク（フォト一覧・連載の一覧）はカードの外に置く（リンクを入れ子にしない）
+function featureCards(fieldReportPhoto, latest = null) {
   const p = fieldReportPhoto;
-  return `<div class="panel" id="photo" style="padding:0; overflow:hidden;">
-<a class="photo-hero" href="${escapeHtml(p.href)}">
-<img src="${escapeHtml(p.src)}" alt="${escapeHtml(p.alt)}">
-<span class="photo-hero-caption">
-  <span class="season-tag">現地取材</span>
-  <span class="photo-hero-title">${escapeHtml(p.place)}</span>
-  <span class="photo-hero-credit">宝塚Today撮影｜${escapeHtml(p.shotOn)}</span>
-</span>
-</a>
-<p class="photo-more"><a href="/photo">現地取材フォトをもっと見る →</a></p>
+  const left = p
+    ? `<div class="ah-feature-wrap">
+<a class="ah-feature" href="${escapeHtml(p.href)}"><img src="${escapeHtml(p.src)}" width="1200" height="630" alt="${escapeHtml(p.alt)}" loading="lazy" decoding="async"><span class="ah-feature__body"><span class="ah-feature__tag">現地取材</span><span class="ah-feature__title">${escapeHtml(p.place)}</span><span class="ah-feature__sub">宝塚Today撮影｜${escapeHtml(p.shotOn)}</span></span><span class="ah-feature__go" aria-hidden="true">›</span></a>
+<a class="ah-feature-more" href="/photo">現地取材フォトをもっと見る</a>
+</div>`
+    : "";
+  const number = latest?.episode ?? 1;
+  const slug = latest ? latest.slug : "zeishu-shigoto";
+  const heading = latest ? `「${escapeHtml(splitEpisodeTitle(latest.title).main)}」` : "";
+  const ph = SERIES_CARD_PHOTO;
+  const right = `<div class="ah-feature-wrap">
+<a class="ah-feature" href="/${JITSURYOKU_SLUG}/${escapeHtml(slug)}"><img src="${escapeHtml(ph.src)}" width="1200" height="630" alt="" loading="lazy" decoding="async"><span class="ah-feature__credit">写真：${escapeHtml(ph.place)}（${escapeHtml(ph.shotOn)} 宝塚Today撮影）</span><span class="ah-feature__body"><span class="ah-feature__tag">独自連載</span><span class="ah-feature__title">宝塚の実力</span><span class="ah-feature__sub">第${number}弾公開${heading}｜数字で見る、宝塚のいま</span></span><span class="ah-feature__go" aria-hidden="true">›</span></a>
+<a class="ah-feature-more" href="/${JITSURYOKU_SLUG}#series-list">これまでの回・連載の一覧</a>
 </div>`;
-}
-
-// 上段の左枠（以前は「今日の宝塚トピック」があった場所）に「宝塚の実力」の予告バナーを置く。
-// 「今日の宝塚トピック」と「トップニュース」は「注目・新着ニュース」1枠に統合した（featuredNewsPanel / lib/home-news.js）
-function todayRow(fieldReportPhoto, categoryPageKeys, latestEpisode, seriesPrevious = []) {
-  return `<div class="today-row${latestEpisode ? " today-row--with-sub" : ""}">
-${jitsuryokuBannerPanel(latestEpisode)}
-${latestEpisode ? `${jitsuryokuSubBanner(seriesPrevious)}\n` : ""}<div class="today-row-side">
-${fieldReportPanel(fieldReportPhoto)}
-${categoryPanel(categoryPageKeys)}
-</div>
-</div>`;
+  return `<section class="ah-features" aria-label="現地取材と独自連載">
+${left}
+${right}
+</section>`;
 }
 
 function categoryPanel(categoryPageKeys) {
@@ -721,11 +726,11 @@ ${showMoreLink ? '<p class="panel-note"><a href="/ranking/">新着記事をも�
 
 function recentCombinedFeed(publishedArticles, categoryPageKeys) {
   const items = publishedArticles.slice(0, RECENT_FEED_MAX).map(headlineRow).join("\n");
-  const browseLink = categoryPageKeys.size > 0 ? `<p class="panel-note"><a href="#category-panel">→ もっと見る（カテゴリー別に探す）</a></p>` : "";
+  // 正式A案：「もっと見る」は見出しの右。行き先は従来どおりカテゴリー別の一覧
+  const browseLink = categoryPageKeys.size > 0 ? `<a class="ah-more" href="#category-panel">もっと見る<span aria-hidden="true"> ›</span></a>` : "";
   return `<div class="panel" id="recent-articles">
-<p class="panel-title">${icon("bell")}新着記事</p>
+<p class="panel-title">${icon("bell")}新着記事${browseLink}</p>
 ${items || '<p class="empty-state">まだ記事がありません</p>'}
-${browseLink}
 </div>`;
 }
 
@@ -753,16 +758,20 @@ const PILLAR_ITEMS = [
 // 語の途中で折り返さないよう、「|」と「・」の後にだけ改行の候補（<wbr>）を置く（CSS の word-break: keep-all と組み合わせる）
 const pillarText = (text) => text.split("|").map((part) => escapeHtml(part).replace(/・/g, "・<wbr>")).join("<wbr>");
 
+// 正式A案：見出し「宝塚Todayの4つの入口」。各カードは主リンク（大きく・カード全体が押せる）と補助リンク（控えめ）の2つ。
+// 主リンクの押せる範囲はカード全体に広げ（CSS）、補助リンクはその上に重ねる。リンクは入れ子にしない
 function pillarPanel() {
-  const cards = PILLAR_ITEMS.map(
-    (p) => `<div class="pillar-card">
+  const cards = PILLAR_ITEMS.map((p) => {
+    const [main, sub] = p.links;
+    return `<div class="pillar-card">
 <p class="pillar-tag">${escapeHtml(p.tag)}</p>
-<p class="pillar-title">${pillarText(p.title)}</p>
+<h3 class="pillar-title">${pillarText(p.title)}</h3>
 <p class="pillar-desc">${pillarText(p.desc)}</p>
-<ul class="pillar-links">${p.links.map((l) => `<li><a href="${escapeHtml(l.href)}"><span class="pillar-label">${pillarText(l.label)}</span><span class="pillar-arrow" aria-hidden="true">›</span></a></li>`).join("")}</ul>
-</div>`,
-  ).join("\n");
-  return `<nav class="pillar-row" aria-label="宝塚Todayの4つの柱">
+<div class="pillar-links"><a class="pillar-main" href="${escapeHtml(main.href)}"><span class="pillar-label">${pillarText(main.label)}</span><span class="pillar-arrow" aria-hidden="true">›</span></a><a class="pillar-sub" href="${escapeHtml(sub.href)}">${pillarText(sub.label)}</a></div>
+</div>`;
+  }).join("\n");
+  return `<h2 class="ah-sec-title" id="pillars-title"><span>宝塚Todayの4つの入口</span></h2>
+<nav class="pillar-row" aria-labelledby="pillars-title">
 ${cards}
 </nav>`;
 }
@@ -858,12 +867,13 @@ export function indexPage({ featuredNews, todayKey, categoryPageKeys, publishedA
   // 新着記事は検索対象（noindexでない）の記事だけ。noindexの記事も記事ページ自体は公開のまま
   const recentArticles = publishedArticles.filter((a) => notShown(a) && isArticleIndexable(a));
 
-  const bodyHtml = `${dateBar(dateLabel)}
+  // 正式A案（2026-11-17）：メインビジュアル → 検索 → クイックアクセス → 天気 → 4つの入口 → 現地取材・独自連載 → 注目・新着
+  const bodyHtml = `${heroPanel()}
 ${searchBoxPanel()}
 ${quickAccessPanel()}
-<div class="weather-standalone-row">${weatherPanel(weather)}${contactCtaPanel()}</div>
+${weatherStrip(weather)}
 ${pillarPanel()}
-${todayRow(fieldReportPhoto, categoryPageKeys, latestEpisode, seriesPrevious)}
+${featureCards(fieldReportPhoto, latestEpisode)}
 <div class="grid-2">
   <div class="col-main">
     ${featuredNewsPanel(featuredNews, activeNotices, todayKey)}
@@ -873,6 +883,7 @@ ${todayRow(fieldReportPhoto, categoryPageKeys, latestEpisode, seriesPrevious)}
     ${recentCombinedFeed(recentArticles, categoryPageKeys)}
   </div>
   <div class="col-side">
+    ${categoryPanel(categoryPageKeys)}
     ${ranking ? rankingOrRecentPanel(ranking, publishedArticles) : ""}
     ${livecamPanel()}
     ${guideCharactersPanel()}
@@ -902,8 +913,9 @@ ${todayRow(fieldReportPhoto, categoryPageKeys, latestEpisode, seriesPrevious)}
     bodyHtml,
     canonicalUrl: `${siteUrl}/`,
     structuredData,
-    extraScripts: ["/js/search.js"],
+    extraScripts: ["/js/search.js", "/js/hero.js"],
     ogImage: "/img/header-banner.png",
+    bodyClass: "ah-home",
   });
 }
 
@@ -935,44 +947,6 @@ export function splitEpisodeTitle(title) {
   const i = String(title).indexOf("：");
   return i > 0 ? { main: title.slice(0, i), sub: title.slice(i + 1) } : { main: title, sub: "" };
 }
-const wbrBreaks = (s) => escapeHtml(s).replace(/[、。]/g, "$&<wbr>");
-
-// 画像は写真・グラフィック部分だけ（文字なし）で、イメージ。見出し・コピー・「調査中」はPC・スマホともHTMLの文字で出す。
-// 画像内に文言を埋め込まない（公開日の約束や、結論を先取りする文言を画像に残さないため）。
-// 最新回があるときは、その回の見出しを主役にし、連載名「宝塚の実力」は小さな見出しにする（第1弾の紹介コピーや「5都市と比較」は出さない）。
-function jitsuryokuBannerPanel(latest = null) {
-  const number = latest?.episode ?? 1;
-  const slug = latest ? escapeHtml(latest.slug) : "zeishu-shigoto";
-  if (!latest) {
-    return `<section class="jitsuryoku-banner" aria-label="新企画の予告">
-<a class="jitsuryoku-banner__link" href="/${JITSURYOKU_SLUG}/${slug}">
-<span class="jitsuryoku-banner__head"><span class="jitsuryoku-banner__label">第${number}弾公開</span><span class="jitsuryoku-banner__title">宝塚の<em>実力</em></span></span>
-<span class="jitsuryoku-banner__body"><span class="jitsuryoku-banner__copy">宝塚を、知っているつもりだった。</span><span class="jitsuryoku-banner__sub">同じくらいの規模の街と<wbr>比べたら、<wbr>何が見える？</span><span class="jitsuryoku-banner__pill">人口・税収・産業・暮らし。<wbr><strong>5都市</strong>と比較する独自調査。</span><span class="jitsuryoku-banner__more">第${number}弾を読む →</span></span>
-<span class="jitsuryoku-banner__visual"><img src="/img/jitsuryoku-visual.webp" alt="" width="962" height="724" loading="lazy" decoding="async"><span class="jitsuryoku-banner__imgnote">※AI生成イメージ（実際の景観とは異なります）</span></span>
-</a>
-</section>`;
-  }
-  const { main, sub } = splitEpisodeTitle(latest.title);
-  return `<section class="jitsuryoku-banner jitsuryoku-banner--episode" aria-label="宝塚の実力 第${number}弾公開">
-<a class="jitsuryoku-banner__link" href="/${JITSURYOKU_SLUG}/${slug}">
-<span class="jitsuryoku-banner__head"><span class="jitsuryoku-banner__label">第${number}弾公開</span><span class="jitsuryoku-banner__series">宝塚の<em>実力</em></span><span class="jitsuryoku-banner__title jitsuryoku-banner__title--episode">${wbrBreaks(main)}</span></span>
-<span class="jitsuryoku-banner__body">${sub ? `<span class="jitsuryoku-banner__sub">${wbrBreaks(sub)}</span>` : ""}<span class="jitsuryoku-banner__pill">公的な統計・資料で、<wbr>宝塚のいまを数字で見る連載です。</span><span class="jitsuryoku-banner__more">第${number}弾を読む →</span></span>
-<span class="jitsuryoku-banner__visual"><img src="/img/jitsuryoku-visual.webp" alt="" width="962" height="724" loading="lazy" decoding="async"><span class="jitsuryoku-banner__imgnote">※AI生成イメージ（実際の景観とは異なります）</span></span>
-</a>
-</section>`;
-}
-
-// 第2弾以降が公開されたとき、トップに出す「これまでの回」の一覧カード（最新回の主バナーの直下）。
-// previous は新しい順の [{ episode, slug, title, dateLabel }]。第1弾を含む。カード全体はリンクではなく、回ごとのリンクと「連載の一覧」へのリンクを持つ
-function jitsuryokuSubBanner(previous = []) {
-  const items = previous.map((p) => `<li><a class="jitsuryoku-sub__item" href="/${JITSURYOKU_SLUG}/${escapeHtml(p.slug)}"><span class="jitsuryoku-sub__no">第${p.episode}弾</span><span class="jitsuryoku-sub__ttl">${escapeHtml(p.title)}</span><span class="jitsuryoku-sub__date">${escapeHtml(p.dateLabel)}</span></a></li>`).join("");
-  return `<section class="jitsuryoku-sub" aria-labelledby="jitsuryoku-sub-title">
-<p class="jitsuryoku-sub__head"><span class="jitsuryoku-sub__label">宝塚の実力</span><span id="jitsuryoku-sub-title" class="jitsuryoku-sub__note">これまでの回</span></p>
-${items ? `<ul class="jitsuryoku-sub__list" role="list">${items}</ul>` : ""}
-<a class="jitsuryoku-sub__more" href="/${JITSURYOKU_SLUG}#series-list">連載の一覧を見る →</a>
-</section>`;
-}
-
 export function jitsuryokuPage(siteUrl, seriesListHtml = "", latest = null) {
   const first = `<a href="/jitsuryoku/zeishu-shigoto">宝塚の税収と仕事、ほかの街とどう違う？</a>`;
   const notice = latest

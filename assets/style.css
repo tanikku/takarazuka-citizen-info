@@ -420,90 +420,447 @@ html[data-theme="dark"] .guide-nav-panel {
   }
 }
 
-/* 4つの柱の入口（天気の下）。スマホは2列、768px以上は4列。
-   カードの高さは全カードでそろえ（grid-auto-rows: 1fr）、リンク行はカードの下端にそろえる */
-.pillar-row {
+/* ===== トップページ（正式A案、2026-11-17）。body.ah-home のページ（トップ）だけに効かせる。ほかのページの見た目は変えない ===== */
+:root {
+  --ah-bg: #fbf4ec;
+  --ah-tile: #f6eadb;
+  --ah-card: #fffaf4;
+  --ah-line: #ead8c4;
+  --ah-maroon: #7b1d2a;
+  --ah-maroon-2: #9e2a3a;
+  --ah-pill: #8c2433;
+  --ah-text: #2c211d;
+  --ah-sub: #6b5a50;
+  --ah-num: #1f5fa8;
+  --ah-shadow: 0 1px 2px rgba(110, 60, 30, 0.08);
+  --ah-p1: #fff5f0;
+  --ah-p2: #f5f7ee;
+  --ah-p3: #fdf5e8;
+  --ah-p4: #f3f4f9;
+  --ah-focus: #1f5fa8;
+  /* 端末に入っている明朝体だけを使う（Webフォントは読み込まない）。明朝体の無い端末ではゴシック体になる */
+  --ah-serif: "Hiragino Mincho ProN", "Yu Mincho", "YuMincho", "BIZ UDPMincho", "Noto Serif JP", "Noto Serif CJK JP", serif;
+}
+
+html[data-theme="dark"] {
+  --ah-bg: #18130f;
+  --ah-tile: #2a211b;
+  --ah-card: #221b16;
+  --ah-line: #3d3128;
+  --ah-maroon: #f2a7b0;
+  --ah-maroon-2: #f5b8c0;
+  --ah-text: #f3ebe4;
+  --ah-sub: #c4b3a7;
+  --ah-num: #8fc0f2;
+  --ah-shadow: none;
+  --ah-p1: #271c19;
+  --ah-p2: #1f221a;
+  --ah-p3: #282118;
+  --ah-p4: #1e2027;
+  --ah-focus: #8fc0f2;
+}
+
+body.ah-home {
+  background: var(--ah-bg);
+  color: var(--ah-text);
+}
+
+body.ah-home :focus-visible {
+  outline: 3px solid var(--ah-focus);
+  outline-offset: 2px;
+}
+
+/* メインビジュアル：自前の写真3枚を横スクロールで切り替える（自動再生しない） */
+.ah-hero {
+  position: relative;
+  max-width: 1080px;
+  margin: 0 auto;
+}
+
+.ah-hero__track {
+  display: flex;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+}
+
+.ah-hero__track::-webkit-scrollbar {
+  display: none;
+}
+
+.ah-slide {
+  position: relative;
+  flex: 0 0 100%;
+  margin: 0;
+  scroll-snap-align: start;
+  aspect-ratio: 16 / 10;
+  max-height: 300px;
+  overflow: hidden;
+}
+
+.ah-slide img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.ah-slide figcaption {
+  position: absolute;
+  right: 10px;
+  bottom: 24px;
+  font-size: 0.62rem;
+  color: #ffffff;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.85);
+}
+
+.ah-hero::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  height: 18px;
+  pointer-events: none;
+  background: var(--ah-bg);
+  clip-path: path("M0 18 L0 10 C 120 0, 260 18, 400 8 S 700 0, 1080 12 L1080 18 Z");
+}
+
+.ah-hero__text {
+  position: absolute;
+  inset: 0;
+  padding: 22px 18px 34px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  pointer-events: none;
+  background: linear-gradient(90deg, rgba(30, 15, 10, 0.58) 0%, rgba(30, 15, 10, 0.28) 55%, rgba(30, 15, 10, 0) 82%);
+}
+
+.ah-hero__title {
+  margin: 0;
+  font-family: var(--ah-serif);
+  font-weight: 700;
+  font-size: clamp(1.1rem, 5.6vw, 1.42rem);
+  word-break: keep-all;
+  overflow-wrap: anywhere;
+  line-height: 1.45;
+  color: #ffffff;
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.55);
+  text-wrap: balance;
+}
+
+.ah-hero__lead {
+  margin: 8px 0 0;
+  font-size: 0.8rem;
+  line-height: 1.6;
+  color: #ffffff;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.75);
+}
+
+.ah-hero__dots {
+  display: flex;
+  justify-content: center;
+  gap: 4px;
+  padding: 6px 0 0;
+}
+
+.ah-hero__dots button {
+  width: 32px;
+  height: 32px;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ah-hero__dots button::before {
+  content: "";
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--ah-line);
+}
+
+.ah-hero__dots button[aria-current="true"]::before {
+  background: var(--ah-pill);
+}
+
+@media (min-width: 768px) {
+  .ah-hero {
+    margin-top: 14px;
+    padding: 0 16px;
+  }
+
+  .ah-hero__track {
+    border-radius: 16px 16px 0 0;
+  }
+
+  .ah-slide {
+    aspect-ratio: auto;
+    height: 340px;
+    max-height: none;
+  }
+
+  .ah-hero__text {
+    left: 16px;
+    right: 16px;
+    padding: 32px 40px 40px;
+  }
+
+  .ah-hero__title {
+    font-size: 2.1rem;
+  }
+
+  .ah-hero__lead {
+    font-size: 0.95rem;
+  }
+
+  .ah-hero::after {
+    left: 16px;
+    right: 16px;
+  }
+}
+
+/* 検索・クイックアクセス（6件） */
+body.ah-home .search-box {
+  margin-top: 10px;
+}
+
+body.ah-home .search-form {
+  border-radius: 999px;
+  background: var(--ah-card);
+  border-color: var(--ah-line);
+  box-shadow: var(--ah-shadow);
+}
+
+body.ah-home .quick-access {
+  gap: 8px;
+  margin-top: 10px;
+}
+
+body.ah-home .qa-tile {
+  background: var(--ah-tile);
+  border: 1px solid var(--ah-line);
+  border-radius: 14px;
+  box-shadow: var(--ah-shadow);
+  color: var(--ah-text);
+  font-size: 0.8rem;
+  font-weight: 700;
+  padding: 12px 4px;
+  min-height: 64px;
+  justify-content: center;
+}
+
+/* 「武庫川・水位情報」などを語の途中で折り返さない（「・」の後で改行する） */
+body.ah-home .qa-lbl {
+  word-break: keep-all;
+  overflow-wrap: anywhere;
+}
+
+body.ah-home .qa-tile .icon {
+  width: 24px;
+  height: 24px;
+  color: var(--ah-maroon);
+}
+
+/* 天気（細い帯） */
+.ah-weather {
   max-width: 1080px;
   margin: 12px auto 0;
+  padding: 0 16px;
+}
+
+.ah-weather__bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  column-gap: 12px;
+  row-gap: 4px;
+  background: var(--ah-card);
+  border: 1px solid var(--ah-line);
+  border-radius: 14px;
+  padding: 10px 14px;
+  box-shadow: var(--ah-shadow);
+}
+
+.ah-weather__main,
+.ah-weather__pop {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.ah-weather__emoji {
+  font-size: 1.4rem;
+  line-height: 1;
+  align-self: center;
+}
+
+.ah-weather__label {
+  font-weight: 700;
+  font-size: 0.85rem;
+}
+
+.ah-weather__temp {
+  font-family: var(--ah-serif);
+  font-weight: 700;
+  font-size: 1.5rem;
+  line-height: 1;
+  color: var(--ah-maroon-2);
+}
+
+.ah-weather__area,
+.ah-weather__pop {
+  font-size: 0.78rem;
+  color: var(--ah-sub);
+}
+
+.ah-weather__pop {
+  padding-left: 12px;
+  border-left: 1px solid var(--ah-line);
+}
+
+.ah-weather__pop b {
+  font-size: 1.05rem;
+  color: var(--ah-num);
+}
+
+.ah-weather__src,
+.ah-weather__none {
+  margin: 0;
+  flex-basis: 100%;
+  font-size: 0.66rem;
+  color: var(--ah-sub);
+}
+
+.ah-weather__src a {
+  color: inherit;
+  text-decoration: underline;
+}
+
+/* 4つの入口。スマホは2列、768px以上は4列。カードの高さは全カードでそろえる */
+.ah-sec-title {
+  max-width: 1080px;
+  margin: 22px auto 10px;
+  padding: 0 16px;
+  text-align: center;
+  font-family: var(--ah-serif);
+  font-weight: 700;
+  font-size: 1.25rem;
+  color: var(--ah-maroon);
+}
+
+.ah-sec-title span::before,
+.ah-sec-title span::after {
+  color: var(--ah-maroon-2);
+  font-weight: 400;
+  margin: 0 10px;
+}
+
+.ah-sec-title span::before {
+  content: "＼";
+}
+
+.ah-sec-title span::after {
+  content: "／";
+}
+
+.pillar-row {
+  max-width: 1080px;
+  margin: 0 auto;
   padding: 0 16px;
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   grid-auto-rows: 1fr;
-  gap: 8px;
+  gap: 10px;
 }
 
 .pillar-card {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  padding: 10px 12px 4px;
-  min-width: 0;
+  position: relative;
   display: flex;
   flex-direction: column;
+  min-width: 0;
+  border: 1px solid var(--ah-line);
+  border-radius: 16px;
+  padding: 12px 12px 6px;
+  box-shadow: var(--ah-shadow);
+  background: var(--ah-p1);
 }
 
-/* カード上部のラベル。右に細い罫線を伸ばし、案内図の見出しのように見せる */
+.pillar-card:nth-child(2) {
+  background: var(--ah-p2);
+}
+
+.pillar-card:nth-child(3) {
+  background: var(--ah-p3);
+}
+
+.pillar-card:nth-child(4) {
+  background: var(--ah-p4);
+}
+
 .pillar-tag {
-  display: flex;
-  align-items: center;
-  gap: 8px;
+  align-self: flex-start;
   margin: 0;
-  font-size: 0.68rem;
+  background: var(--ah-pill);
+  color: #ffffff;
+  border-radius: 999px;
+  padding: 2px 10px;
+  font-size: 0.7rem;
   font-weight: 700;
-  letter-spacing: 0.08em;
-  line-height: 1.4;
-  color: var(--accent);
+  letter-spacing: 0.04em;
+  line-height: 1.5;
   white-space: nowrap;
 }
 
-.pillar-tag::after {
-  content: "";
-  flex: 1;
-  height: 1px;
-  background: var(--border);
-}
-
-/* 見出し・説明文・リンクは語の途中では折り返さない（<wbr> の位置でだけ改行する）。入りきらない場合だけ任意の位置で折り返す */
+/* 見出し・要約・リンクは語の途中では折り返さない（<wbr> の位置でだけ改行する）。入りきらない場合だけ任意の位置で折り返す */
 .pillar-title {
-  margin: 4px 0 0;
-  font-size: 0.95rem;
+  margin: 8px 0 0;
+  font-family: var(--ah-serif);
+  font-size: 1.12rem;
   font-weight: 700;
   line-height: 1.35;
-  color: var(--text);
+  color: var(--ah-text);
   word-break: keep-all;
   overflow-wrap: anywhere;
 }
 
 .pillar-desc {
-  margin: 3px 0 6px;
-  font-size: 0.72rem;
+  margin: 6px 0 8px;
+  font-size: 0.76rem;
   line-height: 1.5;
-  color: var(--text-sub);
+  color: var(--ah-sub);
   word-break: keep-all;
   overflow-wrap: anywhere;
 }
 
 .pillar-links {
-  list-style: none;
-  margin: auto 0 0;
-  padding: 0;
+  margin-top: auto;
   display: flex;
   flex-direction: column;
-  font-size: 0.78rem;
 }
 
-.pillar-links li {
-  border-top: 1px solid var(--border);
-}
-
-.pillar-links a {
+.pillar-main {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 4px;
   min-height: 44px;
-  color: var(--text);
-  font-weight: 600;
+  border-top: 1px solid var(--ah-line);
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--ah-maroon);
+}
+
+/* 主リンクの押せる範囲をカード全体に広げる（補助リンクはその上に重ねる） */
+.pillar-main::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 16px;
 }
 
 .pillar-label {
@@ -515,14 +872,261 @@ html[data-theme="dark"] .guide-nav-panel {
 
 .pillar-arrow {
   flex: none;
-  color: var(--accent);
-  font-size: 1rem;
+  font-size: 1.2rem;
   line-height: 1;
+}
+
+.pillar-sub {
+  position: relative;
+  z-index: 1;
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  min-height: 32px;
+  font-size: 0.72rem;
+  line-height: 1.35;
+  color: var(--ah-sub);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  word-break: keep-all;
+  overflow-wrap: anywhere;
+}
+
+/* 320px前後の狭い画面では、見出しが語の途中で折り返さない大きさにする */
+@media (max-width: 359px) {
+  .pillar-title {
+    font-size: 1rem;
+  }
 }
 
 @media (min-width: 768px) {
   .pillar-row {
     grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .pillar-card {
+    padding: 14px 16px 8px;
+  }
+}
+
+/* 現地取材・独自連載の写真付きカード */
+.ah-features {
+  max-width: 1080px;
+  margin: 18px auto 0;
+  padding: 0 16px;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+}
+
+.ah-feature-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.ah-feature {
+  position: relative;
+  display: block;
+  border-radius: 16px;
+  overflow: hidden;
+  aspect-ratio: 16 / 7;
+  color: #ffffff;
+  box-shadow: var(--ah-shadow);
+}
+
+.ah-feature img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.ah-feature__body {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 12px 56px 12px 14px;
+  background: linear-gradient(0deg, rgba(25, 12, 8, 0.75) 0%, rgba(25, 12, 8, 0.22) 60%, rgba(25, 12, 8, 0) 100%);
+}
+
+.ah-feature__tag {
+  align-self: flex-start;
+  background: var(--ah-pill);
+  color: #ffffff;
+  border-radius: 999px;
+  padding: 2px 10px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.ah-feature__title {
+  font-family: var(--ah-serif);
+  font-weight: 700;
+  font-size: 1.35rem;
+  line-height: 1.3;
+  text-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+}
+
+.ah-feature__sub {
+  font-size: 0.76rem;
+  margin-top: 2px;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.75);
+}
+
+.ah-feature__go {
+  position: absolute;
+  right: 12px;
+  bottom: 12px;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: #ffffff;
+  color: #8c2433;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.3rem;
+  font-weight: 700;
+}
+
+.ah-feature__credit {
+  position: absolute;
+  right: 10px;
+  top: 8px;
+  font-size: 0.6rem;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.85);
+}
+
+.ah-feature-more {
+  align-self: flex-end;
+  display: inline-flex;
+  align-items: center;
+  min-height: 32px;
+  font-size: 0.74rem;
+  color: var(--ah-sub);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+@media (min-width: 640px) {
+  .ah-features {
+    grid-template-columns: 1.25fr 1fr;
+  }
+
+  .ah-feature {
+    aspect-ratio: auto;
+    height: 210px;
+  }
+}
+
+/* 注目・新着記事と下段のパネル（色と書体だけをそろえる） */
+body.ah-home .panel {
+  background: var(--ah-card);
+  border-color: var(--ah-line);
+  border-radius: 16px;
+  box-shadow: var(--ah-shadow);
+  color: var(--ah-text);
+}
+
+body.ah-home .panel-title {
+  font-family: var(--ah-serif);
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--ah-text);
+  border-bottom: 1px solid var(--ah-line);
+  padding-bottom: 10px;
+}
+
+body.ah-home .panel-title .icon {
+  color: var(--ah-maroon);
+  width: 26px;
+  height: 26px;
+}
+
+body.ah-home .headline-row {
+  border-bottom-color: var(--ah-line);
+  gap: 12px;
+}
+
+body.ah-home .headline-thumb {
+  width: 96px;
+  height: 72px;
+  border-radius: 10px;
+  background: var(--ah-tile);
+  color: var(--ah-maroon);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+}
+
+body.ah-home .headline-thumb .icon {
+  width: 28px;
+  height: 28px;
+}
+
+body.ah-home .headline-title {
+  font-weight: 700;
+  color: var(--ah-text);
+}
+
+body.ah-home .headline-meta,
+body.ah-home .panel-note {
+  color: var(--ah-sub);
+}
+
+body.ah-home .reason-tag {
+  background: var(--ah-pill);
+  border-color: var(--ah-pill);
+  color: #ffffff;
+}
+
+/* 一覧の出典タグは、下の行（日付・出典）と同じ内容が重なるため、トップでは出さない */
+body.ah-home .headline-title .source-tag {
+  display: none;
+}
+
+.ah-more {
+  margin-left: auto;
+  display: inline-flex;
+  align-items: center;
+  min-height: 32px;
+  font-family: system-ui, sans-serif;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--ah-text);
+}
+
+body.ah-home .guide-nav-panel {
+  background: var(--ah-card);
+}
+
+body.ah-home .guide-nav-tile {
+  background: var(--ah-tile);
+  border-color: var(--ah-line);
+  border-radius: 12px;
+  color: var(--ah-maroon);
+}
+
+body.ah-home .category-pill {
+  background: var(--ah-tile);
+  border-color: var(--ah-line);
+}
+
+body.ah-home .guide-card {
+  background: var(--ah-card);
+  border-color: var(--ah-line);
+  border-radius: 14px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ah-hero__track {
+    scroll-behavior: auto;
   }
 }
 

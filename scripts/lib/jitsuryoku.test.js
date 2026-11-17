@@ -61,20 +61,23 @@ test("企画紹介ページ：比較結果・数字・順位・公開予定日�
   assert.doesNotMatch(body, /強み|課題|勝ち|負け/);
 });
 
-test("トップページ：バナーは上段の左枠に1つだけ。ニュース欄は「注目・新着ニュース」1枠で、バナーの下にあり、二重に出ない", () => {
-  assert.equal((home.match(/class="jitsuryoku-banner"/g) ?? []).length, 1);
-  assert.ok(home.includes(`href="/${JITSURYOKU_SLUG}/zeishu-shigoto"`), "バナーは第1弾へ直接リンクする");
-  const iBanner = home.indexOf('class="jitsuryoku-banner"');
-  const iTodayRow = home.indexOf('class="today-row"');
-  const iTopNews = home.indexOf("注目・新着ニュース");
-  const iTopic = home.indexOf('id="featured-news"');
-  const iSide = home.indexOf('class="today-row-side"');
-  assert.ok(iTodayRow > 0 && iBanner > iTodayRow && iBanner < iSide, "上段の左枠（フォト・カテゴリーの列の前）");
-  assert.ok(iBanner < iTopNews, "注目・新着ニュースより上");
-  assert.ok(iTopic > 0, "注目・新着ニュースの枠がある");
+// 正式A案（2026-11-17）：トップの「宝塚の実力」は大きなバナーから、写真付きの「独自連載」カードに変わった
+const cardOf = (html) => {
+  const wraps = html.slice(html.indexOf('<section class="ah-features"'), html.indexOf("</section>", html.indexOf('<section class="ah-features"')));
+  return wraps.slice(wraps.lastIndexOf('<div class="ah-feature-wrap">'));
+};
+const cardLinkOf = (html) => {
+  const c = cardOf(html);
+  return c.slice(c.indexOf('<a class="ah-feature"'), c.indexOf("</a>") + 4);
+};
+
+test("トップページ：連載カードは1つだけで、注目・新着ニュースより上。ニュース欄は「注目・新着ニュース」1枠で二重に出ない", () => {
+  assert.equal((home.match(/<span class="ah-feature__tag">独自連載<\/span>/g) ?? []).length, 1);
+  assert.ok(home.indexOf('<section class="ah-features"') < home.indexOf('id="featured-news"'), "注目・新着ニュースより上");
   assert.equal((home.match(/id="featured-news"/g) ?? []).length, 1, "ニュース枠は1つ");
   assert.equal((home.match(/id="today-topic"/g) ?? []).length, 1, "旧アンカー #today-topic は残す（外部リンクを壊さない）");
   assert.ok(!home.includes("トップニュース") && !home.includes("今日の宝塚トピック"), "旧2枠の見出しは出さない");
+  assert.ok(!home.includes('class="jitsuryoku-banner') && !home.includes('class="jitsuryoku-sub"'), "旧バナー・旧カードは出さない");
 });
 
 const sampleArticle = (slug, category, title) => ({ slug, title, summary: "", category, publishedAt: "2026-10-30", sourceName: "宝塚市公式サイト", valueScore: "A" });
@@ -99,21 +102,18 @@ test("注目・新着ニュース：候補が無い日は古い記事で埋め�
   assert.equal((h.match(/id="today-topic"/g) ?? []).length, 1);
   assert.match(h, /この1週間に、新しい注目記事はありません/);
   assert.doesNotMatch(h, /最新の記事をご紹介します/);
-  assert.ok(h.indexOf('class="jitsuryoku-banner"') < h.indexOf('id="featured-news"'));
+  assert.ok(h.indexOf('<section class="ah-features"') < h.indexOf('id="featured-news"'));
 });
 
-test("バナー：コピーはHTMLの文字、画像は文字なしのイメージ1枚で、イメージである旨を明示し、公開日・結論を先取りする文言を出さない", () => {
-  const start = home.indexOf('<section class="jitsuryoku-banner"');
-  const b = home.slice(start, home.indexOf("</section>", start));
-  const t = textOf(b);
-  for (const s of ["第1弾公開", "宝塚の実力", "宝塚を、知っているつもりだった。", "同じくらいの規模の街と比べたら、何が見える？", "人口・税収・産業・暮らし。5都市と比較する独自調査。", "※AI生成イメージ（実際の景観とは異なります）", "第1弾を読む"]) {
-    assert.ok(t.replace(/\s/g, "").includes(s.replace(/\s/g, "")), s);
-  }
-  assert.match(b, /<img src="\/img\/jitsuryoku-visual\.webp" alt="" width="962" height="724"/);
-  assert.equal((b.match(/<img /g) ?? []).length, 1, "画像は1枚だけ");
-  assert.doesNotMatch(b, /<picture|<source|jitsuryoku-banner(-sp)?\.webp/, "文字入りの全体画像・スマホ別画像は使わない");
-  assert.doesNotMatch(t, /近日公開|公開予定|強み|課題|\d月\d+日/);
-  assert.equal((b.match(/href="\/jitsuryoku\/zeishu-shigoto"/g) ?? []).length, 1);
+test("連載カード：最新回が無いときは第1弾へリンクし、AI生成イメージを使わず、公開予定・結論を先取りする文言を出さない", () => {
+  const link = cardLinkOf(home);
+  const t = textOf(link);
+  for (const s of ["独自連載", "宝塚の実力", "第1弾公開", "数字で見る、宝塚のいま"]) assert.ok(t.includes(s), s);
+  assert.equal((link.match(/href="\/jitsuryoku\/zeishu-shigoto"/g) ?? []).length, 1);
+  assert.ok(!home.includes("jitsuryoku-visual"), "AI生成イメージはトップに出さない");
+  assert.match(link, /<img src="\/photos\/[^"]+-2026\d{4}-1200x630\.webp"/, "写真は宝塚Todayの撮影写真");
+  assert.ok(t.includes("写真：武庫川（2026年11月3日 宝塚Today撮影）"), "連載の内容ではない写真なので撮影地・撮影日を添える");
+  assert.doesNotMatch(t, /近日公開|公開予定|強み|課題/);
 });
 
 test("バナー画像：公開対象は文字なしの画像1枚だけ（文字入りの全体画像は assets/ にも build にも無い）", () => {
@@ -141,56 +141,31 @@ const bannerOf = (html) => {
   return html.slice(start, html.indexOf("</section>", start));
 };
 
-test("バナー：最新回があれば第N弾公開とタイトルを出し、最新回へ直接リンクする（第1弾を読むのままにしない）", () => {
-  const b = bannerOf(homeLatest(LATEST));
-  const t = textOf(b).replace(/\s/g, "");
-  for (const s of ["第2弾公開", "第2弾を読む", LATEST.title]) assert.ok(t.includes(s), s);
-  assert.ok(!textOf(b.slice(0, b.indexOf("</a>"))).includes("第1弾"), "主リンクの中は最新回だけ");
-  assert.ok(b.includes(`href="/jitsuryoku/${LATEST.slug}"`));
-  assert.ok(!b.slice(0, b.indexOf("</a>")).includes("zeishu-shigoto"));
+test("連載カード：最新回があれば第N弾公開と回の見出しを出し、最新回へ直接リンクする（第1弾のままにしない）", () => {
+  const link = cardLinkOf(homeLatest(LATEST));
+  const t = textOf(link).replace(/\s/g, "");
+  for (const s of ["第2弾公開", `「${LATEST.title}」`]) assert.ok(t.includes(s), s);
+  assert.ok(link.includes(`href="/jitsuryoku/${LATEST.slug}"`));
+  assert.ok(!link.includes("zeishu-shigoto") && !t.includes("第1弾"), "カードのリンクは最新回だけ");
 });
 
 const PREV = [{ episode: 2, slug: "population-takarazuka-nagareyama", title: "人口が増える街、減る街。宝塚と流山は何が違う？", dateLabel: "11月7日" }, { episode: 1, slug: "zeishu-shigoto", title: "宝塚の税収と仕事、ほかの街とどう違う？", dateLabel: "10月30日" }];
 const homeWithPrev = (latestEpisode, seriesPrevious) => indexPage({ featuredNews: [], todayKey: "2026-11-14", categoryPageKeys: new Set(), publishedArticles: [], ranking: null, weather: null, todayCounts: {}, fieldReportPhoto: null, dateLabel: "2026年11月14日", siteUrl: SITE, latestEpisode, seriesPrevious });
 const LATEST3 = { episode: 3, slug: "council-overview-takarazuka", title: "宝塚市議会の全体像：25人は何を決め、どう話し合っているのか", date: "2026-11-14", dateLabel: "2026年11月14日" };
 
-test("これまでの回カード：主バナーの外・直後に置き、各回（第2弾・第1弾）と連載の一覧へ、入れ子にならないリンクで案内する", () => {
+test("連載カード：これまでの回・連載の一覧へのリンクはカードの外に置き、入れ子にしない。回の見出しは「：」の前だけ", () => {
   const h = homeWithPrev(LATEST3, PREV);
-  const b = bannerOf(h);
-  assert.deepEqual([...b.matchAll(/<a [^>]*href="([^"]+)"/g)].map((m) => m[1]), [`/jitsuryoku/${LATEST3.slug}`], "主バナーの中のリンクは最新回だけ");
-  const start = h.indexOf('<section class="jitsuryoku-sub"');
-  const sub = h.slice(start, h.indexOf("</section>", start));
-  assert.ok(start > h.indexOf("</section>", h.indexOf('<section class="jitsuryoku-banner')), "主バナーを閉じた後");
-  assert.ok(start < h.indexOf('class="today-row-side"'), "読み上げ順でも主バナーの直後");
-  assert.deepEqual([...sub.matchAll(/<a [^>]*href="([^"]+)"/g)].map((m) => m[1]), ["/jitsuryoku/population-takarazuka-nagareyama", "/jitsuryoku/zeishu-shigoto", "/jitsuryoku#series-list"]);
-  assert.ok(!/<a [^>]*><a /.test(sub) && !sub.includes("<a class=\"jitsuryoku-sub\""), "リンクを入れ子にしない");
-  const t = textOf(sub);
-  for (const x of ["宝塚の実力", "これまでの回", "第2弾", "人口が増える街、減る街。宝塚と流山は何が違う？", "11月7日", "第1弾", "宝塚の税収と仕事、ほかの街とどう違う？", "10月30日", "連載の一覧を見る →"]) assert.ok(t.includes(x), x);
-  assert.ok(!t.includes("第3弾"), "最新回は主バナーが担当し、カードには重ねない");
-  assert.ok(!/<svg|<img|<canvas/.test(sub), "グラフに見える図を入れない");
+  const c = cardOf(h);
+  assert.deepEqual([...c.matchAll(/<a [^>]*href="([^"]+)"/g)].map((m) => m[1]), [`/jitsuryoku/${LATEST3.slug}`, "/jitsuryoku#series-list"]);
+  assert.ok(c.includes('<a class="ah-feature-more" href="/jitsuryoku#series-list">これまでの回・連載の一覧</a>'));
+  assert.ok(!/<a [^>]*>(?:(?!<\/a>)[\s\S])*<a /.test(c), "リンクを入れ子にしない");
+  const t = textOf(cardLinkOf(h)).replace(/\s/g, "");
+  assert.ok(t.includes("第3弾公開「宝塚市議会の全体像」"));
+  assert.ok(!t.includes("全体像：25人"), "「：」でつないだ長いタイトルをそのまま出さない");
 });
 
-test("最新回のバナー：回の見出し（：の前）を主役に、副題（：の後）を添える。連載名は小さな見出し。第1弾の紹介コピー・5都市の文言・タイトルの重複は出さない", () => {
-  const b = bannerOf(homeWithPrev(LATEST3, PREV));
-  const t = textOf(b).replace(/\s/g, "");
-  for (const x of ["第3弾公開", "宝塚の実力", "宝塚市議会の全体像", "25人は何を決め、どう話し合っているのか", "第3弾を読む→"]) assert.ok(t.includes(x), x);
-  assert.ok(b.includes('class="jitsuryoku-banner__title jitsuryoku-banner__title--episode"'));
-  assert.ok(!t.includes("5都市") && !t.includes("知っているつもりだった"), "最新回の主バナーに第1弾向けの文言を残さない");
-  assert.equal((t.match(/宝塚市議会の全体像/g) ?? []).length, 1, "見出しを二重に出さない");
-  assert.ok(!t.includes("宝塚市議会の全体像：") && !t.includes("全体像：25人"), "「：」でつないだ長いタイトルをそのまま出さない");
-  // ：の無いタイトル（第2弾）は全体を見出しにし、副題は出さない
-  const b2 = bannerOf(homeWithPrev({ ...LATEST3, episode: 2, title: "人口が増える街、減る街。宝塚と流山は何が違う？" }, PREV));
-  assert.ok(textOf(b2).replace(/\s/g, "").includes("人口が増える街、減る街。宝塚と流山は何が違う？"));
-  assert.ok(!b2.includes("jitsuryoku-banner__sub"));
-});
-
-test("副バナー：最新回が無いときは出さない（主バナーが第1弾を案内する）", () => {
-  const h = homeLatest(null);
-  assert.ok(!h.includes('class="jitsuryoku-sub"') && !h.includes("today-row--with-sub"));
-});
-
-test("バナー：回のタイトルはエスケープする", () => {
-  assert.ok(bannerOf(homeLatest({ ...LATEST, title: "<b>A&B</b>" })).includes("&lt;b&gt;A&amp;B&lt;/b&gt;"));
+test("連載カード：回のタイトルはエスケープする", () => {
+  assert.ok(cardLinkOf(homeLatest({ ...LATEST, title: "<b>A&B</b>" })).includes("&lt;b&gt;A&amp;B&lt;/b&gt;"));
 });
 
 test("企画紹介ページ：最新回の告知・第1弾へのリンク・連載一覧への案内があり、更新日とtitle・descriptionがそろう", () => {
