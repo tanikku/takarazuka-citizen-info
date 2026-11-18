@@ -6,7 +6,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { FIELD_REPORT_PHOTOS, pickFieldReportPhoto, isRankingFresh, RANKING_MAX_AGE_DAYS, FIELD_REPORT_GALLERY, buildFieldReportGallery, HERO_SLIDES, SERIES_CARD_PHOTO } from "./home-features.js";
-import { indexPage, rankingPage, RANKING_PAGE_NOINDEX, articlePage, guideCharactersPage, photoGalleryPage } from "../templates.js";
+import { indexPage, rankingPage, RANKING_PAGE_NOINDEX, articlePage, guideCharactersPage, photoGalleryPage, categoryPage, eventsPage, CATEGORIES } from "../templates.js";
 
 const ROOT = path.join(path.dirname(fileURLToPath(import.meta.url)), "..", "..");
 const SITE = "https://takarazuka-today.jp";
@@ -83,6 +83,53 @@ test("共通ヘッダー：明朝体ロゴ・線画・ひとこと・検索・�
   const js = fs.readFileSync(path.join(ROOT, "assets", "theme.js"), "utf8");
   assert.match(js, /Escape/, "Esc でメニューを閉じる");
   assert.match(js, /aria-pressed/, "切り替えの状態を反映する");
+});
+
+test("トップの装飾を減らす（2026-11-18）：クイックアクセスは文字だけ、写真カードは文字を重ねず、写真の無い記事にアイコンを代わりに置かない", () => {
+  const html = home();
+  const qa = html.slice(html.indexOf('<div class="quick-access">'), html.indexOf("</div>", html.indexOf('<div class="quick-access">')));
+  assert.equal((qa.match(/<a class="qa-tile"/g) ?? []).length, 6, "6件のまま");
+  assert.ok(!qa.includes("<svg"), "クイックアクセスに飾りのアイコンを出さない");
+  const feats = html.slice(html.indexOf('<section class="ah-features"'), html.indexOf("</section>", html.indexOf('<section class="ah-features"')));
+  assert.ok(!feats.includes("ah-feature__go"), "丸い矢印を重ねない");
+  assert.ok(feats.includes("撮影｜") && feats.includes("宝塚Today撮影）"), "撮影日・撮影地の表示は残す");
+});
+
+test("記事一覧の写真は記事に設定された取材写真だけ。タイトル・要約の語だけで写真を自動で選ばない（2026-11-18）", () => {
+  const base = { summary: "", publishedAt: "2026-11-01", sourceName: "宝塚市公式サイト", valueScore: "A", sourceUrl: "https://www.city.takarazuka.hyogo.jp/" };
+  // 以前は「手塚治虫」「花火」「ハーフマラソン」などの語で市の観光写真が自動で付いていた
+  const kw = [
+    { ...base, slug: "k1", title: "手塚治虫記念館の企画展", category: "文化・観光" },
+    { ...base, slug: "k2", title: "林野火災注意報、花火などを制限", category: "防災・安全" },
+    { ...base, slug: "k3", title: "関連サイトの緊急メンテナンス", summary: "ハーフマラソンのサイトも対象", category: "行政・くらし" },
+    { ...base, slug: "k4", title: "市役所駐車場の料金改定", category: "行政・くらし" },
+  ];
+  const own = { ...base, slug: "o", title: "現地取材の記事", category: "文化・観光", sourceName: "宝塚Today", ogImage: "/photos/takedao-azare-entrance-20261103-1200x630.webp" };
+  const fig = { ...base, slug: "f", title: "図解の記事", category: "市議会", explainerImage: "/photos/gikai-2026-09-discussion-summary.webp", ogImage: "/photos/php-vulnerability-ogp-1200x630.webp" };
+  const all = [...kw, own, fig];
+  const rowIn = (html, slug) => { const i = html.indexOf(`<a class="headline-row" href="/articles/${slug}"`); return html.slice(i, html.indexOf("</a>", i)); };
+  const pages = {
+    top: home({ publishedArticles: all, categoryPageKeys: new Set(["kanko", "kurashi", "bosai", "shigikai"]) }),
+    category: categoryPage(CATEGORIES.find((c) => c.label === "文化・観光"), all, SITE),
+    events: eventsPage({ todayEvents: [], thisWeekend: [], thisMonth: all.map((article) => ({ article, date: "2026-11-20" })), siteUrl: SITE }),
+  };
+  for (const [name, html] of Object.entries(pages)) {
+    for (const a of kw) {
+      const row = rowIn(html, a.slug);
+      assert.ok(row.length > 0, `${name}: ${a.slug} の行がある`);
+      assert.ok(!row.includes("<img") && !row.includes("headline-thumb") && !row.includes("<svg"), `${name}: ${a.slug} に写真枠・アイコンを出さない`);
+    }
+    assert.ok(rowIn(html, "o").includes('<div class="headline-thumb"><img src="/photos/takedao-azare-entrance-20261103-1200x630.webp"'), `${name}: 取材写真は出す`);
+    assert.ok(!rowIn(html, "f").includes("<img"), `${name}: 図解・OGP用の画像は写真として使わない`);
+    assert.ok(!(html.match(/<a class="headline-row"[\s\S]*?<\/a>/g) ?? []).some((r) => r.includes("/photos/001015")), `${name}: 一覧の行に市のオープンデータ写真を自動で使わない`);
+  }
+});
+
+test("記事ページの「あなたへのおすすめ」「人気コンテンツ」のカードに、写真の代わりのアイコンを置かない（2026-11-18）", () => {
+  const article = articlePage({ slug: "t", title: "市のお知らせ", summary: "s", category: "行政・くらし", publishedAt: "2026-11-01", sourceName: "宝塚市公式サイト", sourceUrl: "https://www.city.takarazuka.hyogo.jp/", valueScore: "A" }, SITE);
+  assert.ok(article.includes('<a class="guide-card"'), "カード自体は残す");
+  assert.ok(!article.includes('<div class="icon-box">'), "アイコンだけの枠を出さない");
+  assert.ok(!article.includes("headline-thumb\"><svg"));
 });
 
 test("トップ専用のデザイン（body.ah-home）はトップだけに付け、記事ページには付けない", () => {

@@ -11,8 +11,8 @@ const TAKEDAO_URL = "https://camera.hyogo.kasenkanshi.info/takarazuka/river_deta
 
 function cameraRows(page) {
   const start = page.indexOf(page === html ? "武庫川ライブカメラ一覧" : "宝塚市内のライブカメラ");
-  const rows = [...page.slice(start).matchAll(/<a class="headline-row" href="(https:[^"]+)"[^>]*>\s*<div class="headline-thumb">([\s\S]*?)<\/div>\s*<div>\s*<p class="headline-title">([^<]*)<\/p>\s*<p class="headline-meta">([^<]*)<\/p>/g)];
-  return rows.slice(0, 3).map((m) => ({ href: m[1], thumb: m[2], title: m[3], meta: m[4] }));
+  const rows = [...page.slice(start).matchAll(/<a class="headline-row" href="(https:[^"]+)"[^>]*>\s*<div>\s*<p class="headline-title">([^<]*)<\/p>\s*<p class="headline-meta">([^<]*)<\/p>/g)];
+  return rows.slice(0, 3).map((m) => ({ href: m[1], title: m[2], meta: m[3] }));
 }
 
 function faqLd() {
@@ -44,9 +44,9 @@ test("FAQの構造化データは表示本文と一致する", () => {
   assert.deepEqual(shown, ld);
 });
 
-test("カメラ一覧に過去の風景写真を出さない（現在の映像と誤認されないよう、アイコンで表示する）", () => {
+test("カメラ一覧に過去の風景写真を出さない（現在の映像と誤認されないよう、文字だけで表示する。カメラのアイコンも置かない）", () => {
   const list = html.slice(html.indexOf("武庫川ライブカメラ一覧"), html.indexOf("武庫川 水位基準"));
-  assert.ok(list.includes('<div class="headline-thumb"><svg'));
+  assert.ok(!list.includes("headline-thumb"));
   assert.ok(!list.includes("<img"));
 });
 
@@ -58,11 +58,10 @@ test("武田尾のカメラは県の武庫川武田尾局へ案内し、別地�
   assert.ok(!html.includes("scamId=222057042") && !home.includes("scamId=222057042"));
 });
 
-test("トップと /livecam のカメラ一覧は同じ内容で、どちらも写真ではなくアイコンで表示する", () => {
+test("トップと /livecam のカメラ一覧は同じ内容で、どちらも写真やアイコンを置かず文字だけで表示する", () => {
   const top = cameraRows(home);
   assert.equal(top.length, 3);
   assert.deepEqual(top, cameraRows(html));
-  for (const row of top) assert.ok(row.thumb.startsWith("<svg") && !row.thumb.includes("<img"), row.title);
 });
 
 test("カメラは定期更新の静止画と分かる表現にし、動画ではないこと・更新されない場合があることを案内する", () => {

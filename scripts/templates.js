@@ -240,7 +240,7 @@ const QUICK_ACCESS_ITEMS = [
 
 function quickAccessPanel() {
   const items = QUICK_ACCESS_ITEMS.map(
-    (item) => `<a class="qa-tile" href="${escapeHtml(item.href)}">${icon(item.icon)}<span class="qa-lbl">${escapeHtml(item.label)}</span></a>`,
+    (item) => `<a class="qa-tile" href="${escapeHtml(item.href)}"><span class="qa-lbl">${escapeHtml(item.label)}</span></a>`,
   ).join("\n");
   return `<div class="quick-access">${items}</div>`;
 }
@@ -570,30 +570,16 @@ function sourceBadge(sourceName) {
   return `<span class="source-tag ${badge.className}">${escapeHtml(badge.label)}</span>`;
 }
 
-// 宝塚市オープンデータ写真（CC BY 4.0）を、関連するキーワードを含む記事のサムネイルに使う
-// 出典は各写真ページにリンクし、必ず「写真提供：宝塚市オープンデータ」を表示する
-const PHOTO_KEYWORDS = [
-  { keyword: "手塚治虫", file: "001015682_tezukakinenkan2015.jpg", title: "手塚治虫記念館" },
-  { keyword: "歌劇", file: "001015682_daigekizyo.jpg", title: "宝塚大劇場" },
-  { keyword: "あいあいパーク", file: "001015682_aiaipark2011.jpg", title: "あいあいパーク" },
-  { keyword: "武庫川", file: "001015682_mukogawa.jpg", title: "武庫川" },
-  { keyword: "ハーフマラソン", file: "001015681_takarazukamarason2015.jpg", title: "宝塚ハーフマラソン" },
-  { keyword: "花火", file: "001015579_kankouhanabi1-1.jpg", title: "宝塚観光花火大会" },
-  { keyword: "文化創造館", file: "001015682_takarazukabunkasouzoukan2009.jpg", title: "宝塚文化創造館" },
-  { keyword: "ダリア", file: "001015680_daria2015.jpg", title: "宝塚ダリア園" },
-  { keyword: "平和の鐘", file: "001015682_heiwa.jpg", title: "末広中央公園 平和の鐘" },
-  { keyword: "市役所駐車場", file: "001015578_shiyakusyob.jpg", title: "宝塚市役所" },
-  { keyword: "花のみち", file: "001015578_hananomichi_1.jpg", title: "花のみち" },
-];
-
-function findPhotoForText(text) {
-  return PHOTO_KEYWORDS.find((p) => text.includes(p.keyword));
+// 記事一覧の写真枠（2026-11-18）。記事に設定された写真（ogImage のうち、宝塚Todayが現地で撮影した写真＝撮影日入りの横長版）だけを出す。
+// タイトル・要約の語から写真を自動で割り当てる仕組みは、内容と無関係な写真が出るため廃止した。写真が無い行は枠ごと出さない
+const OWN_ARTICLE_PHOTO_RE = /^\/photos\/[a-z0-9-]+-20\d{6}-1200x630\.webp$/;
+function listPhoto(article) {
+  return typeof article.ogImage === "string" && OWN_ARTICLE_PHOTO_RE.test(article.ogImage) ? article.ogImage : null;
 }
 
-function thumbHtml(photo, fallbackIconName) {
-  return photo
-    ? `<img src="/photos/${escapeHtml(photo.file)}" alt="${escapeHtml(photo.title)}" loading="lazy">`
-    : icon(fallbackIconName);
+function thumbHtml(article) {
+  const photo = listPhoto(article);
+  return photo ? `<div class="headline-thumb"><img src="${escapeHtml(photo)}" alt="" loading="lazy" decoding="async"></div>\n` : "";
 }
 
 // 一覧で「終了」「受付終了」「復旧済み」を見分けるためのタグ。status 未設定・active は空文字（従来と同一）
@@ -611,12 +597,9 @@ function articleStatusBox(article) {
 
 // reasonTag: 注目枠だけが付ける「なぜ今載っているか」（新着・更新・日付など）。一覧用の headlineRow は付けない
 function headlineRowWith(article, reasonTag) {
-  const categoryMeta = findCategory(article.category);
-  const photo = findPhotoForText(`${article.title} ${article.summary ?? ""}`);
   const reason = reasonTag ? `<span class="reason-tag">${escapeHtml(reasonTag)}</span>` : "";
   return `<a class="headline-row" href="/articles/${article.slug}">
-<div class="headline-thumb">${thumbHtml(photo, categoryMeta ? categoryMeta.icon : "newspaper")}</div>
-<div>
+${thumbHtml(article)}<div>
   <p class="headline-title">${reason}${sourceBadge(article.sourceName)}<span class="topic-tag">${escapeHtml(article.category)}</span>${statusTag(article)}${escapeHtml(article.title)}</p>
   <p class="headline-meta">${escapeHtml(article.publishedAt)}・${escapeHtml(article.sourceName)}</p>
 </div>
@@ -631,7 +614,6 @@ function headlineRow(article) {
 function seriesHeadlineRow(item, reasonTag) {
   const reason = reasonTag ? `<span class="reason-tag">${escapeHtml(reasonTag)}</span>` : "";
   return `<a class="headline-row" href="${escapeHtml(item.href)}">
-<div class="headline-thumb">${icon("chart")}</div>
 <div>
   <p class="headline-title">${reason}<span class="topic-tag">宝塚の実力 第${item.episode}弾</span>${escapeHtml(item.title)}</p>
   <p class="headline-meta">${escapeHtml(item.publishedAt)}・${escapeHtml(item.sourceName)}</p>
@@ -642,7 +624,6 @@ function seriesHeadlineRow(item, reasonTag) {
 // サイト自体のお知らせ（新機能追加等）を一時的に表示する。公式ニュース記事とは別枠のため data/articles/ は使わず、期限（until）を過ぎたら自動的に非表示にする
 function siteNoticeRow(notice) {
   return `<a class="headline-row" href="${escapeHtml(notice.href)}">
-<div class="headline-thumb">${icon("bell")}</div>
 <div>
   <p class="headline-title"><span class="topic-tag">お知らせ</span>${escapeHtml(notice.text)}</p>
   <p class="headline-meta">Takarazuka Today</p>
@@ -674,7 +655,7 @@ function featureCards(fieldReportPhoto, latest = null) {
   const p = fieldReportPhoto;
   const left = p
     ? `<div class="ah-feature-wrap">
-<a class="ah-feature" href="${escapeHtml(p.href)}"><img src="${escapeHtml(p.src)}" width="1200" height="630" alt="${escapeHtml(p.alt)}" loading="lazy" decoding="async"><span class="ah-feature__body"><span class="ah-feature__tag">現地取材</span><span class="ah-feature__title">${escapeHtml(p.place)}</span><span class="ah-feature__sub">宝塚Today撮影｜${escapeHtml(p.shotOn)}</span></span><span class="ah-feature__go" aria-hidden="true">›</span></a>
+<a class="ah-feature" href="${escapeHtml(p.href)}"><img src="${escapeHtml(p.src)}" width="1200" height="630" alt="${escapeHtml(p.alt)}" loading="lazy" decoding="async"><span class="ah-feature__body"><span class="ah-feature__tag">現地取材</span><span class="ah-feature__title">${escapeHtml(p.place)}</span><span class="ah-feature__sub">宝塚Today撮影｜${escapeHtml(p.shotOn)}</span></span></a>
 <a class="ah-feature-more" href="/photo">現地取材フォトをもっと見る</a>
 </div>`
     : "";
@@ -683,7 +664,7 @@ function featureCards(fieldReportPhoto, latest = null) {
   const heading = latest ? `「${escapeHtml(splitEpisodeTitle(latest.title).main)}」` : "";
   const ph = SERIES_CARD_PHOTO;
   const right = `<div class="ah-feature-wrap">
-<a class="ah-feature" href="/${JITSURYOKU_SLUG}/${escapeHtml(slug)}"><img src="${escapeHtml(ph.src)}" width="1200" height="630" alt="" loading="lazy" decoding="async"><span class="ah-feature__credit">写真：${escapeHtml(ph.place)}（${escapeHtml(ph.shotOn)} 宝塚Today撮影）</span><span class="ah-feature__body"><span class="ah-feature__tag">独自連載</span><span class="ah-feature__title">宝塚の実力</span><span class="ah-feature__sub">第${number}弾公開${heading}｜数字で見る、宝塚のいま</span></span><span class="ah-feature__go" aria-hidden="true">›</span></a>
+<a class="ah-feature" href="/${JITSURYOKU_SLUG}/${escapeHtml(slug)}"><img src="${escapeHtml(ph.src)}" width="1200" height="630" alt="" loading="lazy" decoding="async"><span class="ah-feature__body"><span class="ah-feature__tag">独自連載</span><span class="ah-feature__title">宝塚の実力</span><span class="ah-feature__sub">第${number}弾公開${heading}｜数字で見る、宝塚のいま</span><span class="ah-feature__credit">写真：${escapeHtml(ph.place)}（${escapeHtml(ph.shotOn)} 宝塚Today撮影）</span></span></a>
 <a class="ah-feature-more" href="/${JITSURYOKU_SLUG}#series-list">これまでの回・連載の一覧</a>
 </div>`;
   return `<section class="ah-features" aria-label="現地取材と独自連載">
@@ -755,7 +736,7 @@ ${showMoreLink ? '<p class="panel-note"><a href="/ranking/">新着記事をも�
 }
 
 function recentCombinedFeed(publishedArticles, categoryPageKeys) {
-  const items = publishedArticles.slice(0, RECENT_FEED_MAX).map(headlineRow).join("\n");
+  const items = publishedArticles.slice(0, RECENT_FEED_MAX).map((a) => headlineRowWith(a, "")).join("\n");
   // 正式A案：「もっと見る」は見出しの右。行き先は従来どおりカテゴリー別の一覧
   const browseLink = categoryPageKeys.size > 0 ? `<a class="ah-more" href="#category-panel">もっと見る<span aria-hidden="true"> ›</span></a>` : "";
   return `<div class="panel" id="recent-articles">
@@ -847,7 +828,6 @@ function editorExplainerPanel(article) {
 <div class="editor-explainer-grid">
 ${articleCard}
 <a class="editor-explainer-card" href="/category/bohan/guide">
-<div class="editor-explainer-thumb editor-explainer-thumb-icon">${icon("shield")}</div>
 <div class="editor-explainer-text"><span class="editor-explainer-tag">ガイド</span><p class="editor-explainer-title">宝塚市 防犯ガイド</p><p class="editor-explainer-sub">詐欺・事件への対処と、相談窓口の使い分け</p></div>
 </a>
 </div>
@@ -1066,10 +1046,8 @@ function questionListHtml(questions) {
 }
 
 function gikaiRow(article) {
-  const photo = findPhotoForText(`${article.title} ${article.summary ?? ""}`);
   return `<a class="headline-row" href="/articles/${article.slug}">
-<div class="headline-thumb">${thumbHtml(photo, "building")}</div>
-<div>
+${thumbHtml(article)}<div>
   <p class="headline-title"><span class="badge-ai-editorial">AI要約・編集確認済</span>${escapeHtml(article.title)}</p>
   <p class="headline-meta">${escapeHtml(article.meetingType ?? "")}・${escapeHtml(article.meetingDate ?? article.publishedAt)}・出典：${escapeHtml(article.sourceName)}</p>
 </div>
@@ -1077,12 +1055,9 @@ function gikaiRow(article) {
 }
 
 function guideCard(guide) {
-  const iconBoxContent = guide.cardPhoto
-    ? `<img src="${escapeHtml(guide.cardPhoto)}" alt="" loading="lazy">`
-    : icon(guide.icon ?? guide.category.icon);
+  const photoBox = guide.cardPhoto ? `<div class="icon-box icon-box-photo"><img src="${escapeHtml(guide.cardPhoto)}" alt="" loading="lazy"></div>\n` : "";
   return `<a class="guide-card" href="/category/${guide.categoryKey}/${escapeHtml(guide.slug)}">
-<div class="icon-box${guide.cardPhoto ? " icon-box-photo" : ""}">${iconBoxContent}</div>
-<div>
+${photoBox}<div>
   <div class="label">${escapeHtml(guide.title)}</div>
   <div class="sub">${escapeHtml(guide.cardSummary)}</div>
 </div>
@@ -1100,7 +1075,6 @@ function findRecommendation(href) {
 
 function recommendationCard(item) {
   return `<a class="guide-card" href="${escapeHtml(item.href)}">
-<div class="icon-box">${icon(item.icon)}</div>
 <div>
   <div class="label">${escapeHtml(item.label)}</div>
   <div class="sub">${escapeHtml(item.sub)}</div>
@@ -1267,7 +1241,6 @@ const LIVE_CAMERAS = [
 function livecamPanel() {
   const items = LIVE_CAMERAS.map(
     (cam) => `<a class="headline-row" href="${escapeHtml(cam.url)}" target="_blank" rel="noopener">
-<div class="headline-thumb">${icon("videoCamera")}</div>
 <div>
   <p class="headline-title">${escapeHtml(cam.name)}</p>
   <p class="headline-meta">${escapeHtml(cam.description)}</p>
@@ -1336,7 +1309,6 @@ export function livecamPage(siteUrl) {
 
   const cameraItems = LIVE_CAMERAS.map(
     (cam) => `<a class="headline-row" href="${escapeHtml(cam.url)}" target="_blank" rel="noopener">
-<div class="headline-thumb">${icon("videoCamera")}</div>
 <div>
   <p class="headline-title">${escapeHtml(cam.name)}</p>
   <p class="headline-meta">${escapeHtml(cam.description)}</p>
@@ -1475,12 +1447,9 @@ ${recommendedPagesPanel("bosai", canonicalUrl.replace(siteUrl, ""))}
 
 function eventRow(occurrence) {
   const { article, date } = occurrence;
-  const categoryMeta = findCategory(article.category);
-  const photo = findPhotoForText(`${article.title} ${article.summary ?? ""}`);
   const dateLabel = new Date(`${date}T00:00:00+09:00`).toLocaleDateString("ja-JP", { timeZone: "Asia/Tokyo", month: "long", day: "numeric", weekday: "short" });
   return `<a class="headline-row" href="/articles/${article.slug}" data-date="${escapeHtml(date)}">
-<div class="headline-thumb">${thumbHtml(photo, categoryMeta ? categoryMeta.icon : "calendar")}</div>
-<div>
+${thumbHtml(article)}<div>
   <p class="headline-title">${escapeHtml(dateLabel)}　${statusTag(article)}${escapeHtml(article.title)}</p>
   <p class="headline-meta">${escapeHtml(article.eventLocation ?? "")}</p>
 </div>
@@ -1721,7 +1690,6 @@ export function giinIndexPage(giinList, siteUrl) {
   const items = giinList
     .map(
       (giin) => `<a class="headline-row" href="/giin/${giin.slug}">
-<div class="headline-thumb">${icon("user")}</div>
 <div>
   <p class="headline-title">${escapeHtml(giin.name)}　議員</p>
   <p class="headline-meta">会派：${escapeHtml(giin.kaiha ?? "未掲載")}</p>
