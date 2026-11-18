@@ -2,7 +2,7 @@
 // 実行: npm test
 import test from "node:test";
 import assert from "node:assert/strict";
-import { indexPage, livecamPage } from "../templates.js";
+import { indexPage, livecamPage, eventsPage, giinIndexPage } from "../templates.js";
 
 const SITE = "https://takarazuka-today.jp";
 const html = livecamPage(SITE);
@@ -79,4 +79,20 @@ test("武田尾の水位基準の注記は市と県の水防計画を出典に�
   assert.ok(note.includes("https://www.city.takarazuka.hyogo.jp/1013056/1011509/1013062/1020504.html"));
   assert.ok(note.includes("https://web.pref.hyogo.lg.jp/ks12/documents/r08honpen.pdf"));
   assert.ok(note.includes("2.71m") && note.includes("理由は確認できていません"));
+});
+
+test("水位表はサイト共通の色（--bg・--border）を使い、ダークモードで見出しが明るい背景に重ならない", () => {
+  const table = html.slice(html.indexOf("武庫川 水位基準"), html.indexOf("</table>", html.indexOf("武庫川 水位基準")));
+  assert.ok(!table.includes("--color-") && !table.includes("#f5f5f5"));
+  assert.ok(table.includes('<thead><tr style="background:var(--bg);">'));
+  assert.ok(table.includes(">4.90&nbsp;m<") && table.includes(">8.70&nbsp;m<") && table.includes(">4.60&nbsp;m<"), "数値は変えない");
+});
+
+test("イベントカレンダーと議員一覧に h1 を1つずつ置く", () => {
+  const ev = eventsPage({ todayEvents: [], thisWeekend: [], thisMonth: [], siteUrl: SITE });
+  assert.equal((ev.match(/<h1[ >]/g) ?? []).length, 1);
+  assert.ok(ev.includes("<h1>イベントカレンダー</h1>"));
+  const giin = giinIndexPage([{ slug: "a", name: "テスト", kaiha: "x" }], SITE);
+  assert.equal((giin.match(/<h1[ >]/g) ?? []).length, 1);
+  assert.match(giin, /<h1 class="panel-title">[\s\S]*?議員活動サマリー一覧<\/h1>/);
 });

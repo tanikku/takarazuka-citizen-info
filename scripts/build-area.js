@@ -77,10 +77,10 @@ ${innerHtml}
 }
 
 function dataTable(headers, rows) {
-  const cell = (tag, text) => `<${tag} style="padding:0.5rem;text-align:left;border-bottom:1px solid var(--color-border,#ddd);">${escapeHtml(text)}</${tag}>`;
+  const cell = (tag, text) => `<${tag} style="padding:0.5rem;text-align:left;border-bottom:1px solid var(--border);">${escapeHtml(text)}</${tag}>`;
   return `<div class="table-scroll">
 <table class="data-table" style="width:100%;border-collapse:collapse;font-size:0.9rem;">
-<thead><tr style="background:var(--color-surface-2,#f5f5f5);">${headers.map((h) => cell("th", h)).join("")}</tr></thead>
+<thead><tr style="background:var(--bg);">${headers.map((h) => cell("th", h)).join("")}</tr></thead>
 <tbody>
 ${rows.map((row) => `<tr>${row.map((c) => cell("td", c)).join("")}</tr>`).join("\n")}
 </tbody>

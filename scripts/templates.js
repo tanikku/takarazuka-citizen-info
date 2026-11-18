@@ -386,14 +386,14 @@ ${icon("user")}
 <p class="panel-title">${escapeHtml(t.title)}</p>
 <div class="table-scroll">
 <table class="data-table" style="width:100%;border-collapse:collapse;font-size:0.9rem;">
-<thead><tr style="background:var(--color-surface-2,#f5f5f5);">
-${t.headers.map((h, i) => `<th style="padding:0.5rem;text-align:${i === 0 ? "left" : "right"};border-bottom:1px solid var(--color-border,#ddd);">${escapeHtml(h)}</th>`).join("\n")}
+<thead><tr style="background:var(--bg);">
+${t.headers.map((h, i) => `<th style="padding:0.5rem;text-align:${i === 0 ? "left" : "right"};border-bottom:1px solid var(--border);">${escapeHtml(h)}</th>`).join("\n")}
 </tr></thead>
 <tbody>
 ${t.rows
   .map(
     (row) =>
-      `<tr>${row.map((cell, i) => `<td style="padding:0.5rem;text-align:${i === 0 ? "left" : "right"};border-bottom:1px solid var(--color-border,#ddd);">${tableCellHtml(cell)}</td>`).join("")}</tr>`
+      `<tr>${row.map((cell, i) => `<td style="padding:0.5rem;text-align:${i === 0 ? "left" : "right"};border-bottom:1px solid var(--border);">${tableCellHtml(cell)}</td>`).join("")}</tr>`
   )
   .join("\n")}
 </tbody>
@@ -1390,14 +1390,14 @@ ${cameraItems}
 <div class="panel">
 <p class="panel-title">${icon("alert")}武庫川 水位基準（宝塚市公表値）</p>
 <table class="data-table" style="width:100%;border-collapse:collapse;font-size:0.9rem;">
-<thead><tr style="background:var(--color-surface-2,#f5f5f5);">
-<th style="padding:0.5rem;text-align:left;border-bottom:1px solid var(--color-border,#ddd);">観測地点</th>
-<th style="padding:0.5rem;text-align:right;border-bottom:1px solid var(--color-border,#ddd);">氾濫注意水位</th>
-<th style="padding:0.5rem;text-align:right;border-bottom:1px solid var(--color-border,#ddd);">避難判断水位</th>
-<th style="padding:0.5rem;text-align:right;border-bottom:1px solid var(--color-border,#ddd);">氾濫危険水位</th>
+<thead><tr style="background:var(--bg);">
+<th style="padding:0.5rem;text-align:left;border-bottom:1px solid var(--border);">観測地点</th>
+<th style="padding:0.5rem;text-align:right;border-bottom:1px solid var(--border);">氾濫注意水位</th>
+<th style="padding:0.5rem;text-align:right;border-bottom:1px solid var(--border);">避難判断水位</th>
+<th style="padding:0.5rem;text-align:right;border-bottom:1px solid var(--border);">氾濫危険水位</th>
 </tr></thead>
 <tbody>
-<tr><td style="padding:0.5rem;border-bottom:1px solid var(--color-border,#ddd);">武田尾地点（宝塚市玉瀬）</td><td style="padding:0.5rem;text-align:right;border-bottom:1px solid var(--color-border,#ddd);">4.90&nbsp;m</td><td style="padding:0.5rem;text-align:right;border-bottom:1px solid var(--color-border,#ddd);">5.90&nbsp;m</td><td style="padding:0.5rem;text-align:right;border-bottom:1px solid var(--color-border,#ddd);">8.70&nbsp;m</td></tr>
+<tr><td style="padding:0.5rem;border-bottom:1px solid var(--border);">武田尾地点（宝塚市玉瀬）</td><td style="padding:0.5rem;text-align:right;border-bottom:1px solid var(--border);">4.90&nbsp;m</td><td style="padding:0.5rem;text-align:right;border-bottom:1px solid var(--border);">5.90&nbsp;m</td><td style="padding:0.5rem;text-align:right;border-bottom:1px solid var(--border);">8.70&nbsp;m</td></tr>
 <tr><td style="padding:0.5rem;">生瀬地点（西宮市塩瀬町生瀬）</td><td style="padding:0.5rem;text-align:right;">3.20&nbsp;m</td><td style="padding:0.5rem;text-align:right;">3.20&nbsp;m</td><td style="padding:0.5rem;text-align:right;">4.60&nbsp;m</td></tr>
 </tbody>
 </table>
@@ -1475,6 +1475,7 @@ export function eventsPage({ todayEvents, thisWeekend, thisMonth, siteUrl }) {
 
   const bodyHtml = `<nav class="breadcrumb"><a href="/">トップ</a> &gt; イベントカレンダー</nav>
 <div class="page-content">
+<h1>イベントカレンダー</h1>
 <p class="panel-note">宝塚市・兵庫県・兵庫県警が公開した情報のうち、開催日が明記されているイベントを、開催日の順に並べています。このページはサイトの更新時に作り直しており、最終更新は${escapeHtml(builtLabel)}です。終了した催しは載せていません。開催の有無や内容の最新情報は、各記事の出典元でご確認ください。</p>
 <div class="event-tabs" role="tablist" style="display:none">
 <button class="event-tab is-active" type="button" data-tab="today" role="tab" aria-selected="true">今日</button>
@@ -1701,7 +1702,7 @@ export function giinIndexPage(giinList, siteUrl) {
   const bodyHtml = `<nav class="breadcrumb"><a href="/">トップ</a> &gt; <a href="${categoryPath("shigikai")}">市議会</a> &gt; 議員活動サマリー</nav>
 <div class="page-content">
 <div class="panel">
-<p class="panel-title">${icon("user")}議員活動サマリー一覧</p>
+<h1 class="panel-title">${icon("user")}議員活動サマリー一覧</h1>
 ${SHIGIKAI_DISCLOSURE.replace("本ページの内容は、", "このページは議員本人の公開発言（宝塚市議会の公式情報）を時系列で整理したものです。活動量のスコア化・ランキング・優劣評価は行いません。<br><br>本ページの内容は、")}
 ${items || '<p class="empty-state">まだ掲載がありません</p>'}
 </div>
@@ -1787,14 +1788,14 @@ export function gikaiGuidePage(siteUrl) {
 
   const watchTableHtml = `<div class="table-scroll">
 <table class="data-table" style="width:100%;border-collapse:collapse;font-size:0.9rem;">
-<thead><tr style="background:var(--color-surface-2,#f5f5f5);">
-<th style="padding:0.5rem;text-align:left;border-bottom:1px solid var(--color-border,#ddd);">知りたいこと</th>
-<th style="padding:0.5rem;text-align:left;border-bottom:1px solid var(--color-border,#ddd);">見るページ</th>
+<thead><tr style="background:var(--bg);">
+<th style="padding:0.5rem;text-align:left;border-bottom:1px solid var(--border);">知りたいこと</th>
+<th style="padding:0.5rem;text-align:left;border-bottom:1px solid var(--border);">見るページ</th>
 </tr></thead>
 <tbody>
 ${WATCH_ROWS.map(
   (row) =>
-    `<tr><td style="padding:0.5rem;text-align:left;border-bottom:1px solid var(--color-border,#ddd);">${escapeHtml(row[0])}</td><td style="padding:0.5rem;text-align:left;border-bottom:1px solid var(--color-border,#ddd);">${row[1]}</td></tr>`,
+    `<tr><td style="padding:0.5rem;text-align:left;border-bottom:1px solid var(--border);">${escapeHtml(row[0])}</td><td style="padding:0.5rem;text-align:left;border-bottom:1px solid var(--border);">${row[1]}</td></tr>`,
 ).join("\n")}
 </tbody>
 </table>
@@ -2404,17 +2405,17 @@ function suisougakuStagePanel(iconName, title, stage, advancedLabel = "上位大
     Array.isArray(stage.takarazukaSchedule) && stage.takarazukaSchedule.length > 0
       ? `<p class="guide-q">宝塚市関係校の${hasResults ? "出演スケジュール・結果" : "出演スケジュール"}</p>
 <table class="data-table" style="width:100%;border-collapse:collapse;font-size:0.9rem;">
-<thead><tr style="background:var(--color-surface-2,#f5f5f5);">
-<th style="padding:0.5rem;text-align:left;border-bottom:1px solid var(--color-border,#ddd);">学校名</th>
-<th style="padding:0.5rem;text-align:right;border-bottom:1px solid var(--color-border,#ddd);">出演順</th>
-<th style="padding:0.5rem;text-align:right;border-bottom:1px solid var(--color-border,#ddd);">舞台時刻</th>
-${hasResults ? `<th style="padding:0.5rem;text-align:right;border-bottom:1px solid var(--color-border,#ddd);">賞</th><th style="padding:0.5rem;text-align:right;border-bottom:1px solid var(--color-border,#ddd);">${escapeHtml(advancedLabel)}</th>` : ""}
+<thead><tr style="background:var(--bg);">
+<th style="padding:0.5rem;text-align:left;border-bottom:1px solid var(--border);">学校名</th>
+<th style="padding:0.5rem;text-align:right;border-bottom:1px solid var(--border);">出演順</th>
+<th style="padding:0.5rem;text-align:right;border-bottom:1px solid var(--border);">舞台時刻</th>
+${hasResults ? `<th style="padding:0.5rem;text-align:right;border-bottom:1px solid var(--border);">賞</th><th style="padding:0.5rem;text-align:right;border-bottom:1px solid var(--border);">${escapeHtml(advancedLabel)}</th>` : ""}
 </tr></thead>
 <tbody>
 ${stage.takarazukaSchedule
   .map(
     (s) =>
-      `<tr><td style="padding:0.5rem;border-bottom:1px solid var(--color-border,#ddd);">${escapeHtml(s.name)}</td><td style="padding:0.5rem;text-align:right;border-bottom:1px solid var(--color-border,#ddd);">${escapeHtml(s.order ?? "－")}</td><td style="padding:0.5rem;text-align:right;border-bottom:1px solid var(--color-border,#ddd);">${escapeHtml(s.time ?? "－")}</td>${hasResults ? `<td style="padding:0.5rem;text-align:right;border-bottom:1px solid var(--color-border,#ddd);">${escapeHtml(s.result ?? "結果待ち")}</td><td style="padding:0.5rem;text-align:right;border-bottom:1px solid var(--color-border,#ddd);">${escapeHtml(s.advanced ?? "－")}</td>` : ""}</tr>`
+      `<tr><td style="padding:0.5rem;border-bottom:1px solid var(--border);">${escapeHtml(s.name)}</td><td style="padding:0.5rem;text-align:right;border-bottom:1px solid var(--border);">${escapeHtml(s.order ?? "－")}</td><td style="padding:0.5rem;text-align:right;border-bottom:1px solid var(--border);">${escapeHtml(s.time ?? "－")}</td>${hasResults ? `<td style="padding:0.5rem;text-align:right;border-bottom:1px solid var(--border);">${escapeHtml(s.result ?? "結果待ち")}</td><td style="padding:0.5rem;text-align:right;border-bottom:1px solid var(--border);">${escapeHtml(s.advanced ?? "－")}</td>` : ""}</tr>`
   )
   .join("\n")}
 </tbody>
