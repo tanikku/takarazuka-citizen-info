@@ -700,7 +700,8 @@ function visibleRankingEntries(ranking, publishedArticles) {
   });
 }
 
-function rankingOrRecentPanel(ranking, recentArticles, limit = 5, showMoreLink = true) {
+// titleTag：/ranking/ ではこの見出しがページ名なので "h1" を渡す。トップは従来どおり "p"
+function rankingOrRecentPanel(ranking, recentArticles, limit = 5, showMoreLink = true, titleTag = "p") {
   if (ranking) {
     const items = visibleRankingEntries(ranking, recentArticles)
       .slice(0, limit)
@@ -712,7 +713,7 @@ function rankingOrRecentPanel(ranking, recentArticles, limit = 5, showMoreLink =
       )
       .join("\n");
     return `<div class="panel">
-<p class="panel-title">${icon("flame")}人気記事ランキング（30日間）</p>
+<${titleTag} class="panel-title">${icon("flame")}人気記事ランキング（30日間）</${titleTag}>
 <ol class="ranking-list">${items}</ol>
 ${showMoreLink ? '<p class="panel-note"><a href="/ranking/">ランキングをもっと見る →</a></p>' : ""}
 </div>`;
@@ -728,7 +729,7 @@ ${showMoreLink ? '<p class="panel-note"><a href="/ranking/">ランキングを�
     )
     .join("\n");
   return `<div class="panel">
-<p class="panel-title">${icon("bell")}新着記事</p>
+<${titleTag} class="panel-title">${icon("bell")}新着記事</${titleTag}>
 <ol class="ranking-list">${items || '<li class="empty-state">まだ記事がありません</li>'}</ol>
 <p class="panel-note">※最新のアクセスランキングを表示できないため、新着記事を表示しています</p>
 ${showMoreLink ? '<p class="panel-note"><a href="/ranking/">新着記事をもっと見る →</a></p>' : ""}
@@ -1607,7 +1608,7 @@ export function rankingPage(ranking, recentArticles, siteUrl) {
     : "Takarazuka Todayの新着記事をまとめてご案内します。";
   const bodyHtml = `<nav class="breadcrumb"><a href="/">トップ</a> &gt; ${pageLabel}</nav>
 <div class="page-content">
-${rankingOrRecentPanel(ranking, recentArticles, 10, false)}
+${rankingOrRecentPanel(ranking, recentArticles, 10, false, "h1")}
 </div>`;
 
   const breadcrumbLd = {
@@ -1656,7 +1657,7 @@ ${SHIGIKAI_DISCLOSURE.replace("本ページの内容は、", "このページは
 <div class="giin-card">
 <div class="giin-avatar">${icon("user")}</div>
 <div>
-  <p class="giin-name">${escapeHtml(giin.name)}　議員</p>
+  <h1 class="giin-name">${escapeHtml(giin.name)}　議員</h1>
   <p class="giin-kaiha">会派：${escapeHtml(giin.kaiha ?? "未掲載")}</p>
 </div>
 </div>
@@ -2265,7 +2266,7 @@ export function zaiseiWatchPage(periods, siteUrl, kessan = null) {
   const bodyHtml = `<nav class="breadcrumb"><a href="/">トップ</a> &gt; <a href="${categoryPath("shigikai")}">市議会</a> &gt; 財政ウォッチ</nav>
 <div class="page-content">
 <div class="panel">
-<p class="panel-title">${icon("newspaper")}宝塚市財政ウォッチ</p>
+<h1 class="panel-title">${icon("newspaper")}宝塚市財政ウォッチ</h1>
 <p>宝塚市では毎年6月・12月に「財政状況」を公表しています。このページでは、市民の皆さまが3〜5分で読めるよう、主要なポイントを分かりやすく整理して紹介します。</p>
 <p>本ページの内容は宝塚市公式資料を人が確認しながら要約したものです。数値・事実の整理のみを目的とし、財政運営に対する評価・意見は行いません。</p>
 <p class="today-source">対象：${escapeHtml(current.coverageLabel)}（${escapeHtml(current.coverageRange)}）・${escapeHtml(current.publishedLabel)}</p>
@@ -2494,7 +2495,7 @@ ${current.districtResults.pendingNote ? `<p class="note-box">${escapeHtml(curren
   const bodyHtml = `<nav class="breadcrumb"><a href="/">トップ</a> &gt; <a href="${categoryPath("kyoiku")}">教育</a> &gt; 吹奏楽コンクールガイド</nav>
 <div class="page-content">
 <div class="panel">
-<p class="panel-title">${icon("book")}宝塚市 吹奏楽コンクールガイド</p>
+<h1 class="panel-title">${icon("book")}宝塚市 吹奏楽コンクールガイド</h1>
 <p>「兵庫県吹奏楽コンクール」は、<strong>地区大会 → 県大会 → 関西大会 → （部門により）全国大会</strong>という順に勝ち進む仕組みになっています。部門は中学校・高校だけでなく、大学・職場・一般の部もあり、宝塚市内では学校の吹奏楽部に加えて市民吹奏楽団（宝塚市吹奏楽団など）も一般の部で出場しています。宝塚市内の学校は「西阪神地区」に属しており、まず西阪神吹奏楽連盟が主催する西阪神地区大会に出場します。<strong>このページでは、このうち中学校・高校の部門を中心に</strong>、宝塚市内の出場校の情報を整理しています。県大会・関西大会・全国大会については、公式発表で確認できた範囲で、宝塚市内の学校・団体の結果を各大会の欄に掲載しています。公式情報の整理のみを目的とし、評価・順位予想は行いません。</p>
 <p>学校の部活動だけでなく、市民による「宝塚市吹奏楽団」（1980年発足、約80名が毎週土曜日に市立東公民館で活動するアマチュア吹奏楽団）も、一般の部の団体として全日本吹奏楽コンクールの全国大会に出場した実績があります。宝塚市文化財団は、こうした音楽活動が盛んな様子を「音楽のまち・宝塚」と表現することがあります。</p>
 <p class="panel-note"><a href="${escapeHtml(current.officialUrl)}" target="_blank" rel="noopener">→ ${escapeHtml(current.organizerName)}公式サイトを見る</a></p>
