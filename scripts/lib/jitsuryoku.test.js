@@ -68,11 +68,11 @@ const cardOf = (html) => {
 };
 const cardLinkOf = (html) => {
   const c = cardOf(html);
-  return c.slice(c.indexOf('<a class="ah-feature"'), c.indexOf("</a>") + 4);
+  return c.slice(c.indexOf('<a class="ah-feature'), c.indexOf("</a>") + 4); // 連載カードは class="ah-feature ah-series"
 };
 
 test("トップページ：連載カードは1つだけで、注目・新着ニュースより上。ニュース欄は「注目・新着ニュース」1枠で二重に出ない", () => {
-  assert.equal((home.match(/<span class="ah-feature__tag">独自連載<\/span>/g) ?? []).length, 1);
+  assert.equal((home.match(/<span class="ah-series__badge">独自連載<\/span>/g) ?? []).length, 1);
   assert.ok(home.indexOf('<section class="ah-features"') < home.indexOf('id="featured-news"'), "注目・新着ニュースより上");
   assert.equal((home.match(/id="featured-news"/g) ?? []).length, 1, "ニュース枠は1つ");
   assert.equal((home.match(/id="today-topic"/g) ?? []).length, 1, "旧アンカー #today-topic は残す（外部リンクを壊さない）");
@@ -108,11 +108,12 @@ test("注目・新着ニュース：候補が無い日は古い記事で埋め�
 test("連載カード：最新回が無いときは第1弾へリンクし、AI生成イメージを使わず、公開予定・結論を先取りする文言を出さない", () => {
   const link = cardLinkOf(home);
   const t = textOf(link);
-  for (const s of ["独自連載", "宝塚の実力", "第1弾公開", "数字で見る、宝塚のいま"]) assert.ok(t.includes(s), s);
+  for (const s of ["独自連載", "宝塚の実力", "第1回公開", "第1回を読む"]) assert.ok(t.includes(s), s);
   assert.equal((link.match(/href="\/jitsuryoku\/zeishu-shigoto"/g) ?? []).length, 1);
   assert.ok(!home.includes("jitsuryoku-visual"), "AI生成イメージはトップに出さない");
-  assert.match(link, /<img src="\/photos\/[^"]+-2026\d{4}-1200x630\.webp"/, "写真は宝塚Todayの撮影写真");
-  assert.ok(t.includes("写真：武庫川（2026年11月3日 宝塚Today撮影）"), "連載の内容ではない写真なので撮影地・撮影日を添える");
+  assert.ok(!link.includes("<img"), "連載カードは写真を使わない紺色のパネル（2026-11-21）");
+  assert.ok(t.includes("公的な統計・資料をもとに、宝塚を同じくらいの規模の5つの都市と比べる連載です。"), "連載の特徴の説明");
+  for (const c of ["宝塚", "伊丹", "厚木", "茅ヶ崎", "流山", "松本"]) assert.ok(link.includes(`<span class="ah-series__city">${c}</span>`), c);
   assert.doesNotMatch(t, /近日公開|公開予定|強み|課題/);
 });
 
@@ -141,12 +142,25 @@ const bannerOf = (html) => {
   return html.slice(start, html.indexOf("</section>", start));
 };
 
-test("連載カード：最新回があれば第N弾公開と回の見出しを出し、最新回へ直接リンクする（第1弾のままにしない）", () => {
+test("連載カード：最新回があれば第N回公開と回の見出しを出し、最新回へ直接リンクする（第1回のままにしない）", () => {
   const link = cardLinkOf(homeLatest(LATEST));
   const t = textOf(link).replace(/\s/g, "");
-  for (const s of ["第2弾公開", `「${LATEST.title}」`]) assert.ok(t.includes(s), s);
+  for (const s of ["第2回公開", LATEST.title.replace(/\s/g, "")]) assert.ok(t.includes(s), s);
   assert.ok(link.includes(`href="/jitsuryoku/${LATEST.slug}"`));
-  assert.ok(!link.includes("zeishu-shigoto") && !t.includes("第1弾"), "カードのリンクは最新回だけ");
+  assert.ok(!link.includes("zeishu-shigoto") && !t.includes("第1回"), "カードのリンクは最新回だけ");
+});
+
+test("連載カード（2026-11-21）：見出しは「？ 」の後で主と副に分ける（文字列は変えない）。第5回が公開されれば自動で切り替わる", () => {
+  const ep4 = { episode: 4, slug: "finance-six-cities", title: "宝塚の財政は、ほかの5都市とどう違う？ 6都市の決算・基金・市債を比較", date: "2026-11-21", dateLabel: "2026年11月21日" };
+  const link = cardLinkOf(homeLatest(ep4));
+  assert.ok(link.includes('<span class="ah-series__no">第4回公開</span>'));
+  assert.ok(link.includes('<span class="ah-series__line">宝塚の財政は、ほかの5都市とどう違う？</span> <span class="ah-series__line ah-series__line--sub">6都市の決算・基金・市債を比較</span>'));
+  assert.ok(link.includes('href="/jitsuryoku/finance-six-cities"'));
+  assert.ok(link.includes('<span class="ah-series__cta">第4回を読む<span aria-hidden="true"> →</span></span>'), "最新回への導線");
+  const ep5 = { episode: 5, slug: "next-sample", title: "次の回の題：副題", date: "2026-11-28", dateLabel: "2026年11月28日" };
+  const l5 = cardLinkOf(homeLatest(ep5));
+  assert.ok(l5.includes("第5回公開") && l5.includes('href="/jitsuryoku/next-sample"') && !l5.includes("finance-six-cities"));
+  assert.ok(l5.includes('<span class="ah-series__line">次の回の題</span> <span class="ah-series__line ah-series__line--sub">副題</span>'), "「：」の前を主、後ろを副");
 });
 
 const PREV = [{ episode: 2, slug: "population-takarazuka-nagareyama", title: "人口が増える街、減る街。宝塚と流山は何が違う？", dateLabel: "11月7日" }, { episode: 1, slug: "zeishu-shigoto", title: "宝塚の税収と仕事、ほかの街とどう違う？", dateLabel: "10月30日" }];
@@ -160,7 +174,7 @@ test("連載カード：これまでの回・連載の一覧へのリンクは�
   assert.ok(c.includes('<a class="ah-feature-more" href="/jitsuryoku#series-list">これまでの回・連載の一覧</a>'));
   assert.ok(!/<a [^>]*>(?:(?!<\/a>)[\s\S])*<a /.test(c), "リンクを入れ子にしない");
   const t = textOf(cardLinkOf(h)).replace(/\s/g, "");
-  assert.ok(t.includes("第3弾公開「宝塚市議会の全体像」"));
+  assert.ok(t.includes("第3回公開宝塚市議会の全体像25人は何を決め、どう話し合っているのか"));
   assert.ok(!t.includes("全体像：25人"), "「：」でつないだ長いタイトルをそのまま出さない");
 });
 

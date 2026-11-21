@@ -659,18 +659,30 @@ function featureCards(fieldReportPhoto, latest = null) {
 <a class="ah-feature-more" href="/photo">現地取材フォトをもっと見る</a>
 </div>`
     : "";
+  // 右：「宝塚の実力」（2026-11-21）。外寸は従来のカードと同じ（16:9 ＋ 下の文字欄の高さ）のまま、中身を紺色の独自連載パネルにする。
+  // 写真は使わず、連載名・連載の説明・比べる6都市・最新回（公開データから自動）を文字で大きく出す
   const number = latest?.episode ?? 1;
   const slug = latest ? latest.slug : "zeishu-shigoto";
-  const heading = latest ? `「${escapeHtml(splitEpisodeTitle(latest.title).main)}」` : "";
-  const ph = SERIES_CARD_PHOTO;
+  const parts = latest ? seriesCardTitleParts(latest.title) : null;
+  const titleHtml = parts ? `<span class="ah-series__title"><span class="ah-series__line">${escapeHtml(parts.main)}</span>${parts.sub ? ` <span class="ah-series__line ah-series__line--sub">${escapeHtml(parts.sub)}</span>` : ""}</span>` : "";
+  const cities = ["宝塚", "伊丹", "厚木", "茅ヶ崎", "流山", "松本"].map((x) => `<span class="ah-series__city">${x}</span>`).join("");
   const right = `<div class="ah-feature-wrap">
-<a class="ah-feature" href="/${JITSURYOKU_SLUG}/${escapeHtml(slug)}"><img src="${escapeHtml(ph.src)}" width="1200" height="630" alt="" loading="lazy" decoding="async"><span class="ah-feature__body"><span class="ah-feature__tag">独自連載</span><span class="ah-feature__title">宝塚の実力</span><span class="ah-feature__sub">第${number}弾公開${heading}｜数字で見る、宝塚のいま</span><span class="ah-feature__credit">写真：${escapeHtml(ph.place)}（${escapeHtml(ph.shotOn)} 宝塚Today撮影）</span></span></a>
+<a class="ah-feature ah-series" href="/${JITSURYOKU_SLUG}/${escapeHtml(slug)}"><span class="ah-series__panel"><span class="ah-series__top"><span class="ah-series__badge">独自連載</span><span class="ah-series__name">宝塚の実力</span><span class="ah-series__lead">公的な統計・資料をもとに、宝塚を同じくらいの規模の5つの都市と比べる連載です。</span><span class="ah-series__cities" aria-label="比べる6都市">${cities}</span></span><span class="ah-series__latest"><span class="ah-series__no">第${number}回公開</span>${titleHtml}<span class="ah-series__cta">第${number}回を読む<span aria-hidden="true"> →</span></span></span></span></a>
 <a class="ah-feature-more" href="/${JITSURYOKU_SLUG}#series-list">これまでの回・連載の一覧</a>
 </div>`;
   return `<section class="ah-features" aria-label="現地取材と独自連載">
 ${left}
 ${right}
 </section>`;
+}
+
+// トップの連載カードの見出し：「：」の前を主、後ろを副にする。「：」が無く「？ 」で区切れるタイトルは「？」までを主にする（文字列は変えない）
+function seriesCardTitleParts(title) {
+  const t = String(title);
+  const i = t.indexOf("：");
+  if (i > 0) return { main: t.slice(0, i), sub: t.slice(i + 1) };
+  const q = t.search(/[？?] /);
+  return q > 0 ? { main: t.slice(0, q + 1), sub: t.slice(q + 2) } : { main: t, sub: "" };
 }
 
 function categoryPanel(categoryPageKeys) {

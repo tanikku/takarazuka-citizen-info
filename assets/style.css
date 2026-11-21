@@ -1058,6 +1058,151 @@ body.ah-home .qa-tile .icon {
   }
 }
 
+/* 「宝塚の実力」カード（2026-11-21）：紺色の独自連載パネル。高さは左の写真と同じ 16:9 を基本にし、
+   文字が収まらない幅（スマホ・2列の狭い幅）では文字を縮めずにパネルを下へ伸ばす */
+.ah-series {
+  container-type: inline-size;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  border-radius: 12px;
+  overflow: hidden;
+  background: linear-gradient(135deg, #0b1633 0%, #14285a 60%, #1c3a78 100%);
+  color: #fff;
+}
+
+.ah-series::before {
+  content: "";
+  grid-area: 1 / 1;
+  aspect-ratio: 16 / 9;
+}
+
+.ah-series__panel {
+  grid-area: 1 / 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 12px 16px;
+  min-width: 0;
+}
+
+/* 2列のとき、左右の「もっと見る」「これまでの回」を列の下端でそろえる（1列のときは影響なし） */
+.ah-feature-wrap > .ah-feature-more { margin-top: auto; }
+
+.ah-series__top,
+.ah-series__latest {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+/* バッジは見出しの横に置き、説明と6都市は次の行から */
+.ah-series__top {
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  column-gap: 10px;
+}
+
+.ah-series__lead,
+.ah-series__cities { flex-basis: 100%; }
+
+.ah-series__badge {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: #14285a;
+  background: #ffd7de;
+  border-radius: 999px;
+  padding: 1px 10px;
+}
+
+.ah-series__name {
+  font-family: var(--ah-serif);
+  font-weight: 700;
+  font-size: clamp(1.7rem, 1.2rem + 2vw, 2.4rem);
+  line-height: 1.15;
+  letter-spacing: 0.04em;
+}
+
+.ah-series__lead {
+  font-size: 0.82rem;
+  line-height: 1.55;
+  color: #dbe4ff;
+  word-break: auto-phrase;
+  text-wrap: pretty;
+}
+
+.ah-series__cities {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-top: 2px;
+}
+
+.ah-series__city {
+  font-size: 0.7rem;
+  line-height: 1.6;
+  padding: 0 7px;
+  border: 1px solid rgba(255, 255, 255, 0.45);
+  border-radius: 4px;
+  color: #fff;
+}
+
+.ah-series__city:first-child {
+  background: #ffd7de;
+  border-color: #ffd7de;
+  color: #14285a;
+  font-weight: 700;
+}
+
+.ah-series__latest {
+  border-top: 1px solid rgba(255, 255, 255, 0.28);
+  padding-top: 8px;
+}
+
+.ah-series__no {
+  font-size: 0.74rem;
+  font-weight: 700;
+  color: #ffd7de;
+}
+
+.ah-series__title {
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+.ah-series__line {
+  display: block;
+  font-size: clamp(1.02rem, 0.9rem + 0.6vw, 1.3rem);
+  word-break: auto-phrase;
+  text-wrap: balance;
+}
+
+.ah-series__line--sub {
+  font-size: 0.86rem;
+  font-weight: 500;
+  color: #dbe4ff;
+}
+
+.ah-series__cta {
+  align-self: flex-start;
+  margin-top: 4px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #14285a;
+  background: #fff;
+  border-radius: 999px;
+  padding: 4px 14px;
+}
+
+.ah-series:hover .ah-series__cta,
+.ah-series:focus-visible .ah-series__cta {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
 /* 注目・新着記事と下段のパネル（色と書体だけをそろえる） */
 body.ah-home .panel {
   background: var(--ah-card);

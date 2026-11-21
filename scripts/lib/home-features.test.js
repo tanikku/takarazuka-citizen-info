@@ -92,7 +92,7 @@ test("トップの装飾を減らす（2026-11-18）：クイックアクセス�
   assert.ok(!qa.includes("<svg"), "クイックアクセスに飾りのアイコンを出さない");
   const feats = html.slice(html.indexOf('<section class="ah-features"'), html.indexOf("</section>", html.indexOf('<section class="ah-features"')));
   assert.ok(!feats.includes("ah-feature__go"), "丸い矢印を重ねない");
-  assert.ok(feats.includes("撮影｜") && feats.includes("宝塚Today撮影）"), "撮影日・撮影地の表示は残す");
+  assert.ok(feats.includes("宝塚Today撮影｜"), "現地取材カードの撮影日・撮影地の表示は残す");
 });
 
 test("記事一覧の写真は記事に設定された取材写真だけ。タイトル・要約の語だけで写真を自動で選ばない（2026-11-18）", () => {
