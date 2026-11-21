@@ -289,6 +289,8 @@ function richEpisodeBody(ep) {
   const phraseWrap = ep.episode >= 3 && c.textWrap !== "normal";
   // 通常の折り返しの回は、数字と単位のまとまり（例：33.3万円、96.9%）を1つの要素で包み、途中で改行しないようにする（タグの外の文字だけを対象にする）
   const keepNums = (html) => (c.textWrap === "normal" ? html.split(/(<[^>]*>)/).map((part) => (part.startsWith("<") ? part : part.replace(/[0-9][0-9,.]*[0-9]?(?:%|億円|万円|千円|円|倍|人)/g, (m) => `<span class="jf-nb">${m}</span>`))).join("") : html);
+  // 通常の折り返しの回は、タイトルの疑問文の終わり（「？」＋空白）で見出しを2行に分けて表示する。文字列は変えず、各行を要素で包むだけ（第4回、2026-11-21）
+  const titleHtml = c.textWrap === "normal" && /[？?] /.test(ep.title) ? ep.title.split(/(?<=[？?]) /).map((t) => `<span class="jf-title-line">${escapeHtml(t)}</span>`).join(" ") : escapeHtml(ep.title);
   let no = 0;
   const sections = c.sections.map((s, i) => {
     const numbered = s.numbered !== false;
@@ -305,7 +307,7 @@ ${inner}
   return `<div class="jf${phraseWrap ? " jf--phrase" : ""}${c.textWrap === "normal" ? " jf--normal" : ""}">
 ${ribbon}<header class="jf-hero">
 <p class="jf-hero__tag">宝塚の実力 第${ep.episode}回</p>
-<h1 class="jf-hero__title">${escapeHtml(ep.title)}</h1>
+<h1 class="jf-hero__title">${titleHtml}</h1>
 <p class="jf-lead">${escapeHtml(c.lead ?? ep.description)}</p>
 <p class="jf-small">${dates}</p>
 <nav class="jf-series-nav" aria-label="「宝塚の実力」の連載"><a href="/jitsuryoku/zeishu-shigoto">第1弾「税収と仕事」を読む</a><a href="/jitsuryoku#series-list">連載の一覧を見る</a></nav>

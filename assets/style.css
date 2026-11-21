@@ -4651,5 +4651,7 @@ html[data-theme="dark"] .jf-hero__tag, html[data-theme="dark"] .jf-h2__no { colo
 .jf-kpi__desc { font-size: 0.95rem; line-height: 1.65; color: var(--text-sub); }
 /* 通常の折り返しの回（textWrap: normal）で、数字と単位のまとまりを途中で改行しない */
 .jf-nb { white-space: nowrap; }
+/* 通常の折り返しの回のタイトル：疑問文の終わりで行を分ける。各行の中は画面幅に合わせて自然に折り返す */
+.jf--normal .jf-title-line { display: block; }
 /* 通常の折り返しの回：行末に1〜2文字だけが残る折り返しを避ける（対応していないブラウザでは通常の折り返しのまま） */
 .jf--normal p, .jf--normal li, .jf--normal .jf-kpi__note, .jf--normal .jf-kpi__desc, .jf--normal .jf-say__bubble, .jf--normal .jf-small, .jf--normal .jf-unit { text-wrap: pretty; }

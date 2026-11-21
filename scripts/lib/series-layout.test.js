@@ -100,3 +100,16 @@ test("通常の折り返しの回だけ、本文の数字と単位のまとま�
   const phrase = episodePage(ep({}), SITE);
   assert.ok(!phrase.includes("jf-nb"), "指定のない回は従来どおり");
 });
+
+test("通常の折り返しの回だけ、タイトルを「？」の後で2行に分けて表示する。タイトルの文字列は変えない", () => {
+  const ep = (title, content) => ({ slug: "x", episode: 4, title, description: "d", status: "draft", plannedAt: "2026-11-21", content: { sections: [{ heading: "h", blocks: [{ t: "p", text: "本文" }] }], sources: [{ label: "s", url: "https://example.com/" }], ...content } });
+  const t = "宝塚の財政は、ほかの5都市とどう違う？ 6都市の決算・基金・市債を比較";
+  const html = episodePage(ep(t, { textWrap: "normal" }), SITE);
+  const h1 = html.match(/<h1 class="jf-hero__title">([\s\S]*?)<\/h1>/)[1];
+  assert.equal(h1, '<span class="jf-title-line">宝塚の財政は、ほかの5都市とどう違う？</span> <span class="jf-title-line">6都市の決算・基金・市債を比較</span>');
+  assert.equal(h1.replace(/<[^>]+>/g, ""), t, "見出しの文字列はタイトルと同じ");
+  assert.ok(html.includes(`<title>${t}｜`), "title タグは変えない");
+  assert.ok(!episodePage(ep(t, {}), SITE).includes("jf-title-line"), "指定のない回は従来どおり");
+  const real = JSON.parse(fs.readFileSync(path.join(ROOT, "data", "jitsuryoku", "episodes", "council-overview-takarazuka.json"), "utf8"));
+  assert.ok(!episodePage(real, SITE).includes("jf-title-line"), "第3回は変わらない");
+});
