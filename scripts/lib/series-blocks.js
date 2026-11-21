@@ -115,6 +115,8 @@ export function validateBlocks(blocks, where = "blocks", ids = new Set()) {
       case "details": need(isStr(b.summary), "summary が必要です"); errors.push(...validateBlocks(b.blocks, `${at}.blocks`, ids)); break;
       case "sum": need(Array.isArray(b.boxes) && b.boxes.length > 0 && b.boxes.every((x) => BOX_KINDS.includes(x.kind) && isStr(x.title) && Array.isArray(x.items) && x.items.length > 0 && x.items.every(isStr)), "boxes（kind・title・items）が必要です"); break;
       case "next": need(isStr(b.title) && isStr(b.text), "title と text が必要です"); need(b.href === undefined || (typeof b.href === "string" && /^\/[a-z0-9\-/]*$/.test(b.href) && isStr(b.linkText)), "href はサイト内の絶対パス、linkText が必要です"); break;
+      // 数値カード（第4回、2026-11-21）：指標名・大きな数値・比較結果・短い説明を縦に積む。項目名と数値を横に並べないので、狭いカードでも文字が縦に割れない
+      case "kpi": need(isStr(b.aria) && Array.isArray(b.items) && b.items.length >= 1 && b.items.length <= 4 && b.items.every((x) => isStr(x.label) && isStr(x.value) && isStr(x.note) && isStr(x.desc)), "kpi は aria と items（label・value・note・desc。1〜4件）が必要です"); break;
       case "stats": need(isStr(b.aria) && Array.isArray(b.items) && b.items.length > 0 && b.items.every((x) => isStr(x.label) && isStr(x.sub) && Array.isArray(x.values) && x.values.length === 2 && x.values.every((v) => isStr(v.city) && isStr(v.num))), "stats の形が不正です"); break;
       default: errors.push(`${at}: 不明なブロック「${b.t}」`);
     }
@@ -248,6 +250,7 @@ export function renderBlock(b) {
     case "next": return `<aside class="jf-next" aria-label="次回予告"><p class="jf-next__tag">次回予告</p><p class="jf-next__title">${esc(b.title)}</p><p>${rich(b.text)}</p>${b.href ? `<p><a href="${esc(b.href)}">${esc(b.linkText)}</a></p>` : ""}</aside>`;
     // 見出し末尾の（期間）だけを別の行にして、3カードの改行位置をそろえる。文字列は変えない
     case "stats": return `<ul class="jf-stats jf-stats--duo${b.phrase ? " jf-stats--phrase" : ""}" role="list" aria-label="${esc(b.aria)}">${b.items.map((x) => `<li class="jf-stat jf-stat--duo"><span class="jf-stat__lbl">${esc(x.label).replace(/（[^（）]*）$/, '<span class="jf-stat__period">$&</span>')}</span><span class="jf-duo">${x.values.map((v) => `<span class="jf-duo__v"><span class="jf-stat__city">${esc(v.city)}</span><b class="jf-stat__num">${esc(v.num)}</b></span>`).join("")}</span><span class="jf-stat__sub">${esc(x.sub)}</span></li>`).join("")}</ul>`;
+    case "kpi": return `<ul class="jf-kpis" role="list" aria-label="${esc(b.aria)}">${b.items.map((x) => `<li class="jf-kpi"><span class="jf-kpi__lbl">${esc(x.label)}</span><b class="jf-kpi__num">${esc(x.value)}</b><span class="jf-kpi__note">${esc(x.note)}</span><span class="jf-kpi__desc">${esc(x.desc)}</span></li>`).join("")}</ul>`;
     default: throw new Error(`不明なブロック: ${b.t}`);
   }
 }

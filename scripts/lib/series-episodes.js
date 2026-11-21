@@ -191,6 +191,7 @@ export function validateEpisodeShape(ep) {
     if (c.lead !== undefined && (typeof c.lead !== "string" || !c.lead.trim())) errors.push("content.lead は空でない文字列にしてください");
     if (c.sourcesNote !== undefined && (typeof c.sourcesNote !== "string" || !c.sourcesNote.trim())) errors.push("content.sourcesNote は空でない文字列にしてください");
     for (const k of ["checkedAt", "updatedAt"]) if (c[k] !== undefined && !DATE_RE.test(c[k])) errors.push(`content.${k} は YYYY-MM-DD にしてください`);
+    if (c.textWrap !== undefined && c.textWrap !== "normal") errors.push("content.textWrap は normal だけ指定できます");
   }
   if (!c || !Array.isArray(c.sources) || c.sources.length === 0 || !c.sources.every((s) => typeof s?.label === "string" && /^https:\/\//.test(s?.url ?? ""))) errors.push("content.sources（label と https の url）が必要です");
   if (ep.status === "published" && !DATE_RE.test(ep.publishedAt ?? "")) errors.push("published には publishedAt（YYYY-MM-DD）が必要です");
@@ -284,11 +285,15 @@ export const contentHashMeta = (hash) => `<meta name="${SERIES_HASH_META_NAME}" 
 // 図解つき（blocks を持つ）記事の本体。第1弾と同じ .jf-* のデザイン。
 function richEpisodeBody(ep) {
   const c = ep.content;
+  // content.textWrap: "normal" の回は、文節で折り返す指定（jf--phrase）を付けず、通常の日本語の折り返しにする（第4回、2026-11-21。行が短く途切れて読みにくいという運営者の指摘による）。未指定の回は従来どおり
+  const phraseWrap = ep.episode >= 3 && c.textWrap !== "normal";
+  // 通常の折り返しの回は、数字と単位のまとまり（例：33.3万円、96.9%）を1つの要素で包み、途中で改行しないようにする（タグの外の文字だけを対象にする）
+  const keepNums = (html) => (c.textWrap === "normal" ? html.split(/(<[^>]*>)/).map((part) => (part.startsWith("<") ? part : part.replace(/[0-9][0-9,.]*[0-9]?(?:%|億円|万円|千円|円|倍|人)/g, (m) => `<span class="jf-nb">${m}</span>`))).join("") : html);
   let no = 0;
   const sections = c.sections.map((s, i) => {
     const numbered = s.numbered !== false;
     if (numbered) no += 1;
-    const inner = Array.isArray(s.blocks) ? renderBlocks(s.blocks) : s.paragraphs.map((p) => `<p>${escapeHtml(p)}</p>`).join("");
+    const inner = Array.isArray(s.blocks) ? keepNums(renderBlocks(s.blocks)) : s.paragraphs.map((p) => `<p>${escapeHtml(p)}</p>`).join("");
     return `<section class="jf-sec" aria-labelledby="jf-h-${i}">
 <h2 id="jf-h-${i}" class="jf-h2">${numbered ? `<span class="jf-h2__no">${no}</span>` : ""}${escapeHtml(s.heading)}</h2>
 ${inner}
@@ -297,14 +302,14 @@ ${inner}
   const dates = [`公開日：${jpDate(episodeDate(ep))}`, c.checkedAt ? `統計などの確認日：${jpDate(c.checkedAt)}` : "", c.updatedAt ? `更新日：${jpDate(c.updatedAt)}` : ""].filter(Boolean).join("　");
   const ribbon = ep.status === "draft" ? `<p class="jf-draft" role="note">公開前の確認用ページです。検索には載せていません。</p>\n` : "";
   const sources = `<ul class="jf-sources" role="list">${c.sources.map((x) => `<li><a href="${escapeHtml(x.url)}" target="_blank" rel="noopener">${escapeHtml(x.label)}</a></li>`).join("")}</ul>`;
-  return `<div class="jf${ep.episode >= 3 ? " jf--phrase" : ""}">
+  return `<div class="jf${phraseWrap ? " jf--phrase" : ""}${c.textWrap === "normal" ? " jf--normal" : ""}">
 ${ribbon}<header class="jf-hero">
 <p class="jf-hero__tag">宝塚の実力 第${ep.episode}回</p>
 <h1 class="jf-hero__title">${escapeHtml(ep.title)}</h1>
 <p class="jf-lead">${escapeHtml(c.lead ?? ep.description)}</p>
 <p class="jf-small">${dates}</p>
 <nav class="jf-series-nav" aria-label="「宝塚の実力」の連載"><a href="/jitsuryoku/zeishu-shigoto">第1弾「税収と仕事」を読む</a><a href="/jitsuryoku#series-list">連載の一覧を見る</a></nav>
-${c.heroBlocks ? renderBlocks(c.heroBlocks) : ""}
+${c.heroBlocks ? keepNums(renderBlocks(c.heroBlocks)) : ""}
 </header>
 ${sections}
 <details class="jf-details"><summary>出典の一覧を見る</summary>${c.sourcesNote ? `<p class="jf-small">${escapeHtml(c.sourcesNote)}</p>` : ""}${sources}</details>

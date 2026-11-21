@@ -4638,3 +4638,18 @@ html[data-theme="dark"] .jf-hero__tag, html[data-theme="dark"] .jf-h2__no { colo
 @media (max-width: 480px) {
   .jf-table-wrap--compact { overflow-x: auto; }
 }
+
+/* 「宝塚の実力」数値カード（kpi、第4回〜、2026-11-21）。指標名・大きな数値・比較結果・説明を縦に積む。
+   項目名と大きな数値を横に並べる stats（jf-duo）では、狭いカードで項目名が1文字幅まで縮み縦に割れたため、横並びにしない構造にした。既存の stats は変えない */
+.jf-kpis { list-style: none; padding: 0; margin: 0.5rem 0 0.75rem; display: grid; gap: 0.75rem; grid-template-columns: repeat(auto-fit, minmax(min(13rem, 100%), 1fr)); }
+.jf-kpi { min-width: 0; display: flex; flex-direction: column; gap: 0.25rem; background: var(--surface); border: 2px solid var(--border); border-radius: 12px; padding: 0.75rem 1rem 0.9rem; word-break: normal; overflow-wrap: break-word; }
+.jf-kpi__lbl { font-weight: 700; line-height: 1.5; }
+.jf-kpi__num { font-size: clamp(1.9rem, 1.4rem + 1.6vw, 2.5rem); line-height: 1.15; color: var(--accent); white-space: nowrap; font-variant-numeric: tabular-nums; }
+.jf-kpi__note { font-weight: 700; line-height: 1.5; }
+/* カードの短い見出しと比較結果は、語の途中（例：建替え）で切れないよう文節で折り返し、行の長さをそろえる */
+.jf-kpi__lbl, .jf-kpi__note { word-break: auto-phrase; text-wrap: balance; }
+.jf-kpi__desc { font-size: 0.95rem; line-height: 1.65; color: var(--text-sub); }
+/* 通常の折り返しの回（textWrap: normal）で、数字と単位のまとまりを途中で改行しない */
+.jf-nb { white-space: nowrap; }
+/* 通常の折り返しの回：行末に1〜2文字だけが残る折り返しを避ける（対応していないブラウザでは通常の折り返しのまま） */
+.jf--normal p, .jf--normal li, .jf--normal .jf-kpi__note, .jf--normal .jf-kpi__desc, .jf--normal .jf-say__bubble, .jf--normal .jf-small, .jf--normal .jf-unit { text-wrap: pretty; }

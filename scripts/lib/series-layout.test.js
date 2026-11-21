@@ -7,7 +7,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { validateBlocks, renderBlock, tableRowValues } from "./series-blocks.js";
-import { episodePage } from "./series-episodes.js";
+import { episodePage, validateEpisodeShape } from "./series-episodes.js";
 
 const ROOT = path.join(path.dirname(fileURLToPath(import.meta.url)), "..", "..");
 const SITE = "https://takarazuka-today.jp";
@@ -63,6 +63,40 @@ test("CSS：新しい表示のルールは、第3回以降の枠・指定した�
   const selectors = [...added.matchAll(/(?:^|\})\s*([^{}@/][^{}]*)\{/g)].map((m) => m[1].trim()).filter(Boolean);
   assert.ok(selectors.length > 10);
   for (const sel of selectors) for (const part of sel.split(",").map((x) => x.trim()).filter((x) => x && !x.startsWith("@"))) {
-    assert.match(part, /\.jf--phrase|\.jf-bars--top|\.jf-stats--phrase|\.jf-table--compact|\.jf-table-wrap--compact/, `既存の共通クラスを直接変えている: ${part}`);
+    // 第4回で加えた数値カード（.jf-kpi*）・数字のまとまり（.jf-nb）・通常の折り返しの枠（.jf--normal）も、新しいクラスだけを対象にする
+    assert.match(part, /\.jf--phrase|\.jf-bars--top|\.jf-stats--phrase|\.jf-table--compact|\.jf-table-wrap--compact|\.jf-kpi|\.jf-nb|\.jf--normal/, `既存の共通クラスを直接変えている: ${part}`);
   }
+});
+
+test("ページ：content.textWrap が normal の回だけ jf--phrase を付けない（第4回）。値の誤りは検出する。第3回の実ページは従来どおり", () => {
+  const ep = (content) => ({ slug: "x", episode: 4, title: "題", description: "d", status: "draft", plannedAt: "2026-11-21", content: { sections: [{ heading: "h", blocks: [{ t: "p", text: "本文" }] }], sources: [{ label: "s", url: "https://example.com/" }], ...content } });
+  assert.ok(episodePage(ep({}), SITE).includes('<div class="jf jf--phrase">'), "指定なしは従来どおり");
+  assert.ok(episodePage(ep({ textWrap: "normal" }), SITE).includes('<div class="jf jf--normal">'));
+  assert.ok(validateEpisodeShape(ep({ textWrap: "normal" })).length === 0);
+  assert.ok(validateEpisodeShape(ep({ textWrap: "phrase" })).some((e) => e.includes("textWrap")));
+  const ep3 = JSON.parse(fs.readFileSync(path.join(ROOT, "data", "jitsuryoku", "episodes", "council-overview-takarazuka.json"), "utf8"));
+  assert.ok(episodePage(ep3, SITE).includes('<div class="jf jf--phrase">'), "公開済みの第3回は変わらない");
+});
+
+
+test("数値カード（kpi）：指標名・数値・比較結果・説明を縦に積む。形の誤りを検出し、第2・3回の実ページには出ない", () => {
+  const kpi = { t: "kpi", aria: "a", items: [{ label: "経常収支比率", value: "96.9%", note: "6都市で2番目に高い", desc: "説明" }] };
+  assert.deepEqual(validateBlocks([kpi]), []);
+  assert.ok(validateBlocks([{ ...kpi, items: [{ label: "x", value: "1" }] }]).length > 0);
+  const html = renderBlock(kpi);
+  assert.ok(/<li class="jf-kpi"><span class="jf-kpi__lbl">経常収支比率<\/span><b class="jf-kpi__num">96\.9%<\/b><span class="jf-kpi__note">6都市で2番目に高い<\/span><span class="jf-kpi__desc">説明<\/span><\/li>/.test(html));
+  for (const f of ["population-takarazuka-nagareyama.json", "council-overview-takarazuka.json"]) {
+    const real = JSON.parse(fs.readFileSync(path.join(ROOT, "data", "jitsuryoku", "episodes", f), "utf8"));
+    const page = episodePage(real, SITE);
+    assert.ok(!/jf-kpi|jf-nb|jf--normal/.test(page), f);
+  }
+});
+
+test("通常の折り返しの回だけ、本文の数字と単位のまとまりを jf-nb で包む（タグの属性は変えない）", () => {
+  const ep = (content) => ({ slug: "x", episode: 4, title: "題", description: "d", status: "draft", plannedAt: "2026-11-21", content: { sections: [{ heading: "h", blocks: [{ t: "p", text: "残高は33.3万円で、割合は96.9%です。" }, { t: "bars", id: "b", title: "t", desc: "d", max: 100, suffix: "%", groups: [{ title: "g", rows: [{ label: "A", value: 57.5 }] }] }] }], sources: [{ label: "s", url: "https://example.com/" }], ...content } });
+  const normal = episodePage(ep({ textWrap: "normal" }), SITE);
+  assert.ok(normal.includes('<span class="jf-nb">33.3万円</span>') && normal.includes('<span class="jf-nb">96.9%</span>'));
+  assert.ok(/style="width:57\.50%"/.test(normal), "style 属性の中の数字は包まない");
+  const phrase = episodePage(ep({}), SITE);
+  assert.ok(!phrase.includes("jf-nb"), "指定のない回は従来どおり");
 });
